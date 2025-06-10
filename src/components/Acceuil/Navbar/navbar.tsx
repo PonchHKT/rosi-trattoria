@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { NavLink } from "react-router-dom"; // Ensure NavLink is imported
 import { X, Menu } from "lucide-react";
 import "./navbar.scss";
 
@@ -45,15 +46,45 @@ const Navbar: React.FC = () => {
             {["Accueil", "Nos valeurs", "Carte", "Recrutement", "Contact"].map(
               (label, index) => (
                 <li className="navbar__item" key={index}>
-                  <a
-                    href={`#${label.toLowerCase().replace(/\s/g, "")}`}
-                    className={`navbar__link ${
-                      activeIndex === index ? "navbar__link--active" : ""
-                    }`}
-                    onClick={() => handleLinkClick(index)}
-                  >
-                    {label}
-                  </a>
+                  {label === "Nos valeurs" ? (
+                    <NavLink
+                      to="/nos-valeurs"
+                      className={({ isActive }) =>
+                        `navbar__link ${
+                          isActive || activeIndex === index
+                            ? "navbar__link--active"
+                            : ""
+                        }`
+                      }
+                      onClick={() => handleLinkClick(index)}
+                    >
+                      {label}
+                    </NavLink>
+                  ) : label === "Accueil" ? (
+                    <NavLink
+                      to="/"
+                      className={({ isActive }) =>
+                        `navbar__link ${
+                          isActive || activeIndex === index
+                            ? "navbar__link--active"
+                            : ""
+                        }`
+                      }
+                      onClick={() => handleLinkClick(index)}
+                    >
+                      {label}
+                    </NavLink>
+                  ) : (
+                    <a
+                      href={`#${label.toLowerCase().replace(/\s/g, "")}`}
+                      className={`navbar__link ${
+                        activeIndex === index ? "navbar__link--active" : ""
+                      }`}
+                      onClick={() => handleLinkClick(index)}
+                    >
+                      {label}
+                    </a>
+                  )}
                 </li>
               )
             )}

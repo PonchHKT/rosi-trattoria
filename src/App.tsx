@@ -1,25 +1,36 @@
 import "./App.css";
-import Biographie1 from "./components/Biographie1/biographie1";
-import Biographie2 from "./components/Biographie2/biographie2";
-import Footer from "./components/Footer/footer";
-import HomeSectionVideo from "./components/HomeVideoSection/homevideosection";
-import Navbar from "./components/Navbar/navbar";
-import ReviewWidget from "./components/ReviewWidget/reviewwidget";
-import VideoPlayer from "./components/VideoPlayer/videoplayer";
+import Biographie1 from "./components/Acceuil/Biographie1/biographie1";
+import Biographie2 from "./components/Acceuil/Biographie2/biographie2";
+import Footer from "./components/Acceuil/Footer/footer";
+import HomeSectionVideo from "./components/Acceuil/HomeVideoSection/homevideosection";
+import Navbar from "./components/Acceuil/Navbar/navbar";
+import ReviewWidget from "./components/Acceuil/ReviewWidget/reviewwidget";
+import VideoPlayer from "./components/Acceuil/VideoPlayer/videoplayer";
+import { Routes, Route } from "react-router-dom";
+import NosValeurs from "./pages/NosValeurs";
 
 function App() {
   return (
-    <>
-      <div className="App">
-        <Navbar />
-        <HomeSectionVideo />
-        <Biographie1 />
-        <VideoPlayer />
-        <Biographie2 />
-        <ReviewWidget />
-        <Footer />
-      </div>
-    </>
+    <div className="App">
+      <Navbar />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <HomeSectionVideo />
+              <Biographie1 />
+              <VideoPlayer />
+              <Biographie2 />
+              <ReviewWidget />
+            </>
+          }
+        />
+        <Route path="/nos-valeurs" element={<NosValeurs />} />
+        <Route path="*" element={<h1>404 - Page Not Found</h1>} />
+      </Routes>
+      <Footer />
+    </div>
   );
 }
 
