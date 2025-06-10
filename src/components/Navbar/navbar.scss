@@ -28,11 +28,11 @@
     }
 
     &-rosi {
-      color: #007bff; // Primary blue for Rosi
+      color: #ffffff; // Changed to green to match flag bar
     }
 
     &-trattoria {
-      color: #ff4081; // Primary pink for Trattoria
+      color: #ffffff; // Changed to red to match flag bar
     }
   }
 
@@ -223,7 +223,7 @@
   }
 
   &__flag--green {
-    background-color: #009246;
+    background-color: var(--primary-blue);
     width: 33.33%;
   }
 
@@ -233,7 +233,7 @@
   }
 
   &__flag--red {
-    background-color: #ce2b37;
+    background-color: var(--primary-pink);
     width: 33.33%;
   }
 }
