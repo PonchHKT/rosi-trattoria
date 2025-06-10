@@ -9,7 +9,7 @@ import {
   Heart,
   Star,
 } from "lucide-react";
-import "./Footer.scss";
+import "./footer.scss";
 
 interface FacebookPost {
   id: string;
