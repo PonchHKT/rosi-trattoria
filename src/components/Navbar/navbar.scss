@@ -1,4 +1,3 @@
-// navbar.scss
 @import url("https://fonts.googleapis.com/css2?family=Italiana&family=Italianno&display=swap");
 
 .navbar {
@@ -23,6 +22,11 @@
     font-size: 3rem;
     font-weight: bold;
 
+    // Responsive font size for mobile
+    @media (max-width: 767px) {
+      font-size: 2.2rem;
+    }
+
     &-rosi {
       color: #007bff; // Primary blue for Rosi
     }
@@ -36,31 +40,51 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 24px;
-    height: 20px;
+    width: 28px; // Increased from 24px
+    height: 24px; // Increased from 20px
     background: none;
     border: none;
     cursor: pointer;
     z-index: 1001;
+    padding: 2px; // Added padding for better touch target
+
+    // Better touch target for mobile
+    @media (max-width: 767px) {
+      width: 32px;
+      height: 28px;
+      padding: 4px;
+    }
 
     &-bar {
-      height: 3px;
+      height: 4px; // Increased from 3px
       background-color: white;
       transition: all 0.3s ease-in-out;
+      border-radius: 2px; // Added border radius for better visibility
+
+      // Even thicker on mobile for better visibility
+      @media (max-width: 767px) {
+        height: 5px;
+        border-radius: 2.5px;
+      }
     }
 
     &--open &-bar:nth-child(1) {
-      transform: rotate(45deg) translate(5px, 5px);
+      transform: rotate(45deg) translate(6px, 6px); // Adjusted for new size
     }
     &--open &-bar:nth-child(2) {
       opacity: 0;
     }
     &--open &-bar:nth-child(3) {
-      transform: rotate(-45deg) translate(5px, -5px);
+      transform: rotate(-45deg) translate(6px, -6px); // Adjusted for new size
     }
 
     @media (min-width: 768px) {
       display: none;
+    }
+
+    // Add hover effect for better UX
+    &:hover &-bar {
+      background-color: #007bff;
     }
   }
 
@@ -77,6 +101,9 @@
     flex-direction: column;
     font-family: "Italiana", serif;
 
+    // Add box shadow for better separation on mobile
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+
     &--open {
       max-height: 300px;
     }
@@ -87,6 +114,7 @@
       max-height: none;
       flex-direction: row;
       background: none;
+      box-shadow: none;
     }
   }
 
@@ -107,6 +135,12 @@
     display: inline-block;
     transition: color 0.3s ease;
     font-weight: bold;
+
+    // Better touch targets on mobile
+    @media (max-width: 767px) {
+      padding: 1rem;
+      font-size: 1.1rem;
+    }
 
     &::after {
       content: "";
