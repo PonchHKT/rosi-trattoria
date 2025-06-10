@@ -8,7 +8,7 @@ import {
   SkipBack,
   SkipForward,
 } from "lucide-react";
-import "./VideoPlayer.scss";
+import "./videoplayer.scss";
 
 interface Video {
   title: string;
