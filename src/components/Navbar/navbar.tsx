@@ -34,7 +34,7 @@ const Navbar: React.FC = () => {
                   style={{ width: "30%" }}
                 ></div>
               </div>
-              <span className="navbar__progress-text">30%</span>
+              <span className="navbar__progress-text">DEV</span>
             </div>
           </div>
         </div>
@@ -50,7 +50,7 @@ const Navbar: React.FC = () => {
                   style={{ width: "30%" }}
                 ></div>
               </div>
-              <span className="navbar__progress-text">30%</span>
+              <span className="navbar__progress-text">DEV</span>
             </div>
           </div>
 

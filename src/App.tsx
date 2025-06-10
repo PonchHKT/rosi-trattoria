@@ -1,6 +1,7 @@
 import "./App.css";
 import Biographie1 from "./components/Biographie1/biographie1";
 import Biographie2 from "./components/Biographie2/biographie2";
+import Footer from "./components/Footer/footer";
 import HomeSectionVideo from "./components/HomeVideoSection/homevideosection";
 import Navbar from "./components/Navbar/navbar";
 import ReviewWidget from "./components/ReviewWidget/reviewwidget";
@@ -16,6 +17,7 @@ function App() {
         <VideoPlayer />
         <Biographie2 />
         <ReviewWidget />
+        <Footer />
       </div>
     </>
   );
