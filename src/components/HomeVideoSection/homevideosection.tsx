@@ -78,9 +78,21 @@ const HomeVideoSection: React.FC = () => {
           saison.
         </p>
         <div className="buttons">
-          <button className="primary-button">Réserver</button>
+          <a
+            href="https://bookings.zenchef.com/results?rid=356394&fullscreen=1"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <button className="primary-button">Réserver</button>
+          </a>
           <button className="secondary-button">Voir le menu</button>
-          <button className="white-button">Click and Collect</button>
+          <a
+            href="https://carte.rosi-trattoria.com/menu"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <button className="white-button">Click & Collect</button>
+          </a>
         </div>
       </div>
     </section>
