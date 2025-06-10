@@ -16,13 +16,14 @@ import "./videoplayer.scss";
 interface Video {
   title: string;
   url: string;
+  thumbnail: string;
 }
 
 const VideoPlayer: React.FC = () => {
   const [currentVideo, setCurrentVideo] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [volume, setVolume] = useState<number>(1);
-  const [isMuted, setIsMuted] = useState<boolean>(true); // Muted by default for iOS autoplay
+  const [isMuted, setIsMuted] = useState<boolean>(false); // Plus muted par défaut
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [duration, setDuration] = useState<number>(0);
   const [showPlaylist, setShowPlaylist] = useState<boolean>(false);
@@ -35,62 +36,51 @@ const VideoPlayer: React.FC = () => {
     {
       title: "La focaccia chez Rosi",
       url: "https://res.cloudinary.com/dc5jx2yo7/video/upload/q_auto,f_mp4/v1749570162/egp8n38xx3wmpyg42jnx.mp4",
+      thumbnail: "/images/thumbnails/la-forracia-chez-rosi.png",
     },
     {
       title: "Les pâtes fraiche de Rosi",
       url: "https://res.cloudinary.com/dc5jx2yo7/video/upload/q_auto,f_mp4/v1749570162/egp8n38xx3wmpyg42jnx.mp4",
+      thumbnail: "/images/thumbnails/pates-fraiche-rosi.png",
     },
     {
       title: "Les secrets de la pâte Rosi",
       url: "https://res.cloudinary.com/dc5jx2yo7/video/upload/q_auto,f_mp4/v1749570162/egp8n38xx3wmpyg42jnx.mp4",
+      thumbnail: "/images/thumbnails/secrets-de-la-pate-rosi.png",
     },
     {
       title: "La téglia et Focaccia de Rosi",
       url: "https://res.cloudinary.com/dc5jx2yo7/video/upload/q_auto,f_mp4/v1749570162/egp8n38xx3wmpyg42jnx.mp4",
-    },
-    {
-      title: "Une journée chez Rosi",
-      url: "https://res.cloudinary.com/dc5jx2yo7/video/upload/q_auto,f_mp4/v1749570162/egp8n38xx3wmpyg42jnx.mp4",
+      thumbnail: "/images/thumbnails/teglia-et-foraccia-de-rosi.png",
     },
     {
       title: "Capri c'est fini",
       url: "https://res.cloudinary.com/dc5jx2yo7/video/upload/q_auto,f_mp4/v1749570162/egp8n38xx3wmpyg42jnx.mp4",
+      thumbnail: "/images/thumbnails/rosi-capri.png",
     },
     {
       title: "Les Tiramisu de Rosi",
       url: "https://res.cloudinary.com/dc5jx2yo7/video/upload/q_auto,f_mp4/v1749570162/egp8n38xx3wmpyg42jnx.mp4",
+      thumbnail: "/images/thumbnails/tiramisu-de-rosi.png",
     },
     {
-      title: "Vidéo 8",
+      title: "Présentation de Rosi Trattoria",
       url: "https://res.cloudinary.com/dc5jx2yo7/video/upload/q_auto,f_mp4/v1749570162/egp8n38xx3wmpyg42jnx.mp4",
+      thumbnail: "/images/thumbnails/presentation-rosi-trattoria.png",
     },
   ];
-
-  // Génération de couleurs de fond pour les thumbnails
-  const getThumbnailGradient = (index: number): string => {
-    const gradients = [
-      "linear-gradient(135deg, #449df0, #ec008c)",
-      "linear-gradient(135deg, #ec008c, #449df0)",
-      "linear-gradient(135deg, #449df0, #6366f1)",
-      "linear-gradient(135deg, #ec008c, #f59e0b)",
-      "linear-gradient(135deg, #449df0, #10b981)",
-      "linear-gradient(135deg, #ec008c, #8b5cf6)",
-      "linear-gradient(135deg, #449df0, #ef4444)",
-      "linear-gradient(135deg, #ec008c, #06b6d4)",
-    ];
-    return gradients[index % gradients.length];
-  };
 
   const togglePlay = () => {
     if (videoRef.current) {
       if (isPlaying) {
         videoRef.current.pause();
+        setIsPlaying(false);
       } else {
         videoRef.current.play().catch((error) => {
           console.error("Play failed:", error);
         });
+        setIsPlaying(true);
       }
-      setIsPlaying(!isPlaying);
     }
   };
 
@@ -145,10 +135,6 @@ const VideoPlayer: React.FC = () => {
     setCurrentTime(0);
     if (videoRef.current) {
       videoRef.current.load();
-      videoRef.current.play().catch((error) => {
-        console.error("Autoplay on video change failed:", error);
-      });
-      setIsPlaying(true);
     }
   };
 
@@ -186,41 +172,20 @@ const VideoPlayer: React.FC = () => {
     }, 3000);
   };
 
-  // Autoplay on iOS with fallback for user interaction
+  // Gestion des événements vidéo
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    const tryPlay = async () => {
-      try {
-        await video.play();
-        setIsPlaying(true);
-      } catch (error) {
-        console.error("Autoplay failed:", error);
-        // Fallback: Attempt to play on user interaction
-        const handleUserInteraction = () => {
-          video
-            .play()
-            .catch((err) =>
-              console.error("User interaction play failed:", err)
-            );
-          setIsPlaying(true);
-        };
-        document.addEventListener("touchstart", handleUserInteraction, {
-          once: true,
-        });
-        return () => {
-          document.removeEventListener("touchstart", handleUserInteraction);
-        };
-      }
-    };
+    const handlePlay = () => setIsPlaying(true);
+    const handlePause = () => setIsPlaying(false);
 
-    video.addEventListener("loadedmetadata", tryPlay);
-    video.addEventListener("canplay", tryPlay);
+    video.addEventListener("play", handlePlay);
+    video.addEventListener("pause", handlePause);
 
     return () => {
-      video.removeEventListener("loadedmetadata", tryPlay);
-      video.removeEventListener("canplay", tryPlay);
+      video.removeEventListener("play", handlePlay);
+      video.removeEventListener("pause", handlePause);
     };
   }, [currentVideo]);
 
@@ -382,15 +347,23 @@ const VideoPlayer: React.FC = () => {
                     : ""
                 }`}
               >
-                {/* Thumbnail personnalisé */}
-                <div
-                  className="video-player__thumbnail"
-                  style={{ background: getThumbnailGradient(index) }}
-                >
+                {/* Thumbnail avec image */}
+                <div className="video-player__thumbnail">
+                  <img
+                    src={video.thumbnail}
+                    alt={video.title}
+                    className="video-player__thumbnail-image"
+                    onError={(e) => {
+                      // Fallback en cas d'erreur de chargement de l'image
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = "none";
+                      target.nextElementSibling?.classList.add(
+                        "video-player__thumbnail-fallback"
+                      );
+                    }}
+                  />
                   <div className="video-player__thumbnail-overlay"></div>
-                  <div className="video-player__thumbnail-number">
-                    {index + 1}
-                  </div>
+
                   {currentVideo === index && (
                     <div className="video-player__thumbnail-playing">
                       {isPlaying ? <Pause size={16} /> : <Play size={16} />}

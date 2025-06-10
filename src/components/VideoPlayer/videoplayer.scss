@@ -449,11 +449,21 @@ body {
     margin: 0;
   }
 
+  .video-player__thumbnail-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+  }
+
+  .video-player__thumbnail-fallback {
+    background: linear-gradient(135deg, #449df0, #ec008c);
+  }
   // Thumbnail
   &__thumbnail {
     width: 5rem;
     height: 3rem;
-    border-radius: var(--border-radius);
+    border-radius: 0px;
     @include flex-center;
     position: relative;
     overflow: hidden;
@@ -466,13 +476,6 @@ body {
     background: rgba(0, 0, 0, 0.2);
   }
 
-  &__thumbnail-number {
-    color: var(--text-white);
-    font-weight: 700;
-    font-size: 0.875rem;
-    z-index: 10;
-  }
-
   &__thumbnail-playing {
     position: absolute;
     top: 50%;
@@ -483,7 +486,6 @@ body {
     border-radius: 50%;
     padding: 0.25rem;
     z-index: 15;
-    animation: pulse-playing 1.5s infinite;
   }
 
   // Toggle mobile
