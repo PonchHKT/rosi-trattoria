@@ -1,0 +1,47 @@
+:root {
+  --primary-blue: #449df0; /* Bleu principal pour accents ou textes */
+  --primary-pink: rgb(236, 0, 140); /* Rose vif pour éléments dynamiques */
+  --background-dark: #000000; /* Fond noir pour contraste */
+  --text-light: #ffffff; /* Texte blanc pour lisibilité sur fond noir */
+}
+
+/* Réinitialisation basique pour cohérence */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  background: var(--background-dark);
+  scroll-behavior: smooth;
+  color: var(--text-light);
+  /* Disable horizontal scrolling */
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar for WebKit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 12px; /* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-dark); /* Background of the scrollbar track */
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-pink); /* Scrollbar thumb color */
+  border-radius: 10px; /* Rounded edges for the thumb */
+  border: 2px solid var(--background-dark); /* Border for contrast */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(
+    --primary-blue
+  ); /* Change to blue on hover for interactivity */
+}

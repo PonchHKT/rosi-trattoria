@@ -1,0 +1,144 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap");
+
+:root {
+  --primary-blue: #1e90ff;
+  --primary-pink: #ff69b4;
+}
+
+.bio2-biographie {
+  font-family: "Open Sans", sans-serif;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.bio2-biographie__content {
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  align-items: center;
+}
+
+.bio2-biographie__section {
+  padding: 2.5rem;
+  max-width: 90vw;
+  width: 100%;
+  transition: padding 0.3s ease, border-radius 0.3s ease;
+}
+
+.bio2-biographie__subtitle {
+  font-family: "Playfair Display", serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-pink);
+  margin-bottom: 1.5rem;
+  text-align: left;
+  position: relative;
+  transition: font-size 0.3s ease;
+}
+
+.bio2-biographie__subtitle::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 50px;
+  height: 2px;
+  background: var(--primary-blue);
+}
+
+.bio2-biographie__text {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+  color: #d4d4d4;
+  text-align: left;
+  transition: font-size 0.3s ease;
+}
+
+.bio2-biographie__text strong {
+  background: linear-gradient(45deg, var(--primary-blue), var(--primary-pink));
+  background-clip: text;
+  color: transparent;
+  font-weight: 600;
+}
+
+.bio2-biographie__highlight {
+  background: rgba(255, 255, 255, 0.08);
+  border-right: 4px solid var(--primary-pink);
+  padding: 1.2rem;
+  margin: 1.5rem 0;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  color: #fff;
+  line-height: 1.6;
+  transition: font-size 0.3s ease, padding 0.3s ease;
+}
+
+.bio2-biographie__highlight strong {
+  color: var(--primary-blue);
+  font-weight: 600;
+}
+
+.bio2-biographie__quote {
+  font-weight: bold;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-size: 1.2rem;
+  text-align: center;
+  margin: 2rem 0 0;
+  padding: 1.5rem;
+  color: #d4d4d4;
+  position: relative;
+  background: rgba(30, 144, 255, 0.1);
+  transition: font-size 0.3s ease, padding 0.3s ease;
+}
+
+.bio2-biographie__quote::before {
+  content: "\201C";
+  font-size: 3rem;
+  position: absolute;
+  top: -10px;
+  left: 10px;
+  color: var(--primary-blue);
+  opacity: 0.5;
+}
+
+.bio2-biographie__quote::after {
+  content: "\201D";
+  font-size: 3rem;
+  position: absolute;
+  bottom: -20px;
+  right: 10px;
+  color: var(--primary-blue);
+  opacity: 0.5;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .bio2-biographie__section {
+    padding: 2rem;
+    border-radius: 8px;
+    padding: 2rem;
+    border-right: 4px solid var(--primary-pink);
+  }
+
+  .bio2-biographie__subtitle {
+    font-size: 1.6rem;
+  }
+
+  .bio2-biographie__text {
+    font-size: 1rem;
+  }
+
+  .bio2-biographie__highlight {
+    font-size: 1rem;
+    padding: 1rem;
+  }
+
+  .bio2-biographie__quote {
+    font-size: 1.1rem;
+    padding: 1rem;
+  }
+}

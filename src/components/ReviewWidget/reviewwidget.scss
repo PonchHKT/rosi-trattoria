@@ -1,0 +1,136 @@
+$brand-green: #00af87; /* Couleur de marque de TripAdvisor */
+$background-light: #f9f9f9;
+$border-color: #e0e0e0;
+$text-dark: #000;
+$text-muted: #666;
+
+.review-widget {
+  width: 70vw;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: "Arial", sans-serif;
+  background-color: $background-light;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.logo {
+  width: 200px;
+  display: block;
+  margin: 0 auto 30px;
+}
+
+h2 {
+  text-align: center;
+  color: $text-dark;
+  font-size: 24px;
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+
+.carousel {
+  position: relative;
+  overflow: hidden;
+}
+
+.reviews-container {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.review-item {
+  width: 70vw;
+  box-sizing: border-box;
+  border: 1px solid $border-color;
+  padding: 20px;
+  margin: 0;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+  flex-shrink: 0;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.rating {
+  margin-bottom: 15px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  background-color: $brand-green;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+.reviewer-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.reviewer-name {
+  font-weight: bold;
+  color: $text-dark;
+  font-size: 16px;
+}
+
+.review-date {
+  color: $text-muted;
+  font-size: 14px;
+  margin-left: 15px;
+}
+
+.review-title {
+  font-size: 18px;
+  color: $text-dark;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.review-text {
+  font-size: 16px;
+  color: $text-dark;
+  line-height: 1.6;
+}
+
+.arrows {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+.prev,
+.next {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+
+  &:disabled {
+    background-color: rgba(0, 0, 0, 0.2);
+    cursor: not-allowed;
+  }
+}

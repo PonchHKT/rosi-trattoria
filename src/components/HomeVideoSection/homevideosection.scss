@@ -1,0 +1,201 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Pacifico&display=swap");
+
+.home-video-section {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  height: calc(100vh + 200px); /* Ajoute 100px en haut et 100px en bas */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  .background-video {
+    position: absolute;
+    top: -100px;
+    height: calc(100% + 200px);
+    left: 0;
+    width: 100%;
+    object-fit: cover;
+    filter: brightness(50%) contrast(1.1);
+    z-index: 1;
+  }
+
+  // Logo en haut à droite
+  .logo-container {
+    position: absolute;
+    top: 6rem;
+    right: 2rem;
+    z-index: 3;
+
+    .logo {
+      width: 200px;
+      height: auto;
+      filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+      opacity: 0.95;
+    }
+  }
+
+  // Contenu principal centré verticalement
+  .content {
+    margin-top: 100px;
+    padding-left: 30px;
+    position: relative;
+    z-index: 2;
+    max-width: 1400px;
+    margin-left: 4rem;
+    color: white;
+
+    .slogan {
+      font-family: "Pacifico", cursive;
+      font-size: 4.6rem;
+      font-weight: 500;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.02em;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .description {
+      font-family: "Inter", sans-serif;
+      font-size: 1.25rem;
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 2.5rem;
+      line-height: 1.6;
+      letter-spacing: 0.01em;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+
+      .primary-button,
+      .secondary-button,
+      .white-button {
+        font-family: "Inter", sans-serif;
+        font-size: 1rem;
+        font-weight: 500;
+        padding: 0.875rem 2rem;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        letter-spacing: 0.02em;
+        position: relative;
+        overflow: hidden;
+
+        &:hover {
+          transform: translateY(-1px);
+        }
+
+        &:active {
+          transform: translateY(0);
+        }
+      }
+
+      .primary-button {
+        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        color: white;
+        box-shadow: 0 4px 16px rgba(59, 130, 246, 0.25);
+
+        &:hover {
+          background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+          box-shadow: 0 6px 20px rgba(59, 130, 246, 0.35);
+        }
+      }
+
+      .secondary-button {
+        background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+        color: white;
+        border: 1.5px solid transparent;
+        box-shadow: 0 4px 16px rgba(236, 72, 153, 0.25);
+
+        &:hover {
+          background: linear-gradient(135deg, #db2777 0%, #c2185b 100%);
+          box-shadow: 0 6px 20px rgba(236, 72, 153, 0.35);
+        }
+      }
+
+      .white-button {
+        background: white;
+        color: #1f2937;
+        box-shadow: 0 4px 16px rgba(255, 255, 255, 0.25);
+
+        &:hover {
+          background: #f9fafb;
+          box-shadow: 0 6px 20px rgba(255, 255, 255, 0.35);
+        }
+      }
+    }
+  }
+
+  // Responsive design
+  @media (max-width: 768px) {
+    .logo-container {
+      top: 9.9rem; // Moved down 50% more
+      right: 1.5rem;
+
+      .logo {
+        width: 120px;
+      }
+    }
+
+    .content {
+      margin-top: 0; // Removed margin-top: 100px for mobile
+      margin-left: 2rem;
+      margin-right: 2rem;
+      max-width: none;
+
+      .slogan {
+        font-size: 2.5rem;
+        margin-bottom: 1.25rem;
+      }
+
+      .description {
+        font-size: 1.125rem;
+        margin-bottom: 2rem;
+      }
+
+      .buttons {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+
+        .primary-button,
+        .secondary-button,
+        .white-button {
+          width: 100%;
+          max-width: 200px;
+          padding: 0.75rem 1.5rem;
+          font-size: 0.95rem;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .content {
+      margin-left: 0.5rem; // Changed from 1.5rem to 0.5rem
+      margin-right: 1.5rem;
+
+      .slogan {
+        font-size: 2rem;
+      }
+
+      .description {
+        font-size: 1rem;
+      }
+    }
+
+    .logo-container {
+      top: 6.5rem; // Moved down 50% more
+      right: 1rem;
+
+      .logo {
+        width: 100px;
+      }
+    }
+  }
+}

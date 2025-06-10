@@ -1,0 +1,165 @@
+// navbar.scss
+@import url("https://fonts.googleapis.com/css2?family=Italiana&family=Italianno&display=swap");
+
+.navbar {
+  background-color: black;
+  color: white;
+  width: 100%;
+  position: fixed;
+  z-index: 999;
+  font-family: "Italiana", serif;
+
+  &__container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__brand {
+    font-family: "Italianno", cursive;
+    font-size: 3rem;
+    font-weight: bold;
+
+    &-rosi {
+      color: #007bff; // Primary blue for Rosi
+    }
+
+    &-trattoria {
+      color: #ff4081; // Primary pink for Trattoria
+    }
+  }
+
+  &__toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px;
+    height: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1001;
+
+    &-bar {
+      height: 3px;
+      background-color: white;
+      transition: all 0.3s ease-in-out;
+    }
+
+    &--open &-bar:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    &--open &-bar:nth-child(2) {
+      opacity: 0;
+    }
+    &--open &-bar:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    @media (min-width: 768px) {
+      display: none;
+    }
+  }
+
+  &__links {
+    list-style: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #0e0e0e;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+    flex-direction: column;
+    font-family: "Italiana", serif;
+
+    &--open {
+      max-height: 300px;
+    }
+
+    @media (min-width: 768px) {
+      position: static;
+      display: flex;
+      max-height: none;
+      flex-direction: row;
+      background: none;
+    }
+  }
+
+  &__item {
+    text-align: center;
+    margin: 1rem 0;
+
+    @media (min-width: 768px) {
+      margin: 0 1rem;
+    }
+  }
+
+  &__link {
+    color: white;
+    text-decoration: none;
+    position: relative;
+    padding: 0.5rem 1rem;
+    display: inline-block;
+    transition: color 0.3s ease;
+    font-weight: bold;
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 2px;
+      width: 100%;
+      background-color: #ff4081;
+      transform: scaleX(0);
+      transform-origin: bottom right;
+      transition: transform 0.3s ease;
+    }
+
+    &:hover,
+    &:focus {
+      color: #007bff;
+    }
+
+    &:hover::after,
+    &:focus::after {
+      transform: scaleX(1);
+      transform-origin: bottom left;
+    }
+
+    &--active {
+      color: #007bff;
+
+      &::after {
+        transform: scaleX(1);
+        transform-origin: bottom left;
+      }
+    }
+  }
+
+  &__flag-bar {
+    display: flex;
+    height: 4px;
+    width: 100%;
+  }
+
+  &__flag--green {
+    background-color: #009246;
+    width: 33.33%;
+  }
+
+  &__flag--white {
+    background-color: #ffffff;
+    width: 33.33%;
+  }
+
+  &__flag--red {
+    background-color: #ce2b37;
+    width: 33.33%;
+  }
+}
