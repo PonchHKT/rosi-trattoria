@@ -1,7 +1,7 @@
 import React from "react";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
-import "./reviewWidget.scss";
+import "./reviewwidget.scss";
 
 interface Review {
   reviewer: string;
