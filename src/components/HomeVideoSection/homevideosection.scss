@@ -137,17 +137,19 @@
       }
 
       .primary-button {
-        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-        color: white;
-        box-shadow: 0 4px 16px rgba(59, 130, 246, 0.25);
+        background: #ffd506;
+
+        border-radius: 8px;
+        color: black;
 
         &:hover {
-          background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-          box-shadow: 0 6px 20px rgba(59, 130, 246, 0.35);
+          background: #e1c329;
+          box-shadow: 0 6px 20px rgba(113, 113, 113, 0.35);
         }
       }
 
       .secondary-button {
+        border-radius: 8px;
         background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
         color: white;
         border: 1.5px solid transparent;
@@ -160,6 +162,7 @@
       }
 
       .white-button {
+        border-radius: 30px;
         background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
         color: #1f2937;
         box-shadow: 0 4px 16px rgba(255, 255, 255, 0.3);
@@ -233,6 +236,7 @@
         .secondary-button,
         .white-button {
           width: 100%;
+          border-radius: 8px;
           max-width: 200px;
           padding: 0.75rem 1.5rem;
           font-size: 0.95rem;

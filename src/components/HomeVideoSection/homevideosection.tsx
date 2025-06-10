@@ -97,7 +97,7 @@ const HomeVideoSection: React.FC = () => {
           >
             <button className="primary-button">Réserver</button>
           </a>
-          <button className="secondary-button">Voir le menu</button>
+          <button className="secondary-button">Voir la carte</button>
           <a
             href="https://carte.rosi-trattoria.com/menu"
             target="_blank"
