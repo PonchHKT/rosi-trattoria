@@ -1,5 +1,5 @@
-// Navbar.tsx
 import React, { useState } from "react";
+import { X, Menu } from "lucide-react";
 import "./navbar.scss";
 
 const Navbar: React.FC = () => {
@@ -24,14 +24,16 @@ const Navbar: React.FC = () => {
         </div>
 
         <button
-          className={`navbar__toggle ${isOpen ? "navbar__toggle--open" : ""}`}
+          className="navbar__toggle"
           onClick={toggleNavbar}
           aria-label={isOpen ? "Fermer le menu" : "Ouvrir le menu"}
           aria-expanded={isOpen}
         >
-          <span className="navbar__toggle-bar"></span>
-          <span className="navbar__toggle-bar"></span>
-          <span className="navbar__toggle-bar"></span>
+          {isOpen ? (
+            <X size={28} color="white" />
+          ) : (
+            <Menu size={28} color="white" />
+          )}
         </button>
 
         <ul className={`navbar__links ${isOpen ? "navbar__links--open" : ""}`}>
