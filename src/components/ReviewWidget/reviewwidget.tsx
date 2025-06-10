@@ -18,7 +18,7 @@ const ReviewWidget: React.FC = () => {
       rating: 5,
       date: "Mai 2025",
       title: "Super moment",
-      text: "Super expérience au restaurant Rosi ! La cuisine est excellente, le cadre agréable…mais le vrai coup de cœur, c’est la serveuse Isaure ! TOPISSIME du début à la fin : accueillante, souriante, ultra pro et super attentionnée. Elle a clairement rendu notre repas encore plus agréable. Merci ..",
+      text: "Super expérience au restaurant Rosi ! La cuisine est excellente, le cadre agréable…mais le vrai coup de cœur, c'est la serveuse Isaure ! TOPISSIME du début à la fin : accueillante, souriante, ultra pro et super attentionnée. Elle a clairement rendu notre repas encore plus agréable. Merci ..",
     },
     {
       reviewer: "Famille P",
@@ -38,7 +38,7 @@ const ReviewWidget: React.FC = () => {
       reviewer: "Josie Grassett",
       rating: 5,
       date: "Mai 2025",
-      title: "FAVORABLE, J’AIME LES GENS ET LA GENTILLESSE",
+      title: "FAVORABLE, J'AIME LES GENS ET LA GENTILLESSE",
       text: "Endroit sympa. Venue plusieurs fois Trés bonnes pizzas. Super tiramissu. Uhuh. Trés bonne restauration certes mais aussi lsaure est particulièrement dans son élément, compétente, gentillesse, humour à gogo, sourire 😊 qu'est-ce que fait du bien! Josie.",
     },
     {
@@ -70,7 +70,7 @@ const ReviewWidget: React.FC = () => {
         className="logo"
       />
       <h2>TRIPADVISOR TEST</h2>
-      <div className="carousel"
+      <div className="carousel">
         <div
           className="reviews-container"
           style={{ transform: `translateX(-${currentIndex * 70}vw)` }}
