@@ -13,6 +13,20 @@ const HomeVideoSection: React.FC = () => {
         await video.play();
       } catch (error) {
         console.error("Autoplay failed:", error);
+        // Fallback: Attempt to play on user interaction
+        const handleUserInteraction = () => {
+          video
+            .play()
+            .catch((err) =>
+              console.error("User interaction play failed:", err)
+            );
+        };
+        document.addEventListener("touchstart", handleUserInteraction, {
+          once: true,
+        });
+        return () => {
+          document.removeEventListener("touchstart", handleUserInteraction);
+        };
       }
     };
 
@@ -30,17 +44,17 @@ const HomeVideoSection: React.FC = () => {
       <video
         ref={videoRef}
         className="background-video"
-        src="https://res.cloudinary.com/dc5jx2yo7/video/upload/v1749570162/egp8n38xx3wmpyg42jnx.mp4"
+        src="https://res.cloudinary.com/dc5jx2yo7/video/upload/q_auto,f_mp4/v1749570162/egp8n38xx3wmpyg42jnx.mp4"
         autoPlay
         muted
         loop
         playsInline
-        preload="auto"
+        preload="metadata"
         poster="/images/video-poster.jpg"
         aria-hidden="true"
       >
         <source
-          src="https://res.cloudinary.com/dc5jx2yo7/video/upload/v1749570162/egp8n38xx3wmpyg42jnx.mp4"
+          src="https://res.cloudinary.com/dc5jx2yo7/video/upload/q_auto,f_mp4/v1749570162/egp8n38xx3wmpyg42jnx.mp4"
           type="video/mp4"
         />
         Your browser does not support the video tag.
