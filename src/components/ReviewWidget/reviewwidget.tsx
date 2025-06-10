@@ -70,7 +70,7 @@ const ReviewWidget: React.FC = () => {
         alt="TripAdvisor Logo"
         className="logo"
       />
-      <h2>Composant (ReviewWidget) en attente du widget officiel</h2>
+      <h2>Composant de "Simulation" en attente du widget officiel</h2>
       <div className="review-cta">
         <a
           href="https://www.tripadvisor.fr/UserReviewEdit-g196612-d23792112-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html"
