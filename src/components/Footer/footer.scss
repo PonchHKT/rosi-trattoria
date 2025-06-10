@@ -307,20 +307,39 @@
   }
 
   &__hours-title {
-    font-weight: 600;
     color: white;
     margin-bottom: 0.25rem;
   }
 
   &__hours-list {
     font-size: 0.875rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.5rem 1rem;
+    line-height: 1.4;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+  }
+
+  &__hours-item {
+    display: contents;
+  }
+
+  &__hours-day {
+    font-weight: 600;
+    color: white;
+  }
+
+  &__hours-time {
+    color: #cbd5e1;
   }
 
   &__hours-closed {
     color: #94a3b8;
+    font-style: italic;
   }
 
   &__navigation {
@@ -359,7 +378,7 @@
     gap: 0.5rem;
 
     svg {
-      width: 01.25rem;
+      width: 1.25rem;
       height: 1.25rem;
       color: var(--primary-blue);
     }

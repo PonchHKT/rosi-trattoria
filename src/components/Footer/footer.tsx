@@ -106,7 +106,7 @@ const Footer: React.FC = () => {
             {
               id: "3",
               message:
-                "Merci à tous nos clients fidèles pour cette magnifique soirée ! ❤️",
+                "Merci à tous nos clients fidèles部分: fidèles pour cette magnifique soirée ! ❤️",
               created_time: "2025-01-13T20:00:00Z",
               likes: { summary: { total_count: 28 } },
             },
@@ -232,20 +232,22 @@ const Footer: React.FC = () => {
                   <Clock />
                 </div>
                 <div className="footer__contact-details">
-                  <div className="footer__hours-title">Horaires</div>
                   <div className="footer__hours-list">
-                    <div>
-                      LUNDI :{" "}
-                      <span className="footer__hours-closed">FERMÉ</span>
+                    <div className="footer__hours-item">
+                      <span className="footer__hours-day">Mardi-Jeudi</span>
+                      <span className="footer__hours-time">
+                        12h-14h / 19h-21h30
+                      </span>
                     </div>
-                    <div>MARDI : 12H00 - 14H00 / 19H00 - 21H30</div>
-                    <div>MERCREDI : 12H00 - 14H00 / 19H00 - 21H30</div>
-                    <div>JEUDI : 12H00 - 14H00 / 19H00 - 21H30</div>
-                    <div>VENDREDI : 12H00 - 14H00 / 19H00 - 22H30</div>
-                    <div>SAMEDI : 12H00 - 14H00 / 19H00 - 22H30</div>
-                    <div>
-                      DIMANCHE :{" "}
-                      <span className="footer__hours-closed">FERMÉ</span>
+                    <div className="footer__hours-item">
+                      <span className="footer__hours-day">Vendredi-Samedi</span>
+                      <span className="footer__hours-time">
+                        12h-14h / 19h-22h30
+                      </span>
+                    </div>
+                    <div className="footer__hours-item">
+                      <span className="footer__hours-day">Lundi, Dimanche</span>
+                      <span className="footer__hours-closed">Fermé</span>
                     </div>
                   </div>
                 </div>
