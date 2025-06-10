@@ -94,19 +94,19 @@ const Footer: React.FC = () => {
               id: "1",
               message: "En attente d'une API",
               created_time: "2025-06-15T10:00:00Z",
-              likes: { summary: { total_count: 47 } },
+              likes: { summary: { total_count: 0 } },
             },
             {
               id: "2",
               message: "En attente d'une API",
               created_time: "2025-06-14T15:30:00Z",
-              likes: { summary: { total_count: 32 } },
+              likes: { summary: { total_count: 0 } },
             },
             {
               id: "3",
               message: "En attente d'une API",
               created_time: "2025-06-13T20:00:00Z",
-              likes: { summary: { total_count: 28 } },
+              likes: { summary: { total_count: 0 } },
             },
           ]);
         }
