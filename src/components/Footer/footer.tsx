@@ -92,22 +92,20 @@ const Footer: React.FC = () => {
           setFacebookPosts([
             {
               id: "1",
-              message:
-                "Découvrez notre nouvelle carte de printemps avec des ingrédients frais et locaux ! 🌱",
-              created_time: "2025-01-15T10:00:00Z",
+              message: "En attente d'une API",
+              created_time: "2025-06-15T10:00:00Z",
               likes: { summary: { total_count: 47 } },
             },
             {
               id: "2",
-              message: "Soirée spéciale pasta fraîche ce vendredi ! 🍝",
-              created_time: "2025-01-14T15:30:00Z",
+              message: "En attente d'une API",
+              created_time: "2025-06-14T15:30:00Z",
               likes: { summary: { total_count: 32 } },
             },
             {
               id: "3",
-              message:
-                "Merci à tous nos clients fidèles部分: fidèles pour cette magnifique soirée ! ❤️",
-              created_time: "2025-01-13T20:00:00Z",
+              message: "En attente d'une API",
+              created_time: "2025-06-13T20:00:00Z",
               likes: { summary: { total_count: 28 } },
             },
           ]);

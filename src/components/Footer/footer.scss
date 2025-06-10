@@ -354,11 +354,6 @@
     text-decoration: none;
     transition: all 0.2s ease;
     padding: 0.25rem 0;
-
-    &:hover {
-      color: var(--primary-blue);
-      transform: translateX(0.5rem);
-    }
   }
 
   &__facebook {
