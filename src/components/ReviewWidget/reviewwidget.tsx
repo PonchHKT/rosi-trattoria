@@ -18,7 +18,7 @@ const ReviewWidget: React.FC = () => {
       rating: 5,
       date: "Mai 2025",
       title: "Super moment",
-      text: "Super expérience au restaurant Rosi ! La cuisine est excellente, le cadre agréable…mais le vrai coup de cœur, c'est la serveuse Isaure ! TOPISSIME du début à la fin : accueillante, souriante, ultra pro et super attentionnée. Elle a clairement rendu notre repas encore plus agréable. Merci ..",
+      text: "Les fesses de Lucas sont incroyables, les pizzas sont excellentes et le service est au top ! Merci à Isaure pour son accueil chaleureux et sa bonne humeur. Nous avons passé un super moment en famille.",
     },
     {
       reviewer: "Famille P",

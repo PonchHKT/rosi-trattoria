@@ -18,41 +18,75 @@ const Navbar: React.FC = () => {
   return (
     <nav className="navbar" aria-label="Navigation principale">
       <div className="navbar__container">
-        <div className="navbar__brand">
-          <span className="navbar__brand-rosi">Rosi</span> -{" "}
-          <span className="navbar__brand-trattoria">Trattoria</span>
+        <div className="navbar__left-section">
+          <div className="navbar__brand">
+            <span className="navbar__brand-rosi">Rosi</span> -{" "}
+            <span className="navbar__brand-trattoria">Trattoria</span>
+          </div>
+
+          {/* Progress bar visible uniquement sur mobile, sous le titre */}
+          <div className="navbar__dev-indicator navbar__dev-indicator--mobile">
+            <span className="navbar__dev-label">PONCH PROGRESS BAR</span>
+            <div className="navbar__progress-container">
+              <div className="navbar__progress-bar">
+                <div
+                  className="navbar__progress-fill"
+                  style={{ width: "30%" }}
+                ></div>
+              </div>
+              <span className="navbar__progress-text">30%</span>
+            </div>
+          </div>
         </div>
 
-        <button
-          className="navbar__toggle"
-          onClick={toggleNavbar}
-          aria-label={isOpen ? "Fermer le menu" : "Ouvrir le menu"}
-          aria-expanded={isOpen}
-        >
-          {isOpen ? (
-            <X size={28} color="white" />
-          ) : (
-            <Menu size={28} color="white" />
-          )}
-        </button>
+        <div className="navbar__right-section">
+          {/* Progress bar visible uniquement sur desktop */}
+          <div className="navbar__dev-indicator navbar__dev-indicator--desktop">
+            <span className="navbar__dev-label">PONCH PROGRESS BAR</span>
+            <div className="navbar__progress-container">
+              <div className="navbar__progress-bar">
+                <div
+                  className="navbar__progress-fill"
+                  style={{ width: "30%" }}
+                ></div>
+              </div>
+              <span className="navbar__progress-text">30%</span>
+            </div>
+          </div>
 
-        <ul className={`navbar__links ${isOpen ? "navbar__links--open" : ""}`}>
-          {["Accueil", "Nos valeurs", "Carte", "Recrutement", "Contact"].map(
-            (label, index) => (
-              <li className="navbar__item" key={index}>
-                <a
-                  href={`#${label.toLowerCase().replace(/\s/g, "")}`}
-                  className={`navbar__link ${
-                    activeIndex === index ? "navbar__link--active" : ""
-                  }`}
-                  onClick={() => handleLinkClick(index)}
-                >
-                  {label}
-                </a>
-              </li>
-            )
-          )}
-        </ul>
+          <button
+            className="navbar__toggle"
+            onClick={toggleNavbar}
+            aria-label={isOpen ? "Fermer le menu" : "Ouvrir le menu"}
+            aria-expanded={isOpen}
+          >
+            {isOpen ? (
+              <X size={28} color="white" />
+            ) : (
+              <Menu size={28} color="white" />
+            )}
+          </button>
+
+          <ul
+            className={`navbar__links ${isOpen ? "navbar__links--open" : ""}`}
+          >
+            {["Accueil", "Nos valeurs", "Carte", "Recrutement", "Contact"].map(
+              (label, index) => (
+                <li className="navbar__item" key={index}>
+                  <a
+                    href={`#${label.toLowerCase().replace(/\s/g, "")}`}
+                    className={`navbar__link ${
+                      activeIndex === index ? "navbar__link--active" : ""
+                    }`}
+                    onClick={() => handleLinkClick(index)}
+                  >
+                    {label}
+                  </a>
+                </li>
+              )
+            )}
+          </ul>
+        </div>
       </div>
 
       <div className="navbar__flag-bar" aria-hidden="true">
