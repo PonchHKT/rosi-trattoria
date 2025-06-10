@@ -47,9 +47,7 @@
     cursor: pointer;
     z-index: 1001;
     padding: 4px;
-    // Add a subtle background for better visibility on iOS
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
+    // Remove background-color
     // Prevent iOS from adding default button styles
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -63,8 +61,7 @@
       width: 36px;
       height: 32px;
       padding: 6px;
-      // More visible background on mobile
-      background-color: rgba(255, 255, 255, 0.15);
+      // Remove background-color
       // Ensure minimum touch target size (44px recommended by Apple)
       min-width: 44px;
       min-height: 44px;
@@ -109,10 +106,10 @@
       display: none;
     }
 
-    // Enhanced hover effect for better UX
+    // Remove hover/focus background
     &:hover,
     &:focus {
-      background-color: black;
+      background: none;
 
       .navbar__toggle-bar {
         background-color: #ffffff;
