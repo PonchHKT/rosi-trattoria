@@ -30,6 +30,7 @@ interface FacebookPost {
       };
     }>;
   };
+  isApiWaiting?: boolean; // Nouveau champ pour identifier les posts en attente
 }
 
 interface FacebookResponse {
@@ -89,24 +90,28 @@ const Footer: React.FC = () => {
             "Erreur lors du chargement des posts Facebook:",
             response.error
           );
+          // Posts avec animation de chargement
           setFacebookPosts([
             {
               id: "1",
-              message: "En attente d'une API",
-              created_time: "2025-06-15T10:00:00Z",
+              message: "Awaiting API Request TOKEN...",
+              created_time: "2025-06-11T10:00:00Z",
               likes: { summary: { total_count: 0 } },
+              isApiWaiting: true,
             },
             {
               id: "2",
-              message: "En attente d'une API",
-              created_time: "2025-06-14T15:30:00Z",
+              message: "Awaiting API Request TOKEN...",
+              created_time: "2025-06-11T15:30:00Z",
               likes: { summary: { total_count: 0 } },
+              isApiWaiting: true,
             },
             {
               id: "3",
-              message: "En attente d'une API",
-              created_time: "2025-06-13T20:00:00Z",
+              message: "Awaiting API Request TOKEN...",
+              created_time: "2025-06-11T20:00:00Z",
               likes: { summary: { total_count: 0 } },
+              isApiWaiting: true,
             },
           ]);
         }
@@ -287,7 +292,14 @@ const Footer: React.FC = () => {
                 </div>
               ) : (
                 facebookPosts.map((post) => (
-                  <div key={post.id} className="footer__facebook-post">
+                  <div
+                    key={post.id}
+                    className={`footer__facebook-post ${
+                      post.isApiWaiting
+                        ? "footer__facebook-post--api-waiting"
+                        : ""
+                    }`}
+                  >
                     {getPostImage(post) && (
                       <img
                         src={getPostImage(post)}
@@ -295,14 +307,32 @@ const Footer: React.FC = () => {
                         className="footer__facebook-image"
                       />
                     )}
-                    <p className="footer__facebook-content">
+                    <p
+                      className={`footer__facebook-content ${
+                        post.isApiWaiting
+                          ? "footer__facebook-content--loading"
+                          : ""
+                      }`}
+                    >
                       {getPostContent(post)}
                     </p>
                     <div className="footer__facebook-meta">
-                      <span className="footer__facebook-date">
+                      <span
+                        className={`footer__facebook-date ${
+                          post.isApiWaiting
+                            ? "footer__facebook-date--loading"
+                            : ""
+                        }`}
+                      >
                         {formatDate(post.created_time)}
                       </span>
-                      <div className="footer__facebook-likes">
+                      <div
+                        className={`footer__facebook-likes ${
+                          post.isApiWaiting
+                            ? "footer__facebook-likes--loading"
+                            : ""
+                        }`}
+                      >
                         <Heart />
                         <span>{post.likes?.summary?.total_count || 0}</span>
                       </div>

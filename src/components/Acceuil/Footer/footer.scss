@@ -3,6 +3,62 @@
   --primary-pink: rgb(236, 0, 140);
 }
 
+// Animations pour le texte en attente d'API
+@keyframes loadingDots {
+  0%,
+  20% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes textPulse {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes typewriter {
+  0% {
+    width: 0;
+  }
+  70% {
+    width: 100%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes blinkCursor {
+  0%,
+  50% {
+    border-color: transparent;
+  }
+  51%,
+  100% {
+    border-color: var(--primary-blue);
+  }
+}
+
+@keyframes loadingShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
 .footer {
   padding-top: 100px;
   position: relative;
@@ -412,6 +468,35 @@
     font-size: 0.875rem;
     line-height: 1.5;
     margin-bottom: 0.75rem;
+
+    // Animation typewriter pour le contenu en attente d'API
+    &--loading {
+      font-weight: bold;
+      position: relative;
+      overflow: hidden;
+      white-space: nowrap;
+      width: 0;
+      animation: typewriter 4s ease-in-out infinite;
+
+      &::after {
+        content: "";
+      }
+    }
+
+    // Animation alternative avec effet shimmer
+    &--loading-shimmer {
+      background: linear-gradient(
+        90deg,
+        rgba(203, 213, 225, 0.4) 25%,
+        rgba(203, 213, 225, 0.8) 50%,
+        rgba(203, 213, 225, 0.4) 75%
+      );
+      background-size: 200% 100%;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: loadingShimmer 2s linear infinite;
+    }
   }
 
   &__facebook-meta {
@@ -420,6 +505,14 @@
     justify-content: space-between;
     font-size: 0.75rem;
     color: #94a3b8;
+  }
+
+  &__facebook-date {
+    // SUPPRIMÉ: Animation pour la date en attente
+    // &--loading {
+    //   animation: textPulse 2.5s ease-in-out infinite;
+    //   animation-delay: 0.5s;
+    // }
   }
 
   &__facebook-likes {
@@ -432,6 +525,12 @@
       height: 0.75rem;
       color: var(--primary-pink);
     }
+
+    // SUPPRIMÉ: Animation pour les likes en attente
+    // &--loading {
+    //   animation: textPulse 3s ease-in-out infinite;
+    //   animation-delay: 1s;
+    // }
   }
 
   &__facebook-link {
