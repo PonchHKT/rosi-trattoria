@@ -22,7 +22,7 @@ const VideoPlayer: React.FC = () => {
   const [currentVideo, setCurrentVideo] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [volume, setVolume] = useState<number>(1);
-  const [isMuted, setIsMuted] = useState<boolean>(false);
+  const [isMuted, setIsMuted] = useState<boolean>(true); // Muted by default for iOS autoplay
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [duration, setDuration] = useState<number>(0);
   const [showPlaylist, setShowPlaylist] = useState<boolean>(false);
@@ -32,14 +32,38 @@ const VideoPlayer: React.FC = () => {
   const controlsTimeoutRef = useRef<number | null>(null);
 
   const videos: Video[] = [
-    { title: "La focaccia chez Rosi", url: "/video/videoacceuil.mp4" },
-    { title: "Les pâtes fraiche de Rosi", url: "/video/videoacceuil.mp4" },
-    { title: "Les secrets de la pâte Rosi", url: "/video/videoacceuil.mp4" },
-    { title: "La téglia et Focaccia de Rosi", url: "/video/videoacceuil.mp4" },
-    { title: "Une journée chez Rosi", url: "/video/videoacceuil.mp4" },
-    { title: "Capri c'est fini", url: "/video/videoacceuil.mp4" },
-    { title: "Les Tiramisu de Rosi", url: "/video/videoacceuil.mp4" },
-    { title: "Vidéo 8", url: "/video/videoacceuil.mp4" },
+    {
+      title: "La focaccia chez Rosi",
+      url: "https://res.cloudinary.com/dc5jx2yo7/video/upload/q_auto,f_mp4/v1749570162/egp8n38xx3wmpyg42jnx.mp4",
+    },
+    {
+      title: "Les pâtes fraiche de Rosi",
+      url: "https://res.cloudinary.com/dc5jx2yo7/video/upload/q_auto,f_mp4/v1749570162/egp8n38xx3wmpyg42jnx.mp4",
+    },
+    {
+      title: "Les secrets de la pâte Rosi",
+      url: "https://res.cloudinary.com/dc5jx2yo7/video/upload/q_auto,f_mp4/v1749570162/egp8n38xx3wmpyg42jnx.mp4",
+    },
+    {
+      title: "La téglia et Focaccia de Rosi",
+      url: "https://res.cloudinary.com/dc5jx2yo7/video/upload/q_auto,f_mp4/v1749570162/egp8n38xx3wmpyg42jnx.mp4",
+    },
+    {
+      title: "Une journée chez Rosi",
+      url: "https://res.cloudinary.com/dc5jx2yo7/video/upload/q_auto,f_mp4/v1749570162/egp8n38xx3wmpyg42jnx.mp4",
+    },
+    {
+      title: "Capri c'est fini",
+      url: "https://res.cloudinary.com/dc5jx2yo7/video/upload/q_auto,f_mp4/v1749570162/egp8n38xx3wmpyg42jnx.mp4",
+    },
+    {
+      title: "Les Tiramisu de Rosi",
+      url: "https://res.cloudinary.com/dc5jx2yo7/video/upload/q_auto,f_mp4/v1749570162/egp8n38xx3wmpyg42jnx.mp4",
+    },
+    {
+      title: "Vidéo 8",
+      url: "https://res.cloudinary.com/dc5jx2yo7/video/upload/q_auto,f_mp4/v1749570162/egp8n38xx3wmpyg42jnx.mp4",
+    },
   ];
 
   // Génération de couleurs de fond pour les thumbnails
@@ -62,7 +86,9 @@ const VideoPlayer: React.FC = () => {
       if (isPlaying) {
         videoRef.current.pause();
       } else {
-        videoRef.current.play();
+        videoRef.current.play().catch((error) => {
+          console.error("Play failed:", error);
+        });
       }
       setIsPlaying(!isPlaying);
     }
@@ -80,6 +106,8 @@ const VideoPlayer: React.FC = () => {
     setVolume(newVolume);
     if (videoRef.current) {
       videoRef.current.volume = newVolume;
+      videoRef.current.muted = newVolume === 0;
+      setIsMuted(newVolume === 0);
     }
   };
 
@@ -115,10 +143,12 @@ const VideoPlayer: React.FC = () => {
     setCurrentVideo(index);
     setIsPlaying(false);
     setCurrentTime(0);
-
-    // Force le rechargement de la vidéo
     if (videoRef.current) {
       videoRef.current.load();
+      videoRef.current.play().catch((error) => {
+        console.error("Autoplay on video change failed:", error);
+      });
+      setIsPlaying(true);
     }
   };
 
@@ -156,13 +186,42 @@ const VideoPlayer: React.FC = () => {
     }, 3000);
   };
 
-  // Effet pour recharger la vidéo quand l'index change
+  // Autoplay on iOS with fallback for user interaction
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.load();
-      setCurrentTime(0);
-      setDuration(0);
-    }
+    const video = videoRef.current;
+    if (!video) return;
+
+    const tryPlay = async () => {
+      try {
+        await video.play();
+        setIsPlaying(true);
+      } catch (error) {
+        console.error("Autoplay failed:", error);
+        // Fallback: Attempt to play on user interaction
+        const handleUserInteraction = () => {
+          video
+            .play()
+            .catch((err) =>
+              console.error("User interaction play failed:", err)
+            );
+          setIsPlaying(true);
+        };
+        document.addEventListener("touchstart", handleUserInteraction, {
+          once: true,
+        });
+        return () => {
+          document.removeEventListener("touchstart", handleUserInteraction);
+        };
+      }
+    };
+
+    video.addEventListener("loadedmetadata", tryPlay);
+    video.addEventListener("canplay", tryPlay);
+
+    return () => {
+      video.removeEventListener("loadedmetadata", tryPlay);
+      video.removeEventListener("canplay", tryPlay);
+    };
   }, [currentVideo]);
 
   useEffect(() => {
@@ -183,7 +242,6 @@ const VideoPlayer: React.FC = () => {
       }
     };
 
-    // Show playlist by default on desktop only
     if (window.innerWidth >= 1024) {
       setShowPlaylist(true);
     }
@@ -213,7 +271,11 @@ const VideoPlayer: React.FC = () => {
             onClick={togglePlay}
             preload="metadata"
             playsInline
-          />
+            muted={isMuted}
+          >
+            <source src={videos[currentVideo].url} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
 
           {/* Contrôles vidéo */}
           <div
