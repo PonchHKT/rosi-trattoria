@@ -234,9 +234,19 @@ const Footer: React.FC = () => {
                 <div className="footer__contact-details">
                   <div className="footer__hours-title">Horaires</div>
                   <div className="footer__hours-list">
-                    <div>Mar-Sam: 12h-14h • 19h-22h</div>
-                    <div>Dimanche: 12h-14h</div>
-                    <div className="footer__hours-closed">Fermé le lundi</div>
+                    <div>
+                      LUNDI :{" "}
+                      <span className="footer__hours-closed">FERMÉ</span>
+                    </div>
+                    <div>MARDI : 12H00 - 14H00 / 19H00 - 21H30</div>
+                    <div>MERCREDI : 12H00 - 14H00 / 19H00 - 21H30</div>
+                    <div>JEUDI : 12H00 - 14H00 / 19H00 - 21H30</div>
+                    <div>VENDREDI : 12H00 - 14H00 / 19H00 - 22H30</div>
+                    <div>SAMEDI : 12H00 - 14H00 / 19H00 - 22H30</div>
+                    <div>
+                      DIMANCHE :{" "}
+                      <span className="footer__hours-closed">FERMÉ</span>
+                    </div>
                   </div>
                 </div>
               </div>
