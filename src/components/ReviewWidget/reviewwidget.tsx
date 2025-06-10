@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./ReviewWidget.scss";
+import "./reviewwidget.scss";
 
 interface Review {
   reviewer: string;
