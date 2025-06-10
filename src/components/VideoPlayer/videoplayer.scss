@@ -16,13 +16,15 @@
   --border-radius-lg: 1.5rem;
 }
 
-// Fix global pour iOS - NOUVEAU
+// Global fix for iOS and consistent rendering
 html,
 body {
   margin: 0;
   padding: 0;
   width: 100%;
+  max-width: 100vw;
   overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 // Mixins
@@ -52,30 +54,34 @@ body {
   }
 }
 
-// Wrapper pour centrer le player - MODIFIÉ pour iOS
+// Wrapper to center the player
 .video-player-wrapper {
   min-height: 100vh;
-  min-height: -webkit-fill-available; // Fix pour iOS
+  min-height: -webkit-fill-available; // Fix for iOS
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--bg-dark);
-  padding: 1rem;
+  padding: 0; // Removed padding to avoid extra space
   width: 100%;
+  max-width: 100vw; // Ensure full viewport width
+  overflow-x: hidden;
   box-sizing: border-box;
 
-  // Fix spécifique pour iOS
+  // iOS-specific fix
   @supports (-webkit-touch-callout: none) {
     min-height: -webkit-fill-available;
-    padding: 0.5rem;
+    padding: 0;
+    width: 100%;
+    max-width: 100vw;
   }
 }
 
-// Composant principal - MODIFIÉ
+// Main component
 .video-player {
   width: 100%;
-  max-width: 96rem;
-  margin: 0 auto;
+  max-width: 100%; // Prevent exceeding viewport
+  margin: 0; // Remove auto margins
   background: var(--bg-dark);
   border-radius: var(--border-radius-lg);
   overflow: hidden;
@@ -83,17 +89,18 @@ body {
   position: relative;
   box-sizing: border-box;
 
-  // Contenu principal - MODIFIÉ
+  // Main content
   &__content {
     align-items: center;
     justify-content: center;
     position: relative;
     display: flex;
     width: 100%;
+    max-width: 100%;
     box-sizing: border-box;
   }
 
-  // Lecteur vidéo principal - MODIFIÉ
+  // Main video player
   &__main {
     position: relative;
     flex: 1;
@@ -111,7 +118,7 @@ body {
     }
   }
 
-  // MODIFIÉ pour iOS
+  // Video element
   &__video {
     width: 100%;
     height: auto;
@@ -119,13 +126,12 @@ body {
     object-fit: cover;
     cursor: pointer;
     display: block;
-
-    // Fix spécifique pour iOS Safari
+    max-width: 100%; // Prevent overflow
     -webkit-playsinline: true;
-    // playsinline is an HTML attribute, not a CSS property
+    // 'playsinline' is an HTML attribute, not a CSS property.
   }
 
-  // Hint pour afficher la playlist
+  // Playlist hint
   &__playlist-hint {
     position: absolute;
     top: 50%;
@@ -161,7 +167,7 @@ body {
     }
   }
 
-  // Contrôles vidéo
+  // Video controls
   &__controls {
     position: absolute;
     left: 0;
@@ -184,7 +190,7 @@ body {
     margin: 0 0 1rem 0;
   }
 
-  // Barre de progression
+  // Progress bar
   &__progress {
     width: 100%;
     height: 0.5rem;
@@ -227,7 +233,7 @@ body {
     @include transition(opacity);
   }
 
-  // Contrôles en ligne
+  // Controls row
   &__controls-row {
     display: flex;
     align-items: center;
@@ -241,7 +247,7 @@ body {
     gap: 1rem;
   }
 
-  // Boutons
+  // Buttons
   &__btn {
     color: var(--text-white);
     background: transparent;
@@ -307,7 +313,7 @@ body {
     accent-color: var(--primary-blue);
   }
 
-  // Temps
+  // Time
   &__time {
     color: var(--text-white);
     font-size: 0.875rem;
@@ -394,7 +400,7 @@ body {
     padding-bottom: 1rem;
   }
 
-  // Éléments de playlist
+  // Playlist items
   &__playlist-item {
     padding: 1rem;
     cursor: pointer;
@@ -491,7 +497,7 @@ body {
     }
   }
 
-  // Responsive - MODIFIÉ avec corrections iOS
+  // Responsive
   @media (max-width: 1024px) {
     &__playlist {
       width: 18rem;
@@ -499,24 +505,16 @@ body {
   }
 
   @media (max-width: 768px) {
-    // NOUVELLES CORRECTIONS pour iOS
-    margin: 0;
     border-radius: 0;
-    width: 100vw;
-    position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
+    width: 100%;
+    max-width: 100vw;
+    margin: 0;
 
-    // Alternative pour iOS si la première méthode ne fonctionne pas
+    // iOS-specific fix
     @supports (-webkit-touch-callout: none) {
       width: 100%;
-      left: auto;
-      right: auto;
-      margin-left: 0;
-      margin-right: 0;
-      transform: none;
+      max-width: 100vw;
+      margin: 0;
     }
 
     &__content {
@@ -524,19 +522,23 @@ body {
       justify-content: flex-start;
       flex-direction: column;
       width: 100%;
+      max-width: 100%;
     }
 
     &__main {
       width: 100%;
+      max-width: 100vw;
 
       &--with-playlist {
         flex: 1;
         width: 100%;
+        max-width: 100vw;
       }
     }
 
     &__video {
       width: 100%;
+      max-width: 100%;
       border-radius: 0;
     }
 
@@ -562,7 +564,7 @@ body {
       }
     }
 
-    // FIX: Assurer que le contenu de la playlist peut défiler sur mobile
+    // Ensure playlist content can scroll on mobile
     &__playlist-content {
       height: auto;
       max-height: 50vh;
@@ -616,19 +618,20 @@ body {
 
   @media (max-width: 640px) {
     border-radius: 0;
-    // NOUVEAU pour iOS
-    width: 100vw;
-    margin-left: calc(50% - 50vw);
+    width: 100%;
+    max-width: 100vw;
+    margin: 0;
 
-    // Fix alternatif pour iOS
+    // iOS-specific fix
     @supports (-webkit-touch-callout: none) {
       width: 100%;
-      margin-left: 0;
+      max-width: 100vw;
+      margin: 0;
     }
 
     &__video {
       width: 100%;
-      max-width: none;
+      max-width: 100%;
     }
 
     &__controls {
@@ -673,21 +676,23 @@ body {
   }
 }
 
-// NOUVEAU - Fix global pour iOS - Empêcher le scroll horizontal
+// iOS-specific global fix
 @supports (-webkit-touch-callout: none) {
   body {
     overflow-x: hidden;
     position: relative;
+    width: 100%;
+    max-width: 100vw;
   }
 
   .video-player-wrapper {
     width: 100%;
-    max-width: 100%;
+    max-width: 100vw;
     overflow-x: hidden;
   }
 }
 
-// Animations personnalisées
+// Custom animations
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -751,7 +756,7 @@ body {
   }
 }
 
-// Classes utilitaires
+// Utility classes
 .fade-in {
   animation: fadeIn var(--transition-normal) ease-out;
 }
@@ -764,7 +769,7 @@ body {
   animation: pulse 2s infinite;
 }
 
-// Scrollbar personnalisée
+// Custom scrollbar
 .video-player__playlist-content {
   &::-webkit-scrollbar {
     width: 6px;
@@ -787,14 +792,14 @@ body {
   scrollbar-color: var(--text-gray-dark) var(--bg-gray);
 }
 
-// États de focus pour l'accessibilité
+// Focus states for accessibility
 .video-player__btn:focus,
 .video-player__volume-slider:focus,
 .video-player__progress:focus {
   outline-offset: 2px;
 }
 
-// États de chargement
+// Loading states
 .video-player__loading {
   @include flex-center;
   position: absolute;
@@ -822,7 +827,7 @@ body {
   }
 }
 
-// Réduction des mouvements pour l'accessibilité
+// Reduced motion for accessibility
 @media (prefers-reduced-motion: reduce) {
   .video-player {
     * {

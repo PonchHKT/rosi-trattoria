@@ -10,6 +10,9 @@ import {
 } from "lucide-react";
 import "./videoplayer.scss";
 
+// Note: Ensure your HTML <head> includes the following viewport meta tag for consistent rendering across devices:
+// <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
 interface Video {
   title: string;
   url: string;
@@ -209,9 +212,8 @@ const VideoPlayer: React.FC = () => {
             onEnded={nextVideo}
             onClick={togglePlay}
             preload="metadata"
+            playsInline
           />
-
-          {/* Overlay de suggestion playlist */}
 
           {/* Contrôles vidéo */}
           <div
