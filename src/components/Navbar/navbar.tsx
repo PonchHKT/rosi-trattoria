@@ -23,37 +23,9 @@ const Navbar: React.FC = () => {
             <span className="navbar__brand-rosi">Rosi</span> -{" "}
             <span className="navbar__brand-trattoria">Trattoria</span>
           </div>
-
-          {/* Progress bar visible uniquement sur mobile, sous le titre */}
-          <div className="navbar__dev-indicator navbar__dev-indicator--mobile">
-            <span className="navbar__dev-label">PONCH PROGRESS BAR</span>
-            <div className="navbar__progress-container">
-              <div className="navbar__progress-bar">
-                <div
-                  className="navbar__progress-fill"
-                  style={{ width: "30%" }}
-                ></div>
-              </div>
-              <span className="navbar__progress-text">DEV</span>
-            </div>
-          </div>
         </div>
 
         <div className="navbar__right-section">
-          {/* Progress bar visible uniquement sur desktop */}
-          <div className="navbar__dev-indicator navbar__dev-indicator--desktop">
-            <span className="navbar__dev-label">PONCH PROGRESS BAR</span>
-            <div className="navbar__progress-container">
-              <div className="navbar__progress-bar">
-                <div
-                  className="navbar__progress-fill"
-                  style={{ width: "30%" }}
-                ></div>
-              </div>
-              <span className="navbar__progress-text">DEV</span>
-            </div>
-          </div>
-
           <button
             className="navbar__toggle"
             onClick={toggleNavbar}
