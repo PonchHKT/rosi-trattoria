@@ -30,7 +30,7 @@ const HomeVideoSection: React.FC = () => {
       <video
         ref={videoRef}
         className="background-video"
-        src="/video/videoacceuil.mp4"
+        src="https://res.cloudinary.com/dc5jx2yo7/video/upload/v1749570162/egp8n38xx3wmpyg42jnx.mp4"
         autoPlay
         muted
         loop
@@ -39,8 +39,10 @@ const HomeVideoSection: React.FC = () => {
         poster="/images/video-poster.jpg"
         aria-hidden="true"
       >
-        <source src="/video/videoacceuil.mp4" type="video/mp4" />
-        {/* Remove webm if you don’t have a webm version */}
+        <source
+          src="https://res.cloudinary.com/dc5jx2yo7/video/upload/v1749570162/egp8n38xx3wmpyg42jnx.mp4"
+          type="video/mp4"
+        />
         Your browser does not support the video tag.
       </video>
 
