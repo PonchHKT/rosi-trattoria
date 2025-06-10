@@ -40,51 +40,95 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 28px; // Increased from 24px
-    height: 24px; // Increased from 20px
+    width: 32px; // Increased for better visibility
+    height: 28px; // Increased for better visibility
     background: none;
     border: none;
     cursor: pointer;
     z-index: 1001;
-    padding: 2px; // Added padding for better touch target
+    padding: 4px;
+    // Add a subtle background for better visibility on iOS
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    // Prevent iOS from adding default button styles
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    // Ensure it's always visible
+    opacity: 1;
+    visibility: visible;
 
     // Better touch target for mobile
     @media (max-width: 767px) {
-      width: 32px;
-      height: 28px;
-      padding: 4px;
+      width: 36px;
+      height: 32px;
+      padding: 6px;
+      // More visible background on mobile
+      background-color: rgba(255, 255, 255, 0.15);
+      // Ensure minimum touch target size (44px recommended by Apple)
+      min-width: 44px;
+      min-height: 44px;
+      // Center the bars within the larger touch target
+      align-items: center;
     }
 
     &-bar {
-      height: 4px; // Increased from 3px
+      height: 4px;
       background-color: white;
       transition: all 0.3s ease-in-out;
-      border-radius: 2px; // Added border radius for better visibility
+      border-radius: 2px;
+      // Ensure bars are always visible
+      opacity: 1;
+      visibility: visible;
+      // Prevent iOS from making them too thin
+      min-height: 4px;
+      // Add explicit width
+      width: 100%;
 
-      // Even thicker on mobile for better visibility
+      // Even thicker and more visible on mobile
       @media (max-width: 767px) {
         height: 5px;
+        min-height: 5px;
         border-radius: 2.5px;
+        // Add a subtle shadow for better visibility
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
       }
     }
 
     &--open &-bar:nth-child(1) {
-      transform: rotate(45deg) translate(6px, 6px); // Adjusted for new size
+      transform: rotate(45deg) translate(7px, 7px); // Adjusted for new size
     }
     &--open &-bar:nth-child(2) {
       opacity: 0;
     }
     &--open &-bar:nth-child(3) {
-      transform: rotate(-45deg) translate(6px, -6px); // Adjusted for new size
+      transform: rotate(-45deg) translate(7px, -7px); // Adjusted for new size
     }
 
     @media (min-width: 768px) {
       display: none;
     }
 
-    // Add hover effect for better UX
-    &:hover &-bar {
-      background-color: #007bff;
+    // Enhanced hover effect for better UX
+    &:hover,
+    &:focus {
+      background-color: rgba(255, 255, 255, 0.2);
+
+      .navbar__toggle-bar {
+        background-color: #007bff;
+      }
+    }
+
+    // iOS specific fixes
+    @supports (-webkit-touch-callout: none) {
+      // iOS Safari specific styles
+      &-bar {
+        // Force hardware acceleration for better rendering
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+        // Ensure crisp rendering
+        -webkit-font-smoothing: antialiased;
+      }
     }
   }
 
@@ -100,7 +144,6 @@
     transition: max-height 0.3s ease-in-out;
     flex-direction: column;
     font-family: "Italiana", serif;
-
     // Add box shadow for better separation on mobile
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 
