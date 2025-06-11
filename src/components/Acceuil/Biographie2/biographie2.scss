@@ -1,4 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Italiana&family=Italianno&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&display=swap");
 
 .bio2-biographie {
   font-family: "Open Sans", sans-serif;
@@ -76,6 +78,38 @@
   font-weight: 600;
 }
 
+.bio2-biographie__rovagnati {
+  font-family: "Italianno", cursive;
+  font-size: 2rem;
+  font-weight: bold;
+  display: inline;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+.bio2-biographie__rovagnati .rov {
+  color: #009246; /* Italian flag green */
+}
+
+.bio2-biographie__rovagnati .agn {
+  color: #ffffff; /* Italian flag white */
+}
+
+.bio2-biographie__rovagnati .ati {
+  color: #ce2b37; /* Italian flag red */
+}
+
+// Pascal's special styling - Owner designation
+.bio2-biographie__pascal-text {
+  font-family: "Cinzel", serif;
+  font-size: 1.4em;
+  font-weight: 700;
+  color: #ffd700;
+  letter-spacing: 2px;
+  display: inline-block;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
 .bio2-biographie__quote {
   font-weight: bold;
   font-family: "Playfair Display", serif;
@@ -135,5 +169,19 @@
   .bio2-biographie__quote {
     font-size: 1.1rem;
     padding: 1rem;
+  }
+
+  .bio2-biographie__rovagnati {
+    font-size: 1.3em;
+  }
+
+  .bio2-biographie__pascal-text {
+    font-size: 1.2em;
+    letter-spacing: 1px;
+
+    &::after {
+      font-size: 0.4em;
+      top: -20px;
+    }
   }
 }

@@ -17,15 +17,21 @@ const Biographie2: React.FC = () => {
             avec une trancheuse professionnelle à jambon manuelle.
           </p>
           <div className="bio2-biographie__highlight">
-            Notre charcuterie <strong>Rovagnati</strong> située à Milan est
-            l'une des plus prestigieuses d'Italie depuis 1943 et tranchée à la
-            minute.
+            Notre charcuterie{" "}
+            <span className="bio2-biographie__rovagnati">
+              <span className="rov">Rov</span>
+              <span className="agn">agn</span>
+              <span className="ati">ati</span>
+            </span>{" "}
+            située à Milan est l'une des plus prestigieuses d'Italie depuis 1943
+            et tranchée à la minute.
           </div>
           <p className="bio2-biographie__text">
-            Notre pizzaïolo <strong>Pascal</strong>, passionné de pizza,
-            maîtrise toutes les techniques de préparation de pâtes faites maison
-            au levain naturel. De plus, nous utilisons uniquement des produits
-            bio provenant directement d'Italie.
+            Notre pizzaïolo{" "}
+            <span className="bio2-biographie__pascal-text">Pascal</span>,
+            passionné de pizza, maîtrise toutes les techniques de préparation de
+            pâtes faites maison au levain naturel. De plus, nous utilisons
+            uniquement des produits bio provenant directement d'Italie.
           </p>
           <blockquote className="bio2-biographie__quote">
             Nous utilisons les meilleurs produits bio d'Italie pour vous
