@@ -8,6 +8,9 @@ import ReviewWidget from "./components/Acceuil/ReviewWidget/reviewwidget";
 import VideoPlayer from "./components/Acceuil/VideoPlayer/videoplayer";
 import { Routes, Route } from "react-router-dom";
 import NosValeurs from "./pages/NosValeurs";
+import Carte from "./pages/Carte";
+import Recrutement from "./pages/Recrutement";
+import Contact from "./pages/Contact";
 
 function App() {
   return (
@@ -27,6 +30,9 @@ function App() {
           }
         />
         <Route path="/nos-valeurs" element={<NosValeurs />} />
+        <Route path="/carte" element={<Carte />} />
+        <Route path="/recrutement" element={<Recrutement />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="*" element={<h1>404 - Page Not Found</h1>} />
       </Routes>
       <Footer />

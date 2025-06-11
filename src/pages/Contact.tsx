@@ -1,6 +1,6 @@
 import React from "react";
 
-const NosValeurs: React.FC = () => {
+const Contact: React.FC = () => {
   const styles = {
     container: {
       minHeight: "100vh",
@@ -135,7 +135,7 @@ const NosValeurs: React.FC = () => {
 
             <div style={styles.description}>
               <p style={styles.subtitle}>
-                La page <strong>[NOS VALEURS]</strong> arrive bientôt !
+                La page <strong>[CONTACT]</strong> arrive bientôt !
               </p>
             </div>
 
@@ -169,4 +169,4 @@ const NosValeurs: React.FC = () => {
   );
 };
 
-export default NosValeurs;
+export default Contact;

@@ -16,6 +16,14 @@ const Navbar: React.FC = () => {
     setIsOpen(false);
   };
 
+  const navItems = [
+    { label: "Accueil", path: "/" },
+    { label: "Nos valeurs", path: "/nos-valeurs" },
+    { label: "Carte", path: "/carte" },
+    { label: "Recrutement", path: "/recrutement" },
+    { label: "Contact", path: "/contact" },
+  ];
+
   return (
     <nav className="navbar" aria-label="Navigation principale">
       <div className="navbar__container">
@@ -43,51 +51,23 @@ const Navbar: React.FC = () => {
           <ul
             className={`navbar__links ${isOpen ? "navbar__links--open" : ""}`}
           >
-            {["Accueil", "Nos valeurs", "Carte", "Recrutement", "Contact"].map(
-              (label, index) => (
-                <li className="navbar__item" key={index}>
-                  {label === "Nos valeurs" ? (
-                    <NavLink
-                      to="/nos-valeurs"
-                      className={({ isActive }) =>
-                        `navbar__link ${
-                          isActive || activeIndex === index
-                            ? "navbar__link--active"
-                            : ""
-                        }`
-                      }
-                      onClick={() => handleLinkClick(index)}
-                    >
-                      {label}
-                    </NavLink>
-                  ) : label === "Accueil" ? (
-                    <NavLink
-                      to="/"
-                      className={({ isActive }) =>
-                        `navbar__link ${
-                          isActive || activeIndex === index
-                            ? "navbar__link--active"
-                            : ""
-                        }`
-                      }
-                      onClick={() => handleLinkClick(index)}
-                    >
-                      {label}
-                    </NavLink>
-                  ) : (
-                    <a
-                      href={`#${label.toLowerCase().replace(/\s/g, "")}`}
-                      className={`navbar__link ${
-                        activeIndex === index ? "navbar__link--active" : ""
-                      }`}
-                      onClick={() => handleLinkClick(index)}
-                    >
-                      {label}
-                    </a>
-                  )}
-                </li>
-              )
-            )}
+            {navItems.map((item, index) => (
+              <li className="navbar__item" key={index}>
+                <NavLink
+                  to={item.path}
+                  className={({ isActive }) =>
+                    `navbar__link ${
+                      isActive || activeIndex === index
+                        ? "navbar__link--active"
+                        : ""
+                    }`
+                  }
+                  onClick={() => handleLinkClick(index)}
+                >
+                  {item.label}
+                </NavLink>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
