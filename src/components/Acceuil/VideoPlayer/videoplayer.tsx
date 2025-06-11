@@ -24,10 +24,11 @@ const VideoPlayer: React.FC = () => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [volume, setVolume] = useState<number>(1);
   const [isMuted, setIsMuted] = useState<boolean>(false); // Plus muted par défaut
-  const [currentTime, setCurrentTime] = useState<number>(0);
+  const [currentTime, setCurrentTime] = useState<number>(0.02); // Start at 0.02s
   const [duration, setDuration] = useState<number>(0);
   const [showPlaylist, setShowPlaylist] = useState<boolean>(false);
   const [showControls, setShowControls] = useState<boolean>(true);
+  const [isInitialized, setIsInitialized] = useState<boolean>(false); // Track if video is initialized
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const controlsTimeoutRef = useRef<number | null>(null);
@@ -110,6 +111,12 @@ const VideoPlayer: React.FC = () => {
   const handleLoadedMetadata = () => {
     if (videoRef.current) {
       setDuration(videoRef.current.duration);
+      // Set the video to start at 0.02 seconds when metadata is loaded
+      if (!isInitialized) {
+        videoRef.current.currentTime = 0.02;
+        setCurrentTime(0.02);
+        setIsInitialized(true);
+      }
     }
   };
 
@@ -132,7 +139,8 @@ const VideoPlayer: React.FC = () => {
   const changeVideo = (index: number) => {
     setCurrentVideo(index);
     setIsPlaying(false);
-    setCurrentTime(0);
+    setCurrentTime(0.02); // Reset to 0.02s when changing video
+    setIsInitialized(false); // Reset initialization flag
     if (videoRef.current) {
       videoRef.current.load();
     }
@@ -179,15 +187,25 @@ const VideoPlayer: React.FC = () => {
 
     const handlePlay = () => setIsPlaying(true);
     const handlePause = () => setIsPlaying(false);
+    const handleLoadedData = () => {
+      // Additional handler to ensure video starts at 0.02s
+      if (!isInitialized && video.readyState >= 2) {
+        video.currentTime = 0.02;
+        setCurrentTime(0.02);
+        setIsInitialized(true);
+      }
+    };
 
     video.addEventListener("play", handlePlay);
     video.addEventListener("pause", handlePause);
+    video.addEventListener("loadeddata", handleLoadedData);
 
     return () => {
       video.removeEventListener("play", handlePlay);
       video.removeEventListener("pause", handlePause);
+      video.removeEventListener("loadeddata", handleLoadedData);
     };
-  }, [currentVideo]);
+  }, [currentVideo, isInitialized]);
 
   useEffect(() => {
     return () => {
