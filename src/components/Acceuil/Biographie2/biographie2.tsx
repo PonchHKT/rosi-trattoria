@@ -11,10 +11,10 @@ const Biographie2: React.FC = () => {
           </h2>
           <p className="bio2-biographie__text">
             Notre restaurant propose de la pizza napolitaine traditionnelle et
-            authentique avec des produits de grande qualité. Nos pizzas sont
-            cuites dans un four en dôme importé de Gênes, et la charcuterie
-            finement découpée avec une trancheuse professionnelle à jambon
-            manuelle.
+            authentique avec des produits de grande qualité.
+            <br /> Nos pizzas sont cuites dans un four en dôme importé de Gênes,
+            et la charcuterie finement découpée avec une trancheuse
+            professionnelle à jambon manuelle.
           </p>
           <div className="bio2-biographie__highlight">
             Notre charcuterie{" "}
@@ -30,8 +30,9 @@ const Biographie2: React.FC = () => {
             Notre pizzaïolo{" "}
             <span className="bio2-biographie__pascal-text">Pascal</span>,
             passionné de pizza, maîtrise toutes les techniques de préparation de
-            pâtes faites maison au levain naturel. De plus, nous utilisons
-            uniquement des produits bio provenant directement d'Italie.
+            pâtes faites maison au levain naturel.
+            <br /> De plus, nous utilisons uniquement des produits bio provenant
+            directement d'Italie.
           </p>
           <blockquote className="bio2-biographie__quote">
             Nous utilisons les meilleurs produits bio d'Italie pour vous

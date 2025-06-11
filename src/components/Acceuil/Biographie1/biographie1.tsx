@@ -24,14 +24,35 @@ const Biographie1: React.FC = () => {
           </h2>
           <p className="biographie__text">
             Nous vous servons de délicieuses pizzas Napolitaines dans un cadre
-            élégant et chaleureux. La décoration Street Art procure un sentiment
-            de dépaysement total. Spacieux mais intime, le cadre est parfait
-            pour passer des moments de détente et de tranquillité.
+            élégant et chaleureux. <br />
+            La décoration Street Art procure un sentiment de dépaysement total.
+            Spacieux mais intime, le cadre est parfait pour passer des moments
+            de détente et de tranquillité.
           </p>
-          <div className="biographie__highlight">
-            Capacité d'accueil de <strong>50</strong> places, idéal pour
-            l'organisation de repas d'affaires ou privés.
+          <div className="biographie__capacity">
+            <h3 className="biographie__capacity-title">Capacité d'accueil</h3>
+            <div className="biographie__capacity-grid">
+              <div className="biographie__capacity-item">
+                <span className="biographie__capacity-icon indoor"></span>
+                <p>
+                  <strong>50 places</strong> à l'intérieur
+                </p>
+                <p className="biographie__capacity-desc">
+                  Idéal pour repas d'affaires ou privés dans un cadre intime.
+                </p>
+              </div>
+              <div className="biographie__capacity-item">
+                <span className="biographie__capacity-icon outdoor"></span>
+                <p>
+                  <strong>100 places</strong> en terrasse
+                </p>
+                <p className="biographie__capacity-desc">
+                  Profitez de l'extérieur quand le temps le permet.
+                </p>
+              </div>
+            </div>
           </div>
+
           <p className="biographie__text">
             Nous proposons des pizzas délicieuses aux saveurs originales. Vous
             pouvez les apprécier sur place ou les emporter.

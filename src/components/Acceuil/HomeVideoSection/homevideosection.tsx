@@ -71,7 +71,7 @@ const HomeVideoSection: React.FC = () => {
       <div className="content">
         <h1 className="slogan">
           Du bon, du bio, de la joie, <br />
-          c'est Rosie Trattoria !
+          c'est Rosi Trattoria !
         </h1>
         <div className="address-container">
           <svg
