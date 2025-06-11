@@ -18,6 +18,9 @@ const Biographie1: React.FC = () => {
       </div>
 
       <div className="biographie__content">
+        <div className="biographie__image">
+          <img src="/images/levain-naturel.png" alt="Levain naturel" />
+        </div>
         <section className="biographie__section">
           <h2 className="biographie__subtitle">
             Le plaisir de manger Italien dans un cadre atypique

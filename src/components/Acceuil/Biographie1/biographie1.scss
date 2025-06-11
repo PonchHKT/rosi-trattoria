@@ -57,6 +57,21 @@
   flex-direction: column;
   gap: 3rem;
   align-items: center;
+  position: relative; // Nécessaire pour l'image positionnée absolument
+  min-height: 100vh;
+}
+
+.biographie__image {
+  position: absolute;
+  top: -170px; // Ajustez selon la hauteur du hero
+  right: 100px; // Calé à droite avec marge
+  z-index: 0;
+
+  img {
+    max-width: 700px; // Taille réduite
+    height: auto;
+    border-radius: 8px;
+  }
 }
 
 .biographie__section {
@@ -299,5 +314,15 @@
   .biographie__quote {
     font-size: 1.1rem;
     padding: 1rem;
+  }
+
+  .biographie__image {
+    top: -130px; // Maintain vertical position
+    left: 50%; // Center horizontally
+    transform: translateX(-50%); // Offset by half the image width
+    right: auto; // Override the right positioning
+    img {
+      max-width: 350px; // Maintain size
+    }
   }
 }
