@@ -29,7 +29,7 @@ const Biographie1: React.FC = () => {
             pour passer des moments de détente et de tranquillité.
           </p>
           <div className="biographie__highlight">
-            Capacité d'accueil de <strong>50 places</strong>, idéal pour
+            Capacité d'accueil de <strong>50</strong> places, idéal pour
             l'organisation de repas d'affaires ou privés.
           </div>
           <p className="biographie__text">
