@@ -6,6 +6,7 @@
   font-family: "Open Sans", sans-serif;
   position: relative;
   overflow-x: hidden;
+  padding-top: 100px;
 }
 
 .bio2-biographie__content {
@@ -144,6 +145,9 @@
 
 /* Media Queries */
 @media (max-width: 768px) {
+  .bio2-biographie {
+    padding-top: 0px;
+  }
   .bio2-biographie__section {
     padding: 2rem;
     border-radius: 8px;
