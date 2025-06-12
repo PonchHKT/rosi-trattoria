@@ -8,10 +8,11 @@ const Recrutement: React.FC = () => {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      padding: "16px",
+      padding: "16px", // Base padding for all screens
     },
     textCenter: {
       textAlign: "center" as const,
+      width: "100%", // Ensure full width for centering
     },
     card: {
       backgroundColor: "white",
@@ -21,6 +22,7 @@ const Recrutement: React.FC = () => {
       maxWidth: "672px",
       margin: "0 auto",
       borderTop: "8px solid var(--primary-blue, #1976d2)",
+      boxSizing: "border-box" as const, // Ensure padding doesn’t affect width
     },
     iconContainer: {
       display: "inline-block",
@@ -83,7 +85,7 @@ const Recrutement: React.FC = () => {
       backgroundColor: "var(--primary-pink, #e91e63)",
     },
     footer: {
-      marginTop: "32px",
+      backgroundColor: "white",
       fontSize: "14px",
       color: "#9ca3af",
     },
@@ -107,15 +109,72 @@ const Recrutement: React.FC = () => {
               transform: translate3d(0,-4px,0);
             }
           }
+
+          /* Mobile styles for screens smaller than 768px */
+          @media (max-width: 768px) {
+            .container {
+              padding: 16px !important; /* Ensure padding on mobile */
+            }
+            .card {
+              padding: 24px !important; /* Reduce padding for mobile */
+              max-width: 90% !important; /* Prevent card from touching edges */
+              margin: 0 16px !important; /* Add horizontal margin */
+            }
+            .mainTitle, .accentTitle {
+              font-size: 32px !important; /* Smaller title font */
+            }
+            .icon {
+              width: 48px !important; /* Smaller icon */
+              height: 48px !important;
+            }
+            .iconContainer {
+              padding: 12px !important; /* Adjust icon container */
+            }
+            .subtitle {
+              font-size: 18px !important; /* Smaller subtitle */
+            }
+            .footer {
+              font-size: 12px !important; /* Smaller footer text */
+            }
+          }
+
+          /* Extra small screens (below 480px) */
+          @media (max-width: 480px) {
+            .card {
+              padding: 16px !important; /* Further reduce padding */
+              max-width: 95% !important; /* Slightly more width */
+            }
+            .mainTitle, .accentTitle {
+              font-size: 28px !important; /* Even smaller titles */
+            }
+            .icon {
+              width: 40px !important; /* Smaller icon */
+              height: 40px !important;
+            }
+            .iconContainer {
+              padding: 10px !important;
+            }
+            .subtitle {
+              font-size: 16px !important;
+            }
+            .dotsContainer {
+              margin-top: 24px !important; /* Adjust dots spacing */
+            }
+            .dot {
+              width: 10px !important; /* Smaller dots */
+              height: 10px !important;
+            }
+          }
         `}
       </style>
-      <div style={styles.container}>
+      <div style={styles.container} className="container">
         <div style={styles.textCenter}>
-          <div style={styles.card}>
+          <div style={styles.card} className="card">
             <div style={{ marginBottom: "32px" }}>
-              <div style={styles.iconContainer}>
+              <div style={styles.iconContainer} className="iconContainer">
                 <svg
                   style={styles.icon}
+                  className="icon"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -129,25 +188,33 @@ const Recrutement: React.FC = () => {
                   ></path>
                 </svg>
               </div>
-              <h1 style={styles.mainTitle}>EN COURS DE</h1>
-              <h1 style={styles.accentTitle}>DÉVELOPPEMENT</h1>
+              <h1 style={styles.mainTitle} className="mainTitle">
+                EN COURS DE
+              </h1>
+              <h1 style={styles.accentTitle} className="accentTitle">
+                DÉVELOPPEMENT
+              </h1>
             </div>
 
-            <div style={styles.description}>
-              <p style={styles.subtitle}>
+            <div style={styles.description} className="description">
+              <p style={styles.subtitle} className="subtitle">
                 La page <strong>[RECRUTEMENT]</strong> arrive bientôt !
               </p>
             </div>
 
-            <div style={styles.dotsContainer}>
+            <div style={styles.dotsContainer} className="dotsContainer">
               <div style={styles.dotsInner}>
-                <div style={{ ...styles.dot, ...styles.dotBlue }}></div>
+                <div
+                  style={{ ...styles.dot, ...styles.dotBlue }}
+                  className="dot"
+                ></div>
                 <div
                   style={{
                     ...styles.dot,
                     ...styles.dotPink,
                     animationDelay: "0.1s",
                   }}
+                  className="dot"
                 ></div>
                 <div
                   style={{
@@ -155,11 +222,12 @@ const Recrutement: React.FC = () => {
                     ...styles.dotBlue,
                     animationDelay: "0.2s",
                   }}
+                  className="dot"
                 ></div>
               </div>
             </div>
 
-            <div style={styles.footer}>
+            <div style={styles.footer} className="footer">
               <p>Merci pour votre patience !</p>
             </div>
           </div>

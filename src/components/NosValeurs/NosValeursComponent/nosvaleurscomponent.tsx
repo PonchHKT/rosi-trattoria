@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { ChefHat, Trophy, Home, Wheat, Leaf, Sparkles } from "lucide-react";
+import { Trophy, Home, Wheat, Leaf, Sparkles } from "lucide-react";
 import "./nosvaleurscomponent.scss";
 
 // Types
@@ -86,13 +86,6 @@ const NosValeursComponent: React.FC = () => {
       <div className="nos-valeurs__content">
         {/* Hero Section avec mise en avant de Pascal */}
         <article className="nos-valeurs__hero" role="banner">
-          <div className="nos-valeurs__hero-badge">
-            <ChefHat size={20} className="nos-valeurs__hero-icon" />
-            <span className="nos-valeurs__hero-badge-text">
-              MAÎTRE PIZZAÏOLO
-            </span>
-          </div>
-
           <h2>BESOIN D'UNE JOLIE PHOTO DE PASCAL</h2>
 
           <div className="nos-valeurs__formation-highlight">
