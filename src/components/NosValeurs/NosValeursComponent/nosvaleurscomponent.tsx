@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { ChefHat, Trophy, Home, Wheat, Leaf, Sparkles } from "lucide-react";
-import "./NosValeursComponent.scss";
+import "./nosvaleursComponent.scss";
 
 // Types
 interface SectionData {
