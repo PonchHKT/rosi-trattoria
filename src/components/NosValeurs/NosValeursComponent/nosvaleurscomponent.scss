@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Pacifico&display=swap");
 
 // Variables
 :root {
@@ -18,8 +19,8 @@
   --font-primary: "Inter", sans-serif;
   --font-accent: "Playfair Display", serif;
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --primary-pink: #ff6f61; /* Ajouté pour cohérence */
-  --primary-blue: #61dafb; /* Ajouté pour cohérence */
+  --primary-pink: #ff6f61;
+  --primary-blue: #61dafb;
 }
 
 .nos-valeurs {
@@ -109,33 +110,33 @@
   }
 
   &__intro-text {
-    max-width: 700px; /* Réduit pour une lecture plus confortable */
-    margin: var(--spacing-lg) auto 0; /* Marge supérieure augmentée */
+    max-width: 700px;
+    margin: var(--spacing-lg) auto 0;
     text-align: center;
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-md); /* Espacement entre les paragraphes */
+    gap: var(--spacing-md);
   }
 
   &__intro-highlight {
-    font-family: var(--font-accent); /* Playfair Display pour élégance */
-    font-size: 1.25rem; /* Légèrement plus grand */
+    font-family: var(--font-accent);
+    font-size: 1.25rem;
     font-weight: 700;
-    line-height: 1.6; /* Hauteur de ligne pour aérer */
-    letter-spacing: 1.2px; /* Espacement des lettres pour impact */
+    line-height: 1.6;
+    letter-spacing: 1.2px;
     transition: var(--transition);
 
     &:hover {
-      text-shadow: 0 0 10px rgba(255, 111, 97, 0.5); /* Animation subtile au survol */
+      text-shadow: 0 0 10px rgba(255, 111, 97, 0.5);
     }
   }
 
   &__intro-body {
-    font-family: var(--font-primary); /* Inter pour lisibilité */
-    font-size: 1.1rem; /* Taille légèrement réduite */
-    font-weight: 300; /* Poids léger pour contraste */
+    font-family: var(--font-primary);
+    font-size: 1.1rem;
+    font-weight: 300;
     color: var(--text-gray);
-    line-height: 1.8; /* Hauteur de ligne pour fluidité */
+    line-height: 1.8;
   }
 
   &__main-block {
@@ -266,7 +267,6 @@
   }
 
   &__features-title {
-    font-family: var(--font-accent);
     font-size: 3rem;
     color: var(--primary-blue);
     text-align: center;
@@ -323,11 +323,11 @@
   }
 
   &__feature-title {
-    font-family: var(--font-primary);
+    font-family: "Pacifico", cursive;
     font-size: 1.5rem;
     color: var(--primary-pink);
     margin-bottom: var(--spacing-sm);
-    font-weight: 600;
+    font-weight: 400;
   }
 
   &__feature-text {
