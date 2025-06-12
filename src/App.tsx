@@ -6,13 +6,21 @@ import HomeSectionVideo from "./components/Acceuil/HomeVideoSection/homevideosec
 import Navbar from "./components/Acceuil/Navbar/navbar";
 import ReviewWidget from "./components/Acceuil/ReviewWidget/reviewwidget";
 import VideoPlayer from "./components/Acceuil/VideoPlayer/videoplayer";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import NosValeurs from "./pages/NosValeurs";
 import Carte from "./pages/Carte";
 import Recrutement from "./pages/Recrutement";
 import Contact from "./pages/Contact";
+import { useEffect } from "react";
 
 function App() {
+  const location = useLocation();
+
+  // Scroll to top on route change
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]); // Trigger effect when pathname changes
+
   return (
     <div className="App">
       <Navbar />
