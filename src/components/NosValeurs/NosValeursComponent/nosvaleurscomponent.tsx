@@ -109,11 +109,11 @@ const NosValeursComponent: React.FC = () => {
               GASTRONOMIQUE.
             </p>
             <p className="nos-valeurs__intro-body">
-              Chez nous, c'est pâte au levain naturel maison pour une meilleure
-              digestion. Je favorise au maximum les petits producteurs locaux et
-              utilise majoritairement des produits issus de l'agriculture
-              biologique dans la confection de nos pizzas et tout cela pour
-              votre plus grand plaisir.
+              <strong>"</strong>Chez nous, c'est pâte au levain naturel maison
+              pour une meilleure digestion. Je favorise au maximum les petits
+              producteurs locaux et utilise majoritairement des produits issus
+              de l'agriculture biologique dans la confection de nos pizzas et
+              tout cela pour votre plus grand plaisir.<strong>"</strong>
             </p>
           </div>
         </article>
