@@ -14,7 +14,7 @@ const SwiperGallery: React.FC = () => {
     <Swiper
       initialSlide={initialSlide}
       modules={[Autoplay, Navigation, EffectFade]}
-      autoplay={{ delay: 3001, disableOnInteraction: false }}
+      autoplay={{ delay: 3000, disableOnInteraction: false }}
       navigation
       effect="fade"
       fadeEffect={{ crossFade: true }}
