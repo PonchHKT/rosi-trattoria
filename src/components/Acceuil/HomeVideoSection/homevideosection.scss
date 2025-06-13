@@ -214,7 +214,7 @@
     }
 
     .content {
-      margin-top: 0;
+      margin-top: -50px; // Remonté de 50px
       margin-left: 2rem;
       margin-right: 2rem;
       max-width: none;
@@ -270,6 +270,7 @@
     .content {
       margin-left: 0.5rem;
       margin-right: 1.5rem;
+      margin-top: -80px; // Encore plus remonté sur très petits écrans
 
       .slogan {
         font-size: 2rem;
