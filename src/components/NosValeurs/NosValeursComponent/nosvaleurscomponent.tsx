@@ -1,6 +1,7 @@
 import React, { memo } from "react";
 import { Trophy, Home, Wheat, Leaf, Sparkles } from "lucide-react";
 import "./nosvaleurscomponent.scss";
+import Swipergallery from "../../Acceuil/SwiperGallery/swipergallery";
 
 // Types
 interface SectionData {
@@ -144,9 +145,6 @@ const NosValeursComponent: React.FC = () => {
             <div className="nos-valeurs__formation-badge">
               <Trophy size={32} className="nos-valeurs__formation-icon" />
               <div className="nos-valeurs__formation-text">
-                <span className="nos-valeurs__formation-title">
-                  Formation d'Excellence
-                </span>
                 <span className="nos-valeurs__formation-subtitle">
                   Formé par John Bergh - Double Champion du Monde
                 </span>
@@ -196,6 +194,7 @@ const NosValeursComponent: React.FC = () => {
               </article>
             ))}
           </div>
+          <Swipergallery />
         </div>
       </div>
     </section>

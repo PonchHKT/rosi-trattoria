@@ -164,11 +164,6 @@
     overflow: hidden;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     margin-top: var(--spacing-xl); // Padding au-dessus de l'image de Pascal
-
-    &:hover {
-      transform: scale(1.02);
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
-    }
   }
 
   &__pascal-image {

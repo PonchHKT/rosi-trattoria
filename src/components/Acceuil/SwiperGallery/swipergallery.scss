@@ -1,3 +1,10 @@
+// Variables pour une meilleure maintenance
+$border-radius-desktop: 8px;
+$border-radius-mobile: 4px;
+$transition-speed: 0.3s;
+$overlay-opacity-desktop: 0.1;
+$overlay-opacity-mobile: 0.05;
+
 .gallery-container {
   width: 100%;
   display: flex;
@@ -6,7 +13,9 @@
   padding: 50px 0;
   background-color: var(--bg-primary);
 
-  // Optimisations mobiles
+  // Utilise contain pour limiter les repaints
+  contain: layout style;
+
   @media (max-width: 640px) {
     padding: 20px 0;
   }
@@ -18,7 +27,9 @@
   max-width: 1520px;
   margin: 0 20px;
 
-  // Réduction des marges sur mobile
+  // Améliore les performances avec will-change
+  will-change: transform;
+
   @media (max-width: 640px) {
     margin: 0 10px;
   }
@@ -29,27 +40,37 @@
   height: 500px;
   background-color: #000;
   position: relative;
-  border-radius: 8px;
+  border-radius: $border-radius-desktop;
   overflow: visible;
   padding: 50px 0;
   display: flex;
   align-items: center;
 
-  // Ajustements mobiles pour la hauteur
+  // Optimisations critiques pour les performances
+  contain: layout style paint;
+  transform: translateZ(0); // Force l'accélération GPU
+  backface-visibility: hidden;
+
   @media (max-width: 640px) {
-    height: 300px; // Hauteur réduite sur mobile
+    height: 300px;
     padding: 20px 0;
-    border-radius: 4px;
+    border-radius: $border-radius-mobile;
+
+    // Désactive certaines optimisations coûteuses sur mobile
+    will-change: auto;
   }
 
   @media (min-width: 641px) and (max-width: 768px) {
-    height: 400px; // Hauteur intermédiaire sur tablette
+    height: 400px;
     padding: 30px 0;
   }
 
   .swiper-wrapper {
     display: flex;
     align-items: center;
+
+    // Optimisation pour les transitions fluides
+    transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   .swiper-slide {
@@ -58,28 +79,35 @@
     align-items: center;
     overflow: hidden;
     position: relative;
-    border-radius: 8px;
+    border-radius: $border-radius-desktop;
     background-color: #000;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    transition: transform $transition-speed ease, opacity $transition-speed ease;
     height: 100% !important;
 
-    // Optimisations mobiles
+    // Optimisations GPU
+    transform: translateZ(0);
+    backface-visibility: hidden;
+
     @media (max-width: 640px) {
-      border-radius: 4px;
-      // Pas de transformation sur mobile pour éviter les problèmes de performance
+      border-radius: $border-radius-mobile;
+
+      // Simplifie les transitions sur mobile pour de meilleures performances
       transform: none !important;
-
-      // Style par défaut pour les slides non-actives (légèrement assombries)
       opacity: 0.7;
-      transition: opacity 0.3s ease;
-    }
+      transition: opacity $transition-speed ease;
 
-    // Slide active sur mobile
-    @media (max-width: 640px) {
+      // Optimise le compositing
+      will-change: opacity;
+
       &.swiper-slide-active {
         opacity: 1;
         z-index: 2;
       }
+    }
+
+    // Optimisation pour les écrans desktop
+    @media (min-width: 641px) {
+      will-change: transform, opacity;
     }
   }
 
@@ -89,14 +117,21 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, $overlay-opacity-desktop);
     z-index: 1;
-    border-radius: 8px;
-    transition: background 0.3s ease;
+    border-radius: $border-radius-desktop;
+    transition: background $transition-speed ease;
+
+    // Optimise le compositing
+    will-change: background-color;
+    transform: translateZ(0);
 
     @media (max-width: 640px) {
-      border-radius: 4px;
-      background: rgba(0, 0, 0, 0.05); // Overlay plus léger sur mobile
+      border-radius: $border-radius-mobile;
+      background: rgba(0, 0, 0, $overlay-opacity-mobile);
+
+      // Désactive will-change sur mobile
+      will-change: auto;
     }
   }
 
@@ -106,18 +141,45 @@
     object-fit: cover;
     object-position: center;
     z-index: 0;
-    border-radius: 8px;
+    border-radius: $border-radius-desktop;
     display: block;
+    cursor: pointer;
 
-    // Optimisations critiques pour mobile
+    // Optimisations critiques pour les images
+    transform: translateZ(0);
+    backface-visibility: hidden;
+
+    // Améliore le rendu des images
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+
+    // Effet hover pour indiquer l'interactivité
+    transition: transform $transition-speed ease, opacity $transition-speed ease;
+
+    @media (hover: hover) {
+      &:hover {
+        transform: translateZ(0) scale(1.02);
+      }
+    }
+
     @media (max-width: 640px) {
-      border-radius: 4px;
-      // Force l'accélération matérielle
-      transform: translateZ(0);
-      backface-visibility: hidden;
-      // Améliore le rendu des images
+      border-radius: $border-radius-mobile;
+
+      // Optimisations spécifiques mobile
       image-rendering: -webkit-optimize-contrast;
-      image-rendering: crisp-edges;
+
+      // Force l'accélération matérielle pour les images
+      transform: translate3d(0, 0, 0);
+
+      // Effet tactile sur mobile
+      &:active {
+        transform: translate3d(0, 0, 0) scale(0.98);
+      }
+    }
+
+    // Optimisation pour les écrans haute densité
+    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+      image-rendering: -webkit-optimize-contrast;
     }
   }
 
@@ -131,7 +193,7 @@
     }
   }
 
-  // Désactive les ombres sur mobile pour améliorer les performances
+  // Désactive complètement les ombres sur mobile pour les performances
   @media (max-width: 640px) {
     .swiper-slide-shadow,
     .swiper-slide-shadow-left,
@@ -141,27 +203,42 @@
   }
 }
 
-// Optimisations pour le touch sur mobile
+// Optimisations spécifiques pour les appareils tactiles
 @media (hover: none) and (pointer: coarse) {
   .my-swiper {
     .swiper-slide {
       // Améliore la réactivité tactile
       touch-action: pan-x;
+
+      // Optimise les performances tactiles
+      -webkit-tap-highlight-color: transparent;
     }
   }
 }
 
-// Optimisations pour les écrans haute densité
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-  .swiper-image {
-    // Améliore le rendu sur écrans Retina
-    image-rendering: -webkit-optimize-contrast;
-    transform: translateZ(0);
+// Améliore les performances d'animation sur les appareils avec motion réduite
+@media (prefers-reduced-motion: reduce) {
+  .my-swiper {
+    .swiper-slide {
+      transition: none;
+    }
+
+    .swiper-slide-overlay {
+      transition: none;
+    }
   }
 }
 
-/* Keyframes pour les bordures animées - désactivées sur mobile */
-@media (min-width: 641px) {
+// Optimisations pour les connexions lentes
+@media (prefers-reduced-data: reduce) {
+  .swiper-image {
+    // Réduit la qualité pour économiser la bande passante
+    image-rendering: pixelated;
+  }
+}
+
+/* Keyframes optimisées - uniquement sur desktop */
+@media (min-width: 641px) and (prefers-reduced-motion: no-preference) {
   @keyframes rect1 {
     0% {
       right: 0;
