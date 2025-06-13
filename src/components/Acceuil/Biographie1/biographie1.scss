@@ -10,7 +10,7 @@
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
-  background: #000000; /* Full black background */
+  background: #000000;
 }
 
 .biographie__hero {
@@ -52,34 +52,34 @@
 
 .biographie__content {
   margin: 0 auto;
-  padding: 3rem 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 3rem;
   align-items: center;
-  position: relative; // Nécessaire pour l'image positionnée absolument
-  min-height: 100vh;
+  position: relative;
+  padding-bottom: 0;
 }
 
 .biographie__image {
   position: absolute;
-  top: -170px; // Ajustez selon la hauteur du hero
-  right: 100px; // Calé à droite avec marge
+  top: -170px;
+  right: 100px;
   z-index: 0;
 
   img {
-    max-width: 700px; // Taille réduite
+    max-width: 700px;
     height: auto;
     border-radius: 8px;
   }
 }
 
 .biographie__section {
-  padding: 2.5rem;
+  padding: 2rem;
   max-width: 90vw;
   width: 100%;
   transition: padding 0.3s ease, border-radius 0.3s ease;
   box-sizing: border-box;
+  padding-bottom: 0;
 }
 
 .biographie__subtitle {
@@ -182,11 +182,11 @@
 }
 
 .biographie__capacity-icon.indoor {
-  background: url("/path/to/indoor-icon.png") no-repeat center; /* Replace with actual icon */
+  background: url("/path/to/indoor-icon.png") no-repeat center;
 }
 
 .biographie__capacity-icon.outdoor {
-  background: url("/path/to/outdoor-icon.png") no-repeat center; /* Replace with actual icon */
+  background: url("/path/to/outdoor-icon.png") no-repeat center;
 }
 
 .biographie__capacity-item p {
@@ -212,7 +212,7 @@
   font-style: italic;
   font-size: 1.2rem;
   text-align: center;
-  margin: 2rem 0;
+  margin: 2rem 0 0 0;
   padding: 1.5rem;
   color: #d4d4d4;
   position: relative;
@@ -272,6 +272,7 @@
     padding: 2rem;
     border-radius: 8px;
     border-left: 4px solid var(--primary-blue);
+    padding-bottom: 0;
   }
 
   .biographie__subtitle {
@@ -314,15 +315,16 @@
   .biographie__quote {
     font-size: 1.1rem;
     padding: 1rem;
+    margin: 2rem 0 0 0;
   }
 
   .biographie__image {
-    top: -130px; // Maintain vertical position
-    left: 50%; // Center horizontally
-    transform: translateX(-50%); // Offset by half the image width
-    right: auto; // Override the right positioning
+    top: -130px;
+    left: 50%;
+    transform: translateX(-50%);
+    right: auto;
     img {
-      max-width: 350px; // Maintain size
+      max-width: 350px;
     }
   }
 }
