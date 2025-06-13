@@ -1,8 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import ComingSoonModal from "../ComingSoonModal/ComingSoonModal";
 import "./homevideosection.scss";
 
 const HomeVideoSection: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -13,7 +15,6 @@ const HomeVideoSection: React.FC = () => {
         await video.play();
       } catch (error) {
         console.error("Autoplay failed:", error);
-        // Fallback: Attempt to play on user interaction
         const handleUserInteraction = () => {
           video
             .play()
@@ -38,6 +39,11 @@ const HomeVideoSection: React.FC = () => {
       video.removeEventListener("canplay", tryPlay);
     };
   }, []);
+
+  const handleDistributorClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsModalOpen(true);
+  };
 
   return (
     <section className="home-video-section">
@@ -97,6 +103,23 @@ const HomeVideoSection: React.FC = () => {
           >
             <button className="primary-button">Réserver</button>
           </a>
+          <button
+            className="distributor-button"
+            onClick={handleDistributorClick}
+          >
+            <svg
+              className="distributor-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4ZM20 18H4V6H20V18ZM6 8H8V10H6V8ZM6 12H8V14H6V12ZM6 16H8V18H6V16ZM10 8H14V10H10V8ZM10 12H14V14H10V12ZM10 16H14V18H10V16ZM16 8H18V10H16V8ZM16 12H18V14H16V12Z"
+                fill="currentColor"
+              />
+            </svg>
+            Distributeur
+          </button>
           <button className="secondary-button">Voir la carte</button>
           <a
             href="https://carte.rosi-trattoria.com/menu"
@@ -107,6 +130,11 @@ const HomeVideoSection: React.FC = () => {
           </a>
         </div>
       </div>
+
+      <ComingSoonModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </section>
   );
 };

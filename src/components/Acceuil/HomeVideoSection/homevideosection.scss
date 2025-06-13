@@ -19,16 +19,11 @@
     object-fit: cover;
     filter: brightness(50%) contrast(1.1);
     z-index: 1;
-
-    // iOS specific optimizations
     -webkit-transform: translateZ(0);
     transform: translateZ(0);
-
-    // Fallback background in case video doesn't load
     background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
   }
 
-  // Fallback for when video fails to load on iOS
   &::before {
     content: "";
     position: absolute;
@@ -41,7 +36,6 @@
     z-index: 0;
   }
 
-  // Logo en haut à droite
   .logo-container {
     position: absolute;
     top: 6rem;
@@ -56,7 +50,6 @@
     }
   }
 
-  // Contenu principal centré verticalement
   .content {
     margin-top: 100px;
     padding-left: 30px;
@@ -114,7 +107,8 @@
 
       .primary-button,
       .secondary-button,
-      .white-button {
+      .white-button,
+      .distributor-button {
         font-family: "Inter", sans-serif;
         font-size: 1rem;
         font-weight: 500;
@@ -126,6 +120,9 @@
         letter-spacing: 0.02em;
         position: relative;
         overflow: hidden;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
 
         &:hover {
           transform: translateY(-1px);
@@ -138,7 +135,6 @@
 
       .primary-button {
         background: #ffd506;
-        border-radius: 8px;
         color: black;
 
         &:hover {
@@ -148,7 +144,6 @@
       }
 
       .secondary-button {
-        border-radius: 8px;
         background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
         color: white;
         border: 1.5px solid transparent;
@@ -174,7 +169,6 @@
           transform: scale(1.05);
         }
 
-        // Pulse animation for attention
         @keyframes pulse {
           0% {
             box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
@@ -187,13 +181,31 @@
           }
         }
       }
+
+      .distributor-button {
+        background: #fb5252;
+        color: white;
+        border: 1.5px solid transparent;
+        box-shadow: 0 4px 16px rgba(255, 153, 153, 0.25);
+
+        .distributor-icon {
+          width: 1.2rem;
+          height: 1.2rem;
+          color: white;
+          flex-shrink: 0;
+        }
+
+        &:hover {
+          background: #ff8080;
+          box-shadow: 0 6px 20px rgba(255, 153, 153, 0.35);
+        }
+      }
     }
   }
 
-  // Responsive design
   @media (max-width: 768px) {
     .logo-container {
-      top: 6rem; /* Updated to move logo up */
+      top: 6rem;
       right: 1.5rem;
 
       .logo {
@@ -235,12 +247,20 @@
           border-radius: 30px;
         }
         .primary-button,
-        .secondary-button {
+        .secondary-button,
+        .distributor-button {
           width: 100%;
           border-radius: 10px;
           max-width: 200px;
           padding: 0.75rem 1.5rem;
           font-size: 0.95rem;
+        }
+
+        .distributor-button {
+          .distributor-icon {
+            width: 1.1rem;
+            height: 1.1rem;
+          }
         }
       }
     }
@@ -270,7 +290,7 @@
     }
 
     .logo-container {
-      top: 5rem; /* Updated to move logo up */
+      top: 5rem;
       right: 1rem;
 
       .logo {
