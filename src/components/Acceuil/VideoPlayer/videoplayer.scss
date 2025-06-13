@@ -60,7 +60,6 @@ body {
   align-items: center;
   justify-content: center;
   background: var(--bg-dark);
-  padding: 0; // Removed padding to avoid extra space
   width: 100%;
   max-width: 100vw; // Ensure full viewport width
   overflow-x: hidden;
@@ -77,6 +76,7 @@ body {
 
 // Main component
 .video-player {
+  padding-top: 100px;
   width: 100%;
   max-width: 100%; // Prevent exceeding viewport
   margin: 0; // Remove auto margins
@@ -509,6 +509,7 @@ body {
     width: 100%;
     max-width: 100vw;
     margin: 0;
+    padding-top: 50px;
 
     // iOS-specific fix
     @supports (-webkit-touch-callout: none) {
@@ -621,6 +622,7 @@ body {
     width: 100%;
     max-width: 100vw;
     margin: 0;
+    padding-top: 50px;
 
     // iOS-specific fix
     @supports (-webkit-touch-callout: none) {

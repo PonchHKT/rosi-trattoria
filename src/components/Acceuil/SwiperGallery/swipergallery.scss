@@ -1,12 +1,62 @@
-.my-swiper {
+.gallery-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 0;
+  background-color: var(--bg-primary);
+}
+
+.gallery-wrapper {
+  position: relative;
   width: 100%;
   max-width: 1520px;
+  margin: 0 20px;
+
+  .animatedBorder1,
+  .animatedBorder2,
+  .animatedBorder3,
+  .animatedBorder4 {
+    position: absolute;
+    z-index: 10;
+  }
+
+  .animatedBorder1 {
+    animation: rect1 10s infinite;
+    top: 0;
+    height: 8px;
+    background-color: var(--primary-blue); /* Changed to primary-blue */
+  }
+
+  .animatedBorder2 {
+    animation: rect2 10s infinite;
+    left: 0;
+    width: 8px;
+    background-color: var(--primary-pink); /* Changed to primary-pink */
+  }
+
+  .animatedBorder3 {
+    animation: rect3 10s infinite;
+    bottom: 0;
+    height: 8px;
+    background-color: var(--primary-blue); /* Changed to primary-blue */
+  }
+
+  .animatedBorder4 {
+    animation: rect4 10s infinite;
+    right: 0;
+    width: 8px;
+    background-color: var(--primary-pink); /* Changed to primary-pink */
+  }
+}
+
+.my-swiper {
+  width: 100%;
   height: 500px;
   background-color: #000;
-  margin: 0 auto;
   position: relative;
-  border-radius: 60px;
-  margin-bottom: 100px;
+  border-radius: 8px;
+  overflow: hidden;
 
   .swiper-slide {
     display: flex;
@@ -22,7 +72,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.1); /* Reduced opacity to brighten images */
+    background: rgba(0, 0, 0, 0.1);
     z-index: 1;
   }
 
@@ -43,39 +93,128 @@
     height: 36px;
     opacity: 0.6;
     transition: opacity 0.3s ease, background-color 0.3s ease;
+    z-index: 2;
+
     &:hover {
       opacity: 1;
       background-color: rgba(0, 0, 0, 0.9);
     }
+
     &:after {
       font-size: 18px;
     }
   }
+}
 
-  @media (max-width: 768px) {
-    border-radius: 0;
-    height: 250px;
+/* Keyframe animations remain unchanged */
+@keyframes rect1 {
+  0% {
+    right: 0;
+    width: 0;
+  }
+  25% {
+    right: 0;
+    width: 40%;
+  }
+  50% {
+    right: 60%;
+    width: 40%;
+  }
+  75% {
+    right: 100%;
+    width: 0;
+  }
+}
 
-    .swiper-button-prev,
-    .swiper-button-next {
-      width: 28px;
-      height: 28px;
-      &:after {
-        font-size: 14px;
-      }
-    }
+@keyframes rect2 {
+  0% {
+    top: 60%;
+    height: 40%;
+  }
+  25% {
+    top: 100%;
+    height: 0%;
+  }
+  50% {
+    top: 0;
+    height: 0%;
+  }
+  75% {
+    top: 0;
+    height: 40%;
+  }
+  100% {
+    top: 60%;
+    height: 40%;
+  }
+}
+
+@keyframes rect3 {
+  0% {
+    left: 0;
+    width: 0;
+  }
+  25% {
+    left: 0;
+    width: 40%;
+  }
+  50% {
+    left: 60%;
+    width: 40%;
+  }
+  75% {
+    left: 100%;
+    width: 0;
+  }
+}
+
+@keyframes rect4 {
+  0% {
+    bottom: 60%;
+    height: 40%;
+  }
+  25% {
+    bottom: 100%;
+    height: 0%;
+  }
+  50% {
+    bottom: 0;
+    height: 0%;
+  }
+  75% {
+    bottom: 0;
+    height: 40%;
+  }
+  100% {
+    bottom: 60%;
+    height: 40%;
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .gallery-wrapper {
+    width: 90vw; /* Set width to 90vw */
+    margin: 0 auto; /* Center the gallery */
   }
 
-  @media (max-width: 480px) {
-    height: 200px;
+  .my-swiper {
+    height: 300px;
 
     .swiper-button-prev,
     .swiper-button-next {
-      width: 24px;
-      height: 24px;
-      &:after {
-        font-size: 12px;
-      }
+      display: none; /* Hide navigation buttons on mobile */
     }
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery-wrapper {
+    width: 90vw; /* Maintain 90vw width */
+    margin: 0 auto; /* Center the gallery */
+  }
+
+  .my-swiper {
+    height: 250px;
   }
 }
