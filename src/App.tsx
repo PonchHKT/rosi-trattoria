@@ -12,7 +12,7 @@ import Carte from "./pages/Carte";
 import Recrutement from "./pages/Recrutement";
 import Contact from "./pages/Contact";
 import { useEffect } from "react";
-import MySwiper from "./components/MySwiper/MySwiper";
+import MySwiper from "./components/MySwiper/myswiper";
 
 function App() {
   const location = useLocation();
