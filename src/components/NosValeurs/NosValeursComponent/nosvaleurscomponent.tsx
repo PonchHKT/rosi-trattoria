@@ -86,14 +86,30 @@ const NosValeursComponent: React.FC = () => {
       <div className="nos-valeurs__content">
         {/* Hero Section avec mise en avant de Pascal */}
         <article className="nos-valeurs__hero" role="banner">
-          <h2>BESOIN D'UNE JOLIE PHOTO DE PASCAL</h2>
+          <div className="nos-valeurs__pascal-showcase">
+            <div className="nos-valeurs__pascal-image-container">
+              <img
+                src="/images/pascal.jpg"
+                alt="Pascal Bellemain, notre pizzaïolo expert formé par John Bergh"
+                className="nos-valeurs__pascal-image"
+                loading="eager"
+              />
+              <div className="nos-valeurs__image-overlay"></div>
+            </div>
+            <div className="nos-valeurs__pascal-name-container">
+              <div className="nos-valeurs__pascal-title">
+                <span>Maître Pizzaïolo</span>
+              </div>
+              <h3 className="nos-valeurs__pascal-name">Pascal Bellemain</h3>
+            </div>
+          </div>
 
           <div className="nos-valeurs__formation-highlight">
             <div className="nos-valeurs__formation-badge">
               <Trophy size={32} className="nos-valeurs__formation-icon" />
               <div className="nos-valeurs__formation-text">
                 <span className="nos-valeurs__formation-title">
-                  Formation d'Exception
+                  Formation d'Excellence
                 </span>
                 <span className="nos-valeurs__formation-subtitle">
                   Formé par John Bergh - Double Champion du Monde
@@ -118,39 +134,11 @@ const NosValeursComponent: React.FC = () => {
           </div>
         </article>
 
-        {/* Main Sections */}
-        <div className="nos-valeurs__main-block" role="main">
-          <h2 className="nos-valeurs__main-title">Nos Engagements Qualité</h2>
-          <div className="nos-valeurs__sections-flex">
-            {sectionsData.map((section, index) => (
-              <article
-                key={index}
-                className={`nos-valeurs__section ${
-                  section.highlight ? "nos-valeurs__section--highlight" : ""
-                }`}
-              >
-                <h3 className="nos-valeurs__section-title">{section.title}</h3>
-                <p className="nos-valeurs__section-text">{section.text}</p>
-                {section.note && (
-                  <p className="nos-valeurs__section-note">{section.note}</p>
-                )}
-              </article>
-            ))}
-          </div>
-        </div>
-
-        {/* Quote */}
-        <blockquote className="nos-valeurs__quote" role="complementary">
-          <Sparkles className="nos-valeurs__quote-icon" size={32} />
-          Chez Rosi Trattoria, chaque pizza raconte une histoire d'amour entre
-          tradition et passion.
-        </blockquote>
-
         {/* Feature Cards */}
         <div
           className="nos-valeurs__feature-cards"
           role="region"
-          aria-label="Caractéristiques principales"
+          aria-label="Nos valeurs fondamentales"
         >
           <h2 className="nos-valeurs__features-title">
             Nos Valeurs Fondamentales
@@ -179,6 +167,34 @@ const NosValeursComponent: React.FC = () => {
                 </article>
               );
             })}
+          </div>
+        </div>
+
+        {/* Quote */}
+        <blockquote className="nos-valeurs__quote" role="complementary">
+          <Sparkles className="nos-valeurs__quote-icon" size={32} />
+          Chez Rosi Trattoria, chaque pizza raconte une histoire d'amour entre
+          tradition et passion.
+        </blockquote>
+
+        {/* Main Sections */}
+        <div className="nos-valeurs__main-block" role="main">
+          <h2 className="nos-valeurs__main-title">Nos Engagements Qualité</h2>
+          <div className="nos-valeurs__sections-flex">
+            {sectionsData.map((section, index) => (
+              <article
+                key={index}
+                className={`nos-valeurs__section ${
+                  section.highlight ? "nos-valeurs__section--highlight" : ""
+                }`}
+              >
+                <h3 className="nos-valeurs__section-title">{section.title}</h3>
+                <p className="nos-valeurs__section-text">{section.text}</p>
+                {section.note && (
+                  <p className="nos-valeurs__section-note">{section.note}</p>
+                )}
+              </article>
+            ))}
           </div>
         </div>
       </div>

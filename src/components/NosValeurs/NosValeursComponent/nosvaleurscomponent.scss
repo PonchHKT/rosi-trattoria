@@ -1,24 +1,25 @@
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Pacifico&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&family=Pacifico&display=swap");
 
 // Variables
 :root {
   --text-white: #ffffff;
-  --text-gray: #cccccc;
-  --background-black: #000000;
-  --card-black: #0a0a0a;
-  --border-subtle: rgba(255, 255, 255, 0.1);
-  --shadow-glow: 0 0 30px rgba(255, 111, 97, 0.3);
+  --text-gray: #d1d1d1;
+  --background-black: #0a0a0a;
+  --card-black: #141414;
+  --border-subtle: rgba(255, 255, 255, 0.15);
   --spacing-xs: 0.5rem;
   --spacing-sm: 1rem;
-  --spacing-md: 2rem;
-  --spacing-lg: 3rem;
-  --spacing-xl: 4rem;
-  --border-radius: 16px;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+  --border-radius: 12px;
   --border-radius-sm: 8px;
   --font-primary: "Inter", sans-serif;
   --font-accent: "Playfair Display", serif;
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --font-cursive: "Pacifico", cursive;
+  --transition: all 0.3s ease-in-out;
+  --primary-gold: #d4a017;
+  --primary-red: #e63946;
   --primary-pink: #ff6f61;
   --primary-blue: #61dafb;
 }
@@ -26,12 +27,12 @@
 .nos-valeurs {
   font-family: var(--font-primary);
   background: var(--background-black);
-  min-height: 100vh;
-  padding-top: 120px;
   color: var(--text-white);
+  padding-top: 100px;
+  min-height: 100vh;
 
   &__content {
-    max-width: 1400px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: var(--spacing-xl) var(--spacing-md);
     display: flex;
@@ -42,32 +43,102 @@
 
   &__hero {
     width: 100%;
-    padding: var(--spacing-xl);
-    border-radius: var(--border-radius);
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+  }
+
+  &__pascal-showcase {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-md);
+  }
+
+  &__pascal-image-container {
+    position: relative;
+    max-width: 400px;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  }
+
+  &__pascal-image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    object-position: center;
     transition: var(--transition);
   }
 
+  &__image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.7));
+    pointer-events: none;
+  }
+
+  &__pascal-name-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+  }
+
+  &__pascal-title {
+    font-family: var(--font-primary);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary-gold);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 2px;
+      background: var(--primary-gold);
+    }
+  }
+
+  &__pascal-name {
+    font-family: var(--font-accent);
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--text-white);
+    margin: 0;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  }
+
   &__formation-highlight {
-    margin-bottom: var(--spacing-lg);
-    padding-top: 50px;
+    display: flex;
+    justify-content: center;
   }
 
   &__formation-badge {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: var(--spacing-md);
-    background: rgba(255, 111, 97, 0.1);
-    border: 2px solid var(--primary-pink);
-    padding: var(--spacing-md) var(--spacing-lg);
+    gap: var(--spacing-sm);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--primary-gold);
+    padding: var(--spacing-sm) var(--spacing-md);
     border-radius: var(--border-radius);
-    backdrop-filter: blur(10px);
-    animation: glow 2s ease-in-out infinite alternate;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    transition: var(--transition);
   }
 
   &__formation-icon {
-    color: gold;
-    filter: drop-shadow(0 0 10px var(--primary-pink));
+    color: var(--primary-gold);
+    filter: drop-shadow(0 0 8px var(--primary-gold));
   }
 
   &__formation-text {
@@ -78,22 +149,19 @@
 
   &__formation-title {
     font-family: var(--font-accent);
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     font-weight: 700;
-    color: var(--primary-pink);
-    margin-bottom: var(--spacing-xs);
   }
 
   &__formation-subtitle {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: var(--text-gray);
-    font-weight: 500;
+    font-weight: 400;
   }
 
   &__intro-text {
-    max-width: 700px;
-    margin: var(--spacing-lg) auto 0;
-    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     gap: var(--spacing-md);
@@ -101,15 +169,11 @@
 
   &__intro-highlight {
     font-family: var(--font-accent);
-    font-size: 1.25rem;
+    font-size: 1.3rem;
     font-weight: 700;
+    color: var(--text-white);
     line-height: 1.6;
-    letter-spacing: 1.2px;
-    transition: var(--transition);
-
-    &:hover {
-      text-shadow: 0 0 10px rgba(255, 111, 97, 0.5);
-    }
+    letter-spacing: 0.5px;
   }
 
   &__intro-body {
@@ -118,8 +182,10 @@
     font-weight: 300;
     color: var(--text-gray);
     line-height: 1.8;
+
     strong {
-      font-size: 25px;
+      font-size: 1.5rem;
+      color: var(--text-white);
     }
   }
 
@@ -197,7 +263,6 @@
       color: var(--primary-blue);
       margin-top: var(--spacing-sm);
       font-weight: 500;
-
       padding: var(--spacing-xs) var(--spacing-sm);
       border-radius: 20px;
       display: inline-block;
@@ -325,7 +390,7 @@
   }
 
   &__feature-title {
-    font-family: "Pacifico", cursive;
+    font-family: var(--font-cursive);
     font-size: 1.5rem;
     color: var(--primary-pink);
     margin-bottom: var(--spacing-sm);
@@ -369,6 +434,29 @@
     }
   }
 
+  @keyframes sparkle {
+    0% {
+      transform: scale(1) rotate(0deg);
+      opacity: 0.8;
+    }
+    100% {
+      transform: scale(1.1) rotate(15deg);
+      opacity: 1;
+    }
+  }
+
+  @keyframes shimmer {
+    0%,
+    100% {
+      opacity: 0.3;
+      transform: scaleX(0.8);
+    }
+    50% {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+  }
+
   // Responsive Design
   @media screen and (max-width: 1024px) {
     &__main-title,
@@ -383,9 +471,26 @@
     &__sections-flex {
       grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     }
+
+    &__pascal-image {
+      max-width: 600px;
+    }
+
+    &__pascal-name-container {
+      gap: 0.5rem;
+    }
+
+    &__pascal-name {
+      font-size: 1.6rem;
+    }
+
+    &__pascal-title {
+      font-size: 0.9rem;
+      letter-spacing: 1.5px;
+    }
   }
 
-  @media screen and (max-width: 8px) {
+  @media screen and (max-width: 768px) {
     padding-top: 80px;
 
     &__content {
@@ -395,6 +500,19 @@
 
     &__hero {
       padding: var(--spacing-lg);
+    }
+
+    &__pascal-image-container {
+      max-width: 500px;
+    }
+
+    &__pascal-name {
+      font-size: 1.4rem;
+    }
+
+    &__pascal-title {
+      font-size: 0.85rem;
+      letter-spacing: 1.2px;
     }
 
     &__formation-badge {
@@ -448,7 +566,20 @@
     }
 
     &__hero {
-      padding: var(--spacing-md) var(--spacing-sm);
+      padding: var(--spacing-md);
+    }
+
+    &__pascal-image-container {
+      max-width: 300px;
+    }
+
+    &__pascal-name {
+      font-size: 1.2rem;
+    }
+
+    &__pascal-title {
+      font-size: 0.75rem;
+      letter-spacing: 1px;
     }
 
     &__main-title,
