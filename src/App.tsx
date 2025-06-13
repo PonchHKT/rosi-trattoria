@@ -12,7 +12,7 @@ import Carte from "./pages/Carte";
 import Recrutement from "./pages/Recrutement";
 import Contact from "./pages/Contact";
 import { useEffect } from "react";
-import MySwiper from "./components/MySwiper/MySwiper";
+import SwiperGallery from "./components/Acceuil/SwiperGallery/swipergallery";
 
 function App() {
   const location = useLocation();
@@ -36,7 +36,7 @@ function App() {
               <VideoPlayer />
 
               <Biographie2 />
-              <MySwiper />
+              <SwiperGallery />
               <ReviewWidget />
             </>
           }

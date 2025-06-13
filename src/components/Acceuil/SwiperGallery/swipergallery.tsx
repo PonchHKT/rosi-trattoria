@@ -5,16 +5,16 @@ import "swiper/css";
 import "swiper/css/autoplay";
 import "swiper/css/navigation";
 import "swiper/css/effect-fade";
-import "./myswiper.scss";
+import "./myswiper.scss"; // Ensure you have a CSS file for custom styles
 
-const MySwiper: React.FC = () => {
+const SwiperGallery: React.FC = () => {
   const initialSlide = useMemo(() => Math.floor(Math.random() * 11), []);
 
   return (
     <Swiper
       initialSlide={initialSlide}
       modules={[Autoplay, Navigation, EffectFade]}
-      autoplay={{ delay: 3000, disableOnInteraction: false }}
+      autoplay={{ delay: 3001, disableOnInteraction: false }}
       navigation
       effect="fade"
       fadeEffect={{ crossFade: true }}
@@ -36,4 +36,4 @@ const MySwiper: React.FC = () => {
   );
 };
 
-export default MySwiper;
+export default SwiperGallery;
