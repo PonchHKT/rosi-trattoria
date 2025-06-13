@@ -41,12 +41,113 @@
     align-items: center;
   }
 
+  // Feature Cards Section - Maintenant en premier
+  &__feature-cards {
+    width: 100%;
+    order: 1; // Explicit order for clarity
+    padding-top: var(
+      --spacing-xl
+    ); // Padding au-dessus de Nos Valeurs Fondamentales
+  }
+
+  &__features-title {
+    font-family: var(--font-accent);
+    font-size: 3rem;
+    color: var(--primary-blue);
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+    font-weight: 700;
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 2px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--primary-pink),
+        transparent
+      );
+    }
+  }
+
+  &__cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: var(--spacing-lg);
+  }
+
+  &__feature-card {
+    padding: var(--spacing-lg);
+    text-align: center;
+
+    position: relative;
+    overflow: hidden;
+  }
+
+  &__card-header {
+    position: relative;
+    margin-bottom: var(--spacing-md);
+  }
+
+  &__card-icon {
+    position: absolute;
+    top: var(--spacing-sm);
+    right: var(--spacing-sm);
+    z-index: 2;
+    background: var(--background-black);
+    padding: var(--spacing-xs);
+    border-radius: 50%;
+    border: 2px solid var(--primary-pink);
+    color: var(--primary-pink);
+  }
+
+  &__feature-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: var(--border-radius-sm);
+    transition: var(--transition);
+    filter: brightness(0.8) contrast(1.1);
+
+    &:hover {
+      filter: brightness(1) contrast(1.2);
+    }
+  }
+
+  &__card-content {
+    font-family: var(--font-primary);
+    padding-top: var(--spacing-md);
+  }
+
+  &__feature-title {
+    font-family: var(--font-cursive);
+    font-size: 1.5rem;
+    color: var(--primary-pink);
+    margin-bottom: var(--spacing-sm);
+    font-weight: 400;
+  }
+
+  &__feature-text {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-gray);
+    font-weight: 400;
+  }
+
+  // Hero Section avec Pascal - Maintenant au milieu
   &__hero {
     width: 100%;
     text-align: center;
     display: flex;
     flex-direction: column;
     gap: var(--spacing-lg);
+    order: 2; // Explicit order for clarity
   }
 
   &__pascal-showcase {
@@ -62,6 +163,12 @@
     border-radius: var(--border-radius);
     overflow: hidden;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    margin-top: var(--spacing-xl); // Padding au-dessus de l'image de Pascal
+
+    &:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+    }
   }
 
   &__pascal-image {
@@ -134,11 +241,17 @@
     border-radius: var(--border-radius);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     transition: var(--transition);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 4px 20px rgba(212, 160, 23, 0.3);
+    }
   }
 
   &__formation-icon {
     color: var(--primary-gold);
     filter: drop-shadow(0 0 8px var(--primary-gold));
+    animation: pulse 2s infinite;
   }
 
   &__formation-text {
@@ -160,7 +273,7 @@
   }
 
   &__intro-text {
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -189,8 +302,53 @@
     }
   }
 
+  // Quote Section
+  &__quote {
+    font-family: var(--font-accent);
+    font-style: italic;
+    font-size: 1.5rem;
+    text-align: center;
+    padding: var(--spacing-lg);
+    color: var(--text-white);
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    font-weight: 400;
+    line-height: 1.6;
+    order: 3; // Explicit order for clarity
+
+    &::before,
+    &::after {
+      position: absolute;
+      font-size: 4rem;
+      color: var(--primary-pink);
+      opacity: 0.3;
+    }
+
+    &::before {
+      content: "\201C";
+      top: -10px;
+      left: 20px;
+    }
+
+    &::after {
+      content: "\201D";
+      bottom: -30px;
+      right: 20px;
+    }
+  }
+
+  &__quote-icon {
+    display: block;
+    margin-bottom: var(--spacing-sm);
+    animation: float 3s ease-in-out infinite;
+    color: var(--primary-pink);
+  }
+
+  // Main Sections - Maintenant en bas
   &__main-block {
     width: 100%;
+    order: 4; // Explicit order for clarity
   }
 
   &__main-title {
@@ -231,6 +389,20 @@
     transition: var(--transition);
     position: relative;
 
+    &:hover {
+      background: rgba(255, 255, 255, 0.02);
+      transform: translateY(-2px);
+    }
+
+    &--highlight {
+      background: rgba(97, 218, 251, 0.05);
+      border: 1px solid rgba(97, 218, 251, 0.2);
+
+      &:hover {
+        background: rgba(97, 218, 251, 0.08);
+      }
+    }
+
     &-title {
       font-family: var(--font-accent);
       font-size: 1.75rem;
@@ -268,139 +440,6 @@
       display: inline-block;
       width: 100%;
     }
-  }
-
-  &__quote {
-    font-family: var(--font-accent);
-    font-style: italic;
-    font-size: 1.5rem;
-    text-align: center;
-    padding: var(--spacing-lg);
-    color: var(--text-white);
-    position: relative;
-    max-width: 800px;
-    margin: 0 auto;
-    font-weight: 400;
-    line-height: 1.6;
-
-    &::before,
-    &::after {
-      position: absolute;
-      font-size: 4rem;
-      color: var(--primary-pink);
-      opacity: 0.3;
-    }
-
-    &::before {
-      content: "\201C";
-      top: -10px;
-      left: 20px;
-    }
-
-    &::after {
-      content: "\201D";
-      bottom: -30px;
-      right: 20px;
-    }
-  }
-
-  &__quote-icon {
-    display: block;
-    margin-bottom: var(--spacing-sm);
-    animation: float 3s ease-in-out infinite;
-    color: var(--primary-pink);
-  }
-
-  &__feature-cards {
-    width: 100%;
-  }
-
-  &__features-title {
-    font-family: var(--font-accent);
-    font-size: 3rem;
-    color: var(--primary-blue);
-    text-align: center;
-    margin-bottom: var(--spacing-lg);
-    font-weight: 700;
-    position: relative;
-
-    &::after {
-      content: "";
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100px;
-      height: 2px;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        var(--primary-pink),
-        transparent
-      );
-    }
-  }
-
-  &__cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: var(--spacing-lg);
-  }
-
-  &__feature-card {
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--border-radius);
-    padding: var(--spacing-lg);
-    text-align: center;
-    transition: var(--transition);
-    position: relative;
-    overflow: hidden;
-  }
-
-  &__card-header {
-    position: relative;
-    margin-bottom: var(--spacing-md);
-  }
-
-  &__card-icon {
-    position: absolute;
-    top: var(--spacing-sm);
-    right: var(--spacing-sm);
-    z-index: 2;
-    background: var(--background-black);
-    padding: var(--spacing-xs);
-    border-radius: 50%;
-    border: 2px solid var(--primary-pink);
-    color: var(--primary-pink);
-  }
-
-  &__feature-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: var(--border-radius-sm);
-    transition: var(--transition);
-    filter: brightness(0.8) contrast(1.1);
-  }
-
-  &__card-content {
-    font-family: var(--font-primary);
-    padding-top: var(--spacing-md);
-  }
-
-  &__feature-title {
-    font-family: var(--font-cursive);
-    font-size: 1.5rem;
-    color: var(--primary-pink);
-    margin-bottom: var(--spacing-sm);
-    font-weight: 400;
-  }
-
-  &__feature-text {
-    font-size: 1rem;
-    line-height: 1.7;
-    color: var(--text-gray);
-    font-weight: 400;
   }
 
   // Animations
@@ -487,6 +526,10 @@
       font-size: 0.9rem;
       letter-spacing: 1.5px;
     }
+
+    &__intro-text {
+      max-width: 900px;
+    }
   }
 
   @media screen and (max-width: 768px) {
@@ -497,12 +540,17 @@
       gap: var(--spacing-lg);
     }
 
+    &__feature-cards {
+      padding-top: var(--spacing-lg); // Padding réduit sur mobile
+    }
+
     &__hero {
       padding: var(--spacing-lg);
     }
 
     &__pascal-image-container {
       max-width: 500px;
+      margin-top: var(--spacing-lg); // Padding réduit sur mobile
     }
 
     &__pascal-name {
@@ -557,11 +605,22 @@
     &__feature-image {
       height: 180px;
     }
+
+    &__intro-text {
+      max-width: 100%;
+      padding: 0 var(--spacing-sm);
+    }
   }
 
   @media screen and (max-width: 480px) {
     &__content {
       padding: 1.5rem var(--spacing-sm);
+    }
+
+    &__feature-cards {
+      padding-top: var(
+        --spacing-md
+      ); // Padding encore plus réduit sur très petits écrans
     }
 
     &__hero {
@@ -570,6 +629,9 @@
 
     &__pascal-image-container {
       max-width: 300px;
+      margin-top: var(
+        --spacing-md
+      ); // Padding encore plus réduit sur très petits écrans
     }
 
     &__pascal-name {
@@ -595,7 +657,7 @@
     }
 
     &__section {
-      padding: 1.25rem;
+      padding: var(--spacing-md);
 
       &-title {
         font-size: 1.25rem;

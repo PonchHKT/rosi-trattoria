@@ -24,7 +24,7 @@ const sectionsData: SectionData[] = [
     title: "Une Pâte d'Exception",
     text: "Chaque matin, Pascal pétrit une pâte unique, maturée 48h selon les secrets de John Bergh. Avec la farine BIO Molino Marino Felice et notre levain naturel, elle offre une texture légère et une digestibilité optimale.",
     note: "Chuttt !!! Elle respire",
-    highlight: true,
+    highlight: false,
   },
   {
     title: "Sauce Tomate Authentique",
@@ -84,7 +84,43 @@ const NosValeursComponent: React.FC = () => {
       aria-label="Nos valeurs chez Rosi Trattoria"
     >
       <div className="nos-valeurs__content">
-        {/* Hero Section avec mise en avant de Pascal */}
+        {/* Feature Cards - Maintenant en premier */}
+        <div
+          className="nos-valeurs__feature-cards"
+          role="region"
+          aria-label="Nos valeurs fondamentales"
+        >
+          <h2 className="nos-valeurs__features-title">
+            Nos Valeurs Fondamentales
+          </h2>
+          <div className="nos-valeurs__cards-grid">
+            {featureCardsData.map((card, index) => {
+              const IconComponent = card.icon;
+              return (
+                <article key={index} className="nos-valeurs__feature-card">
+                  <div className="nos-valeurs__card-header">
+                    <IconComponent
+                      className="nos-valeurs__card-icon"
+                      size={32}
+                    />
+                    <img
+                      src={card.image}
+                      alt={card.alt}
+                      className="nos-valeurs__feature-image"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="nos-valeurs__card-content">
+                    <h4 className="nos-valeurs__feature-title">{card.title}</h4>
+                    <p className="nos-valeurs__feature-text">{card.text}</p>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Hero Section avec Pascal - Maintenant au milieu */}
         <article className="nos-valeurs__hero" role="banner">
           <div className="nos-valeurs__pascal-showcase">
             <div className="nos-valeurs__pascal-image-container">
@@ -134,42 +170,6 @@ const NosValeursComponent: React.FC = () => {
           </div>
         </article>
 
-        {/* Feature Cards */}
-        <div
-          className="nos-valeurs__feature-cards"
-          role="region"
-          aria-label="Nos valeurs fondamentales"
-        >
-          <h2 className="nos-valeurs__features-title">
-            Nos Valeurs Fondamentales
-          </h2>
-          <div className="nos-valeurs__cards-grid">
-            {featureCardsData.map((card, index) => {
-              const IconComponent = card.icon;
-              return (
-                <article key={index} className="nos-valeurs__feature-card">
-                  <div className="nos-valeurs__card-header">
-                    <IconComponent
-                      className="nos-valeurs__card-icon"
-                      size={32}
-                    />
-                    <img
-                      src={card.image}
-                      alt={card.alt}
-                      className="nos-valeurs__feature-image"
-                      loading="lazy"
-                    />
-                  </div>
-                  <div className="nos-valeurs__card-content">
-                    <h4 className="nos-valeurs__feature-title">{card.title}</h4>
-                    <p className="nos-valeurs__feature-text">{card.text}</p>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-        </div>
-
         {/* Quote */}
         <blockquote className="nos-valeurs__quote" role="complementary">
           <Sparkles className="nos-valeurs__quote-icon" size={32} />
@@ -177,7 +177,7 @@ const NosValeursComponent: React.FC = () => {
           tradition et passion.
         </blockquote>
 
-        {/* Main Sections */}
+        {/* Main Sections - Maintenant en bas */}
         <div className="nos-valeurs__main-block" role="main">
           <h2 className="nos-valeurs__main-title">Nos Engagements Qualité</h2>
           <div className="nos-valeurs__sections-flex">
