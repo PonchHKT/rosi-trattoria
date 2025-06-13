@@ -5,6 +5,10 @@
   align-items: center;
   padding: 50px 0;
   background-color: var(--bg-primary);
+
+  @media (max-width: 768px) {
+    padding: 30px 0;
+  }
 }
 
 .gallery-wrapper {
@@ -13,40 +17,48 @@
   max-width: 1520px;
   margin: 0 20px;
 
+  @media (max-width: 768px) {
+    margin: 0 10px;
+  }
+
   .animatedBorder1,
   .animatedBorder2,
   .animatedBorder3,
   .animatedBorder4 {
     position: absolute;
     z-index: 10;
+
+    @media (max-width: 768px) {
+      display: none; // Masquer les bordures animées sur mobile pour plus de simplicité
+    }
   }
 
   .animatedBorder1 {
     animation: rect1 10s infinite;
     top: 0;
     height: 8px;
-    background-color: var(--primary-blue); /* Changed to primary-blue */
+    background-color: var(--primary-blue);
   }
 
   .animatedBorder2 {
     animation: rect2 10s infinite;
     left: 0;
     width: 8px;
-    background-color: var(--primary-pink); /* Changed to primary-pink */
+    background-color: var(--primary-pink);
   }
 
   .animatedBorder3 {
     animation: rect3 10s infinite;
     bottom: 0;
     height: 8px;
-    background-color: var(--primary-blue); /* Changed to primary-blue */
+    background-color: var(--primary-blue);
   }
 
   .animatedBorder4 {
     animation: rect4 10s infinite;
     right: 0;
     width: 8px;
-    background-color: var(--primary-pink); /* Changed to primary-pink */
+    background-color: var(--primary-pink);
   }
 }
 
@@ -56,7 +68,14 @@
   background-color: #000;
   position: relative;
   border-radius: 8px;
-  overflow: hidden;
+  overflow: visible;
+  padding: 50px 0;
+
+  @media (max-width: 768px) {
+    height: 400px;
+    padding: 30px 0;
+    overflow: hidden; // Éviter les débordements sur mobile
+  }
 
   .swiper-slide {
     display: flex;
@@ -64,6 +83,23 @@
     align-items: center;
     overflow: hidden;
     position: relative;
+    border-radius: 8px;
+    background-color: #000;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+
+    @media (max-width: 768px) {
+      // Sur mobile, s'assurer que les slides sont bien droites
+      transform: none !important;
+
+      &.swiper-slide-active {
+        transform: none !important;
+      }
+
+      &.swiper-slide-next,
+      &.swiper-slide-prev {
+        transform: none !important;
+      }
+    }
   }
 
   .swiper-slide-overlay {
@@ -74,6 +110,8 @@
     height: 100%;
     background: rgba(0, 0, 0, 0.1);
     z-index: 1;
+    border-radius: 8px;
+    transition: background 0.3s ease;
   }
 
   .swiper-image {
@@ -82,31 +120,17 @@
     object-fit: cover;
     object-position: center;
     z-index: 0;
+    border-radius: 8px;
   }
 
-  .swiper-button-prev,
-  .swiper-button-next {
-    color: #fff;
-    background-color: rgba(0, 0, 0, 0.7);
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    opacity: 0.6;
-    transition: opacity 0.3s ease, background-color 0.3s ease;
-    z-index: 2;
-
-    &:hover {
-      opacity: 1;
-      background-color: rgba(0, 0, 0, 0.9);
-    }
-
-    &:after {
-      font-size: 18px;
+  .swiper-slide-active {
+    .swiper-slide-overlay {
+      background: rgba(0, 0, 0, 0.05);
     }
   }
 }
 
-/* Keyframe animations remain unchanged */
+/* Keyframes pour les bordures animées */
 @keyframes rect1 {
   0% {
     right: 0;
@@ -188,33 +212,5 @@
   100% {
     bottom: 60%;
     height: 40%;
-  }
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-  .gallery-wrapper {
-    width: 90vw; /* Set width to 90vw */
-    margin: 0 auto; /* Center the gallery */
-  }
-
-  .my-swiper {
-    height: 300px;
-
-    .swiper-button-prev,
-    .swiper-button-next {
-      display: none; /* Hide navigation buttons on mobile */
-    }
-  }
-}
-
-@media (max-width: 480px) {
-  .gallery-wrapper {
-    width: 90vw; /* Maintain 90vw width */
-    margin: 0 auto; /* Center the gallery */
-  }
-
-  .my-swiper {
-    height: 250px;
   }
 }

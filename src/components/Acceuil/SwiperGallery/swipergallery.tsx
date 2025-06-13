@@ -1,10 +1,9 @@
 import React, { useMemo } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Navigation, EffectFade } from "swiper/modules";
+import { Autoplay, EffectCoverflow } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/autoplay";
-import "swiper/css/navigation";
-import "swiper/css/effect-fade";
+import "swiper/css/effect-coverflow";
 import "./swipergallery.scss";
 
 const SwiperGallery: React.FC = () => {
@@ -21,13 +20,32 @@ const SwiperGallery: React.FC = () => {
 
         <Swiper
           initialSlide={initialSlide}
-          modules={[Autoplay, Navigation, EffectFade]}
-          autoplay={{ delay: 3000, disableOnInteraction: false }}
-          navigation
-          effect="fade"
-          fadeEffect={{ crossFade: true }}
+          modules={[Autoplay, EffectCoverflow]}
+          autoplay={{
+            delay: 4000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
+          navigation={false}
+          effect="coverflow"
+          coverflowEffect={{
+            rotate: 50,
+            stretch: 0,
+            depth: 100,
+            modifier: 1,
+            slideShadows: true,
+          }}
+          loop={true}
+          centeredSlides={true}
+          slidesPerView={3}
+          spaceBetween={30}
           className="my-swiper"
-          lazyPreloadPrevNext={1}
+          lazyPreloadPrevNext={2}
+          touchRatio={1}
+          simulateTouch={true}
+          allowTouchMove={true}
+          resistance={true}
+          resistanceRatio={0.85}
         >
           {[...Array(11).keys()].map((i) => (
             <SwiperSlide key={i}>
