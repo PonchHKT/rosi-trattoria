@@ -4,61 +4,24 @@
   justify-content: center;
   align-items: center;
   padding: 50px 0;
-  background-color: var(--bg-primary);
+  background-color: var(--bg-primary); // Espace pour les bordures animées
 
-  @media (max-width: 768px) {
-    padding: 30px 0;
+  // Optimisations mobiles
+  @media (max-width: 640px) {
+    padding: 20px 0;
   }
 }
 
 .gallery-wrapper {
+  padding-bottom: 50px;
   position: relative;
   width: 100%;
   max-width: 1520px;
   margin: 0 20px;
 
-  @media (max-width: 768px) {
+  // Réduction des marges sur mobile
+  @media (max-width: 640px) {
     margin: 0 10px;
-  }
-
-  .animatedBorder1,
-  .animatedBorder2,
-  .animatedBorder3,
-  .animatedBorder4 {
-    position: absolute;
-    z-index: 10;
-
-    @media (max-width: 768px) {
-      display: none; // Masquer les bordures animées sur mobile pour plus de simplicité
-    }
-  }
-
-  .animatedBorder1 {
-    animation: rect1 10s infinite;
-    top: 0;
-    height: 8px;
-    background-color: var(--primary-blue);
-  }
-
-  .animatedBorder2 {
-    animation: rect2 10s infinite;
-    left: 0;
-    width: 8px;
-    background-color: var(--primary-pink);
-  }
-
-  .animatedBorder3 {
-    animation: rect3 10s infinite;
-    bottom: 0;
-    height: 8px;
-    background-color: var(--primary-blue);
-  }
-
-  .animatedBorder4 {
-    animation: rect4 10s infinite;
-    right: 0;
-    width: 8px;
-    background-color: var(--primary-pink);
   }
 }
 
@@ -70,11 +33,24 @@
   border-radius: 8px;
   overflow: visible;
   padding: 50px 0;
+  display: flex;
+  align-items: center;
 
-  @media (max-width: 768px) {
-    height: 400px;
+  // Ajustements mobiles pour la hauteur
+  @media (max-width: 640px) {
+    height: 300px; // Hauteur réduite sur mobile
+    padding: 20px 0;
+    border-radius: 4px;
+  }
+
+  @media (min-width: 641px) and (max-width: 768px) {
+    height: 400px; // Hauteur intermédiaire sur tablette
     padding: 30px 0;
-    overflow: hidden; // Éviter les débordements sur mobile
+  }
+
+  .swiper-wrapper {
+    display: flex;
+    align-items: center;
   }
 
   .swiper-slide {
@@ -86,19 +62,13 @@
     border-radius: 8px;
     background-color: #000;
     transition: transform 0.3s ease, opacity 0.3s ease;
+    height: 100% !important;
 
-    @media (max-width: 768px) {
-      // Sur mobile, s'assurer que les slides sont bien droites
+    // Optimisations mobiles
+    @media (max-width: 640px) {
+      border-radius: 4px;
+      // Pas de transformation sur mobile pour éviter les problèmes de performance
       transform: none !important;
-
-      &.swiper-slide-active {
-        transform: none !important;
-      }
-
-      &.swiper-slide-next,
-      &.swiper-slide-prev {
-        transform: none !important;
-      }
     }
   }
 
@@ -112,6 +82,11 @@
     z-index: 1;
     border-radius: 8px;
     transition: background 0.3s ease;
+
+    @media (max-width: 640px) {
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.05); // Overlay plus léger sur mobile
+    }
   }
 
   .swiper-image {
@@ -121,96 +96,142 @@
     object-position: center;
     z-index: 0;
     border-radius: 8px;
+    display: block;
+
+    // Optimisations critiques pour mobile
+    @media (max-width: 640px) {
+      border-radius: 4px;
+      // Force l'accélération matérielle
+      transform: translateZ(0);
+      backface-visibility: hidden;
+      // Améliore le rendu des images
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+    }
   }
 
   .swiper-slide-active {
     .swiper-slide-overlay {
-      background: rgba(0, 0, 0, 0.05);
+      background: rgba(0, 0, 0, 0.02);
+
+      @media (max-width: 640px) {
+        background: rgba(0, 0, 0, 0.01);
+      }
+    }
+  }
+
+  // Désactive les ombres sur mobile pour améliorer les performances
+  @media (max-width: 640px) {
+    .swiper-slide-shadow,
+    .swiper-slide-shadow-left,
+    .swiper-slide-shadow-right {
+      display: none !important;
     }
   }
 }
 
-/* Keyframes pour les bordures animées */
-@keyframes rect1 {
-  0% {
-    right: 0;
-    width: 0;
-  }
-  25% {
-    right: 0;
-    width: 40%;
-  }
-  50% {
-    right: 60%;
-    width: 40%;
-  }
-  75% {
-    right: 100%;
-    width: 0;
+// Optimisations pour le touch sur mobile
+@media (hover: none) and (pointer: coarse) {
+  .my-swiper {
+    .swiper-slide {
+      // Améliore la réactivité tactile
+      touch-action: pan-x;
+    }
   }
 }
 
-@keyframes rect2 {
-  0% {
-    top: 60%;
-    height: 40%;
-  }
-  25% {
-    top: 100%;
-    height: 0%;
-  }
-  50% {
-    top: 0;
-    height: 0%;
-  }
-  75% {
-    top: 0;
-    height: 40%;
-  }
-  100% {
-    top: 60%;
-    height: 40%;
+// Optimisations pour les écrans haute densité
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .swiper-image {
+    // Améliore le rendu sur écrans Retina
+    image-rendering: -webkit-optimize-contrast;
+    transform: translateZ(0);
   }
 }
 
-@keyframes rect3 {
-  0% {
-    left: 0;
-    width: 0;
+/* Keyframes pour les bordures animées - désactivées sur mobile */
+@media (min-width: 641px) {
+  @keyframes rect1 {
+    0% {
+      right: 0;
+      width: 0;
+    }
+    25% {
+      right: 0;
+      width: 40%;
+    }
+    50% {
+      right: 60%;
+      width: 40%;
+    }
+    75% {
+      right: 100%;
+      width: 0;
+    }
   }
-  25% {
-    left: 0;
-    width: 40%;
-  }
-  50% {
-    left: 60%;
-    width: 40%;
-  }
-  75% {
-    left: 100%;
-    width: 0;
-  }
-}
 
-@keyframes rect4 {
-  0% {
-    bottom: 60%;
-    height: 40%;
+  @keyframes rect2 {
+    0% {
+      top: 60%;
+      height: 40%;
+    }
+    25% {
+      top: 100%;
+      height: 0%;
+    }
+    50% {
+      top: 0;
+      height: 0%;
+    }
+    75% {
+      top: 0;
+      height: 40%;
+    }
+    100% {
+      top: 60%;
+      height: 40%;
+    }
   }
-  25% {
-    bottom: 100%;
-    height: 0%;
+
+  @keyframes rect3 {
+    0% {
+      left: 0;
+      width: 0;
+    }
+    25% {
+      left: 0;
+      width: 40%;
+    }
+    50% {
+      left: 60%;
+      width: 40%;
+    }
+    75% {
+      left: 100%;
+      width: 0;
+    }
   }
-  50% {
-    bottom: 0;
-    height: 0%;
-  }
-  75% {
-    bottom: 0;
-    height: 40%;
-  }
-  100% {
-    bottom: 60%;
-    height: 40%;
+
+  @keyframes rect4 {
+    0% {
+      bottom: 60%;
+      height: 40%;
+    }
+    25% {
+      bottom: 100%;
+      height: 0%;
+    }
+    50% {
+      bottom: 0;
+      height: 0%;
+    }
+    75% {
+      bottom: 0;
+      height: 40%;
+    }
+    100% {
+      bottom: 60%;
+      height: 40%;
+    }
   }
 }
