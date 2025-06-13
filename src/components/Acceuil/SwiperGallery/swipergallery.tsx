@@ -5,7 +5,7 @@ import "swiper/css";
 import "swiper/css/autoplay";
 import "swiper/css/navigation";
 import "swiper/css/effect-fade";
-import "./myswiper.scss"; // Ensure you have a CSS file for custom styles
+import "./swipergallery.scss"; // Ensure you have a CSS file for custom styles
 
 const SwiperGallery: React.FC = () => {
   const initialSlide = useMemo(() => Math.floor(Math.random() * 11), []);
