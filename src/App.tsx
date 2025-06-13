@@ -37,7 +37,6 @@ function App() {
 
               <Biographie2 />
               <SwiperGallery />
-              <ReviewWidget />
             </>
           }
         />
