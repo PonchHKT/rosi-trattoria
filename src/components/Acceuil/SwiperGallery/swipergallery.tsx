@@ -47,8 +47,8 @@ const SwiperGallery: React.FC = () => {
           breakpoints={{
             // Mobile très petit (jusqu'à 400px)
             0: {
-              slidesPerView: 1,
-              spaceBetween: 10, // Réduit l'espace sur très petit écran
+              slidesPerView: 1.2, // Montre légèrement les slides adjacentes
+              spaceBetween: 10,
               centeredSlides: true,
               effect: "slide", // Désactive coverflow sur mobile
               coverflowEffect: {
@@ -61,7 +61,7 @@ const SwiperGallery: React.FC = () => {
             },
             // Mobile (401px à 640px)
             401: {
-              slidesPerView: 1,
+              slidesPerView: 1.3, // Montre un peu plus les slides adjacentes
               spaceBetween: 15,
               centeredSlides: true,
               effect: "slide", // Désactive coverflow sur mobile
