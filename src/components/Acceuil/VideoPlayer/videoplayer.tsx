@@ -23,14 +23,16 @@ const VideoPlayer: React.FC = () => {
   const [currentVideo, setCurrentVideo] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [volume, setVolume] = useState<number>(1);
-  const [isMuted, setIsMuted] = useState<boolean>(false); // Plus muted par défaut
-  const [currentTime, setCurrentTime] = useState<number>(0.02); // Start at 0.02s
+  const [isMuted, setIsMuted] = useState<boolean>(false);
+  const [currentTime, setCurrentTime] = useState<number>(0.02);
   const [duration, setDuration] = useState<number>(0);
   const [showPlaylist, setShowPlaylist] = useState<boolean>(false);
   const [showControls, setShowControls] = useState<boolean>(true);
-  const [isInitialized, setIsInitialized] = useState<boolean>(false); // Track if video is initialized
+  const [isInitialized, setIsInitialized] = useState<boolean>(false);
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
 
   const videoRef = useRef<HTMLVideoElement>(null);
+  const playerRef = useRef<HTMLDivElement>(null);
   const controlsTimeoutRef = useRef<number | null>(null);
 
   const videos: Video[] = [
@@ -111,7 +113,6 @@ const VideoPlayer: React.FC = () => {
   const handleLoadedMetadata = () => {
     if (videoRef.current) {
       setDuration(videoRef.current.duration);
-      // Set the video to start at 0.02 seconds when metadata is loaded
       if (!isInitialized) {
         videoRef.current.currentTime = 0.02;
         setCurrentTime(0.02);
@@ -139,8 +140,8 @@ const VideoPlayer: React.FC = () => {
   const changeVideo = (index: number) => {
     setCurrentVideo(index);
     setIsPlaying(false);
-    setCurrentTime(0.02); // Reset to 0.02s when changing video
-    setIsInitialized(false); // Reset initialization flag
+    setCurrentTime(0.02);
+    setIsInitialized(false);
     if (videoRef.current) {
       videoRef.current.load();
     }
@@ -156,11 +157,69 @@ const VideoPlayer: React.FC = () => {
     changeVideo(prev);
   };
 
-  const toggleFullscreen = () => {
-    if (videoRef.current) {
-      if (videoRef.current.requestFullscreen) {
-        videoRef.current.requestFullscreen();
+  // Fonction plein écran améliorée pour mobile
+  const toggleFullscreen = async () => {
+    try {
+      const video = videoRef.current;
+      const player = playerRef.current;
+
+      if (!video) return;
+
+      // Vérifier si on est déjà en plein écran
+      const isCurrentlyFullscreen =
+        document.fullscreenElement ||
+        (document as any).webkitFullscreenElement ||
+        (document as any).mozFullScreenElement ||
+        (document as any).msFullscreenElement;
+
+      if (isCurrentlyFullscreen) {
+        // Sortir du plein écran
+        if (document.exitFullscreen) {
+          await document.exitFullscreen();
+        } else if ((document as any).webkitExitFullscreen) {
+          (document as any).webkitExitFullscreen();
+        } else if ((document as any).mozCancelFullScreen) {
+          (document as any).mozCancelFullScreen();
+        } else if ((document as any).msExitFullscreen) {
+          (document as any).msExitFullscreen();
+        }
+      } else {
+        // Entrer en plein écran
+        // Essayer d'abord avec la vidéo elle-même (meilleur pour mobile)
+        try {
+          if (video.requestFullscreen) {
+            await video.requestFullscreen();
+          } else if ((video as any).webkitRequestFullscreen) {
+            (video as any).webkitRequestFullscreen();
+          } else if ((video as any).webkitEnterFullscreen) {
+            // Spécifique à iOS Safari
+            (video as any).webkitEnterFullscreen();
+          } else if ((video as any).mozRequestFullScreen) {
+            (video as any).mozRequestFullScreen();
+          } else if ((video as any).msRequestFullscreen) {
+            (video as any).msRequestFullscreen();
+          }
+        } catch (videoError) {
+          // Si le plein écran sur la vidéo échoue, essayer avec le conteneur
+          if (player) {
+            if (player.requestFullscreen) {
+              await player.requestFullscreen();
+            } else if ((player as any).webkitRequestFullscreen) {
+              (player as any).webkitRequestFullscreen();
+            } else if ((player as any).mozRequestFullScreen) {
+              (player as any).mozRequestFullScreen();
+            } else if ((player as any).msRequestFullscreen) {
+              (player as any).msRequestFullscreen();
+            }
+          }
+        }
       }
+    } catch (error) {
+      console.warn("Fullscreen not supported or failed:", error);
+
+      // Fallback pour les appareils qui ne supportent pas le plein écran
+      // On peut implémenter un plein écran "simulé" en CSS
+      setIsFullscreen(!isFullscreen);
     }
   };
 
@@ -180,6 +239,40 @@ const VideoPlayer: React.FC = () => {
     }, 3000);
   };
 
+  // Détecter les changements de plein écran
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      const isCurrentlyFullscreen = !!(
+        document.fullscreenElement ||
+        (document as any).webkitFullscreenElement ||
+        (document as any).mozFullScreenElement ||
+        (document as any).msFullscreenElement
+      );
+      setIsFullscreen(isCurrentlyFullscreen);
+    };
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
+    document.addEventListener("mozfullscreenchange", handleFullscreenChange);
+    document.addEventListener("MSFullscreenChange", handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+      document.removeEventListener(
+        "webkitfullscreenchange",
+        handleFullscreenChange
+      );
+      document.removeEventListener(
+        "mozfullscreenchange",
+        handleFullscreenChange
+      );
+      document.removeEventListener(
+        "MSFullscreenChange",
+        handleFullscreenChange
+      );
+    };
+  }, []);
+
   // Gestion des événements vidéo
   useEffect(() => {
     const video = videoRef.current;
@@ -188,7 +281,6 @@ const VideoPlayer: React.FC = () => {
     const handlePlay = () => setIsPlaying(true);
     const handlePause = () => setIsPlaying(false);
     const handleLoadedData = () => {
-      // Additional handler to ensure video starts at 0.02s
       if (!isInitialized && video.readyState >= 2) {
         video.currentTime = 0.02;
         setCurrentTime(0.02);
@@ -234,7 +326,12 @@ const VideoPlayer: React.FC = () => {
   }, []);
 
   return (
-    <div className="video-player">
+    <div
+      ref={playerRef}
+      className={`video-player ${
+        isFullscreen ? "video-player--fullscreen" : ""
+      }`}
+    >
       <div className="video-player__content">
         {/* Lecteur vidéo principal */}
         <div
@@ -255,6 +352,9 @@ const VideoPlayer: React.FC = () => {
             preload="metadata"
             playsInline
             muted={isMuted}
+            // Attributs pour un meilleur support mobile
+            webkit-playsinline="true"
+            x-webkit-airplay="allow"
           >
             <source src={videos[currentVideo].url} type="video/mp4" />
             Your browser does not support the video tag.
@@ -332,6 +432,7 @@ const VideoPlayer: React.FC = () => {
                 <button
                   onClick={toggleFullscreen}
                   className="video-player__btn video-player__btn--small"
+                  title="Plein écran"
                 >
                   <Maximize size={20} />
                 </button>
@@ -372,7 +473,6 @@ const VideoPlayer: React.FC = () => {
                     alt={video.title}
                     className="video-player__thumbnail-image"
                     onError={(e) => {
-                      // Fallback en cas d'erreur de chargement de l'image
                       const target = e.target as HTMLImageElement;
                       target.style.display = "none";
                       target.nextElementSibling?.classList.add(
