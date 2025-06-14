@@ -74,17 +74,51 @@ const MenuDisplay: React.FC = () => {
     };
   }, []);
 
-  // Fonction pour scroller vers la page précédente
+  // Fonction améliorée pour détecter la page actuellement visible
+  const getCurrentVisiblePage = (): number => {
+    let closestPage = 1;
+    let minDistance = Infinity;
+
+    Object.entries(pageRefs.current).forEach(([pageNum, element]) => {
+      if (element) {
+        const rect = element.getBoundingClientRect();
+        const pageNumber = parseInt(pageNum);
+
+        // Distance du haut de la page au viewport
+        const distanceFromTop = Math.abs(rect.top);
+
+        // Si la page est visible dans le viewport
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          if (distanceFromTop < minDistance) {
+            minDistance = distanceFromTop;
+            closestPage = pageNumber;
+          }
+        }
+      }
+    });
+
+    return closestPage;
+  };
+
+  // Fonction pour scroller vers la page précédente - VERSION CORRIGÉE
   const scrollToPreviousPage = () => {
-    if (currentTopPage > 1) {
-      const targetPage = currentTopPage - 1;
+    // Obtenir la page actuellement visible de manière plus précise
+    const actualCurrentPage = getCurrentVisiblePage();
+
+    if (actualCurrentPage > 1) {
+      const targetPage = actualCurrentPage - 1;
       const targetElement = pageRefs.current[targetPage];
 
       if (targetElement) {
-        targetElement.scrollIntoView({
+        const offsetTop = targetElement.offsetTop - 20; // 20px de marge
+
+        window.scrollTo({
+          top: offsetTop,
           behavior: "smooth",
-          block: "start",
         });
+
+        // Mettre à jour immédiatement l'état pour un feedback visuel
+        setCurrentTopPage(targetPage);
       }
     } else {
       // Si on est sur la première page, remonter tout en haut
@@ -92,8 +126,32 @@ const MenuDisplay: React.FC = () => {
         top: 0,
         behavior: "smooth",
       });
+      setCurrentTopPage(1);
     }
   };
+
+  // Ajouter un listener pour mettre à jour la page courante en temps réel
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentPage = getCurrentVisiblePage();
+      if (currentPage !== currentTopPage) {
+        setCurrentTopPage(currentPage);
+      }
+    };
+
+    // Throttle la fonction de scroll pour les performances
+    let scrollTimeout: ReturnType<typeof setTimeout>;
+    const throttledScroll = () => {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(handleScroll, 100);
+    };
+
+    window.addEventListener("scroll", throttledScroll);
+    return () => {
+      window.removeEventListener("scroll", throttledScroll);
+      clearTimeout(scrollTimeout);
+    };
+  }, [currentTopPage]);
 
   // Rendu optimisé des pages avec lazy loading intelligent
   const renderPages = () => {
