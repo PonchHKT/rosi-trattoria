@@ -1,0 +1,298 @@
+// Variables CSS modernes
+:root {
+  --primary-bg: #0a0a0a;
+  --secondary-bg: #1a1a1a;
+  --accent-color: #6366f1;
+  --accent-hover: #4f46e5;
+  --text-primary: #ffffff;
+  --text-secondary: #a3a3a3;
+  --border-color: #2a2a2a;
+  --shadow-dark: rgba(0, 0, 0, 0.8);
+  --shadow-glow: rgba(99, 102, 241, 0.2);
+  --glass-bg: rgba(26, 26, 26, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+.menu-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(
+    135deg,
+    var(--primary-bg) 0%,
+    #0f0f0f 50%,
+    var(--primary-bg) 100%
+  );
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  position: relative;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+
+  // Effet de particules en arrière-plan
+  &::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+        circle at 20% 80%,
+        rgba(99, 102, 241, 0.1) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 80% 20%,
+        rgba(139, 92, 246, 0.1) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 40% 40%,
+        rgba(59, 130, 246, 0.05) 0%,
+        transparent 50%
+      );
+    z-index: -1;
+    pointer-events: none;
+  }
+}
+
+.pdf-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+  text-align: center;
+  padding: 1rem 2rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  box-shadow: 0 8px 32px var(--shadow-dark),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+  .pdf-info {
+    .pages-count {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      background: var(--accent-color);
+      color: white;
+      border-radius: 50px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      box-shadow: 0 4px 12px var(--shadow-glow);
+    }
+  }
+}
+
+.document-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 4rem 2rem;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.pdf-document {
+  width: 100%;
+  max-width: 900px;
+  position: relative;
+}
+
+.pdf-pages-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+}
+
+.pdf-page-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.page-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  width: 100%;
+  background: var(--glass-bg);
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+}
+
+.pdf-page {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px var(--shadow-dark), 0 0 0 1px var(--border-color),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: white;
+  position: relative;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 32px 64px var(--shadow-dark), 0 0 0 1px var(--accent-color),
+      0 0 20px var(--shadow-glow);
+  }
+
+  canvas {
+    display: block;
+    width: 100% !important;
+    height: auto !important;
+    border-radius: 16px;
+  }
+}
+
+.page-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  min-height: 400px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+// Animations de chargement
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border-color);
+  border-top: 3px solid var(--accent-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+
+  &.large {
+    width: 60px;
+    height: 60px;
+    border-width: 4px;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+// Bouton de retour en haut
+.scroll-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 56px;
+  height: 56px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 50%;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 32px var(--shadow-dark);
+
+  &:hover {
+    background: var(--accent-color);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px var(--shadow-dark), 0 0 20px var(--shadow-glow);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  svg {
+    transition: transform 0.3s ease;
+  }
+
+  &:hover svg {
+    transform: translateY(-2px);
+  }
+}
+
+// Barre de progression du scroll
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--border-color);
+  z-index: 1000;
+
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-color) 0%, #8b5cf6 100%);
+    width: 0%;
+    transition: width 0.1s ease;
+    box-shadow: 0 0 10px var(--shadow-glow);
+  }
+}
+
+// Styles responsive
+@media (max-width: 768px) {
+  .menu-container {
+    padding: 1rem 0.5rem;
+  }
+
+  .pdf-header {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    border-radius: 16px;
+  }
+
+  .pdf-pages-container {
+    gap: 1rem;
+  }
+
+  .scroll-to-top {
+    width: 48px;
+    height: 48px;
+    bottom: 1.5rem;
+    right: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .pdf-header {
+    padding: 1rem;
+  }
+}
+
+// Mode sombre amélioré pour les utilisateurs qui préfèrent
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary-bg: #000000;
+    --secondary-bg: #111111;
+  }
+}
+
+// Accessibilité
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .menu-container {
+    scroll-behavior: auto;
+  }
+}

@@ -194,9 +194,9 @@ const NosValeursComponent: React.FC = () => {
               </article>
             ))}
           </div>
-          <Swipergallery />
         </div>
       </div>
+      <Swipergallery />
     </section>
   );
 };

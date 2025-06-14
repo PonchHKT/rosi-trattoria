@@ -4,7 +4,6 @@ import Biographie2 from "./components/Acceuil/Biographie2/biographie2";
 import Footer from "./components/Acceuil/Footer/footer";
 import HomeSectionVideo from "./components/Acceuil/HomeVideoSection/homevideosection";
 import Navbar from "./components/Acceuil/Navbar/navbar";
-import ReviewWidget from "./components/Acceuil/ReviewWidget/reviewwidget";
 import VideoPlayer from "./components/Acceuil/VideoPlayer/videoplayer";
 import { Routes, Route, useLocation } from "react-router-dom";
 import NosValeurs from "./pages/NosValeurs";
