@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
-import "react-pdf/dist/esm/Page/AnnotationLayer.css";
-import "react-pdf/dist/esm/Page/TextLayer.css";
-import "./MenuDisplay.scss";
+import "react-pdf/dist/esm/Page/annotationlayer.css";
+import "react-pdf/dist/esm/Page/textlayer.css";
+import "./menudisplay.scss";
 
 // Configuration du worker pour react-pdf
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
