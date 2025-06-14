@@ -206,7 +206,7 @@ const MenuDisplay: React.FC = () => {
         <div className="hours-header">
           <Calendar className="calendar-icon" size={20} />
           <Clock className="clock-icon" size={20} />
-          <h2>Horaires</h2>
+          <h2>Nos horaires</h2>
         </div>
 
         <div className="hours-list">
