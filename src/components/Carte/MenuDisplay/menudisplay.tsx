@@ -116,13 +116,7 @@ const MenuDisplay: React.FC = () => {
 
   return (
     <div className="menu-container" ref={containerRef}>
-      <div className="pdf-header">
-        {numPages && (
-          <div className="pdf-info">
-            <span className="pages-count">{numPages} pages</span>
-          </div>
-        )}
-      </div>
+      <div className="pdf-header"></div>
 
       <Document
         file="/carterositrattoria.pdf"
