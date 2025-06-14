@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
+import { Clock, Calendar, ChevronUp } from "lucide-react";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "./menudisplay.scss";
@@ -12,8 +13,10 @@ const MenuDisplay: React.FC = () => {
   const [pageWidth, setPageWidth] = useState<number>(800);
   const [loadedPages, setLoadedPages] = useState<Set<number>>(new Set([1, 5])); // Précharger les 2 premières pages
   const [loadProgress, setLoadProgress] = useState(0); // État pour la progression du chargement
+  const [currentTopPage, setCurrentTopPage] = useState<number>(1); // Page actuellement visible en haut
   const containerRef = useRef<HTMLDivElement>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
+  const pageRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
 
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
@@ -37,23 +40,30 @@ const MenuDisplay: React.FC = () => {
     return () => window.removeEventListener("resize", updateWidth);
   }, []);
 
-  // Intersection Observer optimisé pour le lazy loading
+  // Intersection Observer optimisé pour le lazy loading et tracking de la page courante
   useEffect(() => {
     observerRef.current = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
+          const pageNumber = parseInt(
+            entry.target.getAttribute("data-page") || "0"
+          );
+
           if (entry.isIntersecting) {
-            const pageNumber = parseInt(
-              entry.target.getAttribute("data-page") || "0"
-            );
+            // Ajouter la page aux pages chargées
             setLoadedPages((prev) => new Set([...prev, pageNumber]));
+
+            // Mettre à jour la page courante si elle est suffisamment visible
+            if (entry.intersectionRatio > 0.5) {
+              setCurrentTopPage(pageNumber);
+            }
           }
         });
       },
       {
         root: null,
         rootMargin: "200px", // Augmenté pour précharger plus tôt
-        threshold: 0,
+        threshold: [0, 0.5], // Ajouter un seuil pour détecter quand la page est à moitié visible
       }
     );
 
@@ -64,12 +74,25 @@ const MenuDisplay: React.FC = () => {
     };
   }, []);
 
-  // Fonction pour scroller vers le haut
-  const scrollToTop = () => {
-    containerRef.current?.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+  // Fonction pour scroller vers la page précédente
+  const scrollToPreviousPage = () => {
+    if (currentTopPage > 1) {
+      const targetPage = currentTopPage - 1;
+      const targetElement = pageRefs.current[targetPage];
+
+      if (targetElement) {
+        targetElement.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    } else {
+      // Si on est sur la première page, remonter tout en haut
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
   };
 
   // Rendu optimisé des pages avec lazy loading intelligent
@@ -86,6 +109,10 @@ const MenuDisplay: React.FC = () => {
           className="pdf-page-container"
           data-page={pageNumber}
           ref={(el) => {
+            // Stocker la référence de l'élément
+            pageRefs.current[pageNumber] = el;
+
+            // Observer l'élément
             if (el && observerRef.current) {
               observerRef.current.observe(el);
             }
@@ -116,47 +143,73 @@ const MenuDisplay: React.FC = () => {
 
   return (
     <div className="menu-container" ref={containerRef}>
-      <div className="pdf-header"></div>
+      {/* Section des horaires - style minimaliste */}
+      <div className="hours-section">
+        <div className="hours-header">
+          <Calendar className="calendar-icon" size={20} />
+          <Clock className="clock-icon" size={20} />
+          <h2>Horaires</h2>
+        </div>
 
-      <Document
-        file="/carterositrattoria.pdf"
-        onLoadSuccess={onDocumentLoadSuccess}
-        onLoadError={onDocumentLoadError}
-        onLoadProgress={({ loaded, total }) => {
-          if (total) {
-            setLoadProgress((loaded / total) * 100);
-          }
-        }}
-        loading={
-          <div className="document-loading">
-            <div className="loading-spinner large"></div>
-            <span>Chargement... {loadProgress.toFixed(0)}%</span>
+        <div className="hours-list">
+          <div className="hours-item">
+            <span>Mar - Jeu</span>
+            <span>12h-14h / 19h-21h30</span>
           </div>
-        }
-        className="pdf-document"
-      >
-        <div className="pdf-pages-container">{renderPages()}</div>
-      </Document>
+          <div className="hours-item">
+            <span>Ven - Sam</span>
+            <span>12h-14h / 19h-22h30</span>
+          </div>
+          <div className="hours-item closed">
+            <span>Lun - Dim</span>
+            <span>Fermé</span>
+          </div>
+        </div>
+      </div>
 
-      {/* Bouton de retour en haut */}
+      {/* Section PDF séparée */}
+      <div className="pdf-section">
+        <Document
+          file="/carterositrattoria.pdf"
+          onLoadSuccess={onDocumentLoadSuccess}
+          onLoadError={onDocumentLoadError}
+          onLoadProgress={({ loaded, total }) => {
+            if (total) {
+              setLoadProgress((loaded / total) * 100);
+            }
+          }}
+          loading={
+            <div className="document-loading">
+              <div className="loading-spinner large"></div>
+              <span>Chargement... {loadProgress.toFixed(0)}%</span>
+            </div>
+          }
+          className="pdf-document"
+        >
+          <div className="pdf-pages-container">{renderPages()}</div>
+        </Document>
+      </div>
+
+      {/* Bouton de remontée d'une page */}
       <button
         className="scroll-to-top"
-        onClick={scrollToTop}
-        aria-label="Retour en haut"
+        onClick={scrollToPreviousPage}
+        aria-label="Page précédente"
+        title={
+          currentTopPage > 1
+            ? `Aller à la page ${currentTopPage - 1}`
+            : "Retour en haut"
+        }
       >
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="m18 15-6-6-6 6" />
-        </svg>
+        <ChevronUp size={24} />
       </button>
+
+      {/* Indicateur de page courante */}
+      {numPages && (
+        <div className="page-indicator">
+          Page {currentTopPage} / {numPages}
+        </div>
+      )}
 
       {/* Indicateur de progression */}
       <div className="scroll-progress">

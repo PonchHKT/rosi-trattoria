@@ -11,6 +11,8 @@
   --shadow-glow: rgba(99, 102, 241, 0.2);
   --glass-bg: rgba(26, 26, 26, 0.8);
   --glass-border: rgba(255, 255, 255, 0.1);
+  --primary-blue: #3b82f6;
+  --primary-pink: #ec4899;
 }
 
 .menu-container {
@@ -25,6 +27,7 @@
   );
   min-height: 100vh;
   padding: 2rem 1rem;
+  padding-top: 100px; // Padding-top ajouté comme demandé
   position: relative;
   overflow-x: hidden;
   scroll-behavior: smooth;
@@ -57,33 +60,80 @@
   }
 }
 
-.pdf-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 2rem;
-  text-align: center;
-  padding: 1rem 2rem;
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  border: 1px solid var(--glass-border);
-  border-radius: 24px;
-  box-shadow: 0 8px 32px var(--shadow-dark),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+// Section horaires minimaliste
+.hours-section {
+  margin-top: 100px;
+  margin-bottom: 3rem;
+  padding: 1.5rem 2rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  max-width: 400px;
+  width: 100%;
 
-  .pdf-info {
-    .pages-count {
-      display: inline-flex;
-      align-items: center;
-      padding: 0.5rem 1rem;
-      background: var(--accent-color);
-      color: white;
-      border-radius: 50px;
-      font-size: 0.875rem;
-      font-weight: 600;
-      box-shadow: 0 4px 12px var(--shadow-glow);
+  .hours-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+
+    .calendar-icon {
+      color: var(--primary-blue); // Couleur primary-blue
+    }
+
+    .clock-icon {
+      color: var(--primary-pink); // Couleur primary-pink
+    }
+
+    h2 {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin: 0;
     }
   }
+
+  .hours-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    .hours-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      padding: 0.5rem 0;
+
+      &:not(:last-child) {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      span:first-child {
+        font-weight: 500;
+        color: var(--text-primary); // Blanc pour les jours
+      }
+
+      span:last-child {
+        color: var(--text-secondary); // Gris pour les heures
+      }
+
+      &.closed {
+        span:last-child {
+          color: #ef4444; // Rouge pour "Fermé"
+        }
+      }
+    }
+  }
+}
+
+// Section PDF séparée
+.pdf-section {
+  width: 100%;
+  max-width: 900px;
+  position: relative;
 }
 
 .document-loading {
@@ -99,7 +149,6 @@
 
 .pdf-document {
   width: 100%;
-  max-width: 900px;
   position: relative;
 }
 
@@ -188,7 +237,7 @@
   }
 }
 
-// Bouton de retour en haut
+// Bouton de remontée d'une page
 .scroll-to-top {
   position: fixed;
   bottom: 2rem;
@@ -227,6 +276,23 @@
   }
 }
 
+// Indicateur de page courante
+.page-indicator {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  padding: 0.5rem 1rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  z-index: 1000;
+  box-shadow: 0 8px 32px var(--shadow-dark);
+}
+
 // Barre de progression du scroll
 .scroll-progress {
   .progress-bar {
@@ -242,12 +308,25 @@
 @media (max-width: 768px) {
   .menu-container {
     padding: 1rem 0.5rem;
+    padding-top: 100px; // Maintenir le padding-top sur mobile
   }
 
-  .pdf-header {
+  .hours-section {
     margin-bottom: 2rem;
-    padding: 1.5rem;
-    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
+    max-width: 100%;
+
+    .hours-header {
+      h2 {
+        font-size: 1rem;
+      }
+    }
+
+    .hours-list {
+      .hours-item {
+        font-size: 0.85rem;
+      }
+    }
   }
 
   .pdf-pages-container {
@@ -260,11 +339,18 @@
     bottom: 1.5rem;
     right: 1.5rem;
   }
+
+  .page-indicator {
+    bottom: 1.5rem;
+    left: 1.5rem;
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+  }
 }
 
 @media (max-width: 480px) {
-  .pdf-header {
-    padding: 1rem;
+  .hours-section {
+    padding: 1rem 1.25rem;
   }
 }
 
