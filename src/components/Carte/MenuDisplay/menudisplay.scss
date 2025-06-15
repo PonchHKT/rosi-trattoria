@@ -324,22 +324,45 @@ body {
 
 .document-loading {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 3rem;
-  color: var(--text-secondary);
-  font-size: 1.1rem;
-  font-weight: 500;
+  min-height: 150px;
+  background: var(--primary-bg);
 
-  &::after {
-    content: "";
-    width: 20px;
-    height: 20px;
-    margin-left: 1rem;
-    border: 2px solid var(--border-color);
-    border-top-color: var(--primary-pink);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
+  .loading-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    text-align: center;
+
+    .loading-spinner {
+      width: 48px;
+      height: 48px;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-top-color: var(--primary-pink);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      will-change: transform;
+      transform-origin: center;
+    }
+
+    .loading-announcement {
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      font-weight: 600;
+      line-height: 1.5;
+
+      small {
+        display: block;
+        margin-top: 0.5rem;
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        font-weight: 400;
+        opacity: 0.8;
+      }
+    }
   }
 }
 
@@ -425,8 +448,12 @@ body {
   z-index: 100;
 }
 
+// Animation du spinner - DÉFINIE AVANT les media queries
 @keyframes spin {
-  to {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
     transform: rotate(360deg);
   }
 }
@@ -549,6 +576,30 @@ body {
     }
   }
 
+  .document-loading {
+    min-height: 150px;
+
+    .loading-content {
+      gap: 1.25rem;
+
+      .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border-width: 2.5px;
+        animation: spin 1s linear infinite;
+        will-change: transform;
+      }
+
+      .loading-announcement {
+        font-size: 1rem;
+
+        small {
+          font-size: 0.85rem;
+        }
+      }
+    }
+  }
+
   .pdf-page-grid {
     gap: 30px; /* Maintain smaller gap for tablets */
   }
@@ -665,6 +716,29 @@ body {
     }
   }
 
+  .document-loading {
+    min-height: 150px;
+
+    .loading-content {
+      gap: 1rem;
+
+      .loading-spinner {
+        width: 36px;
+        height: 36px;
+        animation: spin 1s linear infinite;
+        will-change: transform;
+      }
+
+      .loading-announcement {
+        font-size: 0.95rem;
+
+        small {
+          font-size: 0.8rem;
+        }
+      }
+    }
+  }
+
   .page-indicator {
     bottom: 1rem;
     left: 1rem;
@@ -682,9 +756,17 @@ body {
   }
 }
 
+// CORRECTION IMPORTANTE : Ne pas désactiver l'animation du spinner
 @media (prefers-reduced-motion: reduce) {
-  * {
-    animation: none !important;
+  // Garder l'animation du spinner car elle est essentielle pour le feedback utilisateur
+  .loading-spinner {
+    animation: spin 1s linear infinite !important;
+  }
+
+  // Désactiver seulement les animations non-essentielles
+  .dropdown-trigger,
+  .dropdown-menu,
+  .dropdown-arrow {
     transition: none !important;
   }
 

@@ -91,9 +91,6 @@ const NosValeursComponent: React.FC = () => {
           role="region"
           aria-label="Nos valeurs fondamentales"
         >
-          <h2 className="nos-valeurs__features-title">
-            Nos Valeurs Fondamentales
-          </h2>
           <div className="nos-valeurs__cards-grid">
             {featureCardsData.map((card, index) => {
               const IconComponent = card.icon;
