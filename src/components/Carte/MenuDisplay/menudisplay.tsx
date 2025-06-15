@@ -16,6 +16,9 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/b
 
 const MenuDisplay: React.FC = () => {
   const [numPages, setNumPages] = useState<number | null>(null);
+  const [pageDimensions, setPageDimensions] = useState<
+    { width: number; height: number }[]
+  >([]);
   const [pageWidth, setPageWidth] = useState(800);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedMenu, setSelectedMenu] = useState<string>("");
@@ -77,18 +80,19 @@ const MenuDisplay: React.FC = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [numPages, currentPage]);
 
-  // Handle menu selection with 10-second loading timer
+  // Handle menu selection with 7-second loading timer
   const handleMenuSelect = (menuType: string) => {
     setSelectedMenu(menuType);
     setDropdownOpen(false);
     setNumPages(null);
+    setPageDimensions([]);
     setCurrentPage(1);
     setIsLoading(true);
 
-    // Set 10-second loading timer
+    // Set 7-second loading timer
     setTimeout(() => {
       setIsLoading(false);
-    }, 5000);
+    }, 7000);
   };
 
   // Determine PDF file based on selection
@@ -137,57 +141,92 @@ const MenuDisplay: React.FC = () => {
     return options.find((option) => option.value === selectedMenu);
   };
 
+  // Handle PDF load success to get page dimensions
+  const handleDocumentLoadSuccess = async ({
+    numPages,
+  }: {
+    numPages: number;
+  }) => {
+    setNumPages(numPages);
+    const pdfFile = getPdfFile();
+    if (!pdfFile) return;
+    const pdf = await pdfjs.getDocument(pdfFile).promise;
+    const dimensions = [];
+    for (let i = 1; i <= numPages; i++) {
+      const page = await pdf.getPage(i);
+      const viewport = page.getViewport({ scale: 1 });
+      dimensions.push({ width: viewport.width, height: viewport.height });
+    }
+    setPageDimensions(dimensions);
+  };
+
   // Render PDF pages
   const renderPages = () => {
-    if (!numPages) return null;
+    if (!numPages || !pageDimensions.length) return null;
 
     const mobile = isMobile();
 
-    return Array.from({ length: numPages }, (_, i) => {
-      const pageNumber = i + 1;
+    return (
+      <div className="pdf-page-grid">
+        {Array.from({ length: numPages }, (_, i) => {
+          const pageNumber = i + 1;
+          const isLandscape =
+            pageDimensions[i]?.width > pageDimensions[i]?.height;
+          const adjustedWidth =
+            mobile && isLandscape ? pageWidth * 1.2 : pageWidth;
 
-      const containerStyle = mobile
-        ? {
-            minHeight: "500px",
-            maxHeight: "700px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            overflow: "hidden",
-          }
-        : {
-            minHeight: "600px",
-          };
+          const containerStyle = mobile
+            ? {
+                minHeight: isLandscape ? "400px" : "500px",
+                maxHeight: isLandscape ? "600px" : "700px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                overflow: "visible",
+              }
+            : {
+                minHeight: "600px",
+              };
 
-      return (
-        <div
-          key={pageNumber}
-          className={`pdf-page-container ${mobile ? "mobile-optimized" : ""}`}
-          data-page={pageNumber}
-          style={containerStyle}
-        >
-          <Page
-            pageNumber={pageNumber}
-            width={pageWidth}
-            renderTextLayer={true}
-            renderAnnotationLayer={false}
-            renderMode="canvas"
-            className="pdf-page"
-            loading={
-              <div
-                className="page-loading"
-                style={{ minHeight: mobile ? "600px" : "500px" }}
-              >
-                Chargement...
-              </div>
-            }
-            onLoadError={(error) => {
-              console.warn(`Erreur chargement page ${pageNumber}:`, error);
-            }}
-          />
-        </div>
-      );
-    });
+          return (
+            <div
+              key={pageNumber}
+              className={`pdf-page-container ${
+                mobile ? "mobile-optimized" : ""
+              } ${isLandscape ? "landscape" : ""}`}
+              data-page={pageNumber}
+              style={containerStyle}
+            >
+              <Page
+                pageNumber={pageNumber}
+                width={adjustedWidth}
+                renderTextLayer={true}
+                renderAnnotationLayer={false}
+                renderMode="canvas"
+                className="pdf-page"
+                loading={
+                  <div
+                    className="page-loading"
+                    style={{
+                      minHeight: mobile
+                        ? isLandscape
+                          ? "400px"
+                          : "600px"
+                        : "500px",
+                    }}
+                  >
+                    Chargement...
+                  </div>
+                }
+                onLoadError={(error) => {
+                  console.warn(`Erreur chargement page ${pageNumber}:`, error);
+                }}
+              />
+            </div>
+          );
+        })}
+      </div>
+    );
   };
 
   const selectedMenuInfo = getSelectedMenuInfo();
@@ -296,7 +335,7 @@ const MenuDisplay: React.FC = () => {
         <div className="pdf-section">
           <Document
             file={getPdfFile()}
-            onLoadSuccess={({ numPages }) => setNumPages(numPages)}
+            onLoadSuccess={handleDocumentLoadSuccess}
             onLoadError={(error) => console.error("PDF load error:", error)}
             loading={null}
           >
@@ -308,7 +347,7 @@ const MenuDisplay: React.FC = () => {
                 </span>
               </div>
             ) : (
-              <div className="pdf-pages-container">{renderPages()}</div>
+              renderPages()
             )}
           </Document>
         </div>

@@ -318,6 +318,8 @@ body {
 .pdf-section {
   width: 100%;
   max-width: 900px;
+  display: flex;
+  justify-content: center;
 }
 
 .document-loading {
@@ -341,11 +343,12 @@ body {
   }
 }
 
-.pdf-pages-container {
+.pdf-page-grid {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  padding-bottom: 150px;
+  gap: 60px; /* Increased spacing for desktop */
+  width: 100%;
+  align-items: center;
 }
 
 .pdf-page-container {
@@ -357,6 +360,23 @@ body {
     min-height: 600px;
     position: relative;
     touch-action: pan-y pinch-zoom;
+  }
+
+  &.landscape {
+    min-height: 400px;
+    max-height: 600px;
+    overflow: visible;
+
+    .pdf-page {
+      transform: scale(1);
+      transform-origin: center;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: auto !important;
+      max-width: none;
+    }
   }
 }
 
@@ -529,9 +549,8 @@ body {
     }
   }
 
-  .pdf-pages-container {
-    gap: 0.5rem;
-    padding-bottom: 150px;
+  .pdf-page-grid {
+    gap: 30px; /* Maintain smaller gap for tablets */
   }
 
   .pdf-page-container {
@@ -653,12 +672,12 @@ body {
     font-size: 0.8rem;
   }
 
-  .pdf-pages-container {
-    gap: 0.3rem;
+  .pdf-page-grid {
+    gap: 6px; /* Maintain smaller gap for mobile */
   }
 
   .pdf-page-container.mobile-optimized {
-    min-height: 450px;
+    min-height: 400px;
     margin: 0;
   }
 }
