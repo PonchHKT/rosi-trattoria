@@ -175,13 +175,13 @@ body {
         align-items: center;
         justify-content: space-between;
         padding: 1.25rem;
-        background: rgba(255, 255, 255, 0.03);
+        background: black;
         border: 2px solid var(--glass-border);
         border-radius: 12px;
         cursor: pointer;
 
         &.selected {
-          background: rgba(59, 130, 246, 0.1);
+          background: black;
           border-color: var(--primary-pink);
         }
 

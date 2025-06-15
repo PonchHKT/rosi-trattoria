@@ -547,7 +547,7 @@ body {
     width: 100%;
     max-width: 100vw;
     margin: 0;
-    padding-top: 50px;
+    padding-top: 50px; // Ajout du padding-top de 50px sur mobile
 
     // iOS-specific fix
     @supports (-webkit-touch-callout: none) {
@@ -579,6 +579,9 @@ body {
       width: 100%;
       max-width: 100%;
       border-radius: 0;
+      min-height: 40vh; // Réduit pour laisser plus de place à la playlist
+      height: 45vh; // Réduit pour plus d'espace playlist
+      object-fit: cover;
     }
 
     &__playlist {
@@ -593,7 +596,7 @@ body {
       border-top: 1px solid black;
 
       &--visible {
-        max-height: 60vh;
+        max-height: 55vh; // Augmenté de 40vh à 55vh pour plus de hauteur
         transform: none;
         opacity: 1;
       }
@@ -606,7 +609,7 @@ body {
     // Ensure playlist content can scroll on mobile
     &__playlist-content {
       height: auto;
-      max-height: 50vh;
+      max-height: 50vh; // Augmenté de 35vh à 50vh pour plus de place
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       padding-bottom: 1rem;
@@ -660,7 +663,7 @@ body {
     width: 100%;
     max-width: 100vw;
     margin: 0;
-    padding-top: 50px;
+    padding-top: 50px; // Ajout du padding-top de 50px sur mobile
 
     // iOS-specific fix
     @supports (-webkit-touch-callout: none) {
@@ -672,6 +675,18 @@ body {
     &__video {
       width: 100%;
       max-width: 100%;
+      min-height: 35vh; // Réduit encore pour laisser plus de place
+      height: 40vh; // Réduit pour plus d'espace playlist
+    }
+
+    &__playlist {
+      &--visible {
+        max-height: 60vh; // Augmenté encore plus sur petits écrans
+      }
+    }
+
+    &__playlist-content {
+      max-height: 55vh; // Plus d'espace pour la playlist sur petits écrans
     }
 
     &__controls {
@@ -709,9 +724,25 @@ body {
     &__playlist-item-meta {
       font-size: 0.6875rem;
     }
+  }
+
+  // Orientation paysage sur mobile - équilibre vidéo/playlist
+  @media (orientation: landscape) and (max-height: 500px) {
+    padding-top: 50px; // Maintien du padding-top même en paysage
+
+    &__video {
+      height: 60vh !important; // Réduit de 85vh à 60vh
+      min-height: 60vh !important;
+    }
+
+    &__playlist {
+      &--visible {
+        max-height: 40vh; // Augmenté de 15vh à 40vh
+      }
+    }
 
     &__playlist-content {
-      max-height: 45vh;
+      max-height: 35vh; // Plus d'espace même en paysage
     }
   }
 }
@@ -785,32 +816,6 @@ video:-webkit-full-screen {
 
     .video-player__btn--icon {
       padding: 0.75rem;
-    }
-  }
-}
-
-// Styles pour les appareils en orientation paysage
-@media (orientation: landscape) and (max-height: 500px) {
-  .video-player--fullscreen {
-    .video-player__controls {
-      padding: 0.75rem;
-    }
-
-    .video-player__current-title {
-      font-size: 1rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .video-player__controls-left {
-      gap: 0.75rem;
-    }
-
-    .video-player__btn--play {
-      padding: 0.75rem;
-    }
-
-    .video-player__btn--icon {
-      padding: 0.5rem;
     }
   }
 }
