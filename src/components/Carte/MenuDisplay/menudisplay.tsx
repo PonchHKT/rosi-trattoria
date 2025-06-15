@@ -1,207 +1,166 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
-import { Clock, Calendar, ChevronUp } from "lucide-react";
+import {
+  Clock,
+  Calendar,
+  ChevronUp,
+  ChevronDown,
+  ShoppingBag,
+  UtensilsCrossed,
+  Menu,
+} from "lucide-react";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "./menudisplay.scss";
 
-// Configuration du worker pour react-pdf
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 const MenuDisplay: React.FC = () => {
   const [numPages, setNumPages] = useState<number | null>(null);
-  const [pageWidth, setPageWidth] = useState<number>(800);
-  const [loadedPages, setLoadedPages] = useState<Set<number>>(new Set([1, 5])); // Précharger les 2 premières pages
-  const [loadProgress, setLoadProgress] = useState(0); // État pour la progression du chargement
-  const [currentTopPage, setCurrentTopPage] = useState<number>(1); // Page actuellement visible en haut
+  const [pageWidth, setPageWidth] = useState(800);
+  const [loadedPages, setLoadedPages] = useState(new Set([1]));
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedMenu, setSelectedMenu] = useState<string>("");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const observerRef = useRef<IntersectionObserver | null>(null);
   const pageRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
-    setNumPages(numPages);
-  };
-
-  const onDocumentLoadError = (error: Error) => {
-    console.error("Erreur lors du chargement du PDF:", error);
-  };
-
-  // Gestion responsive de la largeur
+  // Handle responsive page width with devicePixelRatio
   useEffect(() => {
     const updateWidth = () => {
       if (containerRef.current) {
-        const containerWidth = containerRef.current.offsetWidth;
-        setPageWidth(Math.min(containerWidth - 40, 800));
+        const pixelRatio = window.devicePixelRatio || 1;
+        const containerWidth = containerRef.current.offsetWidth - 40;
+        setPageWidth(Math.min(containerWidth * pixelRatio, 1200));
       }
     };
-
     updateWidth();
-    window.addEventListener("resize", updateWidth);
+    window.addEventListener("resize", updateWidth, { passive: true });
     return () => window.removeEventListener("resize", updateWidth);
   }, []);
 
-  // Intersection Observer optimisé pour le lazy loading et tracking de la page courante
+  // Close dropdown when clicking outside
   useEffect(() => {
-    observerRef.current = new IntersectionObserver(
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Intersection Observer for lazy loading and page tracking
+  useEffect(() => {
+    const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          const pageNumber = parseInt(
-            entry.target.getAttribute("data-page") || "0"
-          );
-
+          const pageNumber = Number(entry.target.getAttribute("data-page"));
           if (entry.isIntersecting) {
-            // Ajouter la page aux pages chargées
             setLoadedPages((prev) => new Set([...prev, pageNumber]));
-
-            // Mettre à jour la page courante si elle est suffisamment visible
             if (entry.intersectionRatio > 0.5) {
-              setCurrentTopPage(pageNumber);
+              setCurrentPage(pageNumber);
             }
           }
         });
       },
-      {
-        root: null,
-        rootMargin: "200px", // Augmenté pour précharger plus tôt
-        threshold: [0, 0.5], // Ajouter un seuil pour détecter quand la page est à moitié visible
-      }
+      { rootMargin: "1000px", threshold: [0, 0.5] }
     );
 
-    return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
-      }
-    };
-  }, []);
+    Object.values(pageRefs.current).forEach((el) => el && observer.observe(el));
+    return () => observer.disconnect();
+  }, [numPages]);
 
-  // Fonction améliorée pour détecter la page actuellement visible
-  const getCurrentVisiblePage = (): number => {
-    let closestPage = 1;
-    let minDistance = Infinity;
-
-    Object.entries(pageRefs.current).forEach(([pageNum, element]) => {
-      if (element) {
-        const rect = element.getBoundingClientRect();
-        const pageNumber = parseInt(pageNum);
-
-        // Distance du haut de la page au viewport
-        const distanceFromTop = Math.abs(rect.top);
-
-        // Si la page est visible dans le viewport
-        if (rect.top < window.innerHeight && rect.bottom > 0) {
-          if (distanceFromTop < minDistance) {
-            minDistance = distanceFromTop;
-            closestPage = pageNumber;
-          }
-        }
-      }
-    });
-
-    return closestPage;
-  };
-
-  // Fonction pour scroller vers la page précédente - VERSION CORRIGÉE
+  // Scroll to previous page
   const scrollToPreviousPage = () => {
-    // Obtenir la page actuellement visible de manière plus précise
-    const actualCurrentPage = getCurrentVisiblePage();
-
-    if (actualCurrentPage > 1) {
-      const targetPage = actualCurrentPage - 1;
-      const targetElement = pageRefs.current[targetPage];
-
-      if (targetElement) {
-        const offsetTop = targetElement.offsetTop - 20; // 20px de marge
-
-        window.scrollTo({
-          top: offsetTop,
-          behavior: "smooth",
-        });
-
-        // Mettre à jour immédiatement l'état pour un feedback visuel
-        setCurrentTopPage(targetPage);
-      }
-    } else {
-      // Si on est sur la première page, remonter tout en haut
+    const targetPage = currentPage > 1 ? currentPage - 1 : 1;
+    const targetElement = pageRefs.current[targetPage];
+    if (targetElement) {
       window.scrollTo({
-        top: 0,
+        top: targetElement.offsetTop - 20,
         behavior: "smooth",
       });
-      setCurrentTopPage(1);
+      setCurrentPage(targetPage);
     }
   };
 
-  // Ajouter un listener pour mettre à jour la page courante en temps réel
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentPage = getCurrentVisiblePage();
-      if (currentPage !== currentTopPage) {
-        setCurrentTopPage(currentPage);
-      }
-    };
+  // Handle menu selection
+  const handleMenuSelect = (menuType: string) => {
+    setSelectedMenu(menuType);
+    setIsDropdownOpen(false);
+    setNumPages(null);
+    setLoadedPages(new Set([1]));
+    setCurrentPage(1);
+  };
 
-    // Throttle la fonction de scroll pour les performances
-    let scrollTimeout: ReturnType<typeof setTimeout>;
-    const throttledScroll = () => {
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(handleScroll, 100);
-    };
+  // Get menu option details
+  const getMenuOption = (type: string) => {
+    switch (type) {
+      case "sur_place":
+        return {
+          icon: UtensilsCrossed,
+          label: "Sur place",
+          description: "Service à table",
+        };
+      case "a_emporter":
+        return {
+          icon: ShoppingBag,
+          label: "À emporter",
+          description: "Tarifs réduits",
+        };
+      default:
+        return null;
+    }
+  };
 
-    window.addEventListener("scroll", throttledScroll);
-    return () => {
-      window.removeEventListener("scroll", throttledScroll);
-      clearTimeout(scrollTimeout);
-    };
-  }, [currentTopPage]);
+  // Determine PDF file based on selection
+  const getPdfFile = () => {
+    if (selectedMenu === "sur_place") return "/carterositrattoria.pdf";
+    if (selectedMenu === "a_emporter") return "/carterositrattoriaemporter.pdf";
+    return null;
+  };
 
-  // Rendu optimisé des pages avec lazy loading intelligent
+  // Render PDF pages
   const renderPages = () => {
     if (!numPages) return null;
-
-    return Array.from({ length: numPages }, (_, index) => {
-      const pageNumber = index + 1;
-      const shouldLoad = loadedPages.has(pageNumber);
-
+    return Array.from({ length: numPages }, (_, i) => {
+      const pageNumber = i + 1;
       return (
         <div
           key={pageNumber}
           className="pdf-page-container"
           data-page={pageNumber}
           ref={(el) => {
-            // Stocker la référence de l'élément
             pageRefs.current[pageNumber] = el;
-
-            // Observer l'élément
-            if (el && observerRef.current) {
-              observerRef.current.observe(el);
-            }
           }}
         >
-          {shouldLoad ? (
+          {loadedPages.has(pageNumber) ? (
             <Page
               pageNumber={pageNumber}
               width={pageWidth}
-              renderTextLayer={false} // Désactivé pour de meilleures performances
-              renderAnnotationLayer={false} // Désactivé pour de meilleures performances
+              scale={window.devicePixelRatio || 1}
+              renderTextLayer={true}
+              renderAnnotationLayer={false}
               className="pdf-page"
-              loading={
-                <div className="page-loading">
-                  <div className="loading-spinner"></div>
-                </div>
-              }
+              loading={<div className="page-loading">Chargement...</div>}
             />
           ) : (
-            <div className="page-placeholder">
-              <div className="loading-spinner"></div>
-            </div>
+            <div className="page-placeholder" />
           )}
         </div>
       );
     });
   };
 
+  const selectedOption = selectedMenu ? getMenuOption(selectedMenu) : null;
+
   return (
     <div className="menu-container" ref={containerRef}>
-      {/* Section des horaires - style minimaliste */}
       <div className="hours-section">
         <div className="hours-header">
           <Calendar className="calendar-icon" size={20} />
@@ -223,56 +182,109 @@ const MenuDisplay: React.FC = () => {
             <span>Fermé</span>
           </div>
         </div>
-      </div>
 
-      {/* Section PDF séparée */}
-      <div className="pdf-section">
-        <Document
-          file="/carterositrattoria.pdf"
-          onLoadSuccess={onDocumentLoadSuccess}
-          onLoadError={onDocumentLoadError}
-          onLoadProgress={({ loaded, total }) => {
-            if (total) {
-              setLoadProgress((loaded / total) * 100);
-            }
-          }}
-          loading={
-            <div className="document-loading">
-              <div className="loading-spinner large"></div>
-              <span>Chargement... {loadProgress.toFixed(0)}%</span>
+        <div className="menu-selection">
+          <h3 className="service-title">Type de service</h3>
+
+          <div className="dropdown-container" ref={dropdownRef}>
+            <button
+              className={`dropdown-trigger ${selectedMenu ? "selected" : ""}`}
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              aria-expanded={isDropdownOpen}
+              aria-haspopup="listbox"
+            >
+              <div className="dropdown-trigger-content">
+                {selectedOption ? (
+                  <>
+                    <selectedOption.icon className="service-icon" size={20} />
+                    <div className="service-info">
+                      <span className="service-label">
+                        {selectedOption.label}
+                      </span>
+                      <span className="service-description">
+                        {selectedOption.description}
+                      </span>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <Menu className="service-icon" size={20} />
+                    <div className="service-info">
+                      <span className="service-label">Choisir une carte</span>
+                      <span className="service-description">
+                        Sélectionnez votre option
+                      </span>
+                    </div>
+                  </>
+                )}
+              </div>
+              <ChevronDown
+                className={`dropdown-arrow ${isDropdownOpen ? "open" : ""}`}
+                size={20}
+              />
+            </button>
+
+            <div className={`dropdown-menu ${isDropdownOpen ? "open" : ""}`}>
+              <div
+                className="dropdown-option"
+                onClick={() => handleMenuSelect("sur_place")}
+              >
+                <UtensilsCrossed className="service-icon" size={20} />
+                <div className="service-info">
+                  <span className="service-label">Sur place</span>
+                  <span className="service-description">Service à table</span>
+                </div>
+              </div>
+
+              <div
+                className="dropdown-option"
+                onClick={() => handleMenuSelect("a_emporter")}
+              >
+                <ShoppingBag className="service-icon" size={20} />
+                <div className="service-info">
+                  <span className="service-label">À emporter</span>
+                  <span className="service-description"></span>
+                </div>
+                <span className="discount-badge">Tarifs réduits</span>
+              </div>
             </div>
-          }
-          className="pdf-document"
-        >
-          <div className="pdf-pages-container">{renderPages()}</div>
-        </Document>
+          </div>
+        </div>
       </div>
 
-      {/* Bouton de remontée d'une page */}
+      {selectedMenu && (
+        <div className="pdf-section">
+          <Document
+            file={getPdfFile()}
+            onLoadSuccess={({ numPages }) => setNumPages(numPages)}
+            onLoadError={(error) => console.error("PDF load error:", error)}
+            loading={
+              <div className="document-loading">Chargement du menu...</div>
+            }
+          >
+            <div className="pdf-pages-container">{renderPages()}</div>
+          </Document>
+        </div>
+      )}
+
       <button
         className="scroll-to-top"
         onClick={scrollToPreviousPage}
         aria-label="Page précédente"
         title={
-          currentTopPage > 1
-            ? `Aller à la page ${currentTopPage - 1}`
+          currentPage > 1
+            ? `Aller à la page ${currentPage - 1}`
             : "Retour en haut"
         }
       >
         <ChevronUp size={24} />
       </button>
 
-      {/* Indicateur de page courante */}
       {numPages && (
         <div className="page-indicator">
-          Page {currentTopPage} / {numPages}
+          Page {currentPage} / {numPages}
         </div>
       )}
-
-      {/* Indicateur de progression */}
-      <div className="scroll-progress">
-        <div className="progress-bar"></div>
-      </div>
     </div>
   );
 };
