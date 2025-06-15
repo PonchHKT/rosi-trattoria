@@ -353,7 +353,7 @@ const MenuDisplay: React.FC = () => {
                 <div className="loading-content">
                   <div className="loading-spinner"></div>
                   <span className="loading-announcement">
-                    Chargement du menu en cours...
+                    Chargement en cours...
                     <br />
                     <small>
                       Veuillez patienter le temps que le navigateur traite le
