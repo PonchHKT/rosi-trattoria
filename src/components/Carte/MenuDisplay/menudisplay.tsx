@@ -189,7 +189,7 @@ const MenuDisplay: React.FC = () => {
         </div>
 
         <div className="menu-selection">
-          <h3 className="service-title">Choisir une carte</h3>
+          <h3 className="service-title"></h3>
           <div className="dropdown-container" ref={dropdownRef}>
             <div
               className={`dropdown-trigger ${selectedMenu ? "selected" : ""}`}

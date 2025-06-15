@@ -1,19 +1,19 @@
 :root {
   --primary-bg: #000000;
-  --secondary-bg: #111;
+  --secondary-bg: #000000;
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
   --text-muted: #64748b;
-  --border-color: #1e293b;
-  --accent-color: #3b82f6;
-  --accent-hover: #2563eb;
+  --border-color: #000000;
+  --accent-color: #75b9f9;
+  --accent-hover: #75b9f9;
   --glass-bg: rgba(15, 23, 42, 0.8);
   --glass-border: rgba(148, 163, 184, 0.1);
   --green-primary: #10b981;
   --green-secondary: #059669;
   --green-glow: rgba(16, 185, 129, 0.2);
   --red-primary: #ef4444;
-  --primary-blue: #3b82f6;
+  --primary-blue: #75b9f9;
   --primary-pink: #ec4899;
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
@@ -48,8 +48,7 @@
   max-width: 480px;
   width: 100%;
   transition: all 0.3s ease;
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
+  background: black;
   backdrop-filter: blur(20px);
 
   &:hover {
