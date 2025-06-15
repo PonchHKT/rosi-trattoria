@@ -41,21 +41,251 @@
     align-items: center;
   }
 
-  // Feature Cards Section - Maintenant en premier
+  // Hero Section avec Pascal - MAINTENANT EN PREMIER AVEC PLUS D'IMPACT
+  &__hero {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+    order: 1;
+    // Ajout d'un padding-top plus important pour l'effet "wow"
+    padding-top: var(--spacing-xl);
+  }
+
+  &__pascal-showcase {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-md);
+    // Animation d'entrée subtile
+    animation: nosValeurssFadeInUp 1s ease-out;
+  }
+
+  &__pascal-image-container {
+    position: relative;
+    max-width: 450px; // Augmenté de 400px à 450px pour plus d'impact
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.7); // Ombre plus prononcée
+    // Ajout d'un effet de brillance subtile
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+      );
+      animation: nosValeursShine 3s infinite;
+      z-index: 1;
+    }
+  }
+
+  &__pascal-image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    object-position: center;
+    transition: var(--transition);
+    // Léger effet de zoom au hover
+    &:hover {
+      transform: scale(1.02);
+    }
+  }
+
+  &__image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.7));
+    pointer-events: none;
+  }
+
+  &__pascal-name-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+    animation: nosValeurssFadeInUp 1s ease-out 0.3s both;
+  }
+
+  &__pascal-title {
+    font-family: var(--font-primary);
+    font-size: 1.1rem; // Légèrement plus grand
+    font-weight: 600;
+    color: var(--primary-gold);
+    text-transform: uppercase;
+    letter-spacing: 2px; // Plus d'espacement
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px; // Plus large
+      height: 2px;
+      background: var(--primary-gold);
+      animation: nosValeursPascalTitlePulse 2s ease-in-out infinite;
+    }
+  }
+
+  &__pascal-name {
+    font-family: var(--font-accent);
+    font-size: 2.5rem; // Augmenté de 2.25rem à 2.5rem
+    font-weight: 700;
+    color: var(--text-white);
+    margin: 0;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.7); // Ombre plus prononcée
+    // Effet de brillance sur le nom
+    background: linear-gradient(45deg, #ffffff, #f0f0f0);
+    background-clip: text;
+    -webkit-background-clip: text;
+  }
+
+  &__formation-highlight {
+    display: flex;
+    justify-content: center;
+    animation: nosValeurssFadeInUp 1s ease-out 0.6s both;
+  }
+
+  &__formation-badge {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    background: rgba(255, 255, 255, 0.08); // Plus visible
+    border: 2px solid var(--primary-gold); // Bordure plus épaisse
+    padding: var(--spacing-md) var(--spacing-lg); // Plus de padding
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 20px rgba(212, 160, 23, 0.2);
+    transition: var(--transition);
+    // Effet de pulsation subtile
+    animation: nosValeursGentlePulse 4s ease-in-out infinite;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 8px 30px rgba(212, 160, 23, 0.4);
+      transform: translateY(-2px);
+    }
+  }
+
+  &__formation-icon {
+    color: var(--primary-gold);
+    filter: drop-shadow(0 0 10px var(--primary-gold));
+  }
+
+  &__formation-text {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+  }
+
+  &__formation-subtitle {
+    font-size: 1rem; // Légèrement plus grand
+    color: var(
+      --text-white
+    ); // Changé de text-gray à white pour plus de visibilité
+    font-weight: 500; // Plus gras
+  }
+
+  &__intro-text {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    animation: nosValeurssFadeInUp 1s ease-out 0.9s both;
+  }
+
+  &__intro-highlight {
+    font-family: var(--font-accent);
+    font-size: 1.4rem; // Augmenté de 1.3rem
+    font-weight: 700;
+    color: var(--text-white);
+    line-height: 1.6;
+    letter-spacing: 0.5px;
+  }
+
+  &__intro-body {
+    font-family: var(--font-primary);
+    font-size: 1.2rem; // Augmenté de 1.1rem
+    font-weight: 300;
+    color: var(--text-gray);
+    line-height: 1.8;
+
+    strong {
+      font-size: 1.6rem; // Augmenté proportionnellement
+      color: var(--primary-pink); // Changé pour plus de contraste
+    }
+  }
+
+  // Quote Section - MAINTENANT EN DEUXIÈME POSITION
+  &__quote {
+    font-family: var(--font-accent);
+    font-style: italic;
+    font-size: 1.6rem; // Légèrement plus grand
+    text-align: center;
+    padding: var(--spacing-xl) var(--spacing-lg); // Plus de padding
+    color: var(--text-white);
+    position: relative;
+    max-width: 900px; // Plus large
+    margin: 0 auto;
+    font-weight: 400;
+    line-height: 1.6;
+    order: 2;
+    // Ajout d'un fond subtil
+
+    &::before,
+    &::after {
+      position: absolute;
+      font-size: 4rem;
+      color: var(--primary-pink);
+      opacity: 0.4; // Plus visible
+      font-family: var(--font-accent);
+    }
+
+    &::before {
+      content: "\201C";
+      top: -5px;
+      left: 20px;
+    }
+
+    &::after {
+      content: "\201D";
+      bottom: -25px;
+      right: 20px;
+    }
+  }
+
+  &__quote-icon {
+    display: block;
+    margin: 0 auto var(--spacing-sm) auto;
+    animation: nosValeursFloat 3s ease-in-out infinite;
+    color: var(--primary-pink);
+  }
+
+  // Feature Cards Section - MAINTENANT EN TROISIÈME POSITION
   &__feature-cards {
     width: 100%;
-    order: 1; // Explicit order for clarity
-    padding-top: var(
-      --spacing-xl
-    ); // Padding au-dessus de Nos Valeurs Fondamentales
+    order: 3;
+    padding: var(--spacing-xl) 0; // Plus d'espacement
   }
 
   &__features-title {
     font-family: var(--font-accent);
-    font-size: 3rem;
+    font-size: 2.8rem; // Légèrement réduit car moins prioritaire
     color: var(--primary-blue);
     text-align: center;
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl); // Plus d'espace
     font-weight: 700;
     position: relative;
 
@@ -85,9 +315,13 @@
   &__feature-card {
     padding: var(--spacing-lg);
     text-align: center;
-
     position: relative;
     overflow: hidden;
+    transition: var(--transition);
+
+    &:hover {
+      transform: translateY(-5px);
+    }
   }
 
   &__card-header {
@@ -136,215 +370,15 @@
     font-weight: 400;
   }
 
-  // Hero Section avec Pascal - Maintenant au milieu
-  &__hero {
-    width: 100%;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-lg);
-    order: 2; // Explicit order for clarity
-  }
-
-  &__pascal-showcase {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--spacing-md);
-  }
-
-  &__pascal-image-container {
-    position: relative;
-    max-width: 400px;
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    margin-top: var(--spacing-xl); // Padding au-dessus de l'image de Pascal
-  }
-
-  &__pascal-image {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    object-position: center;
-    transition: var(--transition);
-  }
-
-  &__image-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.7));
-    pointer-events: none;
-  }
-
-  &__pascal-name-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--spacing-xs);
-  }
-
-  &__pascal-title {
-    font-family: var(--font-primary);
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--primary-gold);
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    position: relative;
-
-    &::after {
-      content: "";
-      position: absolute;
-      bottom: -4px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 50px;
-      height: 2px;
-      background: var(--primary-gold);
-    }
-  }
-
-  &__pascal-name {
-    font-family: var(--font-accent);
-    font-size: 2.25rem;
-    font-weight: 700;
-    color: var(--text-white);
-    margin: 0;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-  }
-
-  &__formation-highlight {
-    display: flex;
-    justify-content: center;
-  }
-
-  &__formation-badge {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--primary-gold);
-    padding: var(--spacing-sm) var(--spacing-md);
-    border-radius: var(--border-radius);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    transition: var(--transition);
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.08);
-      box-shadow: 0 4px 20px rgba(212, 160, 23, 0.3);
-    }
-  }
-
-  &__formation-icon {
-    color: var(--primary-gold);
-    filter: drop-shadow(0 0 8px var(--primary-gold));
-    animation: pulse 2s infinite;
-  }
-
-  &__formation-text {
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-  }
-
-  &__formation-title {
-    font-family: var(--font-accent);
-    font-size: 1.5rem;
-    font-weight: 700;
-  }
-
-  &__formation-subtitle {
-    font-size: 0.9rem;
-    color: var(--text-gray);
-    font-weight: 400;
-  }
-
-  &__intro-text {
-    max-width: 1000px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-md);
-  }
-
-  &__intro-highlight {
-    font-family: var(--font-accent);
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--text-white);
-    line-height: 1.6;
-    letter-spacing: 0.5px;
-  }
-
-  &__intro-body {
-    font-family: var(--font-primary);
-    font-size: 1.1rem;
-    font-weight: 300;
-    color: var(--text-gray);
-    line-height: 1.8;
-
-    strong {
-      font-size: 1.5rem;
-      color: var(--text-white);
-    }
-  }
-
-  // Quote Section
-  &__quote {
-    font-family: var(--font-accent);
-    font-style: italic;
-    font-size: 1.5rem;
-    text-align: center;
-    padding: var(--spacing-lg);
-    color: var(--text-white);
-    position: relative;
-    max-width: 800px;
-    margin: 0 auto;
-    font-weight: 400;
-    line-height: 1.6;
-    order: 3; // Explicit order for clarity
-
-    &::before,
-    &::after {
-      position: absolute;
-      font-size: 4rem;
-      color: var(--primary-pink);
-      opacity: 0.3;
-    }
-
-    &::before {
-      content: "\201C";
-      top: -10px;
-      left: 20px;
-    }
-
-    &::after {
-      content: "\201D";
-      bottom: -30px;
-      right: 20px;
-    }
-  }
-
-  &__quote-icon {
-    display: block;
-    margin-bottom: var(--spacing-sm);
-    animation: float 3s ease-in-out infinite;
-    color: var(--primary-pink);
-  }
-
-  // Main Sections - Maintenant en bas
+  // Main Sections - MAINTENANT EN DERNIÈRE POSITION
   &__main-block {
     width: 100%;
-    order: 4; // Explicit order for clarity
+    order: 4;
   }
 
   &__main-title {
     font-family: var(--font-accent);
-    font-size: 3rem;
+    font-size: 2.8rem; // Légèrement réduit
     color: var(--primary-blue);
     text-align: center;
     margin-bottom: var(--spacing-lg);
@@ -433,27 +467,64 @@
     }
   }
 
-  // Animations
-  @keyframes pulse {
+  // Animations avec noms uniques pour éviter les conflits
+  @keyframes nosValeurssFadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes nosValeursShine {
+    0% {
+      left: -100%;
+    }
+    100% {
+      left: 100%;
+    }
+  }
+
+  @keyframes nosValeursGentlePulse {
+    0%,
+    100% {
+      box-shadow: 0 4px 20px rgba(212, 160, 23, 0.2);
+    }
+    50% {
+      box-shadow: 0 4px 20px rgba(212, 160, 23, 0.4);
+    }
+  }
+
+  @keyframes nosValeursTrophyFloat {
+    0%,
+    100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    33% {
+      transform: translateY(-3px) rotate(2deg);
+    }
+    66% {
+      transform: translateY(2px) rotate(-1deg);
+    }
+  }
+
+  // Animation pulse renommée et plus spécifique
+  @keyframes nosValeursPascalTitlePulse {
     0%,
     100% {
       opacity: 1;
+      width: 60px;
     }
     50% {
-      opacity: 0.8;
+      opacity: 0.7;
+      width: 80px;
     }
   }
 
-  @keyframes glow {
-    0% {
-      box-shadow: 0 0 20px rgba(255, 111, 97, 0.3);
-    }
-    100% {
-      box-shadow: 0 0 40px rgba(255, 111, 97, 0.6);
-    }
-  }
-
-  @keyframes float {
+  @keyframes nosValeursFloat {
     0%,
     100% {
       transform: translateY(0px);
@@ -463,31 +534,16 @@
     }
   }
 
-  @keyframes sparkle {
-    0% {
-      transform: scale(1) rotate(0deg);
-      opacity: 0.8;
-    }
-    100% {
-      transform: scale(1.1) rotate(15deg);
-      opacity: 1;
-    }
-  }
-
-  @keyframes shimmer {
-    0%,
-    100% {
-      opacity: 0.3;
-      transform: scaleX(0.8);
-    }
-    50% {
-      opacity: 1;
-      transform: scaleX(1);
-    }
-  }
-
-  // Responsive Design
+  // Responsive Design - Amélioré pour Pascal en premier
   @media screen and (max-width: 1024px) {
+    &__pascal-image-container {
+      max-width: 400px;
+    }
+
+    &__pascal-name {
+      font-size: 2.2rem;
+    }
+
     &__main-title,
     &__features-title {
       font-size: 2.5rem;
@@ -500,27 +556,6 @@
     &__sections-flex {
       grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     }
-
-    &__pascal-image {
-      max-width: 600px;
-    }
-
-    &__pascal-name-container {
-      gap: 0.5rem;
-    }
-
-    &__pascal-name {
-      font-size: 1.6rem;
-    }
-
-    &__pascal-title {
-      font-size: 0.9rem;
-      letter-spacing: 1.5px;
-    }
-
-    &__intro-text {
-      max-width: 900px;
-    }
   }
 
   @media screen and (max-width: 768px) {
@@ -531,26 +566,21 @@
       gap: var(--spacing-lg);
     }
 
-    &__feature-cards {
-      padding-top: var(--spacing-lg); // Padding réduit sur mobile
-    }
-
     &__hero {
-      padding: var(--spacing-lg);
+      padding-top: var(--spacing-lg);
     }
 
     &__pascal-image-container {
-      max-width: 500px;
-      margin-top: var(--spacing-lg); // Padding réduit sur mobile
+      max-width: 350px;
     }
 
     &__pascal-name {
-      font-size: 1.4rem;
+      font-size: 1.8rem;
     }
 
     &__pascal-title {
-      font-size: 0.85rem;
-      letter-spacing: 1.2px;
+      font-size: 1rem;
+      letter-spacing: 1.5px;
     }
 
     &__formation-badge {
@@ -570,36 +600,14 @@
       gap: 1.5rem;
     }
 
-    &__section {
-      padding: 1.5rem;
-
-      &-title {
-        font-size: 1.4rem;
-        margin-bottom: 0.75rem;
-      }
-    }
-
     &__quote {
-      font-size: 1.3rem;
-      padding: var(--spacing-md) var(--spacing-sm);
+      font-size: 1.4rem;
+      padding: var(--spacing-lg) var(--spacing-md);
     }
 
     &__cards-grid {
       grid-template-columns: 1fr;
       gap: var(--spacing-md);
-    }
-
-    &__feature-card {
-      padding: var(--spacing-md);
-    }
-
-    &__feature-image {
-      height: 180px;
-    }
-
-    &__intro-text {
-      max-width: 100%;
-      padding: 0 var(--spacing-sm);
     }
   }
 
@@ -608,30 +616,21 @@
       padding: 1.5rem var(--spacing-sm);
     }
 
-    &__feature-cards {
-      padding-top: var(
-        --spacing-md
-      ); // Padding encore plus réduit sur très petits écrans
-    }
-
     &__hero {
-      padding: var(--spacing-md);
+      padding-top: var(--spacing-md);
     }
 
     &__pascal-image-container {
-      max-width: 300px;
-      margin-top: var(
-        --spacing-md
-      ); // Padding encore plus réduit sur très petits écrans
+      max-width: 280px;
     }
 
     &__pascal-name {
-      font-size: 1.2rem;
+      font-size: 1.5rem;
     }
 
     &__pascal-title {
-      font-size: 0.75rem;
-      letter-spacing: 1px;
+      font-size: 0.9rem;
+      letter-spacing: 1.2px;
     }
 
     &__main-title,
@@ -639,33 +638,9 @@
       font-size: 1.8rem;
     }
 
-    &__formation-title {
-      font-size: 1.1rem;
-    }
-
-    &__formation-subtitle {
-      font-size: 0.9rem;
-    }
-
-    &__section {
-      padding: var(--spacing-md);
-
-      &-title {
-        font-size: 1.25rem;
-      }
-    }
-
-    &__feature-title {
-      font-size: 1.3rem;
-    }
-
-    &__feature-image {
-      height: 160px;
-    }
-
     &__quote {
       font-size: 1.2rem;
-      padding: 1.5rem 0.5rem;
+      padding: 1.5rem 1rem;
     }
   }
 }

@@ -85,40 +85,7 @@ const NosValeursComponent: React.FC = () => {
       aria-label="Nos valeurs chez Rosi Trattoria"
     >
       <div className="nos-valeurs__content">
-        {/* Feature Cards - Maintenant en premier */}
-        <div
-          className="nos-valeurs__feature-cards"
-          role="region"
-          aria-label="Nos valeurs fondamentales"
-        >
-          <div className="nos-valeurs__cards-grid">
-            {featureCardsData.map((card, index) => {
-              const IconComponent = card.icon;
-              return (
-                <article key={index} className="nos-valeurs__feature-card">
-                  <div className="nos-valeurs__card-header">
-                    <IconComponent
-                      className="nos-valeurs__card-icon"
-                      size={32}
-                    />
-                    <img
-                      src={card.image}
-                      alt={card.alt}
-                      className="nos-valeurs__feature-image"
-                      loading="lazy"
-                    />
-                  </div>
-                  <div className="nos-valeurs__card-content">
-                    <h4 className="nos-valeurs__feature-title">{card.title}</h4>
-                    <p className="nos-valeurs__feature-text">{card.text}</p>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Hero Section avec Pascal - Maintenant au milieu */}
+        {/* Hero Section avec Pascal - MAINTENANT EN PREMIER */}
         <article className="nos-valeurs__hero" role="banner">
           <div className="nos-valeurs__pascal-showcase">
             <div className="nos-valeurs__pascal-image-container">
@@ -134,7 +101,7 @@ const NosValeursComponent: React.FC = () => {
               <div className="nos-valeurs__pascal-title">
                 <span>Maître Pizzaïolo</span>
               </div>
-              <h3 className="nos-valeurs__pascal-name">Pascal Bellemain</h3>
+              <h2 className="nos-valeurs__pascal-name">Pascal Bellemain</h2>
             </div>
           </div>
 
@@ -165,16 +132,50 @@ const NosValeursComponent: React.FC = () => {
           </div>
         </article>
 
-        {/* Quote */}
+        {/* Quote inspirante - MAINTENANT EN DEUXIÈME POSITION */}
         <blockquote className="nos-valeurs__quote" role="complementary">
           <Sparkles className="nos-valeurs__quote-icon" size={32} />
           Chez Rosi Trattoria, chaque pizza raconte une histoire d'amour entre
           tradition et passion.
         </blockquote>
 
-        {/* Main Sections - Maintenant en bas */}
+        {/* Feature Cards - MAINTENANT EN TROISIÈME POSITION */}
+        <div
+          className="nos-valeurs__feature-cards"
+          role="region"
+          aria-label="Nos valeurs fondamentales"
+        >
+          <h3 className="nos-valeurs__features-title">Nos Savoir-Faire</h3>
+          <div className="nos-valeurs__cards-grid">
+            {featureCardsData.map((card, index) => {
+              const IconComponent = card.icon;
+              return (
+                <article key={index} className="nos-valeurs__feature-card">
+                  <div className="nos-valeurs__card-header">
+                    <IconComponent
+                      className="nos-valeurs__card-icon"
+                      size={32}
+                    />
+                    <img
+                      src={card.image}
+                      alt={card.alt}
+                      className="nos-valeurs__feature-image"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="nos-valeurs__card-content">
+                    <h4 className="nos-valeurs__feature-title">{card.title}</h4>
+                    <p className="nos-valeurs__feature-text">{card.text}</p>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Main Sections - MAINTENANT EN DERNIÈRE POSITION */}
         <div className="nos-valeurs__main-block" role="main">
-          <h2 className="nos-valeurs__main-title">Nos Engagements Qualité</h2>
+          <h3 className="nos-valeurs__main-title">Nos Engagements Qualité</h3>
           <div className="nos-valeurs__sections-flex">
             {sectionsData.map((section, index) => (
               <article
@@ -183,7 +184,7 @@ const NosValeursComponent: React.FC = () => {
                   section.highlight ? "nos-valeurs__section--highlight" : ""
                 }`}
               >
-                <h3 className="nos-valeurs__section-title">{section.title}</h3>
+                <h4 className="nos-valeurs__section-title">{section.title}</h4>
                 <p className="nos-valeurs__section-text">{section.text}</p>
                 {section.note && (
                   <p className="nos-valeurs__section-note">{section.note}</p>
