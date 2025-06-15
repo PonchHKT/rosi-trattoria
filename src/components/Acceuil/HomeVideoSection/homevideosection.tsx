@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import ComingSoonModal from "../ComingSoonModal/ComingSoonModal";
 import "./homevideosection.scss";
 
 const HomeVideoSection: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate(); // Initialize navigate
 
   useEffect(() => {
     const video = videoRef.current;
@@ -43,6 +45,11 @@ const HomeVideoSection: React.FC = () => {
   const handleDistributorClick = (e: React.MouseEvent) => {
     e.preventDefault();
     setIsModalOpen(true);
+  };
+
+  // Handle navigation to Carte page
+  const handleCarteClick = () => {
+    navigate("/carte");
   };
 
   return (
@@ -120,7 +127,12 @@ const HomeVideoSection: React.FC = () => {
             </svg>
             Distributeur
           </button>
-          <button className="secondary-button">Voir la carte</button>
+          <button
+            className="secondary-button"
+            onClick={handleCarteClick} // Add onClick handler
+          >
+            Voir la carte
+          </button>
           <a
             href="https://carte.rosi-trattoria.com/menu"
             target="_blank"
