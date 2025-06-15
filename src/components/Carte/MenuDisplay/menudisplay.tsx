@@ -80,7 +80,7 @@ const MenuDisplay: React.FC = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [numPages, currentPage]);
 
-  // Handle menu selection with 7-second loading timer
+  // Handle menu selection with conditional loading timer
   const handleMenuSelect = (menuType: string) => {
     setSelectedMenu(menuType);
     setDropdownOpen(false);
@@ -89,10 +89,13 @@ const MenuDisplay: React.FC = () => {
     setCurrentPage(1);
     setIsLoading(true);
 
-    // Set 7-second loading timer
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 7000);
+    // Only set timer for "sur_place" menu (7 seconds)
+    if (menuType === "sur_place") {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 7000);
+    }
+    // For "a_emporter", loading will be handled by PDF load success
   };
 
   // Determine PDF file based on selection
@@ -148,6 +151,12 @@ const MenuDisplay: React.FC = () => {
     numPages: number;
   }) => {
     setNumPages(numPages);
+
+    // For "a_emporter", stop loading immediately when PDF loads
+    if (selectedMenu === "a_emporter") {
+      setIsLoading(false);
+    }
+
     const pdfFile = getPdfFile();
     if (!pdfFile) return;
     const pdf = await pdfjs.getDocument(pdfFile).promise;
@@ -341,10 +350,17 @@ const MenuDisplay: React.FC = () => {
           >
             {isLoading || !numPages ? (
               <div className="document-loading">
-                <span className="loading-announcement">
-                  Si une page blanche apparaît, veuillez patienter le temps que
-                  le navigateur traite le PDF.
-                </span>
+                <div className="loading-content">
+                  <div className="loading-spinner"></div>
+                  <span className="loading-announcement">
+                    Chargement du menu en cours...
+                    <br />
+                    <small>
+                      Veuillez patienter le temps que le navigateur traite le
+                      PDF
+                    </small>
+                  </span>
+                </div>
               </div>
             ) : (
               renderPages()
