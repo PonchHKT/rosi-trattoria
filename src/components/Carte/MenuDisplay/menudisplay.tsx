@@ -3,7 +3,6 @@ import { Document, Page, pdfjs } from "react-pdf";
 import {
   Clock,
   Calendar,
-  ChevronUp,
   UtensilsCrossed,
   ShoppingBag,
   ChevronDown,
@@ -79,19 +78,6 @@ const MenuDisplay: React.FC = () => {
     Object.values(pageRefs.current).forEach((el) => el && observer.observe(el));
     return () => observer.disconnect();
   }, [numPages]);
-
-  // Scroll to previous page
-  const scrollToPreviousPage = () => {
-    const targetPage = currentPage > 1 ? currentPage - 1 : 1;
-    const targetElement = pageRefs.current[targetPage];
-    if (targetElement) {
-      window.scrollTo({
-        top: targetElement.offsetTop - 20,
-        behavior: "smooth",
-      });
-      setCurrentPage(targetPage);
-    }
-  };
 
   // Handle menu selection
   const handleMenuSelect = (menuType: string) => {
@@ -267,19 +253,6 @@ const MenuDisplay: React.FC = () => {
           </Document>
         </div>
       )}
-
-      <button
-        className="scroll-to-top"
-        onClick={scrollToPreviousPage}
-        aria-label="Page précédente"
-        title={
-          currentPage > 1
-            ? `Aller à la page ${currentPage - 1}`
-            : "Retour en haut"
-        }
-      >
-        <ChevronUp size={24} />
-      </button>
 
       {numPages && (
         <div className="page-indicator">
