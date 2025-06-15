@@ -33,6 +33,9 @@
     font-family: "Italianno", cursive;
     font-size: 3rem;
     font-weight: bold;
+    &-rosi {
+      padding-right: 7px;
+    }
 
     &-rosi,
     &-trattoria {
@@ -73,20 +76,20 @@
     padding: 0;
 
     &--open {
-      max-height: 300px;
+      max-height: 400px; /* Augmenté de 300px à 400px */
     }
   }
 
   &__item {
     text-align: center;
-    margin: 1rem 0;
+    margin: 0.8rem 0; /* Réduit de 1rem à 0.8rem pour plus de compacité */
   }
 
   &__link {
     color: white;
     text-decoration: none;
     position: relative;
-    padding: 1rem;
+    padding: 0.8rem 1rem; /* Réduit le padding vertical de 1rem à 0.8rem */
     display: inline-block;
     transition: color 0.3s ease;
     font-weight: bold;

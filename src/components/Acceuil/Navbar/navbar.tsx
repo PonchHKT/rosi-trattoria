@@ -29,7 +29,7 @@ const Navbar: React.FC = () => {
       <div className="navbar__container">
         <div className="navbar__left-section">
           <div className="navbar__brand">
-            <span className="navbar__brand-rosi">Rosi</span> -{" "}
+            <span className="navbar__brand-rosi">Rosi</span>{" "}
             <span className="navbar__brand-trattoria">Trattoria</span>
           </div>
         </div>

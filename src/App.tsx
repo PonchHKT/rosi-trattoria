@@ -16,10 +16,30 @@ import SwiperGallery from "./components/Acceuil/SwiperGallery/swipergallery";
 function App() {
   const location = useLocation();
 
-  // Scroll to top on route change
+  // Solution robuste pour le scroll au top
   useEffect(() => {
+    // Méthode 1: Scroll immédiat sur tous les éléments possibles
     window.scrollTo(0, 0);
-  }, [location.pathname]); // Trigger effect when pathname changes
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+    // Méthode 2: Forcer après le rendu des composants
+    const timer = setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "instant",
+      });
+
+      // Au cas où il y aurait un container avec overflow
+      const appElement = document.querySelector(".App");
+      if (appElement) {
+        appElement.scrollTop = 0;
+      }
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [location.pathname]);
 
   return (
     <div className="App">
@@ -31,9 +51,7 @@ function App() {
             <>
               <HomeSectionVideo />
               <Biographie1 />
-
               <VideoPlayer />
-
               <Biographie2 />
               <SwiperGallery />
             </>
