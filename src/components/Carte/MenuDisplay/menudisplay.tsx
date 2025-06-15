@@ -17,16 +17,12 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/b
 const MenuDisplay: React.FC = () => {
   const [numPages, setNumPages] = useState<number | null>(null);
   const [pageWidth, setPageWidth] = useState(800);
-  const [loadedPages, setLoadedPages] = useState(new Set<number>());
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedMenu, setSelectedMenu] = useState<string>("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const pageRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const observerRef = useRef<IntersectionObserver | null>(null);
-  const updateTimeoutRef = useRef<number | null>(null);
-  const lastUpdateTimeRef = useRef<number>(0);
 
   // Detect if device is mobile
   const isMobile = () => window.innerWidth < 768;
@@ -58,136 +54,41 @@ const MenuDisplay: React.FC = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Intersection Observer optimisé pour mobile - VERSION FIXÉE
+  // Handle scroll to update current page
   useEffect(() => {
-    // Clean up previous observer
-    if (observerRef.current) {
-      observerRef.current.disconnect();
-    }
+    const handleScroll = () => {
+      if (!numPages) return;
+      const pageElements = document.querySelectorAll(".pdf-page-container");
+      let newCurrentPage = currentPage;
 
-    if (!numPages) return;
-
-    const mobile = isMobile();
-
-    // Configuration optimisée pour mobile
-    const config = mobile
-      ? {
-          rootMargin: "50px", // Réduit pour mobile
-          threshold: [0.3], // Un seul seuil pour éviter les changements fréquents
-          throttleDelay: 300, // Délai plus long pour mobile
+      pageElements.forEach((el, index) => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= window.innerHeight / 2 && rect.bottom >= 0) {
+          newCurrentPage = index + 1;
         }
-      : {
-          rootMargin: "200px",
-          threshold: [0.1, 0.3, 0.5],
-          throttleDelay: 100,
-        };
+      });
 
-    // Fonction throttlée pour les updates
-    const throttledUpdate = (entries: IntersectionObserverEntry[]) => {
-      const now = Date.now();
-
-      // Sur mobile, ignore les updates trop fréquentes
-      if (mobile && now - lastUpdateTimeRef.current < config.throttleDelay) {
-        return;
-      }
-
-      lastUpdateTimeRef.current = now;
-
-      // Clear timeout précédent
-      if (updateTimeoutRef.current) {
-        clearTimeout(updateTimeoutRef.current);
-      }
-
-      // Delay l'update pour éviter les saccades
-      updateTimeoutRef.current = setTimeout(
-        () => {
-          const pagesToLoad = new Set(loadedPages);
-          let newCurrentPage = currentPage;
-          let maxVisiblePage = 0;
-
-          entries.forEach((entry) => {
-            const pageNumber = Number(entry.target.getAttribute("data-page"));
-
-            if (entry.isIntersecting) {
-              pagesToLoad.add(pageNumber);
-
-              // Sur mobile, seulement mettre à jour la page courante si vraiment visible
-              if (mobile) {
-                if (entry.intersectionRatio > 0.5) {
-                  maxVisiblePage = Math.max(maxVisiblePage, pageNumber);
-                }
-              } else {
-                if (entry.intersectionRatio > 0.3) {
-                  newCurrentPage = pageNumber;
-                }
-              }
-            } else {
-              // Sur mobile, garder plus de pages chargées pour éviter les rechargements
-              if (!mobile || entry.intersectionRatio < 0.05) {
-                pagesToLoad.delete(pageNumber);
-              }
-            }
-          });
-
-          // Sur mobile, utiliser la page la plus visible
-          if (mobile && maxVisiblePage > 0) {
-            newCurrentPage = maxVisiblePage;
-          }
-
-          // Batch updates pour éviter les re-renders multiples
-          if (
-            pagesToLoad.size !== loadedPages.size ||
-            Array.from(pagesToLoad).some((p) => !loadedPages.has(p))
-          ) {
-            setLoadedPages(new Set(pagesToLoad));
-          }
-
-          if (newCurrentPage !== currentPage) {
-            setCurrentPage(newCurrentPage);
-          }
-        },
-        mobile ? 150 : 50
-      );
-    };
-
-    observerRef.current = new IntersectionObserver(throttledUpdate, {
-      rootMargin: config.rootMargin,
-      threshold: config.threshold,
-      root: null,
-    });
-
-    // Observer les éléments de page
-    Object.values(pageRefs.current).forEach((el) => {
-      if (el && observerRef.current) {
-        observerRef.current.observe(el);
-      }
-    });
-
-    return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
-      }
-      if (updateTimeoutRef.current) {
-        clearTimeout(updateTimeoutRef.current);
+      if (newCurrentPage !== currentPage) {
+        setCurrentPage(newCurrentPage);
       }
     };
-  }, [numPages, currentPage, loadedPages]);
 
-  // Handle menu selection
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [numPages, currentPage]);
+
+  // Handle menu selection with 10-second loading timer
   const handleMenuSelect = (menuType: string) => {
     setSelectedMenu(menuType);
     setDropdownOpen(false);
     setNumPages(null);
-    setLoadedPages(new Set());
     setCurrentPage(1);
+    setIsLoading(true);
 
-    // Clean up observer when switching menus
-    if (observerRef.current) {
-      observerRef.current.disconnect();
-    }
-    if (updateTimeoutRef.current) {
-      clearTimeout(updateTimeoutRef.current);
-    }
+    // Set 10-second loading timer
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 5000);
   };
 
   // Determine PDF file based on selection
@@ -236,7 +137,7 @@ const MenuDisplay: React.FC = () => {
     return options.find((option) => option.value === selectedMenu);
   };
 
-  // Render PDF pages - VERSION OPTIMISÉE POUR MOBILE
+  // Render PDF pages
   const renderPages = () => {
     if (!numPages) return null;
 
@@ -244,17 +145,15 @@ const MenuDisplay: React.FC = () => {
 
     return Array.from({ length: numPages }, (_, i) => {
       const pageNumber = i + 1;
-      const shouldLoad = loadedPages.has(pageNumber);
 
-      // Sur mobile, hauteur fixe pour éviter les layout shifts
       const containerStyle = mobile
         ? {
-            minHeight: "700px", // Hauteur fixe plus grande
-            maxHeight: "700px", // Hauteur maximale pour contrôler
+            minHeight: "500px",
+            maxHeight: "700px",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            overflow: "hidden", // Évite les débordements
+            overflow: "hidden",
           }
         : {
             minHeight: "600px",
@@ -266,64 +165,30 @@ const MenuDisplay: React.FC = () => {
           className={`pdf-page-container ${mobile ? "mobile-optimized" : ""}`}
           data-page={pageNumber}
           style={containerStyle}
-          ref={(el) => {
-            pageRefs.current[pageNumber] = el;
-          }}
         >
-          {shouldLoad ? (
-            <Page
-              pageNumber={pageNumber}
-              width={pageWidth}
-              renderTextLayer={false} // Désactivé sur mobile ET desktop pour les performances
-              renderAnnotationLayer={false}
-              renderMode="canvas"
-              className="pdf-page"
-              loading={
-                <div
-                  className="page-loading"
-                  style={{ minHeight: mobile ? "600px" : "500px" }}
-                >
-                  Chargement...
-                </div>
-              }
-              onLoadSuccess={() => {
-                // Vide pour éviter les re-renders
-              }}
-              onLoadError={(error) => {
-                console.warn(`Erreur chargement page ${pageNumber}:`, error);
-              }}
-            />
-          ) : (
-            <div
-              className="page-placeholder"
-              style={{
-                minHeight: mobile ? "600px" : "500px",
-                width: "100%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#64748b",
-                backgroundColor: "rgba(15, 23, 42, 0.3)",
-                borderRadius: "16px",
-                border: "1px solid rgba(148, 163, 184, 0.1)",
-              }}
-            >
-              Page {pageNumber}
-            </div>
-          )}
+          <Page
+            pageNumber={pageNumber}
+            width={pageWidth}
+            renderTextLayer={true}
+            renderAnnotationLayer={false}
+            renderMode="canvas"
+            className="pdf-page"
+            loading={
+              <div
+                className="page-loading"
+                style={{ minHeight: mobile ? "600px" : "500px" }}
+              >
+                Chargement...
+              </div>
+            }
+            onLoadError={(error) => {
+              console.warn(`Erreur chargement page ${pageNumber}:`, error);
+            }}
+          />
         </div>
       );
     });
   };
-
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      if (updateTimeoutRef.current) {
-        clearTimeout(updateTimeoutRef.current);
-      }
-    };
-  }, []);
 
   const selectedMenuInfo = getSelectedMenuInfo();
 
@@ -353,7 +218,6 @@ const MenuDisplay: React.FC = () => {
         <div className="menu-selection">
           <h3 className="service-title"></h3>
 
-          {/* Bouton de téléchargement PDF */}
           {selectedMenu && (
             <div className="download-section">
               <span className="download-link" onClick={handleDownloadPdf}>
@@ -434,14 +298,23 @@ const MenuDisplay: React.FC = () => {
             file={getPdfFile()}
             onLoadSuccess={({ numPages }) => setNumPages(numPages)}
             onLoadError={(error) => console.error("PDF load error:", error)}
-            loading={<div className="document-loading">Chargement...</div>}
+            loading={null}
           >
-            <div className="pdf-pages-container">{renderPages()}</div>
+            {isLoading || !numPages ? (
+              <div className="document-loading">
+                <span className="loading-announcement">
+                  Si une page blanche apparaît, veuillez patienter le temps que
+                  le navigateur traite le PDF.
+                </span>
+              </div>
+            ) : (
+              <div className="pdf-pages-container">{renderPages()}</div>
+            )}
           </Document>
         </div>
       )}
 
-      {numPages && (
+      {numPages && !isLoading && (
         <div className="page-indicator">
           Page {currentPage} / {numPages}
         </div>

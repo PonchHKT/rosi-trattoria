@@ -24,7 +24,6 @@
     0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
-// Configuration scroll mobile améliorée
 * {
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
@@ -37,7 +36,6 @@
 html {
   scroll-behavior: auto;
   -webkit-overflow-scrolling: touch;
-  // Améliore la stabilité du scroll après zoom
   height: 100%;
   overflow-x: hidden;
 }
@@ -45,11 +43,9 @@ html {
 body {
   overscroll-behavior: none;
   -webkit-overscroll-behavior: none;
-  // Autorise pinch-zoom mais garde un scroll stable
   touch-action: pan-y pinch-zoom;
   height: 100%;
   overflow-x: hidden;
-  // Empêche les rebonds de scroll
   position: relative;
 }
 
@@ -67,10 +63,6 @@ body {
   padding: 2rem 1rem;
   padding-top: 120px;
   position: relative;
-
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-  will-change: auto;
 }
 
 .hours-section {
@@ -326,8 +318,6 @@ body {
 .pdf-section {
   width: 100%;
   max-width: 900px;
-  contain: layout;
-  content-visibility: auto;
 }
 
 .document-loading {
@@ -351,12 +341,11 @@ body {
   }
 }
 
-// ESPACEMENT MINIMAL entre les pages PDF
 .pdf-pages-container {
-  gap: 0; // Suppression complète de l'espacement
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
   padding-bottom: 150px;
-  contain: layout;
-  transform: translate3d(0, 0, 0);
 }
 
 .pdf-page-container {
@@ -367,21 +356,7 @@ body {
   &.mobile-optimized {
     min-height: 600px;
     position: relative;
-
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-    will-change: auto;
-    contain: layout;
-
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    -webkit-font-smoothing: antialiased;
-
-    // Configuration touch optimisée pour éviter les problèmes de scroll
-    pointer-events: auto;
     touch-action: pan-y pinch-zoom;
-    // Stabilise l'élément après zoom
-    isolation: isolate;
   }
 }
 
@@ -397,36 +372,22 @@ body {
   justify-content: center;
   color: var(--text-secondary);
   font-weight: 500;
-  transform: translateZ(0);
-  contain: layout style paint;
+  opacity: 1;
+  transition: opacity 0.2s ease;
 }
 
 .pdf-page {
   border-radius: 16px;
   background: #fff;
-  // Configuration touch améliorée
   touch-action: pan-y pinch-zoom;
-
-  -webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
-  contain: layout style paint;
 
   canvas {
     width: 100% !important;
     height: auto !important;
     border-radius: 16px;
     display: block;
-    // Même configuration touch que le parent
     touch-action: pan-y pinch-zoom;
-
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: optimize-contrast;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-
-    transform: translateZ(0);
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
+    image-rendering: optimizeQuality;
   }
 }
 
@@ -442,8 +403,6 @@ body {
   font-size: 0.9rem;
   font-weight: 600;
   z-index: 100;
-  transform: translateZ(0);
-  will-change: auto;
 }
 
 @keyframes spin {
@@ -452,32 +411,21 @@ body {
   }
 }
 
-// MEDIA QUERIES POUR MOBILE - ESPACEMENT ULTRA RÉDUIT
 @media (max-width: 768px) {
   html {
     scroll-behavior: auto !important;
     -webkit-overflow-scrolling: touch;
-    // Stabilité améliorée
     height: 100%;
     overflow-x: hidden;
   }
 
   body {
-    overscroll-behavior: none;
-    -webkit-overscroll-behavior: none;
-    // Autorise pinch-zoom mais avec limite de zoom
+    overscroll-behavior-y: none;
+    -webkit-overscroll-behavior-y: none;
     touch-action: pan-y pinch-zoom;
+    position: relative;
     height: 100%;
     overflow-x: hidden;
-    // Empêche les rebonds de scroll
-    position: relative;
-
-    // Limite de zoom pour éviter les PDF blancs sur iOS
-    -webkit-user-scalable: yes;
-    // Définit les limites de zoom (1.0 = 100%, 3.0 = 300%)
-    -webkit-initial-scale: 1;
-    -webkit-minimum-scale: 0.7; // Limite le dézoom
-    -webkit-maximum-scale: 3;
   }
 
   .menu-container {
@@ -485,10 +433,6 @@ body {
     scroll-behavior: auto !important;
     padding: 1rem 0.75rem;
     padding-top: 100px;
-
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-    contain: layout;
   }
 
   .hours-section {
@@ -585,64 +529,23 @@ body {
     }
   }
 
-  // ESPACEMENT TRÈS RÉDUIT entre les pages PDF
   .pdf-pages-container {
-    gap: 0.25rem; // Ultra réduit de 1rem à 0.25rem
+    gap: 0.5rem;
     padding-bottom: 150px;
-    contain: layout;
-    transform: translate3d(0, 0, 0);
   }
 
   .pdf-page-container {
     &.mobile-optimized {
       min-height: 500px;
       height: auto;
-
-      // Suppression totale des marges
       margin: 0;
       margin-bottom: 0;
-
-      -webkit-transform: translate3d(0, 0, 0);
-      transform: translate3d(0, 0, 0);
-      will-change: auto;
-      contain: layout;
-      isolation: isolate;
-
-      -webkit-backface-visibility: hidden;
-      backface-visibility: hidden;
-      -webkit-perspective: 1000px;
-      perspective: 1000px;
-
-      // Configuration touch améliorée
-      pointer-events: auto;
-      touch-action: pan-y pinch-zoom;
-
-      // Empêche les décalages après zoom
-      position: relative;
-      overflow: visible;
     }
   }
 
   .pdf-page {
-    // Améliore le rendu après zoom/dézoom
     canvas {
-      image-rendering: -webkit-optimize-contrast !important;
-      image-rendering: optimize-contrast !important;
-      -webkit-image-rendering: -webkit-optimize-contrast !important;
-
-      -webkit-transform: translate3d(0, 0, 0) !important;
-      transform: translate3d(0, 0, 0) !important;
-
-      -webkit-backface-visibility: hidden !important;
-      backface-visibility: hidden !important;
-
-      will-change: auto !important;
-
-      // Configuration touch cohérente
-      touch-action: pan-y pinch-zoom !important;
-
-      // Stabilité améliorée
-      position: relative !important;
+      image-rendering: optimizeQuality !important;
     }
   }
 
@@ -651,8 +554,6 @@ body {
     left: 1.5rem;
     padding: 0.6rem 1rem;
     font-size: 0.85rem;
-    transform: translate3d(0, 0, 0);
-    contain: layout style paint;
   }
 
   .pdf-page {
@@ -752,14 +653,13 @@ body {
     font-size: 0.8rem;
   }
 
-  // ESPACEMENT MINIMAL sur très petits écrans
   .pdf-pages-container {
-    gap: 0.1rem; // Espacement quasi inexistant
+    gap: 0.3rem;
   }
 
   .pdf-page-container.mobile-optimized {
     min-height: 450px;
-    margin: 0; // Suppression totale des marges
+    margin: 0;
   }
 }
 
@@ -774,56 +674,29 @@ body {
   }
 }
 
-// Optimisations spécifiques pour iOS Safari - SCROLL AMÉLIORÉ
 @supports (-webkit-touch-callout: none) {
   body {
-    // Empêche les rebonds élastiques sur iOS
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: none;
     -webkit-overscroll-behavior: none;
-    // Configuration touch améliorée pour iOS
     touch-action: pan-y pinch-zoom;
   }
 
   .pdf-page-container.mobile-optimized {
     -webkit-overflow-scrolling: touch;
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    -webkit-perspective: 1000px;
-    perspective: 1000px;
-
-    // Configuration touch iOS optimisée
     touch-action: pan-y pinch-zoom;
-
-    // Stabilité sur iOS après zoom
     position: relative;
     overflow: visible;
-    isolation: isolate;
   }
 
   .pdf-page canvas {
-    -webkit-transform: translate3d(0, 0, 0) !important;
-    transform: translate3d(0, 0, 0) !important;
-    -webkit-backface-visibility: hidden !important;
-    backface-visibility: hidden !important;
-
-    // Configuration touch iOS
     touch-action: pan-y pinch-zoom !important;
-
-    // Améliore la stabilité du rendu sur iOS
-    -webkit-user-select: none !important;
-    user-select: none !important;
     position: relative !important;
   }
 }
 
-// Correction spécifique pour les problèmes de scroll après zoom
 @media (max-width: 768px) {
   .pdf-page-container.mobile-optimized {
-    // Force la réinitialisation du contexte de transformation
     &::before {
       content: "";
       position: absolute;
@@ -833,7 +706,6 @@ body {
       height: 100%;
       pointer-events: none;
       z-index: -1;
-      transform: translateZ(0);
     }
   }
 }
