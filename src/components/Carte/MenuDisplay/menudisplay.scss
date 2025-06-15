@@ -351,14 +351,12 @@ body {
   }
 }
 
+// ESPACEMENT MINIMAL entre les pages PDF
 .pdf-pages-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  align-items: center;
-  padding-bottom: 100px;
-  contain: layout style;
-  transform: translateZ(0);
+  gap: 0; // Suppression complète de l'espacement
+  padding-bottom: 150px;
+  contain: layout;
+  transform: translate3d(0, 0, 0);
 }
 
 .pdf-page-container {
@@ -465,13 +463,21 @@ body {
   }
 
   body {
-    overscroll-behavior-y: none;
-    -webkit-overscroll-behavior-y: none;
-    // Configuration touch améliorée pour éviter les problèmes de scroll
+    overscroll-behavior: none;
+    -webkit-overscroll-behavior: none;
+    // Autorise pinch-zoom mais avec limite de zoom
     touch-action: pan-y pinch-zoom;
-    position: relative;
     height: 100%;
     overflow-x: hidden;
+    // Empêche les rebonds de scroll
+    position: relative;
+
+    // Limite de zoom pour éviter les PDF blancs sur iOS
+    -webkit-user-scalable: yes;
+    // Définit les limites de zoom (1.0 = 100%, 3.0 = 300%)
+    -webkit-initial-scale: 1;
+    -webkit-minimum-scale: 0.7; // Limite le dézoom
+    -webkit-maximum-scale: 3;
   }
 
   .menu-container {
