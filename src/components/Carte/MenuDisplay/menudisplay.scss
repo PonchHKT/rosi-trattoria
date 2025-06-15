@@ -24,7 +24,7 @@
     0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
-// Fix pour éviter les saccades de scroll sur mobile
+// Fix pour éviter les saccades de scroll sur mobile mais permettre le zoom
 * {
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
@@ -35,14 +35,15 @@
 }
 
 html {
-  scroll-behavior: auto; // Important pour éviter le smooth scroll sur mobile
+  scroll-behavior: auto;
   -webkit-overflow-scrolling: touch;
 }
 
 body {
-  overscroll-behavior: none; // Évite le bounce effect
+  overscroll-behavior: none;
   -webkit-overscroll-behavior: none;
-  touch-action: pan-y; // Permet seulement le scroll vertical
+  // MODIFIÉ: Permet le zoom tactile
+  touch-action: manipulation;
 }
 
 .menu-container {
@@ -60,7 +61,6 @@ body {
   padding-top: 120px;
   position: relative;
 
-  // Forces matérielles pour éviter les repaints
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
   will-change: auto;
@@ -319,10 +319,8 @@ body {
 .pdf-section {
   width: 100%;
   max-width: 900px;
-
-  // Critical: Fix pour éviter les layout shifts sur mobile
-  contain: layout; // Isole les changements de layout
-  content-visibility: auto; // Optimisation de rendu moderne
+  contain: layout;
+  content-visibility: auto;
 }
 
 .document-loading {
@@ -352,10 +350,8 @@ body {
   gap: 1.5rem;
   align-items: center;
   padding-bottom: 100px;
-
-  // Critical: Stabilité du container sur mobile
   contain: layout style;
-  transform: translateZ(0); // Force GPU layer
+  transform: translateZ(0);
 }
 
 .pdf-page-container {
@@ -363,32 +359,23 @@ body {
   display: flex;
   justify-content: center;
 
-  // Optimisations critiques pour mobile
   &.mobile-optimized {
-    // Hauteur VRAIMENT fixe pour éviter les layout shifts
-    height: 750px !important; // Force la hauteur
-    min-height: 750px !important;
-    max-height: 750px !important;
-    overflow: hidden;
-    position: relative; // Important pour le positionnement
+    // MODIFIÉ: Hauteur flexible au lieu de fixe
+    min-height: 600px;
+    position: relative;
 
-    // Optimisations GPU critiques
-    -webkit-transform: translate3d(0, 0, 0); // Force GPU acceleration
+    -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
-    will-change: auto; // Évite les repaint constants
-    contain: strict; // Isolation complète
+    will-change: auto;
+    contain: layout;
 
-    // Évite les micro-mouvements lors du scroll
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     -webkit-font-smoothing: antialiased;
 
-    // Stabilise le rendu
-    pointer-events: none; // Évite les interactions parasites pendant le scroll
-
-    &:hover {
-      pointer-events: auto; // Réactive les interactions au hover
-    }
+    // MODIFIÉ: Permet les interactions tactiles (zoom)
+    pointer-events: auto;
+    touch-action: pinch-zoom;
   }
 }
 
@@ -404,8 +391,6 @@ body {
   justify-content: center;
   color: var(--text-secondary);
   font-weight: 500;
-
-  // Stabilité sur mobile
   transform: translateZ(0);
   contain: layout style paint;
 }
@@ -413,25 +398,26 @@ body {
 .pdf-page {
   border-radius: 16px;
   background: #fff;
+  // MODIFIÉ: Permet le zoom tactile
+  touch-action: pinch-zoom;
 
-  // Optimisations critiques pour les performances sur mobile
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
-  contain: layout style paint; // Isolation du rendu
+  contain: layout style paint;
 
   canvas {
     width: 100% !important;
     height: auto !important;
     border-radius: 16px;
     display: block;
+    // MODIFIÉ: Permet le zoom tactile sur le canvas
+    touch-action: pinch-zoom;
 
-    // Améliore le rendu sur mobile - CRITIQUE
-    image-rendering: -webkit-optimize-contrast; // Safari/iOS
-    image-rendering: optimize-contrast; // Standard
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimize-contrast;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
-    // Force la stabilité
     transform: translateZ(0);
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
@@ -450,8 +436,6 @@ body {
   font-size: 0.9rem;
   font-weight: 600;
   z-index: 100;
-
-  // Évite les saccades de l'indicateur
   transform: translateZ(0);
   will-change: auto;
 }
@@ -462,19 +446,19 @@ body {
   }
 }
 
-// MEDIA QUERIES CRITIQUES POUR MOBILE
+// MEDIA QUERIES POUR MOBILE
 @media (max-width: 768px) {
-  // Fix scroll behavior au niveau global
   html {
     scroll-behavior: auto !important;
     -webkit-overflow-scrolling: touch;
   }
 
   body {
-    overscroll-behavior-y: none; // Évite le bounce
+    overscroll-behavior-y: none;
     -webkit-overscroll-behavior-y: none;
-    touch-action: pan-y;
-    position: relative; // Important pour éviter les layout shifts
+    // MODIFIÉ: Permet le zoom tactile
+    touch-action: manipulation;
+    position: relative;
   }
 
   .menu-container {
@@ -483,7 +467,6 @@ body {
     padding: 1rem 0.75rem;
     padding-top: 100px;
 
-    // Force l'accélération GPU pour le container principal
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
     contain: layout;
@@ -583,59 +566,56 @@ body {
     }
   }
 
-  // CRITIQUES: Optimisations pour les pages PDF sur mobile
+  // MODIFIÉ: Espace réduit entre les pages
   .pdf-pages-container {
-    gap: 3rem; // Plus d'espace entre les pages pour éviter les conflits
-    padding-bottom: 150px; // Plus de padding en bas
-
-    // Force la stabilité du scroll
+    gap: 1rem; // Réduit de 3rem à 1rem
+    padding-bottom: 150px;
     contain: layout;
     transform: translate3d(0, 0, 0);
   }
 
   .pdf-page-container {
-    // Configuration critique pour éviter les saccades
     &.mobile-optimized {
-      height: 750px !important;
-      min-height: 750px !important;
-      max-height: 750px !important;
+      // MODIFIÉ: Hauteur flexible
+      min-height: 500px;
+      height: auto;
 
-      // Ajout d'un margin bottom pour stabiliser
-      margin-bottom: 1rem;
+      // MODIFIÉ: Margin réduit
+      margin-bottom: 0.5rem;
 
-      // Optimisations GPU poussées
       -webkit-transform: translate3d(0, 0, 0);
       transform: translate3d(0, 0, 0);
       will-change: auto;
-      contain: strict;
-      isolation: isolate; // Crée un nouveau contexte de stackage
+      contain: layout;
+      isolation: isolate;
 
-      // Évite les repaint pendant le scroll rapide
       -webkit-backface-visibility: hidden;
       backface-visibility: hidden;
       -webkit-perspective: 1000px;
       perspective: 1000px;
+
+      // MODIFIÉ: Permet le zoom tactile
+      pointer-events: auto;
+      touch-action: pinch-zoom;
     }
   }
 
   .pdf-page {
-    // Optimisations canvas critiques
     canvas {
-      // Rendu optimisé pour mobile
       image-rendering: -webkit-optimize-contrast !important;
       image-rendering: optimize-contrast !important;
       -webkit-image-rendering: -webkit-optimize-contrast !important;
 
-      // Stabilité critique
       -webkit-transform: translate3d(0, 0, 0) !important;
       transform: translate3d(0, 0, 0) !important;
 
-      // Évite les glitches visuels
       -webkit-backface-visibility: hidden !important;
       backface-visibility: hidden !important;
 
-      // Force l'accélération matérielle
       will-change: auto !important;
+
+      // MODIFIÉ: Permet le zoom tactile
+      touch-action: pinch-zoom !important;
     }
   }
 
@@ -644,32 +624,8 @@ body {
     left: 1.5rem;
     padding: 0.6rem 1rem;
     font-size: 0.85rem;
-
-    // Stabilité de l'indicateur
     transform: translate3d(0, 0, 0);
     contain: layout style paint;
-  }
-
-  // DÉSACTIVATION CRITIQUE des animations sur mobile pour les performances
-  .pdf-page-container,
-  .pdf-page,
-  .dropdown-trigger,
-  .dropdown-menu,
-  .hours-section,
-  .page-indicator {
-    animation: none !important;
-    transition: none !important;
-  }
-
-  // Suppression du backdrop-filter sur mobile (très coûteux)
-  .pdf-page-container,
-  .pdf-page,
-  .dropdown-trigger,
-  .dropdown-menu,
-  .hours-section,
-  .page-indicator {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
   }
 
   .pdf-page {
@@ -769,15 +725,17 @@ body {
     font-size: 0.8rem;
   }
 
-  // Sur très petit écran, hauteur réduite pour éviter les débordements
+  // MODIFIÉ: Espace encore plus réduit sur petit écran
+  .pdf-pages-container {
+    gap: 0.75rem;
+  }
+
   .pdf-page-container.mobile-optimized {
-    height: 650px !important;
-    min-height: 650px !important;
-    max-height: 650px !important;
+    min-height: 450px;
+    margin-bottom: 0.25rem;
   }
 }
 
-// Désactivation globale des animations pour les utilisateurs qui préfèrent
 @media (prefers-reduced-motion: reduce) {
   * {
     animation: none !important;
@@ -796,11 +754,13 @@ body {
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
 
-    // Fix spécifique pour iOS
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     -webkit-perspective: 1000px;
     perspective: 1000px;
+
+    // MODIFIÉ: Permet le zoom tactile sur iOS
+    touch-action: pinch-zoom;
   }
 
   .pdf-page canvas {
@@ -808,5 +768,8 @@ body {
     transform: translate3d(0, 0, 0) !important;
     -webkit-backface-visibility: hidden !important;
     backface-visibility: hidden !important;
+
+    // MODIFIÉ: Permet le zoom tactile sur iOS
+    touch-action: pinch-zoom !important;
   }
 }
