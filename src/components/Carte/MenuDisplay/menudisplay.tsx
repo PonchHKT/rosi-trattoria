@@ -24,6 +24,12 @@ const MenuDisplay: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const pageRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const updateTimeoutRef = useRef<number | null>(null);
+  const lastUpdateTimeRef = useRef<number>(0);
+
+  // Detect if device is mobile
+  const isMobile = () => window.innerWidth < 768;
 
   // Handle responsive page width
   useEffect(() => {
@@ -52,33 +58,120 @@ const MenuDisplay: React.FC = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Intersection Observer for lazy loading and page tracking
+  // Intersection Observer optimisé pour mobile - VERSION FIXÉE
   useEffect(() => {
-    const rootMargin = window.innerWidth < 768 ? "50px" : "500px";
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const pageNumber = Number(entry.target.getAttribute("data-page"));
-          if (entry.isIntersecting) {
-            setLoadedPages((prev) => new Set(prev).add(pageNumber));
-            if (entry.intersectionRatio > 0.1) {
-              setCurrentPage(pageNumber);
-            }
-          } else {
-            setLoadedPages((prev) => {
-              const newSet = new Set(prev);
-              newSet.delete(pageNumber);
-              return newSet;
-            });
-          }
-        });
-      },
-      { rootMargin, threshold: 0.1 }
-    );
+    // Clean up previous observer
+    if (observerRef.current) {
+      observerRef.current.disconnect();
+    }
 
-    Object.values(pageRefs.current).forEach((el) => el && observer.observe(el));
-    return () => observer.disconnect();
-  }, [numPages]);
+    if (!numPages) return;
+
+    const mobile = isMobile();
+
+    // Configuration optimisée pour mobile
+    const config = mobile
+      ? {
+          rootMargin: "50px", // Réduit pour mobile
+          threshold: [0.3], // Un seul seuil pour éviter les changements fréquents
+          throttleDelay: 300, // Délai plus long pour mobile
+        }
+      : {
+          rootMargin: "200px",
+          threshold: [0.1, 0.3, 0.5],
+          throttleDelay: 100,
+        };
+
+    // Fonction throttlée pour les updates
+    const throttledUpdate = (entries: IntersectionObserverEntry[]) => {
+      const now = Date.now();
+
+      // Sur mobile, ignore les updates trop fréquentes
+      if (mobile && now - lastUpdateTimeRef.current < config.throttleDelay) {
+        return;
+      }
+
+      lastUpdateTimeRef.current = now;
+
+      // Clear timeout précédent
+      if (updateTimeoutRef.current) {
+        clearTimeout(updateTimeoutRef.current);
+      }
+
+      // Delay l'update pour éviter les saccades
+      updateTimeoutRef.current = setTimeout(
+        () => {
+          const pagesToLoad = new Set(loadedPages);
+          let newCurrentPage = currentPage;
+          let maxVisiblePage = 0;
+
+          entries.forEach((entry) => {
+            const pageNumber = Number(entry.target.getAttribute("data-page"));
+
+            if (entry.isIntersecting) {
+              pagesToLoad.add(pageNumber);
+
+              // Sur mobile, seulement mettre à jour la page courante si vraiment visible
+              if (mobile) {
+                if (entry.intersectionRatio > 0.5) {
+                  maxVisiblePage = Math.max(maxVisiblePage, pageNumber);
+                }
+              } else {
+                if (entry.intersectionRatio > 0.3) {
+                  newCurrentPage = pageNumber;
+                }
+              }
+            } else {
+              // Sur mobile, garder plus de pages chargées pour éviter les rechargements
+              if (!mobile || entry.intersectionRatio < 0.05) {
+                pagesToLoad.delete(pageNumber);
+              }
+            }
+          });
+
+          // Sur mobile, utiliser la page la plus visible
+          if (mobile && maxVisiblePage > 0) {
+            newCurrentPage = maxVisiblePage;
+          }
+
+          // Batch updates pour éviter les re-renders multiples
+          if (
+            pagesToLoad.size !== loadedPages.size ||
+            Array.from(pagesToLoad).some((p) => !loadedPages.has(p))
+          ) {
+            setLoadedPages(new Set(pagesToLoad));
+          }
+
+          if (newCurrentPage !== currentPage) {
+            setCurrentPage(newCurrentPage);
+          }
+        },
+        mobile ? 150 : 50
+      );
+    };
+
+    observerRef.current = new IntersectionObserver(throttledUpdate, {
+      rootMargin: config.rootMargin,
+      threshold: config.threshold,
+      root: null,
+    });
+
+    // Observer les éléments de page
+    Object.values(pageRefs.current).forEach((el) => {
+      if (el && observerRef.current) {
+        observerRef.current.observe(el);
+      }
+    });
+
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+      if (updateTimeoutRef.current) {
+        clearTimeout(updateTimeoutRef.current);
+      }
+    };
+  }, [numPages, currentPage, loadedPages]);
 
   // Handle menu selection
   const handleMenuSelect = (menuType: string) => {
@@ -87,6 +180,14 @@ const MenuDisplay: React.FC = () => {
     setNumPages(null);
     setLoadedPages(new Set());
     setCurrentPage(1);
+
+    // Clean up observer when switching menus
+    if (observerRef.current) {
+      observerRef.current.disconnect();
+    }
+    if (updateTimeoutRef.current) {
+      clearTimeout(updateTimeoutRef.current);
+    }
   };
 
   // Determine PDF file based on selection
@@ -135,37 +236,94 @@ const MenuDisplay: React.FC = () => {
     return options.find((option) => option.value === selectedMenu);
   };
 
-  // Render PDF pages
+  // Render PDF pages - VERSION OPTIMISÉE POUR MOBILE
   const renderPages = () => {
     if (!numPages) return null;
+
+    const mobile = isMobile();
+
     return Array.from({ length: numPages }, (_, i) => {
       const pageNumber = i + 1;
+      const shouldLoad = loadedPages.has(pageNumber);
+
+      // Sur mobile, hauteur fixe pour éviter les layout shifts
+      const containerStyle = mobile
+        ? {
+            minHeight: "700px", // Hauteur fixe plus grande
+            maxHeight: "700px", // Hauteur maximale pour contrôler
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            overflow: "hidden", // Évite les débordements
+          }
+        : {
+            minHeight: "600px",
+          };
+
       return (
         <div
           key={pageNumber}
-          className="pdf-page-container"
+          className={`pdf-page-container ${mobile ? "mobile-optimized" : ""}`}
           data-page={pageNumber}
+          style={containerStyle}
           ref={(el) => {
             pageRefs.current[pageNumber] = el;
           }}
         >
-          {loadedPages.has(pageNumber) ? (
+          {shouldLoad ? (
             <Page
               pageNumber={pageNumber}
               width={pageWidth}
-              renderTextLayer={true}
+              renderTextLayer={false} // Désactivé sur mobile ET desktop pour les performances
               renderAnnotationLayer={false}
               renderMode="canvas"
               className="pdf-page"
-              loading={<div className="page-loading">Chargement...</div>}
+              loading={
+                <div
+                  className="page-loading"
+                  style={{ minHeight: mobile ? "600px" : "500px" }}
+                >
+                  Chargement...
+                </div>
+              }
+              onLoadSuccess={() => {
+                // Vide pour éviter les re-renders
+              }}
+              onLoadError={(error) => {
+                console.warn(`Erreur chargement page ${pageNumber}:`, error);
+              }}
             />
           ) : (
-            <div className="page-placeholder" />
+            <div
+              className="page-placeholder"
+              style={{
+                minHeight: mobile ? "600px" : "500px",
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#64748b",
+                backgroundColor: "rgba(15, 23, 42, 0.3)",
+                borderRadius: "16px",
+                border: "1px solid rgba(148, 163, 184, 0.1)",
+              }}
+            >
+              Page {pageNumber}
+            </div>
           )}
         </div>
       );
     });
   };
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (updateTimeoutRef.current) {
+        clearTimeout(updateTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const selectedMenuInfo = getSelectedMenuInfo();
 
