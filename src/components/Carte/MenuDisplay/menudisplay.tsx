@@ -17,7 +17,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/b
 const MenuDisplay: React.FC = () => {
   const [numPages, setNumPages] = useState<number | null>(null);
   const [pageWidth, setPageWidth] = useState(800);
-  const [loadedPages, setLoadedPages] = useState(new Set([1]));
+  const [loadedPages, setLoadedPages] = useState(new Set<number>());
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedMenu, setSelectedMenu] = useState<string>("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -25,13 +25,12 @@ const MenuDisplay: React.FC = () => {
   const pageRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Handle responsive page width with devicePixelRatio
+  // Handle responsive page width
   useEffect(() => {
     const updateWidth = () => {
       if (containerRef.current) {
-        const pixelRatio = window.devicePixelRatio || 1;
         const containerWidth = containerRef.current.offsetWidth - 40;
-        setPageWidth(Math.min(containerWidth * pixelRatio, 1200));
+        setPageWidth(containerWidth);
       }
     };
     updateWidth();
@@ -49,26 +48,32 @@ const MenuDisplay: React.FC = () => {
         setDropdownOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   // Intersection Observer for lazy loading and page tracking
   useEffect(() => {
+    const rootMargin = window.innerWidth < 768 ? "200px" : "1000px";
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           const pageNumber = Number(entry.target.getAttribute("data-page"));
           if (entry.isIntersecting) {
-            setLoadedPages((prev) => new Set([...prev, pageNumber]));
+            setLoadedPages((prev) => new Set(prev).add(pageNumber));
             if (entry.intersectionRatio > 0.5) {
               setCurrentPage(pageNumber);
             }
+          } else {
+            setLoadedPages((prev) => {
+              const newSet = new Set(prev);
+              newSet.delete(pageNumber);
+              return newSet;
+            });
           }
         });
       },
-      { rootMargin: "1000px", threshold: [0, 0.5] }
+      { rootMargin, threshold: [0, 0.5] }
     );
 
     Object.values(pageRefs.current).forEach((el) => el && observer.observe(el));
@@ -93,7 +98,7 @@ const MenuDisplay: React.FC = () => {
     setSelectedMenu(menuType);
     setDropdownOpen(false);
     setNumPages(null);
-    setLoadedPages(new Set([1]));
+    setLoadedPages(new Set());
     setCurrentPage(1);
   };
 
@@ -145,7 +150,6 @@ const MenuDisplay: React.FC = () => {
             <Page
               pageNumber={pageNumber}
               width={pageWidth}
-              scale={window.devicePixelRatio || 1}
               renderTextLayer={true}
               renderAnnotationLayer={false}
               className="pdf-page"
@@ -242,7 +246,7 @@ const MenuDisplay: React.FC = () => {
                     </span>
                   </div>
                   {option.hasDiscount && (
-                    <span className="discount-badge">Tarifs réduits</span>
+                    <span className="discount-badge">Tarif réduits</span>
                   )}
                 </div>
               ))}
