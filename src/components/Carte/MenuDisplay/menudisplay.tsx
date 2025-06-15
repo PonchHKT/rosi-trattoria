@@ -53,14 +53,14 @@ const MenuDisplay: React.FC = () => {
 
   // Intersection Observer for lazy loading and page tracking
   useEffect(() => {
-    const rootMargin = window.innerWidth < 768 ? "200px" : "1000px";
+    const rootMargin = window.innerWidth < 768 ? "50px" : "500px";
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           const pageNumber = Number(entry.target.getAttribute("data-page"));
           if (entry.isIntersecting) {
             setLoadedPages((prev) => new Set(prev).add(pageNumber));
-            if (entry.intersectionRatio > 0.5) {
+            if (entry.intersectionRatio > 0.1) {
               setCurrentPage(pageNumber);
             }
           } else {
@@ -72,7 +72,7 @@ const MenuDisplay: React.FC = () => {
           }
         });
       },
-      { rootMargin, threshold: [0, 0.5] }
+      { rootMargin, threshold: 0.1 }
     );
 
     Object.values(pageRefs.current).forEach((el) => el && observer.observe(el));
@@ -138,6 +138,7 @@ const MenuDisplay: React.FC = () => {
               width={pageWidth}
               renderTextLayer={true}
               renderAnnotationLayer={false}
+              renderMode="canvas"
               className="pdf-page"
               loading={<div className="page-loading">Chargement...</div>}
             />
