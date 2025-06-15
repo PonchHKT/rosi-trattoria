@@ -4,10 +4,9 @@ import {
   Clock,
   Calendar,
   ChevronUp,
-  ChevronDown,
-  ShoppingBag,
   UtensilsCrossed,
-  Menu,
+  ShoppingBag,
+  ChevronDown,
 } from "lucide-react";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
@@ -21,7 +20,7 @@ const MenuDisplay: React.FC = () => {
   const [loadedPages, setLoadedPages] = useState(new Set([1]));
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedMenu, setSelectedMenu] = useState<string>("");
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const pageRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -47,7 +46,7 @@ const MenuDisplay: React.FC = () => {
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target as Node)
       ) {
-        setIsDropdownOpen(false);
+        setDropdownOpen(false);
       }
     };
 
@@ -92,30 +91,10 @@ const MenuDisplay: React.FC = () => {
   // Handle menu selection
   const handleMenuSelect = (menuType: string) => {
     setSelectedMenu(menuType);
-    setIsDropdownOpen(false);
+    setDropdownOpen(false);
     setNumPages(null);
     setLoadedPages(new Set([1]));
     setCurrentPage(1);
-  };
-
-  // Get menu option details
-  const getMenuOption = (type: string) => {
-    switch (type) {
-      case "sur_place":
-        return {
-          icon: UtensilsCrossed,
-          label: "Sur place",
-          description: "Service à table",
-        };
-      case "a_emporter":
-        return {
-          icon: ShoppingBag,
-          label: "À emporter",
-          description: "Tarifs réduits",
-        };
-      default:
-        return null;
-    }
   };
 
   // Determine PDF file based on selection
@@ -123,6 +102,29 @@ const MenuDisplay: React.FC = () => {
     if (selectedMenu === "sur_place") return "/carterositrattoria.pdf";
     if (selectedMenu === "a_emporter") return "/carterositrattoriaemporter.pdf";
     return null;
+  };
+
+  // Get menu options
+  const getMenuOptions = () => [
+    {
+      value: "sur_place",
+      label: "Carte sur place",
+      description: "Service à table",
+      icon: UtensilsCrossed,
+    },
+    {
+      value: "a_emporter",
+      label: "À emporter",
+      description: "",
+      icon: ShoppingBag,
+      hasDiscount: true,
+    },
+  ];
+
+  // Get selected menu info
+  const getSelectedMenuInfo = () => {
+    const options = getMenuOptions();
+    return options.find((option) => option.value === selectedMenu);
   };
 
   // Render PDF pages
@@ -157,7 +159,7 @@ const MenuDisplay: React.FC = () => {
     });
   };
 
-  const selectedOption = selectedMenu ? getMenuOption(selectedMenu) : null;
+  const selectedMenuInfo = getSelectedMenuInfo();
 
   return (
     <div className="menu-container" ref={containerRef}>
@@ -167,7 +169,6 @@ const MenuDisplay: React.FC = () => {
           <Clock className="clock-icon" size={20} />
           <h2>Nos horaires</h2>
         </div>
-
         <div className="hours-list">
           <div className="hours-item">
             <span>Mar - Jeu</span>
@@ -184,69 +185,67 @@ const MenuDisplay: React.FC = () => {
         </div>
 
         <div className="menu-selection">
-          <h3 className="service-title">Type de service</h3>
-
+          <h3 className="service-title">Choisir une carte</h3>
           <div className="dropdown-container" ref={dropdownRef}>
-            <button
+            <div
               className={`dropdown-trigger ${selectedMenu ? "selected" : ""}`}
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              aria-expanded={isDropdownOpen}
-              aria-haspopup="listbox"
+              onClick={() => setDropdownOpen(!dropdownOpen)}
             >
               <div className="dropdown-trigger-content">
-                {selectedOption ? (
+                {selectedMenu && selectedMenuInfo ? (
                   <>
-                    <selectedOption.icon className="service-icon" size={20} />
+                    <selectedMenuInfo.icon className="service-icon" size={20} />
                     <div className="service-info">
                       <span className="service-label">
-                        {selectedOption.label}
+                        {selectedMenuInfo.label}
                       </span>
                       <span className="service-description">
-                        {selectedOption.description}
+                        {selectedMenuInfo.description}
                       </span>
                     </div>
+                    {selectedMenuInfo.hasDiscount && (
+                      <span className="discount-badge">Tarifs réduits</span>
+                    )}
                   </>
                 ) : (
                   <>
-                    <Menu className="service-icon" size={20} />
+                    <UtensilsCrossed className="service-icon" size={20} />
                     <div className="service-info">
-                      <span className="service-label">Choisir une carte</span>
+                      <span className="service-label">
+                        Sélectionnez une carte
+                      </span>
                       <span className="service-description">
-                        Sélectionnez votre option
+                        Choisir le type de service
                       </span>
                     </div>
                   </>
                 )}
               </div>
               <ChevronDown
-                className={`dropdown-arrow ${isDropdownOpen ? "open" : ""}`}
+                className={`dropdown-arrow ${dropdownOpen ? "open" : ""}`}
                 size={20}
               />
-            </button>
+            </div>
 
-            <div className={`dropdown-menu ${isDropdownOpen ? "open" : ""}`}>
-              <div
-                className="dropdown-option"
-                onClick={() => handleMenuSelect("sur_place")}
-              >
-                <UtensilsCrossed className="service-icon" size={20} />
-                <div className="service-info">
-                  <span className="service-label">Sur place</span>
-                  <span className="service-description">Service à table</span>
+            <div className={`dropdown-menu ${dropdownOpen ? "open" : ""}`}>
+              {getMenuOptions().map((option) => (
+                <div
+                  key={option.value}
+                  className="dropdown-option"
+                  onClick={() => handleMenuSelect(option.value)}
+                >
+                  <option.icon className="service-icon" size={20} />
+                  <div className="service-info">
+                    <span className="service-label">{option.label}</span>
+                    <span className="service-description">
+                      {option.description}
+                    </span>
+                  </div>
+                  {option.hasDiscount && (
+                    <span className="discount-badge">Tarifs réduits</span>
+                  )}
                 </div>
-              </div>
-
-              <div
-                className="dropdown-option"
-                onClick={() => handleMenuSelect("a_emporter")}
-              >
-                <ShoppingBag className="service-icon" size={20} />
-                <div className="service-info">
-                  <span className="service-label">À emporter</span>
-                  <span className="service-description"></span>
-                </div>
-                <span className="discount-badge">Tarifs réduits</span>
-              </div>
+              ))}
             </div>
           </div>
         </div>
@@ -258,9 +257,7 @@ const MenuDisplay: React.FC = () => {
             file={getPdfFile()}
             onLoadSuccess={({ numPages }) => setNumPages(numPages)}
             onLoadError={(error) => console.error("PDF load error:", error)}
-            loading={
-              <div className="document-loading">Chargement du menu...</div>
-            }
+            loading={<div className="document-loading">Chargement...</div>}
           >
             <div className="pdf-pages-container">{renderPages()}</div>
           </Document>

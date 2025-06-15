@@ -1,5 +1,5 @@
 :root {
-  --primary-bg: #0a0a0a;
+  --primary-bg: #000000;
   --secondary-bg: #111;
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
@@ -26,7 +26,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: black;
+  background: linear-gradient(
+    135deg,
+    var(--primary-bg) 0%,
+    var(--secondary-bg) 100%
+  );
   min-height: 100vh;
   padding: 2rem 1rem;
   padding-top: 120px;
@@ -38,10 +42,9 @@
   z-index: 100;
   margin: 2rem 0;
   padding: 2rem;
-  background: #000000; // Background noir complet
+  border-radius: 16px;
   max-width: 480px;
   width: 100%;
-
   transition: all 0.3s ease;
 
   &:hover {
@@ -162,7 +165,7 @@
 
         &:hover {
           background: rgba(255, 255, 255, 0.06);
-          border-color: var(--accent-color);
+          border-color: transparent;
           transform: translateY(-1px);
           box-shadow: var(--shadow-lg);
 
@@ -173,7 +176,7 @@
 
         &.selected {
           background: rgba(59, 130, 246, 0.1);
-          border-color: var(--accent-color);
+          border-color: var(--primary-pink);
           box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
@@ -184,7 +187,7 @@
           flex: 1;
 
           .service-icon {
-            color: var(--accent-color);
+            color: var(--primary-blue);
             flex-shrink: 0;
             filter: drop-shadow(0 0 4px rgba(59, 130, 246, 0.3));
           }
@@ -194,6 +197,7 @@
             flex-direction: column;
             align-items: flex-start;
             gap: 0.25rem;
+            flex: 1;
 
             .service-label {
               color: var(--text-primary);
@@ -208,6 +212,24 @@
               font-weight: 500;
             }
           }
+
+          .discount-badge {
+            background: linear-gradient(
+              135deg,
+              var(--green-primary),
+              var(--green-secondary)
+            );
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px var(--green-glow);
+            animation: pulse-green 2s infinite;
+            flex-shrink: 0;
+          }
         }
 
         .dropdown-arrow {
@@ -217,7 +239,7 @@
 
           &.open {
             transform: rotate(180deg);
-            color: var(--accent-color);
+            color: var(--primary-blue);
           }
         }
       }
@@ -227,13 +249,14 @@
         top: 100%;
         left: 0;
         right: 0;
-        background: #000000; // Background noir complet
+        background: #000000;
         border: 1px solid var(--glass-border);
         border-radius: 12px;
         backdrop-filter: blur(20px);
         box-shadow: var(--shadow-xl);
-        z-index: 1000;
+        z-index: 100;
         visibility: hidden;
+        opacity: 0;
         transform: translateY(-10px) scale(0.95);
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         margin-top: 0.5rem;
@@ -241,6 +264,7 @@
 
         &.open {
           visibility: visible;
+          opacity: 1;
           transform: translateY(0) scale(1);
         }
 
@@ -268,7 +292,7 @@
           }
 
           .service-icon {
-            color: var(--accent-color);
+            color: var(--primary-blue);
             flex-shrink: 0;
             filter: drop-shadow(0 0 4px rgba(59, 130, 246, 0.3));
           }
@@ -336,7 +360,7 @@
     height: 20px;
     margin-left: 1rem;
     border: 2px solid var(--border-color);
-    border-top-color: var(--accent-color);
+    border-top-color: var(--primary-pink);
     border-radius: 50%;
     animation: spin 1s linear infinite;
   }
@@ -411,7 +435,7 @@
   z-index: 100;
 
   &:hover {
-    background: var(--accent-color);
+    background: var(--primary-blue);
     transform: translateY(-4px) scale(1.1);
     box-shadow: 0 20px 40px rgba(59, 130, 246, 0.3);
   }
@@ -531,6 +555,11 @@
                 font-size: 0.8rem;
               }
             }
+
+            .discount-badge {
+              font-size: 0.7rem;
+              padding: 0.3rem 0.6rem;
+            }
           }
         }
 
@@ -614,6 +643,11 @@
               .service-description {
                 font-size: 0.75rem;
               }
+            }
+
+            .discount-badge {
+              font-size: 0.65rem;
+              padding: 0.25rem 0.5rem;
             }
           }
         }
