@@ -6,6 +6,7 @@ import {
   UtensilsCrossed,
   ShoppingBag,
   ChevronDown,
+  Download,
 } from "lucide-react";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
@@ -95,6 +96,22 @@ const MenuDisplay: React.FC = () => {
     return null;
   };
 
+  // Handle PDF download
+  const handleDownloadPdf = () => {
+    const pdfFile = getPdfFile();
+    if (pdfFile) {
+      const link = document.createElement("a");
+      link.href = pdfFile;
+      link.download =
+        selectedMenu === "sur_place"
+          ? "Carte-Restaurant-Sur-Place.pdf"
+          : "Carte-Restaurant-A-Emporter.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
   // Get menu options
   const getMenuOptions = () => [
     {
@@ -177,6 +194,17 @@ const MenuDisplay: React.FC = () => {
 
         <div className="menu-selection">
           <h3 className="service-title"></h3>
+
+          {/* Bouton de téléchargement PDF */}
+          {selectedMenu && (
+            <div className="download-section">
+              <span className="download-link" onClick={handleDownloadPdf}>
+                <Download className="download-icon" size={18} />
+                <span>Télécharger le PDF</span>
+              </span>
+            </div>
+          )}
+
           <div className="dropdown-container" ref={dropdownRef}>
             <div
               className={`dropdown-trigger ${selectedMenu ? "selected" : ""}`}

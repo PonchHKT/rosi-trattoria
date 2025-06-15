@@ -107,7 +107,6 @@
 
   .menu-selection {
     border-top: 1px solid var(--glass-border);
-    padding-top: 2rem;
 
     .service-title {
       color: var(--text-primary);
@@ -116,6 +115,29 @@
       margin: 0 0 1.5rem 0;
       text-align: center;
       letter-spacing: -0.025em;
+    }
+
+    .download-section {
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .download-link {
+      display: inline-flex;
+      align-items: center;
+      text-decoration: underline;
+      color: #8227e4; /* Blue color for link, adjust as needed */
+      cursor: pointer;
+    }
+
+    .download-link:hover {
+      color: #0056b3; /* Darker blue on hover, adjust as needed */
+    }
+
+    .download-icon {
+      flex-shrink: 0;
+      margin-right: 0.5rem; /* Space between icon and text */
     }
 
     .dropdown-container {
@@ -387,11 +409,24 @@
     }
 
     .menu-selection {
-      padding-top: 1.5rem;
-
       .service-title {
         font-size: 1rem;
         margin-bottom: 1rem;
+      }
+
+      .download-section {
+        margin-bottom: 1.25rem;
+
+        .download-button {
+          padding: 0.9rem 1.25rem;
+          font-size: 0.9rem;
+          gap: 0.6rem;
+
+          .download-icon {
+            width: 16px;
+            height: 16px;
+          }
+        }
       }
 
       .dropdown-container {
@@ -490,6 +525,21 @@
     }
 
     .menu-selection {
+      .download-section {
+        margin-bottom: 1rem;
+
+        .download-button {
+          padding: 0.8rem 1rem;
+          font-size: 0.85rem;
+          gap: 0.5rem;
+
+          .download-icon {
+            width: 14px;
+            height: 14px;
+          }
+        }
+      }
+
       .dropdown-container {
         .dropdown-trigger {
           padding: 0.9rem;
