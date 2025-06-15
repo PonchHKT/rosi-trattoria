@@ -175,14 +175,20 @@ body {
         align-items: center;
         justify-content: space-between;
         padding: 1.25rem;
-        background: rgba(255, 255, 255, 0.03);
-        border: 2px solid var(--glass-border);
+        background: white;
+        border: 2px solid #e5e7eb;
         border-radius: 12px;
         cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+
+        &:hover {
+          border-color: #d1d5db;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
 
         &.selected {
-          background: rgba(59, 130, 246, 0.1);
-          border-color: var(--primary-pink);
+          background: white;
         }
 
         .dropdown-trigger-content {
@@ -204,21 +210,25 @@ body {
             flex: 1;
 
             .service-label {
-              color: var(--text-primary);
+              color: #111827;
               font-weight: 600;
               font-size: 1rem;
               line-height: 1.2;
             }
 
             .service-description {
-              color: var(--text-muted);
+              color: #6b7280;
               font-size: 0.85rem;
               font-weight: 500;
             }
           }
 
           .discount-badge {
-            background: var(--green-primary);
+            background: linear-gradient(
+              135deg,
+              var(--green-primary),
+              var(--green-secondary)
+            );
             color: white;
             font-size: 0.75rem;
             font-weight: 800;
@@ -227,12 +237,14 @@ body {
             text-transform: uppercase;
             letter-spacing: 0.5px;
             flex-shrink: 0;
+            box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
           }
         }
 
         .dropdown-arrow {
-          color: var(--text-secondary);
+          color: #6b7280;
           flex-shrink: 0;
+          transition: all 0.2s ease;
 
           &.open {
             transform: rotate(180deg);
@@ -246,15 +258,18 @@ body {
         top: 100%;
         left: 0;
         right: 0;
-        background: rgba(0, 0, 0, 0.95);
-        border: 1px solid var(--glass-border);
+        background: white;
+        border: 1px solid #e5e7eb;
         border-radius: 12px;
         z-index: 100;
         visibility: hidden;
         opacity: 0;
         transform: translateY(-10px) scale(0.95);
+        transition: all 0.2s ease;
         margin-top: 0.5rem;
         overflow: hidden;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
 
         &.open {
           visibility: visible;
@@ -268,15 +283,32 @@ body {
           gap: 1rem;
           padding: 1.25rem;
           cursor: pointer;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+          border-bottom: 1px solid #f3f4f6;
+          transition: all 0.2s ease;
+          position: relative;
 
           &:last-child {
             border-bottom: none;
           }
 
+          &:hover {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            transform: translateX(2px);
+          }
+
+          &:active {
+            transform: translateX(1px);
+            background: #f1f5f9;
+          }
+
           .service-icon {
             color: var(--primary-blue);
             flex-shrink: 0;
+            transition: transform 0.2s ease;
+          }
+
+          &:hover .service-icon {
+            transform: scale(1.1);
           }
 
           .service-info {
@@ -286,20 +318,29 @@ body {
             flex: 1;
 
             .service-label {
-              color: var(--text-primary);
+              color: #111827;
               font-weight: 600;
               font-size: 1rem;
+              transition: color 0.2s ease;
             }
 
             .service-description {
-              color: var(--text-muted);
+              color: #6b7280;
               font-size: 0.85rem;
               font-weight: 500;
             }
           }
 
+          &:hover .service-info .service-label {
+            color: #0f172a;
+          }
+
           .discount-badge {
-            background: var(--green-primary);
+            background: linear-gradient(
+              135deg,
+              var(--green-primary),
+              var(--green-secondary)
+            );
             color: white;
             font-size: 0.75rem;
             font-weight: 800;
@@ -308,6 +349,12 @@ body {
             text-transform: uppercase;
             letter-spacing: 0.5px;
             flex-shrink: 0;
+            box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+            transition: transform 0.2s ease;
+          }
+
+          &:hover .discount-badge {
+            transform: scale(1.05);
           }
         }
       }
@@ -369,7 +416,7 @@ body {
 .pdf-page-grid {
   display: flex;
   flex-direction: column;
-  gap: 60px; /* Increased spacing for desktop */
+  gap: 60px;
   width: 100%;
   align-items: center;
 }
@@ -448,7 +495,6 @@ body {
   z-index: 100;
 }
 
-// Animation du spinner - DÉFINIE AVANT les media queries
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -601,7 +647,7 @@ body {
   }
 
   .pdf-page-grid {
-    gap: 30px; /* Maintain smaller gap for tablets */
+    gap: 30px;
   }
 
   .pdf-page-container {
@@ -747,7 +793,7 @@ body {
   }
 
   .pdf-page-grid {
-    gap: 6px; /* Maintain smaller gap for mobile */
+    gap: 6px;
   }
 
   .pdf-page-container.mobile-optimized {
@@ -756,17 +802,17 @@ body {
   }
 }
 
-// CORRECTION IMPORTANTE : Ne pas désactiver l'animation du spinner
 @media (prefers-reduced-motion: reduce) {
-  // Garder l'animation du spinner car elle est essentielle pour le feedback utilisateur
   .loading-spinner {
     animation: spin 1s linear infinite !important;
   }
 
-  // Désactiver seulement les animations non-essentielles
   .dropdown-trigger,
   .dropdown-menu,
-  .dropdown-arrow {
+  .dropdown-arrow,
+  .dropdown-option,
+  .service-icon,
+  .discount-badge {
     transition: none !important;
   }
 
