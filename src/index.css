@@ -45,3 +45,33 @@ body {
     --primary-blue
   ); /* Change to blue on hover for interactivity */
 }
+
+/* Masquer la scrollbar sur mobile tout en gardant le scroll */
+@media (max-width: 768px) {
+  html,
+  body {
+    /* Pour WebKit (iOS Safari, Chrome mobile) */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Masquer la scrollbar sur WebKit mobile */
+  ::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
+
+  /* Masquer la scrollbar sur Firefox mobile */
+  html {
+    scrollbar-width: none;
+  }
+
+  /* Alternative pour tous les navigateurs mobiles */
+  body {
+    -ms-overflow-style: none; /* IE et Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  body::-webkit-scrollbar {
+    display: none; /* WebKit */
+  }
+}
