@@ -356,8 +356,9 @@ const MenuDisplay: React.FC = () => {
                     Chargement en cours...
                     <br />
                     <small>
-                      Veuillez patienter le temps que le navigateur traite le
-                      PDF
+                      Si une page blanche s'affiche, pas d'inquiétude !<br />
+                      Le PDF est en train de se charger, cela peut prendre
+                      quelques instants.
                     </small>
                   </span>
                 </div>
