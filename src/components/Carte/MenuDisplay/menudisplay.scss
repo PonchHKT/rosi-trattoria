@@ -24,7 +24,7 @@
     0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
-// Fix pour éviter les saccades de scroll sur mobile mais permettre le zoom
+// Configuration scroll mobile améliorée
 * {
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
@@ -37,13 +37,20 @@
 html {
   scroll-behavior: auto;
   -webkit-overflow-scrolling: touch;
+  // Améliore la stabilité du scroll après zoom
+  height: 100%;
+  overflow-x: hidden;
 }
 
 body {
   overscroll-behavior: none;
   -webkit-overscroll-behavior: none;
-  // MODIFIÉ: Permet le zoom tactile
-  touch-action: manipulation;
+  // Autorise pinch-zoom mais garde un scroll stable
+  touch-action: pan-y pinch-zoom;
+  height: 100%;
+  overflow-x: hidden;
+  // Empêche les rebonds de scroll
+  position: relative;
 }
 
 .menu-container {
@@ -360,7 +367,6 @@ body {
   justify-content: center;
 
   &.mobile-optimized {
-    // MODIFIÉ: Hauteur flexible au lieu de fixe
     min-height: 600px;
     position: relative;
 
@@ -373,9 +379,11 @@ body {
     backface-visibility: hidden;
     -webkit-font-smoothing: antialiased;
 
-    // MODIFIÉ: Permet les interactions tactiles (zoom)
+    // Configuration touch optimisée pour éviter les problèmes de scroll
     pointer-events: auto;
-    touch-action: pinch-zoom;
+    touch-action: pan-y pinch-zoom;
+    // Stabilise l'élément après zoom
+    isolation: isolate;
   }
 }
 
@@ -398,8 +406,8 @@ body {
 .pdf-page {
   border-radius: 16px;
   background: #fff;
-  // MODIFIÉ: Permet le zoom tactile
-  touch-action: pinch-zoom;
+  // Configuration touch améliorée
+  touch-action: pan-y pinch-zoom;
 
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
@@ -410,8 +418,8 @@ body {
     height: auto !important;
     border-radius: 16px;
     display: block;
-    // MODIFIÉ: Permet le zoom tactile sur le canvas
-    touch-action: pinch-zoom;
+    // Même configuration touch que le parent
+    touch-action: pan-y pinch-zoom;
 
     image-rendering: -webkit-optimize-contrast;
     image-rendering: optimize-contrast;
@@ -446,19 +454,24 @@ body {
   }
 }
 
-// MEDIA QUERIES POUR MOBILE
+// MEDIA QUERIES POUR MOBILE - ESPACEMENT ULTRA RÉDUIT
 @media (max-width: 768px) {
   html {
     scroll-behavior: auto !important;
     -webkit-overflow-scrolling: touch;
+    // Stabilité améliorée
+    height: 100%;
+    overflow-x: hidden;
   }
 
   body {
     overscroll-behavior-y: none;
     -webkit-overscroll-behavior-y: none;
-    // MODIFIÉ: Permet le zoom tactile
-    touch-action: manipulation;
+    // Configuration touch améliorée pour éviter les problèmes de scroll
+    touch-action: pan-y pinch-zoom;
     position: relative;
+    height: 100%;
+    overflow-x: hidden;
   }
 
   .menu-container {
@@ -566,9 +579,9 @@ body {
     }
   }
 
-  // MODIFIÉ: Espace réduit entre les pages
+  // ESPACEMENT TRÈS RÉDUIT entre les pages PDF
   .pdf-pages-container {
-    gap: 1rem; // Réduit de 3rem à 1rem
+    gap: 0.25rem; // Ultra réduit de 1rem à 0.25rem
     padding-bottom: 150px;
     contain: layout;
     transform: translate3d(0, 0, 0);
@@ -576,12 +589,12 @@ body {
 
   .pdf-page-container {
     &.mobile-optimized {
-      // MODIFIÉ: Hauteur flexible
       min-height: 500px;
       height: auto;
 
-      // MODIFIÉ: Margin réduit
-      margin-bottom: 0.5rem;
+      // Suppression totale des marges
+      margin: 0;
+      margin-bottom: 0;
 
       -webkit-transform: translate3d(0, 0, 0);
       transform: translate3d(0, 0, 0);
@@ -594,13 +607,18 @@ body {
       -webkit-perspective: 1000px;
       perspective: 1000px;
 
-      // MODIFIÉ: Permet le zoom tactile
+      // Configuration touch améliorée
       pointer-events: auto;
-      touch-action: pinch-zoom;
+      touch-action: pan-y pinch-zoom;
+
+      // Empêche les décalages après zoom
+      position: relative;
+      overflow: visible;
     }
   }
 
   .pdf-page {
+    // Améliore le rendu après zoom/dézoom
     canvas {
       image-rendering: -webkit-optimize-contrast !important;
       image-rendering: optimize-contrast !important;
@@ -614,8 +632,11 @@ body {
 
       will-change: auto !important;
 
-      // MODIFIÉ: Permet le zoom tactile
-      touch-action: pinch-zoom !important;
+      // Configuration touch cohérente
+      touch-action: pan-y pinch-zoom !important;
+
+      // Stabilité améliorée
+      position: relative !important;
     }
   }
 
@@ -725,14 +746,14 @@ body {
     font-size: 0.8rem;
   }
 
-  // MODIFIÉ: Espace encore plus réduit sur petit écran
+  // ESPACEMENT MINIMAL sur très petits écrans
   .pdf-pages-container {
-    gap: 0.75rem;
+    gap: 0.1rem; // Espacement quasi inexistant
   }
 
   .pdf-page-container.mobile-optimized {
     min-height: 450px;
-    margin-bottom: 0.25rem;
+    margin: 0; // Suppression totale des marges
   }
 }
 
@@ -747,8 +768,17 @@ body {
   }
 }
 
-// Optimisations spécifiques pour iOS Safari
+// Optimisations spécifiques pour iOS Safari - SCROLL AMÉLIORÉ
 @supports (-webkit-touch-callout: none) {
+  body {
+    // Empêche les rebonds élastiques sur iOS
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: none;
+    -webkit-overscroll-behavior: none;
+    // Configuration touch améliorée pour iOS
+    touch-action: pan-y pinch-zoom;
+  }
+
   .pdf-page-container.mobile-optimized {
     -webkit-overflow-scrolling: touch;
     -webkit-transform: translate3d(0, 0, 0);
@@ -759,8 +789,13 @@ body {
     -webkit-perspective: 1000px;
     perspective: 1000px;
 
-    // MODIFIÉ: Permet le zoom tactile sur iOS
-    touch-action: pinch-zoom;
+    // Configuration touch iOS optimisée
+    touch-action: pan-y pinch-zoom;
+
+    // Stabilité sur iOS après zoom
+    position: relative;
+    overflow: visible;
+    isolation: isolate;
   }
 
   .pdf-page canvas {
@@ -769,7 +804,30 @@ body {
     -webkit-backface-visibility: hidden !important;
     backface-visibility: hidden !important;
 
-    // MODIFIÉ: Permet le zoom tactile sur iOS
-    touch-action: pinch-zoom !important;
+    // Configuration touch iOS
+    touch-action: pan-y pinch-zoom !important;
+
+    // Améliore la stabilité du rendu sur iOS
+    -webkit-user-select: none !important;
+    user-select: none !important;
+    position: relative !important;
+  }
+}
+
+// Correction spécifique pour les problèmes de scroll après zoom
+@media (max-width: 768px) {
+  .pdf-page-container.mobile-optimized {
+    // Force la réinitialisation du contexte de transformation
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+      transform: translateZ(0);
+    }
   }
 }
