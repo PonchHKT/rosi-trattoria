@@ -127,12 +127,12 @@
       display: inline-flex;
       align-items: center;
       text-decoration: underline;
-      color: #8227e4; /* Blue color for link, adjust as needed */
+      color: var(--primary-pink); /* Blue color for link, adjust as needed */
       cursor: pointer;
     }
 
     .download-link:hover {
-      color: #8227e4; /* Darker blue on hover, adjust as needed */
+      color: var(--primary-pink); /* Darker blue on hover, adjust as needed */
     }
 
     .download-icon {
