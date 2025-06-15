@@ -233,7 +233,7 @@ const MenuDisplay: React.FC = () => {
                     </span>
                   </div>
                   {option.hasDiscount && (
-                    <span className="discount-badge">Tarif réduits</span>
+                    <span className="discount-badge">Tarifs réduits</span>
                   )}
                 </div>
               ))}
