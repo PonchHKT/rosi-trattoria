@@ -7,6 +7,7 @@ import {
   ShoppingBag,
   ChevronDown,
   Download,
+  Menu,
 } from "lucide-react";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
@@ -298,7 +299,7 @@ const MenuDisplay: React.FC = () => {
                   </>
                 ) : (
                   <>
-                    <UtensilsCrossed className="service-icon" size={20} />
+                    <Menu className="service-icon" size={20} />
                     <div className="service-info">
                       <span className="service-label">
                         Sélectionnez une carte
