@@ -33,7 +33,7 @@ const VideoPlayer: React.FC = () => {
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const playerRef = useRef<HTMLDivElement>(null);
-  const controlsTimeoutRef = useRef<number | null>(null);
+  const controlsTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const videos: Video[] = [
     {
