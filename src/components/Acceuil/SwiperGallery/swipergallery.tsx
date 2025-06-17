@@ -7,38 +7,53 @@ import "swiper/css/autoplay";
 import "swiper/css/effect-coverflow";
 import "./swipergallery.scss";
 
+// Fonction pour mélanger un tableau// Définir un type pour les slides
+type Slide = {
+  id: number;
+  src: string;
+  alt: string;
+};
+
+// Fonction pour mélanger un tableau
+const shuffleArray = (array: Slide[]): Slide[] => {
+  const newArray = [...array];
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+  }
+  return newArray;
+};
+
 const SwiperGallery: React.FC = () => {
   const swiperRef = useRef<SwiperType | null>(null);
 
-  // Mémorise les slides pour éviter les re-renders
-  const slides = useMemo(
-    () =>
-      [...Array(11).keys()].map((i) => ({
-        id: i,
-        src: `/images/swiper/${i + 1}.jpg`,
-        alt: `Slide ${i + 1} of the gallery`,
-      })),
-    []
-  );
+  // Génère et mélange les slides
+  const slides = useMemo(() => {
+    const slidesArray = [...Array(40).keys()].map((i) => ({
+      id: i,
+      src: `/images/swiper/${i + 1}.jpg`,
+      alt: `Slide ${i + 1} of the gallery`,
+    }));
+    return shuffleArray(slidesArray);
+  }, []);
 
-  // Génère un index aléatoire pour la slide initiale
+  // Le reste de votre code reste inchangé
   const randomInitialSlide = useMemo(() => {
     return Math.floor(Math.random() * slides.length);
   }, [slides.length]);
 
-  // Configuration mémorisée pour éviter les re-créations
   const swiperConfig = useMemo(
     () => ({
-      initialSlide: randomInitialSlide, // ✨ Utilise l'index aléatoire
+      initialSlide: randomInitialSlide,
       modules: [Autoplay, EffectCoverflow],
       autoplay: {
         delay: 4000,
         disableOnInteraction: false,
         pauseOnMouseEnter: true,
-        waitForTransition: false, // Améliore les performances
+        waitForTransition: false,
       },
       navigation: false,
-      effect: "coverflow" as const,
+      effect: "coverflow",
       coverflowEffect: {
         rotate: 50,
         stretch: 0,
@@ -51,35 +66,28 @@ const SwiperGallery: React.FC = () => {
       slidesPerView: 1,
       spaceBetween: 20,
       className: "my-swiper",
-
-      // Optimisations critiques pour les performances
       lazy: {
         loadPrevNext: true,
         loadPrevNextAmount: 2,
         loadOnTransitionStart: true,
       },
-      preloadImages: false, // Désactive le préchargement automatique
-      updateOnImagesReady: false, // N'attend pas que toutes les images soient chargées
+      preloadImages: false,
+      updateOnImagesReady: false,
       watchSlidesProgress: true,
       watchOverflow: true,
-
-      // Optimisations touch/mobile
       touchRatio: 1,
       simulateTouch: true,
       allowTouchMove: true,
       resistance: true,
       resistanceRatio: 0.85,
-
-      // Performance optimizations
-      roundLengths: true, // Arrondit les longueurs pour éviter les problèmes de rendu
+      roundLengths: true,
       preventInteractionOnTransition: false,
-
       breakpoints: {
         0: {
           slidesPerView: 1.2,
           spaceBetween: 10,
           centeredSlides: true,
-          effect: "slide" as const,
+          effect: "slide",
           coverflowEffect: {
             rotate: 0,
             stretch: 0,
@@ -87,14 +95,13 @@ const SwiperGallery: React.FC = () => {
             modifier: 1,
             slideShadows: false,
           },
-          // Désactive l'autoplay sur très petits écrans pour économiser la batterie
           autoplay: false,
         },
         401: {
           slidesPerView: 1.3,
           spaceBetween: 15,
           centeredSlides: true,
-          effect: "slide" as const,
+          effect: "slide",
           coverflowEffect: {
             rotate: 0,
             stretch: 0,
@@ -103,7 +110,7 @@ const SwiperGallery: React.FC = () => {
             slideShadows: false,
           },
           autoplay: {
-            delay: 5000, // Plus lent sur mobile
+            delay: 5000,
             disableOnInteraction: false,
             pauseOnMouseEnter: false,
             waitForTransition: false,
@@ -113,7 +120,7 @@ const SwiperGallery: React.FC = () => {
           slidesPerView: 1.8,
           spaceBetween: 20,
           centeredSlides: true,
-          effect: "coverflow" as const,
+          effect: "coverflow",
           coverflowEffect: {
             rotate: 40,
             stretch: 0,
@@ -132,7 +139,7 @@ const SwiperGallery: React.FC = () => {
           slidesPerView: 3,
           spaceBetween: 30,
           centeredSlides: true,
-          effect: "coverflow" as const,
+          effect: "coverflow",
           coverflowEffect: {
             rotate: 50,
             stretch: 0,
@@ -149,15 +156,13 @@ const SwiperGallery: React.FC = () => {
         },
       },
     }),
-    [randomInitialSlide] // ✨ Ajoute randomInitialSlide comme dépendance
+    [randomInitialSlide]
   );
 
-  // Callback optimisé pour l'initialisation du swiper
   const onSwiper = useCallback((swiper: SwiperType) => {
     swiperRef.current = swiper;
   }, []);
 
-  // Callback pour gérer les erreurs d'images
   const handleImageError = useCallback(
     (e: React.SyntheticEvent<HTMLImageElement>) => {
       const img = e.currentTarget;
@@ -167,7 +172,6 @@ const SwiperGallery: React.FC = () => {
     []
   );
 
-  // Callback pour optimiser le chargement des images
   const handleImageLoad = useCallback(
     (e: React.SyntheticEvent<HTMLImageElement>) => {
       const img = e.currentTarget;
@@ -176,7 +180,6 @@ const SwiperGallery: React.FC = () => {
     []
   );
 
-  // Fonction pour naviguer vers une slide spécifique
   const handleSlideClick = useCallback((slideIndex: number) => {
     if (swiperRef.current) {
       swiperRef.current.slideTo(slideIndex);
@@ -195,18 +198,17 @@ const SwiperGallery: React.FC = () => {
                 alt={slide.alt}
                 className="swiper-image"
                 loading="lazy"
-                decoding="async" // Améliore les performances de décodage
+                decoding="async"
                 sizes="(max-width: 640px) 100vw, (max-width: 768px) 80vw, 33vw"
                 style={{
                   opacity: 0,
                   transition: "opacity 0.3s ease",
-                  cursor: "pointer", // Indique que l'image est cliquable
+                  cursor: "pointer",
                 }}
                 onLoad={handleImageLoad}
                 onError={handleImageError}
                 onClick={() => handleSlideClick(slide.id)}
-                // Préchargement conditionnel pour les premières images
-                {...(slide.id < 3 && { fetchPriority: "high" as const })}
+                {...(slide.id < 3 && { fetchPriority: "high" })}
               />
             </SwiperSlide>
           ))}
