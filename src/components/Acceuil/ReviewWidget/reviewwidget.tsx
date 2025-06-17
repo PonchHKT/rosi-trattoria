@@ -50,6 +50,8 @@ const ReviewWidget: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isPaused, setIsPaused] = useState(false);
+  // New state to track AFK status
+  const [isAfk, setIsAfk] = useState(false);
 
   // Debounce utility to limit frequent height updates
   const debounce = useCallback(
@@ -115,10 +117,47 @@ const ReviewWidget: React.FC = () => {
     },
   });
 
+  // New: AFK detection logic
+  useEffect(() => {
+    let afkTimeout: NodeJS.Timeout;
+    const resetStyles = () => {
+      // Force reset critical font styles to prevent browser overrides
+      document
+        .querySelectorAll(".review-widget, .review-widget *")
+        .forEach((el) => {
+          (el as HTMLElement).style.fontSize = "";
+          (el as HTMLElement).style.fontFamily = "";
+        });
+      debouncedUpdateSliderHeight(); // Recalculate slider height
+    };
+
+    const handleUserActivity = () => {
+      setIsAfk(false);
+      clearTimeout(afkTimeout);
+      afkTimeout = setTimeout(() => {
+        setIsAfk(true);
+        resetStyles();
+      }, 300000); // 5 minutes AFK threshold
+    };
+
+    window.addEventListener("mousemove", handleUserActivity);
+    window.addEventListener("keydown", handleUserActivity);
+    window.addEventListener("touchstart", handleUserActivity);
+
+    return () => {
+      window.removeEventListener("mousemove", handleUserActivity);
+      window.removeEventListener("keydown", handleUserActivity);
+      window.removeEventListener("touchstart", handleUserActivity);
+      clearTimeout(afkTimeout);
+    };
+  }, [debouncedUpdateSliderHeight]);
+
   useEffect(() => {
     if (reviews.length > 0 && instanceRef.current) {
       const resizeObserver = new ResizeObserver(() => {
-        debouncedUpdateSliderHeight();
+        if (!isAfk) {
+          debouncedUpdateSliderHeight();
+        }
       });
 
       const slides = document.querySelectorAll(".review-item");
@@ -151,11 +190,11 @@ const ReviewWidget: React.FC = () => {
         });
       };
     }
-  }, [reviews, debouncedUpdateSliderHeight]);
+  }, [reviews, debouncedUpdateSliderHeight, isAfk]);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
-    if (!isPaused && reviews.length > 1) {
+    if (!isPaused && reviews.length > 1 && !isAfk) {
       interval = setInterval(() => {
         if (instanceRef.current) {
           instanceRef.current.next();
@@ -166,7 +205,7 @@ const ReviewWidget: React.FC = () => {
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [reviews.length, isPaused]);
+  }, [reviews.length, isPaused, isAfk]);
 
   const getRandomReviews = (reviewsArray: Review[], count: number = 5) => {
     const shuffled = [...reviewsArray].sort(() => 0.5 - Math.random());
@@ -840,22 +879,6 @@ const ReviewWidget: React.FC = () => {
             </div>
           ))}
         </div>
-
-        {reviews.length > 1 && (
-          <div className="slider-indicators">
-            {reviews.map((_, index) => (
-              <button
-                key={index}
-                className={`indicator ${
-                  instanceRef.current?.track.details.abs === index
-                    ? "active"
-                    : ""
-                }`}
-                onClick={() => instanceRef.current?.moveToIdx(index)}
-              />
-            ))}
-          </div>
-        )}
       </div>
 
       <div className="widget-footer">
