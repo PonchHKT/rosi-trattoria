@@ -1,7 +1,7 @@
 // components/Acceuil/AnimatedSection/AnimatedSection.tsx
 import React from "react";
 import type { ReactNode } from "react";
-import useScrollAnimation from "../../../hooks/useScrollAnimation";
+import useScrollAnimation from "../../../hooks/usescrollanimation";
 
 type AnimationType =
   | "scroll-animate"
