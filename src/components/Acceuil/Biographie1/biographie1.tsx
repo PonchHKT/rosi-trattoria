@@ -40,21 +40,17 @@ const Biographie1: React.FC = () => {
 
       <div className="biographie__content">
         <section className="biographie__section">
-          <AnimatedSection animationType="fade-in-left" delay={50}>
-            <h2 className="biographie__subtitle">
-              Le plaisir de manger Italien dans un cadre atypique
-            </h2>
-          </AnimatedSection>
+          <h2 className="biographie__subtitle">
+            Le plaisir de manger Italien dans un cadre atypique
+          </h2>
 
-          <AnimatedSection animationType="fade-in-right" delay={100}>
-            <p className="biographie__text">
-              Nous vous servons de délicieuses pizzas Napolitaines dans un cadre
-              élégant et chaleureux. <br />
-              La décoration Street Art procure un sentiment de dépaysement
-              total. Spacieux mais intime, le cadre est parfait pour passer des
-              moments de détente et de tranquillité.
-            </p>
-          </AnimatedSection>
+          <p className="biographie__text">
+            Nous vous servons de délicieuses pizzas Napolitaines dans un cadre
+            élégant et chaleureux. <br />
+            La décoration Street Art procure un sentiment de dépaysement total.
+            Spacieux mais intime, le cadre est parfait pour passer des moments
+            de détente et de tranquillité.
+          </p>
 
           <AnimatedSection
             animationType="card-animate"
