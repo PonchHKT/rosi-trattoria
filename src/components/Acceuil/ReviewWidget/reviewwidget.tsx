@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 import "./reviewWidget.scss";
@@ -49,8 +49,21 @@ const ReviewWidget: React.FC = () => {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isPaused, setIsPaused] = useState(false);
 
-  const updateSliderHeight = () => {
+  // Debounce utility to limit frequent height updates
+  const debounce = useCallback(
+    (func: (...args: any[]) => void, wait: number) => {
+      let timeout: NodeJS.Timeout;
+      return (...args: any[]) => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func(...args), wait);
+      };
+    },
+    []
+  );
+
+  const updateSliderHeight = useCallback(() => {
     if (!instanceRef.current) return;
 
     const currentSlide = instanceRef.current.track.details.abs;
@@ -63,18 +76,24 @@ const ReviewWidget: React.FC = () => {
         ".keen-slider"
       ) as HTMLElement;
       if (sliderContainer) {
-        // Force un recalcul de la taille
+        // Reset height to auto to recalculate
         slideElement.style.height = "auto";
+        sliderContainer.style.height = "auto";
 
-        // Petit délai pour laisser le DOM se recalculer
-        requestAnimationFrame(() => {
-          const slideHeight = slideElement.scrollHeight;
-          sliderContainer.style.height = `${slideHeight + 20}px`; // +20px pour un peu d'espace
-          sliderContainer.style.minHeight = "auto";
-        });
+        // Force DOM reflow
+        void slideElement.offsetHeight;
+
+        // Calculate height including padding
+        const slideHeight = slideElement.getBoundingClientRect().height;
+        sliderContainer.style.height = `${slideHeight + 10}px`; // Small buffer
       }
     }
-  };
+  }, []);
+
+  const debouncedUpdateSliderHeight = useCallback(
+    debounce(updateSliderHeight, 5),
+    [updateSliderHeight]
+  );
 
   const [sliderRef, instanceRef] = useKeenSlider({
     loop: true,
@@ -84,12 +103,10 @@ const ReviewWidget: React.FC = () => {
     },
     initial: 0,
     created: () => {
-      // Délai plus long pour s'assurer que le DOM est complètement rendu
-      setTimeout(updateSliderHeight, 200);
+      setTimeout(debouncedUpdateSliderHeight, 200);
     },
     slideChanged: () => {
-      // Délai réduit pour une transition plus fluide
-      setTimeout(updateSliderHeight, 100);
+      debouncedUpdateSliderHeight();
     },
     mode: "free-snap",
     range: {
@@ -101,8 +118,7 @@ const ReviewWidget: React.FC = () => {
   useEffect(() => {
     if (reviews.length > 0 && instanceRef.current) {
       const resizeObserver = new ResizeObserver(() => {
-        // Délai court pour éviter les appels trop fréquents
-        setTimeout(updateSliderHeight, 50);
+        debouncedUpdateSliderHeight();
       });
 
       const slides = document.querySelectorAll(".review-item");
@@ -110,24 +126,47 @@ const ReviewWidget: React.FC = () => {
         resizeObserver.observe(slide);
       });
 
-      // Recalcul initial avec délai
-      setTimeout(updateSliderHeight, 300);
+      // Initial height calculation
+      setTimeout(debouncedUpdateSliderHeight, 300);
+
+      // Add interaction event listeners to pause auto-slide
+      const handleInteraction = () => {
+        setIsPaused(true);
+        // Resume auto-slide after 10 seconds of inactivity
+        setTimeout(() => {
+          setIsPaused(false);
+        }, 10000);
+      };
+
+      slides.forEach((slide) => {
+        slide.addEventListener("click", handleInteraction);
+        slide.addEventListener("touchstart", handleInteraction);
+      });
 
       return () => {
         resizeObserver.disconnect();
+        slides.forEach((slide) => {
+          slide.removeEventListener("click", handleInteraction);
+          slide.removeEventListener("touchstart", handleInteraction);
+        });
       };
     }
-  }, [reviews, instanceRef]);
+  }, [reviews, debouncedUpdateSliderHeight]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (instanceRef.current && reviews.length > 1) {
-        instanceRef.current.next();
-      }
-    }, 6000);
+    let interval: NodeJS.Timeout;
+    if (!isPaused && reviews.length > 1) {
+      interval = setInterval(() => {
+        if (instanceRef.current) {
+          instanceRef.current.next();
+        }
+      }, 6000);
+    }
 
-    return () => clearInterval(interval);
-  }, [instanceRef, reviews.length]);
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [reviews.length, isPaused]);
 
   const getRandomReviews = (reviewsArray: Review[], count: number = 25) => {
     const shuffled = [...reviewsArray].sort(() => 0.5 - Math.random());
@@ -287,7 +326,7 @@ const ReviewWidget: React.FC = () => {
             </div>
             <div className="google-section">
               <a
-                href="https://www.google.com/maps/place/Rosi+Trattoria/@45.1632341,1.5304252,16z/data=!3m1!5s0x47f897d9258e5ed5:0x3732e7ea5011b941!4m8!3m7!1s0x47f897e00d125fe3:0xdd18d96369f9f106!8m2!3d45.1632303!4d1.5330001!9m1!1b1!16s%2Fg%2F11pb_g8cpr?entry=ttu&g_ep=EgoyMDI1MDYxNS4wIKXMDSoASAFQAw%3D%3D"
+                href="https://www.google.com/maps/place/Rosi+Trattoria/@45.1632341,1.5304252,16z/data=!3m1!5s0x47f897d9258e5ed5:0x3732e7ea5011b941!4m8!3m7!1s0x47滚897e00d125fe3:0xdd18d96369f9f106!8m2!3d45.1632303!4d1.5330001!9m1!1b1!16s%2Fg%2F11pb_g8cpr?entry=ttu&g_ep=EgoyMDI1MDYxNS4wIKXMDSoASAFQAw%3D%3D"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="brand-link"
@@ -301,7 +340,9 @@ const ReviewWidget: React.FC = () => {
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                      d="M22.56 12
+
+.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
                       fill="#4285F4"
                     />
                     <path
