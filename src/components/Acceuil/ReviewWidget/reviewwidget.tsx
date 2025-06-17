@@ -168,7 +168,7 @@ const ReviewWidget: React.FC = () => {
     };
   }, [reviews.length, isPaused]);
 
-  const getRandomReviews = (reviewsArray: Review[], count: number = 25) => {
+  const getRandomReviews = (reviewsArray: Review[], count: number = 5) => {
     const shuffled = [...reviewsArray].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, count);
   };
@@ -256,7 +256,7 @@ const ReviewWidget: React.FC = () => {
             };
           });
 
-        setReviews(getRandomReviews(transformedReviews, 25));
+        setReviews(getRandomReviews(transformedReviews, 5));
         setLoading(false);
       } catch (fetchError) {
         console.error("Error loading JSON file:", fetchError);
