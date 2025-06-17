@@ -43,7 +43,7 @@ const Biographie1: React.FC = () => {
       <div className="biographie__content">
         <AnimatedSection
           animationType="bio-slide-right"
-          delay={300}
+          delay={150}
           threshold={0.2}
         >
           <section className="biographie__section">
