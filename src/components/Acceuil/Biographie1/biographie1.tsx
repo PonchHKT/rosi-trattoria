@@ -24,7 +24,7 @@ const Biographie1: React.FC = () => {
                 <Typewriter
                   text="MÈNENT À L'EXCELLENCE"
                   speed={80}
-                  delay={300}
+                  delay={180}
                 />
               </span>
             )}
