@@ -56,8 +56,8 @@ function App(): React.JSX.Element {
               <Biographie1 />
               <VideoPlayer />
               <Biographie2 />
-              <ReviewWidget />
               <SwiperGallery />
+              <ReviewWidget />
             </>
           }
         />
