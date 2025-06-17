@@ -3,8 +3,8 @@
   "short_name": "Rosi Trattoria",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#EC008C",
-  "theme_color": "#EC008C",
+  "background_color": "#75b9f9",
+  "theme_color": "#75b9f9",
   "icons": [
     {
       "src": "/images/logo/favicon.png",

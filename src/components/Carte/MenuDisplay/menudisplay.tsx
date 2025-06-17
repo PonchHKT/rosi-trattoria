@@ -31,9 +31,6 @@ const MenuDisplay: React.FC = () => {
   // Detect if device is mobile
   const isMobile = () => window.innerWidth < 768;
 
-  // Detect if device is iOS
-  const isIOS = () => /iPhone|iPad|iPod/i.test(navigator.userAgent);
-
   // Handle responsive page width
   useEffect(() => {
     const updateWidth = () => {
@@ -109,27 +106,19 @@ const MenuDisplay: React.FC = () => {
     return null;
   };
 
-  // Handle PDF download using Blob to force download on iOS
-  const handleDownloadPdf = async () => {
+  // Handle PDF download
+  const handleDownloadPdf = () => {
     const pdfFile = getPdfFile();
     if (pdfFile) {
-      try {
-        const response = await fetch(pdfFile);
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = url;
-        link.download =
-          selectedMenu === "sur_place"
-            ? "Carte-Restaurant-Sur-Place.pdf"
-            : "Carte-Restaurant-A-Emporter.pdf";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(url);
-      } catch (error) {
-        console.error("Erreur lors du téléchargement du PDF :", error);
-      }
+      const link = document.createElement("a");
+      link.href = pdfFile;
+      link.download =
+        selectedMenu === "sur_place"
+          ? "Carte-Restaurant-Sur-Place.pdf"
+          : "Carte-Restaurant-A-Emporter.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
   };
 
@@ -284,12 +273,6 @@ const MenuDisplay: React.FC = () => {
                 <Download className="download-icon" size={18} />
                 <span>Télécharger le PDF</span>
               </span>
-              {isIOS() && (
-                <p className="download-instructions">
-                  Sur iPhone, après avoir cliqué, appuyez sur l'icône de partage
-                  en haut à droite et sélectionnez "Enregistrer dans Fichiers".
-                </p>
-              )}
             </div>
           )}
 
