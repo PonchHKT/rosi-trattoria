@@ -1,84 +1,91 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
+import AnimatedSection from "../AnimatedSection/AnimatedSection";
 import "./biographie2.scss";
 
 const Biographie2: React.FC = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
-
   return (
-    <div className="bio2-biographie" ref={sectionRef}>
+    <div className="bio2-biographie">
       <div className="bio2-biographie__content">
-        <section
-          className={`bio2-biographie__section ${isVisible ? "visible" : ""}`}
+        {/* Section principale avec animation de conteneur */}
+        <AnimatedSection
+          animationType="fade-in-scale"
+          delay={100}
+          threshold={0.05}
+          className="bio2-biographie__section"
+          rootMargin="0px 0px -100px 0px"
         >
-          <h2
-            className={`bio2-biographie__subtitle ${
-              isVisible ? "visible" : ""
-            }`}
+          {/* Titre avec animation depuis la gauche */}
+          <AnimatedSection
+            animationType="fade-in-left"
+            delay={300}
+            threshold={0.1}
           >
-            Les raisons pour venir dans notre restaurant
-          </h2>
+            <h2 className="bio2-biographie__subtitle">
+              Les raisons pour venir dans notre restaurant
+            </h2>
+          </AnimatedSection>
 
-          <p className={`bio2-biographie__text ${isVisible ? "visible" : ""}`}>
-            Notre restaurant propose de la pizza napolitaine traditionnelle et
-            authentique avec des produits de grande qualité.
-            <br /> Nos pizzas sont cuites dans un four en dôme importé de Gênes,
-            et la charcuterie finement découpée avec une trancheuse
-            professionnelle à jambon manuelle.
-          </p>
-
-          <div
-            className={`bio2-biographie__highlight ${
-              isVisible ? "visible" : ""
-            }`}
+          {/* Premier paragraphe depuis la droite */}
+          <AnimatedSection
+            animationType="fade-in-right"
+            delay={500}
+            threshold={0.1}
           >
-            Notre charcuterie{" "}
-            <span className="bio2-biographie__rovagnati">
-              <span className="rov">Rov</span>
-              <span className="agn">agn</span>
-              <span className="ati">ati</span>
-            </span>{" "}
-            située à Milan est l'une des plus prestigieuses d'Italie depuis 1943
-            et tranchée à la minute.
-          </div>
+            <p className="bio2-biographie__text">
+              Notre restaurant propose de la pizza napolitaine traditionnelle et
+              authentique avec des produits de grande qualité.
+              <br /> Nos pizzas sont cuites dans un four en dôme importé de
+              Gênes, et la charcuterie finement découpée avec une trancheuse
+              professionnelle à jambon manuelle.
+            </p>
+          </AnimatedSection>
 
-          <p className={`bio2-biographie__text ${isVisible ? "visible" : ""}`}>
-            Notre pizzaïolo{" "}
-            <span className="bio2-biographie__pascal-text">Pascal</span>,
-            passionné de pizza, maîtrise toutes les techniques de préparation de
-            pâtes faites maison au levain naturel.
-            <br /> De plus, nous utilisons uniquement des produits bio provenant
-            directement d'Italie.
-          </p>
-
-          <blockquote
-            className={`bio2-biographie__quote ${isVisible ? "visible" : ""}`}
+          {/* Highlight avec animation de scale */}
+          <AnimatedSection
+            animationType="fade-in-scale"
+            delay={700}
+            threshold={0.1}
           >
-            Nous utilisons les meilleurs produits bio d'Italie pour vous
-            satisfaire
-          </blockquote>
-        </section>
+            <div className="bio2-biographie__highlight">
+              Notre charcuterie{" "}
+              <span className="bio2-biographie__rovagnati">
+                <span className="rov">Rov</span>
+                <span className="agn">agn</span>
+                <span className="ati">ati</span>
+              </span>{" "}
+              située à Milan est l'une des plus prestigieuses d'Italie depuis{" "}
+              1943 et tranchée à la minute.
+            </div>
+          </AnimatedSection>
+
+          {/* Deuxième paragraphe avec Pascal depuis la gauche */}
+          <AnimatedSection
+            animationType="fade-in-left"
+            delay={900}
+            threshold={0.1}
+          >
+            <p className="bio2-biographie__text">
+              Notre pizzaïolo{" "}
+              <span className="bio2-biographie__pascal-text">Pascal</span>,
+              passionné de pizza, maîtrise toutes les techniques de préparation
+              de pâtes faites maison au levain naturel.
+              <br /> De plus, nous utilisons uniquement des produits bio
+              provenant directement d'Italie.
+            </p>
+          </AnimatedSection>
+
+          {/* Citation finale avec animation de scale */}
+          <AnimatedSection
+            animationType="fade-in-scale"
+            delay={1100}
+            threshold={0.1}
+          >
+            <blockquote className="bio2-biographie__quote">
+              Nous utilisons les meilleurs produits bio d'Italie pour vous
+              satisfaire
+            </blockquote>
+          </AnimatedSection>
+        </AnimatedSection>
       </div>
     </div>
   );
