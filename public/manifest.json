@@ -1,0 +1,20 @@
+{
+  "name": "Rosi Trattoria",
+  "short_name": "Rosi Trattoria",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#75b9f9",
+  "theme_color": "#75b9f9",
+  "icons": [
+    {
+      "src": "/images/logo/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/logo/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
