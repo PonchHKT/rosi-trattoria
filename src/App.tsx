@@ -13,8 +13,11 @@ import Contact from "./pages/Contact";
 import { useEffect } from "react";
 import SwiperGallery from "./components/Acceuil/SwiperGallery/swipergallery";
 import ReviewWidget from "./components/Acceuil/ReviewWidget/reviewwidget";
+import AnimatedSection from "./components/Acceuil/AnimatedSection/AnimatedSection";
 
-function App() {
+import React from "react";
+
+function App(): React.JSX.Element {
   const location = useLocation();
 
   // Solution robuste pour le scroll au top
@@ -29,11 +32,11 @@ function App() {
       window.scrollTo({
         top: 0,
         left: 0,
-        behavior: "instant",
+        behavior: "auto" as ScrollBehavior,
       });
 
       // Au cas où il y aurait un container avec overflow
-      const appElement = document.querySelector(".App");
+      const appElement = document.querySelector(".App") as HTMLElement;
       if (appElement) {
         appElement.scrollTop = 0;
       }
@@ -51,11 +54,47 @@ function App() {
           element={
             <>
               <HomeSectionVideo />
-              <Biographie1 />
-              <VideoPlayer />
-              <Biographie2 />
-              <ReviewWidget />
-              <SwiperGallery />
+
+              <AnimatedSection
+                animationType="bio-slide-left"
+                delay={150}
+                threshold={0.15}
+              >
+                <Biographie1 />
+              </AnimatedSection>
+
+              <AnimatedSection
+                animationType="fade-in-scale"
+                delay={200}
+                threshold={0.3}
+              >
+                <VideoPlayer />
+              </AnimatedSection>
+
+              <AnimatedSection
+                animationType="bio-slide-right"
+                delay={150}
+                threshold={0.15}
+              >
+                <Biographie2 />
+              </AnimatedSection>
+
+              <AnimatedSection
+                animationType="card-animate"
+                delay={100}
+                threshold={0.3}
+              >
+                <ReviewWidget />
+              </AnimatedSection>
+
+              <AnimatedSection
+                animationType="scroll-animate"
+                delay={250}
+                threshold={0.2}
+                staggerDelay={2}
+              >
+                <SwiperGallery />
+              </AnimatedSection>
             </>
           }
         />

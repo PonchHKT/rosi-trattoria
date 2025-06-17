@@ -75,3 +75,373 @@ body {
     display: none; /* WebKit */
   }
 }
+
+/* Ajoutez ces styles à votre App.css */
+
+/* ======================
+   SCROLL ANIMATIONS
+   ====================== */
+
+/* Animation de base - élément invisible par défaut */
+.scroll-animate {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Élément visible avec animation */
+.scroll-animate.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Variations d'animations */
+
+/* Fade In depuis la gauche - Version améliorée */
+.fade-in-left {
+  opacity: 0;
+  transform: translateX(-100px) translateY(30px) rotateY(-15deg);
+  filter: blur(4px);
+  transition: all 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.fade-in-left.visible {
+  opacity: 1;
+  transform: translateX(0) translateY(0) rotateY(0deg);
+  filter: blur(0px);
+}
+
+/* Fade In depuis la droite - Version améliorée */
+.fade-in-right {
+  opacity: 0;
+  transform: translateX(100px) translateY(30px) rotateY(15deg);
+  filter: blur(4px);
+  transition: all 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.fade-in-right.visible {
+  opacity: 1;
+  transform: translateX(0) translateY(0) rotateY(0deg);
+  filter: blur(0px);
+}
+
+/* Animation spécialement pour les biographies - Slide diagonal */
+.bio-slide-left {
+  opacity: 0;
+  transform: translateX(-120px) translateY(50px) scale(0.9) rotateZ(-3deg);
+  filter: blur(6px) brightness(0.7);
+  transition: all 1.4s cubic-bezier(0.23, 1, 0.32, 1);
+  transform-origin: right center;
+}
+
+.bio-slide-left.visible {
+  opacity: 1;
+  transform: translateX(0) translateY(0) scale(1) rotateZ(0deg);
+  filter: blur(0px) brightness(1);
+}
+
+.bio-slide-right {
+  opacity: 0;
+  transform: translateX(120px) translateY(50px) scale(0.9) rotateZ(3deg);
+  filter: blur(6px) brightness(0.7);
+  transition: all 1.4s cubic-bezier(0.23, 1, 0.32, 1);
+  transform-origin: left center;
+}
+
+.bio-slide-right.visible {
+  opacity: 1;
+  transform: translateX(0) translateY(0) scale(1) rotateZ(0deg);
+  filter: blur(0px) brightness(1);
+}
+
+/* Animation en vague pour les biographies */
+.bio-wave-left {
+  opacity: 0;
+  transform: translateX(-80px) translateY(40px) skewX(-10deg);
+  filter: blur(3px);
+  transition: all 1.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(117, 185, 249, 0.05),
+    transparent
+  );
+}
+
+.bio-wave-left.visible {
+  opacity: 1;
+  transform: translateX(0) translateY(0) skewX(0deg);
+  filter: blur(0px);
+}
+
+.bio-wave-right {
+  opacity: 0;
+  transform: translateX(80px) translateY(40px) skewX(10deg);
+  filter: blur(3px);
+  transition: all 1.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  background: linear-gradient(
+    -45deg,
+    transparent,
+    rgba(236, 0, 140, 0.05),
+    transparent
+  );
+}
+
+.bio-wave-right.visible {
+  opacity: 1;
+  transform: translateX(0) translateY(0) skewX(0deg);
+  filter: blur(0px);
+}
+
+/* Animation 3D flip pour les biographies */
+.bio-flip-left {
+  opacity: 0;
+  transform: perspective(1000px) rotateY(-90deg) translateX(-50px);
+  transform-origin: right center;
+  transition: all 1.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.bio-flip-left.visible {
+  opacity: 1;
+  transform: perspective(1000px) rotateY(0deg) translateX(0);
+}
+
+.bio-flip-right {
+  opacity: 0;
+  transform: perspective(1000px) rotateY(90deg) translateX(50px);
+  transform-origin: left center;
+  transition: all 1.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.bio-flip-right.visible {
+  opacity: 1;
+  transform: perspective(1000px) rotateY(0deg) translateX(0);
+}
+
+/* Animation de morphing élégant */
+.bio-morph-left {
+  opacity: 0;
+  transform: translateX(-60px) translateY(20px) scale(0.8) rotate(-5deg);
+  filter: blur(2px) saturate(0.5);
+  border-radius: 20px;
+  transition: all 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.bio-morph-left.visible {
+  opacity: 1;
+  transform: translateX(0) translateY(0) scale(1) rotate(0deg);
+  filter: blur(0px) saturate(1);
+  border-radius: 0px;
+}
+
+.bio-morph-right {
+  opacity: 0;
+  transform: translateX(60px) translateY(20px) scale(0.8) rotate(5deg);
+  filter: blur(2px) saturate(0.5);
+  border-radius: 20px;
+  transition: all 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.bio-morph-right.visible {
+  opacity: 1;
+  transform: translateX(0) translateY(0) scale(1) rotate(0deg);
+  filter: blur(0px) saturate(1);
+  border-radius: 0px;
+}
+
+/* Animation avec effet de particules */
+.bio-particle-left {
+  opacity: 0;
+  transform: translateX(-90px) translateY(60px) scale(0.7);
+  filter: blur(5px) contrast(0.8);
+  transition: all 1.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+  position: relative;
+}
+
+.bio-particle-left.visible {
+  opacity: 1;
+  transform: translateX(0) translateY(0) scale(1);
+  filter: blur(0px) contrast(1);
+}
+
+.bio-particle-left::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: linear-gradient(
+    45deg,
+    var(--primary-blue),
+    transparent,
+    var(--primary-pink)
+  );
+  opacity: 0;
+  z-index: -1;
+  border-radius: 10px;
+  transition: opacity 0.8s ease;
+}
+
+.bio-particle-left.visible::before {
+  opacity: 0.1;
+}
+
+.bio-particle-right {
+  opacity: 0;
+  transform: translateX(90px) translateY(60px) scale(0.7);
+  filter: blur(5px) contrast(0.8);
+  transition: all 1.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+  position: relative;
+}
+
+.bio-particle-right.visible {
+  opacity: 1;
+  transform: translateX(0) translateY(0) scale(1);
+  filter: blur(0px) contrast(1);
+}
+
+.bio-particle-right::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: linear-gradient(
+    -45deg,
+    var(--primary-pink),
+    transparent,
+    var(--primary-blue)
+  );
+  opacity: 0;
+  z-index: -1;
+  border-radius: 10px;
+  transition: opacity 0.8s ease;
+}
+
+.bio-particle-right.visible::before {
+  opacity: 0.1;
+}
+
+/* Fade In avec zoom */
+.fade-in-scale {
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-in-scale.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Animation avec rotation légère */
+.fade-in-rotate {
+  opacity: 0;
+  transform: translateY(30px) rotate(5deg);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-in-rotate.visible {
+  opacity: 1;
+  transform: translateY(0) rotate(0deg);
+}
+
+/* Animation en stagger pour les éléments multiples */
+.stagger-delay-1 {
+  transition-delay: 0.1s;
+}
+
+.stagger-delay-2 {
+  transition-delay: 0.2s;
+}
+
+.stagger-delay-3 {
+  transition-delay: 0.3s;
+}
+
+.stagger-delay-4 {
+  transition-delay: 0.4s;
+}
+
+.stagger-delay-5 {
+  transition-delay: 0.5s;
+}
+
+/* Animation pour les titres avec ligne décorative */
+.title-animate {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.title-animate.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.title-animate::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary-pink), var(--primary-blue));
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s;
+}
+
+.title-animate.visible::after {
+  width: 60px;
+}
+
+/* Animation spécifique pour les cartes/widgets */
+.card-animate {
+  opacity: 0;
+  transform: translateY(40px) scale(0.95);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-animate.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Animation pour les textes avec effet machine à écrire */
+.typewriter-animate {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease-out;
+}
+
+.typewriter-animate.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Réduction de mouvement pour accessibilité */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-animate,
+  .fade-in-left,
+  .fade-in-right,
+  .fade-in-scale,
+  .fade-in-rotate,
+  .title-animate,
+  .card-animate,
+  .typewriter-animate {
+    transition: opacity 0.3s ease;
+    transform: none !important;
+  }
+
+  .title-animate::after {
+    transition: opacity 0.3s ease;
+    width: 60px;
+    opacity: 0;
+  }
+
+  .title-animate.visible::after {
+    opacity: 1;
+  }
+}
