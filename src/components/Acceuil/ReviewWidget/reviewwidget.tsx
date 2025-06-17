@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
-import "./reviewwidget.scss";
+import "./reviewWidget.scss";
 
 interface TripAdvisorUser {
   userId: string;
@@ -50,6 +50,32 @@ const ReviewWidget: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const updateSliderHeight = () => {
+    if (!instanceRef.current) return;
+
+    const currentSlide = instanceRef.current.track.details.abs;
+    const slideElement = document.querySelector(
+      `.keen-slider__slide:nth-child(${currentSlide + 1}) .review-item`
+    ) as HTMLElement;
+
+    if (slideElement) {
+      const sliderContainer = document.querySelector(
+        ".keen-slider"
+      ) as HTMLElement;
+      if (sliderContainer) {
+        // Force un recalcul de la taille
+        slideElement.style.height = "auto";
+
+        // Petit délai pour laisser le DOM se recalculer
+        requestAnimationFrame(() => {
+          const slideHeight = slideElement.scrollHeight;
+          sliderContainer.style.height = `${slideHeight + 20}px`; // +20px pour un peu d'espace
+          sliderContainer.style.minHeight = "auto";
+        });
+      }
+    }
+  };
+
   const [sliderRef, instanceRef] = useKeenSlider({
     loop: true,
     slides: {
@@ -57,12 +83,41 @@ const ReviewWidget: React.FC = () => {
       spacing: 16,
     },
     initial: 0,
+    created: () => {
+      // Délai plus long pour s'assurer que le DOM est complètement rendu
+      setTimeout(updateSliderHeight, 200);
+    },
+    slideChanged: () => {
+      // Délai réduit pour une transition plus fluide
+      setTimeout(updateSliderHeight, 100);
+    },
+    mode: "free-snap",
+    range: {
+      min: -Infinity,
+      max: Infinity,
+    },
   });
 
-  const getRandomReviews = (reviewsArray: Review[], count: number = 25) => {
-    const shuffled = [...reviewsArray].sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, count);
-  };
+  useEffect(() => {
+    if (reviews.length > 0 && instanceRef.current) {
+      const resizeObserver = new ResizeObserver(() => {
+        // Délai court pour éviter les appels trop fréquents
+        setTimeout(updateSliderHeight, 50);
+      });
+
+      const slides = document.querySelectorAll(".review-item");
+      slides.forEach((slide) => {
+        resizeObserver.observe(slide);
+      });
+
+      // Recalcul initial avec délai
+      setTimeout(updateSliderHeight, 300);
+
+      return () => {
+        resizeObserver.disconnect();
+      };
+    }
+  }, [reviews, instanceRef]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -73,6 +128,11 @@ const ReviewWidget: React.FC = () => {
 
     return () => clearInterval(interval);
   }, [instanceRef, reviews.length]);
+
+  const getRandomReviews = (reviewsArray: Review[], count: number = 25) => {
+    const shuffled = [...reviewsArray].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
+  };
 
   useEffect(() => {
     const loadReviews = async () => {
@@ -602,23 +662,25 @@ const ReviewWidget: React.FC = () => {
           {reviews.map((review) => (
             <div key={review.id} className="keen-slider__slide">
               <div className="review-item">
-                <div className="review-header">
-                  <div className="rating-section">
-                    <div className="rating">
-                      {renderRatingDots(review.rating)}
+                <div className="review-content">
+                  <div className="review-header">
+                    <div className="rating-section">
+                      <div className="rating">
+                        {renderRatingDots(review.rating)}
+                      </div>
+                    </div>
+                    <div className="review-meta">
+                      <span className="review-date">
+                        Visité en {review.date}
+                      </span>
+                      {review.tripType && (
+                        <span className="trip-type">{review.tripType}</span>
+                      )}
                     </div>
                   </div>
-                  <div className="review-meta">
-                    <span className="review-date">Visité en {review.date}</span>
-                    {review.tripType && (
-                      <span className="trip-type">{review.tripType}</span>
-                    )}
-                  </div>
+                  <h3 className="review-title">{review.title}</h3>
+                  <div className="review-text">{review.text}</div>
                 </div>
-
-                <h3 className="review-title">{review.title}</h3>
-                <div className="review-text">{review.text}</div>
-
                 <div className="reviewer-info">
                   <div className="reviewer-details">
                     {review.userProfileUrl ? (
@@ -638,7 +700,6 @@ const ReviewWidget: React.FC = () => {
                       {review.contributions > 1 ? "s" : ""}
                     </span>
                   </div>
-
                   {review.helpfulVotes > 0 && (
                     <div className="helpful-votes">
                       👍 {review.helpfulVotes} vote
