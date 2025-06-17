@@ -50,10 +50,9 @@ const ReviewWidget: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isPaused, setIsPaused] = useState(false);
-  // New state to track AFK status
   const [isAfk, setIsAfk] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Debounce utility to limit frequent height updates
   const debounce = useCallback(
     (func: (...args: any[]) => void, wait: number) => {
       let timeout: NodeJS.Timeout;
@@ -68,7 +67,7 @@ const ReviewWidget: React.FC = () => {
   const updateSliderHeight = useCallback(() => {
     if (!instanceRef.current) return;
 
-    const currentSlide = instanceRef.current.track.details.abs;
+    const currentSlide = instanceRef.current.track.details.rel;
     const slideElement = document.querySelector(
       `.keen-slider__slide:nth-child(${currentSlide + 1}) .review-item`
     ) as HTMLElement;
@@ -78,16 +77,11 @@ const ReviewWidget: React.FC = () => {
         ".keen-slider"
       ) as HTMLElement;
       if (sliderContainer) {
-        // Reset height to auto to recalculate
         slideElement.style.height = "auto";
         sliderContainer.style.height = "auto";
-
-        // Force DOM reflow
         void slideElement.offsetHeight;
-
-        // Calculate height including padding
         const slideHeight = slideElement.getBoundingClientRect().height;
-        sliderContainer.style.height = `${slideHeight + 10}px`; // Small buffer
+        sliderContainer.style.height = `${slideHeight + 10}px`;
       }
     }
   }, []);
@@ -107,8 +101,9 @@ const ReviewWidget: React.FC = () => {
     created: () => {
       setTimeout(debouncedUpdateSliderHeight, 200);
     },
-    slideChanged: () => {
+    slideChanged: (slider) => {
       debouncedUpdateSliderHeight();
+      setCurrentSlide(slider.track.details.rel);
     },
     mode: "free-snap",
     range: {
@@ -117,18 +112,16 @@ const ReviewWidget: React.FC = () => {
     },
   });
 
-  // New: AFK detection logic
   useEffect(() => {
     let afkTimeout: NodeJS.Timeout;
     const resetStyles = () => {
-      // Force reset critical font styles to prevent browser overrides
       document
         .querySelectorAll(".review-widget, .review-widget *")
         .forEach((el) => {
           (el as HTMLElement).style.fontSize = "";
           (el as HTMLElement).style.fontFamily = "";
         });
-      debouncedUpdateSliderHeight(); // Recalculate slider height
+      debouncedUpdateSliderHeight();
     };
 
     const handleUserActivity = () => {
@@ -137,7 +130,7 @@ const ReviewWidget: React.FC = () => {
       afkTimeout = setTimeout(() => {
         setIsAfk(true);
         resetStyles();
-      }, 300000); // 5 minutes AFK threshold
+      }, 300000);
     };
 
     window.addEventListener("mousemove", handleUserActivity);
@@ -165,13 +158,10 @@ const ReviewWidget: React.FC = () => {
         resizeObserver.observe(slide);
       });
 
-      // Initial height calculation
       setTimeout(debouncedUpdateSliderHeight, 300);
 
-      // Add interaction event listeners to pause auto-slide
       const handleInteraction = () => {
         setIsPaused(true);
-        // Resume auto-slide after 10 seconds of inactivity
         setTimeout(() => {
           setIsPaused(false);
         }, 10000);
@@ -312,6 +302,12 @@ const ReviewWidget: React.FC = () => {
     loadReviews();
   };
 
+  const handleIndicatorClick = (index: number) => {
+    if (instanceRef.current) {
+      instanceRef.current.moveToIdx(index);
+    }
+  };
+
   const renderRatingDots = (rating: number) => {
     return Array.from({ length: 5 }).map((_, i) => (
       <span key={i} className={`rating-dot ${i < rating ? "filled" : "empty"}`}>
@@ -355,7 +351,7 @@ const ReviewWidget: React.FC = () => {
                 className="brand-link"
               >
                 <img
-                  src="https://static.tacdn.com/img2/brand_refresh/Tripadvisor_lockup_horizontal_secondary_registered.svg"
+                  src="/images/logo/tripadvisor_white.png"
                   alt="TripAdvisor"
                   className="tripadvisor-logo"
                 />
@@ -453,15 +449,22 @@ const ReviewWidget: React.FC = () => {
                 Laisser un avis
               </a>
             </div>
+            <div className="slider-indicators">
+              {reviews.map((_, index) => (
+                <button
+                  key={index}
+                  className={`indicator ${
+                    index === currentSlide ? "active" : ""
+                  }`}
+                  onClick={() => handleIndicatorClick(index)}
+                />
+              ))}
+            </div>
           </div>
           <div className="loading-shimmer">
             <div className="shimmer-line"></div>
             <div className="shimmer-line short"></div>
           </div>
-        </div>
-        <div className="loading">
-          <div className="spinner"></div>
-          <p>Chargement des avis...</p>
         </div>
       </div>
     );
@@ -480,7 +483,7 @@ const ReviewWidget: React.FC = () => {
                 className="brand-link"
               >
                 <img
-                  src="https://static.tacdn.com/img2/brand_refresh/Tripadvisor_lockup_horizontal_secondary_registered.svg"
+                  src="/images/logo/tripadvisor_white.png"
                   alt="TripAdvisor"
                   className="tripadvisor-logo"
                 />
@@ -577,6 +580,17 @@ const ReviewWidget: React.FC = () => {
                 </svg>
                 Laisser un avis
               </a>
+            </div>
+            <div className="slider-indicators">
+              {reviews.map((_, index) => (
+                <button
+                  key={index}
+                  className={`indicator ${
+                    index === currentSlide ? "active" : ""
+                  }`}
+                  onClick={() => handleIndicatorClick(index)}
+                />
+              ))}
             </div>
           </div>
         </div>
@@ -601,7 +615,7 @@ const ReviewWidget: React.FC = () => {
                 className="brand-link"
               >
                 <img
-                  src="https://static.tacdn.com/img2/brand_refresh/Tripadvisor_lockup_horizontal_secondary_registered.svg"
+                  src="/images/logo/tripadvisor_white.png"
                   alt="TripAdvisor"
                   className="tripadvisor-logo"
                 />
@@ -699,6 +713,17 @@ const ReviewWidget: React.FC = () => {
                 Laisser un avis
               </a>
             </div>
+            <div className="slider-indicators">
+              {reviews.map((_, index) => (
+                <button
+                  key={index}
+                  className={`indicator ${
+                    index === currentSlide ? "active" : ""
+                  }`}
+                  onClick={() => handleIndicatorClick(index)}
+                />
+              ))}
+            </div>
           </div>
         </div>
         <div className="no-reviews">
@@ -721,7 +746,7 @@ const ReviewWidget: React.FC = () => {
               className="brand-link"
             >
               <img
-                src="https://static.tacdn.com/img2/brand_refresh/Tripadvisor_lockup_horizontal_secondary_registered.svg"
+                src="/images/logo/tripadvisor_white.png"
                 alt="TripAdvisor"
                 className="tripadvisor-logo"
               />
@@ -821,6 +846,17 @@ const ReviewWidget: React.FC = () => {
               Laisser un avis
             </a>
           </div>
+          <div className="slider-indicators">
+            {reviews.map((_, index) => (
+              <button
+                key={index}
+                className={`indicator ${
+                  index === currentSlide ? "active" : ""
+                }`}
+                onClick={() => handleIndicatorClick(index)}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
@@ -879,10 +915,6 @@ const ReviewWidget: React.FC = () => {
             </div>
           ))}
         </div>
-      </div>
-
-      <div className="widget-footer">
-        <p className="powered-by">Avis vérifiés • TripAdvisor</p>
       </div>
     </div>
   );
