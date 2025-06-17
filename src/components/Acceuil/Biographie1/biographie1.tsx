@@ -1,6 +1,6 @@
 // components/Acceuil/Biographie1/biographie1.tsx
 import React, { useState } from "react";
-import AnimatedSection from "../AnimatedSection/animatedsection";
+import AnimatedSection from "../AnimatedSection/AnimatedSection";
 import { Typewriter } from "../TypeWriter/typewriter";
 import "./biographie1.scss";
 
