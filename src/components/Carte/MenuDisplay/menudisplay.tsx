@@ -107,13 +107,13 @@ const MenuDisplay: React.FC = () => {
   const getMenuOptions = () => [
     {
       value: "sur_place",
-      label: "Sur place",
+      label: "Carte sur place",
       description: "Ambiance conviviale et service à table",
       icon: UtensilsCrossed,
     },
     {
       value: "a_emporter",
-      label: "À emporter",
+      label: "Carte à emporter",
       description: "À savourer où vous voulez",
       icon: ShoppingBag,
       hasDiscount: true,
