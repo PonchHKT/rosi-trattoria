@@ -14,7 +14,7 @@ const Biographie1: React.FC = () => {
           <div className="biographie__title">
             <Typewriter
               text="LA PASSION ET L'EXIGENCE"
-              speed={50}
+              speed={60}
               delay={400}
               onComplete={() => setShowAccent(true)}
               className="biographie__title-main"
@@ -23,7 +23,7 @@ const Biographie1: React.FC = () => {
               <span className="biographie__title-accent">
                 <Typewriter
                   text="MÈNENT À L'EXCELLENCE"
-                  speed={40}
+                  speed={60}
                   delay={300}
                 />
               </span>
