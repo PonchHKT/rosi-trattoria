@@ -177,6 +177,22 @@ const MenuDisplay: React.FC = () => {
           </div>
         </div>
 
+        {selectedMenu && isLoading && (
+          <div className="document-loading">
+            <div className="loading-content">
+              <div className="loading-spinner"></div>
+              <span className="loading-announcement">
+                Chargement en cours...
+                <br />
+                <small>
+                  Nous optimisons la qualité du fichier, merci de patienter un
+                  instant
+                </small>
+              </span>
+            </div>
+          </div>
+        )}
+
         <div className="menu-selection">
           <h3 className="service-title"></h3>
 
@@ -256,22 +272,6 @@ const MenuDisplay: React.FC = () => {
 
       {selectedMenu && (
         <div className="pdf-section">
-          {isLoading && (
-            <div className="document-loading">
-              <div className="loading-content">
-                <div className="loading-spinner"></div>
-                <span className="loading-announcement">
-                  Chargement en cours...
-                  <br />
-                  <small>
-                    Nous optimisons la qualité du fichier, merci de patienter un
-                    instant
-                  </small>
-                </span>
-              </div>
-            </div>
-          )}
-
           <div
             style={{
               position: "relative",

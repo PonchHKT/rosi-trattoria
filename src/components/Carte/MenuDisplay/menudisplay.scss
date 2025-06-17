@@ -7,7 +7,7 @@
   --border-color: #000000;
   --accent-color: #75b9f9;
   --accent-hover: #75b9f9;
-  --glass-bg: rgba(15, 23, 42, 0.8);
+  --glass-bg: black;
   --glass-border: rgba(148, 163, 184, 0.1);
   --green-primary: #10b981;
   --green-secondary: #059669;
@@ -322,8 +322,7 @@ body {
         top: 100%;
         left: 0;
         right: 0;
-        background: rgba(0, 0, 0, 0.95);
-        backdrop-filter: blur(12px);
+        background: black;
         border: 1px solid var(--glass-border);
         border-radius: 16px;
         z-index: 100;
@@ -332,9 +331,18 @@ body {
         transform: translateY(-10px) scale(0.95);
         margin-top: 0.5rem;
         overflow: hidden;
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3),
-          0 10px 10px -5px rgba(0, 0, 0, 0.2);
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: black;
+          z-index: -1;
+        }
 
         &.open {
           visibility: visible;
@@ -342,98 +350,93 @@ body {
           transform: translateY(0) scale(1);
           color: var(--primary-pink);
         }
+      }
 
-        .dropdown-option {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          padding: 1.5rem;
-          cursor: pointer;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-          transition: all 0.2s ease;
-          position: relative;
-          overflow: hidden;
+      .dropdown-option {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1.5rem;
+        cursor: pointer;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        transition: all 0.2s ease;
+        position: relative;
+        overflow: hidden;
+
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: black;
+          transition: left 0.4s ease;
+        }
+
+        &:hover {
+          background: rgba(117, 185, 249, 0.1);
+          transform: translateX(4px);
 
           &::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-              90deg,
-              transparent,
-              rgba(117, 185, 249, 0.1),
-              transparent
-            );
-            transition: left 0.4s ease;
-          }
-
-          &:hover {
-            background: rgba(117, 185, 249, 0.1);
-            transform: translateX(4px);
-
-            &::before {
-              left: 100%;
-            }
-
-            .service-icon {
-              color: var(--primary-pink);
-              transform: scale(1.1);
-            }
-
-            .service-label {
-              color: var(--primary-blue);
-            }
-          }
-
-          &:last-child {
-            border-bottom: none;
+            left: 100%;
           }
 
           .service-icon {
+            color: var(--primary-pink);
+            transform: scale(1.1);
+          }
+
+          .service-label {
             color: var(--primary-blue);
-            flex-shrink: 0;
-            transition: all 0.2s ease;
+          }
+        }
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        .service-icon {
+          color: var(--primary-blue);
+          flex-shrink: 0;
+          transition: all 0.2s ease;
+        }
+
+        .service-info {
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+          flex: 1;
+
+          .service-label {
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1rem;
+            transition: color 0.2s ease;
           }
 
-          .service-info {
-            display: flex;
-            flex-direction: column;
-            gap: 0.25rem;
-            flex: 1;
-
-            .service-label {
-              color: var(--text-primary);
-              font-weight: 600;
-              font-size: 1rem;
-              transition: color 0.2s ease;
-            }
-
-            .service-description {
-              color: var(--text-muted);
-              font-size: 0.85rem;
-              font-weight: 500;
-            }
+          .service-description {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 500;
           }
+        }
 
-          .discount-badge {
-            background: linear-gradient(
-              135deg,
-              var(--green-primary) 0%,
-              var(--green-secondary) 100%
-            );
-            color: white;
-            font-size: 0.75rem;
-            font-weight: 800;
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            flex-shrink: 0;
-            box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
-          }
+        .discount-badge {
+          background: linear-gradient(
+            135deg,
+            var(--green-primary) 0%,
+            var(--green-secondary) 100%
+          );
+          color: white;
+          font-size: 0.75rem;
+          font-weight: 800;
+          padding: 0.4rem 0.8rem;
+          border-radius: 20px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          flex-shrink: 0;
+          box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
         }
       }
     }
@@ -470,14 +473,10 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 150px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 150;
+  position: relative;
+  padding: 20px 0;
 
   .loading-content {
-    z-index: 150;
     display: flex;
     flex-direction: column;
     align-items: center;
