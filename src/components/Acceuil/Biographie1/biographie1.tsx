@@ -47,13 +47,13 @@ const Biographie1: React.FC = () => {
           threshold={0.2}
         >
           <section className="biographie__section">
-            <AnimatedSection animationType="fade-in-left" delay={100}>
+            <AnimatedSection animationType="fade-in-left" delay={50}>
               <h2 className="biographie__subtitle">
                 Le plaisir de manger Italien dans un cadre atypique
               </h2>
             </AnimatedSection>
 
-            <AnimatedSection animationType="fade-in-right" delay={200}>
+            <AnimatedSection animationType="fade-in-right" delay={100}>
               <p className="biographie__text">
                 Nous vous servons de délicieuses pizzas Napolitaines dans un
                 cadre élégant et chaleureux. <br />
@@ -78,7 +78,7 @@ const Biographie1: React.FC = () => {
                 <div className="biographie__capacity-grid">
                   <AnimatedSection
                     animationType="bio-flip-left"
-                    delay={200}
+                    delay={100}
                     staggerDelay={1}
                   >
                     <div className="biographie__capacity-item">
@@ -95,7 +95,7 @@ const Biographie1: React.FC = () => {
 
                   <AnimatedSection
                     animationType="bio-flip-right"
-                    delay={400}
+                    delay={150}
                     staggerDelay={2}
                   >
                     <div className="biographie__capacity-item">
@@ -112,7 +112,7 @@ const Biographie1: React.FC = () => {
               </div>
             </AnimatedSection>
 
-            <AnimatedSection animationType="fade-in-left" delay={300}>
+            <AnimatedSection animationType="fade-in-left" delay={100}>
               <p className="biographie__text">
                 Nous proposons des pizzas délicieuses aux saveurs originales.
                 Vous pouvez les apprécier sur place ou les emporter.
@@ -121,7 +121,7 @@ const Biographie1: React.FC = () => {
 
             <AnimatedSection
               animationType="fade-in-right"
-              delay={500}
+              delay={200}
               threshold={0.4}
             >
               <blockquote className="biographie__quote">
