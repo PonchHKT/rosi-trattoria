@@ -75,16 +75,11 @@ const Biographie2: React.FC = () => {
           </AnimatedSection>
 
           {/* Citation finale avec animation de scale */}
-          <AnimatedSection
-            animationType="fade-in-scale"
-            delay={1100}
-            threshold={0.1}
-          >
-            <blockquote className="bio2-biographie__quote">
-              Nous utilisons les meilleurs produits bio d'Italie pour vous
-              satisfaire
-            </blockquote>
-          </AnimatedSection>
+
+          <blockquote className="bio2-biographie__quote">
+            Nous utilisons les meilleurs produits bio d'Italie pour vous
+            satisfaire
+          </blockquote>
         </AnimatedSection>
       </div>
     </div>
