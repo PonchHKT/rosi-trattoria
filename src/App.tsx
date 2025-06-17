@@ -12,6 +12,7 @@ import Recrutement from "./pages/Recrutement";
 import Contact from "./pages/Contact";
 import { useEffect } from "react";
 import SwiperGallery from "./components/Acceuil/SwiperGallery/swipergallery";
+import ReviewWidget from "./components/Acceuil/ReviewWidget/reviewwidget";
 
 function App() {
   const location = useLocation();
@@ -53,6 +54,7 @@ function App() {
               <Biographie1 />
               <VideoPlayer />
               <Biographie2 />
+              <ReviewWidget />
               <SwiperGallery />
             </>
           }
