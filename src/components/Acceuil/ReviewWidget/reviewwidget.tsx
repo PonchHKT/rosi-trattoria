@@ -173,100 +173,105 @@ const ReviewWidget: React.FC = () => {
     return shuffled.slice(0, count);
   };
 
-  useEffect(() => {
-    const loadReviews = async () => {
-      try {
-        const response = await fetch("/tripadvisor.json");
-        if (!response.ok) {
-          throw new Error("Failed to load reviews JSON file");
-        }
-
-        const jsonData: TripAdvisorReview[] = await response.json();
-
-        const transformedReviews: Review[] = jsonData
-          .filter(
-            (review: TripAdvisorReview) =>
-              review.text && review.user?.name && review.rating >= 4
-          )
-          .map((review: TripAdvisorReview) => {
-            let formattedDate = "2025";
-
-            if (review.travelDate) {
-              try {
-                const [yearStr, monthStr] = review.travelDate.split("-");
-                const year = parseInt(yearStr) || 2025;
-                const month = parseInt(monthStr) || 1;
-
-                const months = [
-                  "Janvier",
-                  "Février",
-                  "Mars",
-                  "Avril",
-                  "Mai",
-                  "Juin",
-                  "Juillet",
-                  "Août",
-                  "Septembre",
-                  "Octobre",
-                  "Novembre",
-                  "Décembre",
-                ];
-                if (month >= 1 && month <= 12) {
-                  formattedDate = `${months[month - 1]} ${year}`;
-                }
-              } catch {
-                formattedDate = review.travelDate;
-              }
-            }
-
-            const tripTypeTranslations: { [key: string]: string } = {
-              COUPLES: "En couple",
-              FAMILY: "En famille",
-              FRIENDS: "Entre amis",
-              SOLO: "Solo",
-              BUSINESS: "Voyage d'affaires",
-            };
-
-            const translatedTripType =
-              review.tripType && review.tripType.toLowerCase() !== "none"
-                ? tripTypeTranslations[review.tripType] || review.tripType
-                : "";
-
-            let userProfileUrl = "";
-            if (review.user.link) {
-              userProfileUrl = review.user.link.startsWith("www.")
-                ? `https://${review.user.link}`
-                : review.user.link;
-            } else if (review.user.username) {
-              userProfileUrl = `https://www.tripadvisor.com/Profile/${review.user.username}`;
-            }
-
-            return {
-              id: review.id,
-              reviewer: review.user.name.trim(),
-              rating: review.rating,
-              date: formattedDate,
-              title: review.title.trim(),
-              text: review.text.trim(),
-              tripType: translatedTripType,
-              helpfulVotes: review.helpfulVotes,
-              contributions: review.user.contributions.totalContributions,
-              url: review.url,
-              userProfileUrl: userProfileUrl,
-            };
-          });
-
-        setReviews(getRandomReviews(transformedReviews, 5));
-        setLoading(false);
-      } catch (fetchError) {
-        console.error("Error loading JSON file:", fetchError);
-        setError("Impossible de charger les avis");
-        setLoading(false);
+  const loadReviews = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch("/tripadvisor.json");
+      if (!response.ok) {
+        throw new Error("Failed to load reviews JSON file");
       }
-    };
 
+      const jsonData: TripAdvisorReview[] = await response.json();
+
+      const transformedReviews: Review[] = jsonData
+        .filter(
+          (review: TripAdvisorReview) =>
+            review.text && review.user?.name && review.rating >= 4
+        )
+        .map((review: TripAdvisorReview) => {
+          let formattedDate = "2025";
+
+          if (review.travelDate) {
+            try {
+              const [yearStr, monthStr] = review.travelDate.split("-");
+              const year = parseInt(yearStr) || 2025;
+              const month = parseInt(monthStr) || 1;
+
+              const months = [
+                "Janvier",
+                "Février",
+                "Mars",
+                "Avril",
+                "Mai",
+                "Juin",
+                "Juillet",
+                "Août",
+                "Septembre",
+                "Octobre",
+                "Novembre",
+                "Décembre",
+              ];
+              if (month >= 1 && month <= 12) {
+                formattedDate = `${months[month - 1]} ${year}`;
+              }
+            } catch {
+              formattedDate = review.travelDate;
+            }
+          }
+
+          const tripTypeTranslations: { [key: string]: string } = {
+            COUPLES: "En couple",
+            FAMILY: "En famille",
+            FRIENDS: "Entre amis",
+            SOLO: "Solo",
+            BUSINESS: "Voyage d'affaires",
+          };
+
+          const translatedTripType =
+            review.tripType && review.tripType.toLowerCase() !== "none"
+              ? tripTypeTranslations[review.tripType] || review.tripType
+              : "";
+
+          let userProfileUrl = "";
+          if (review.user.link) {
+            userProfileUrl = review.user.link.startsWith("www.")
+              ? `https://${review.user.link}`
+              : review.user.link;
+          } else if (review.user.username) {
+            userProfileUrl = `https://www.tripadvisor.com/Profile/${review.user.username}`;
+          }
+
+          return {
+            id: review.id,
+            reviewer: review.user.name.trim(),
+            rating: review.rating,
+            date: formattedDate,
+            title: review.title.trim(),
+            text: review.text.trim(),
+            tripType: translatedTripType,
+            helpfulVotes: review.helpfulVotes,
+            contributions: review.user.contributions.totalContributions,
+            url: review.url,
+            userProfileUrl: userProfileUrl,
+          };
+        });
+
+      setReviews(getRandomReviews(transformedReviews, 5));
+      setLoading(false);
+    } catch (fetchError) {
+      console.error("Error loading JSON file:", fetchError);
+      setError("Impossible de charger les avis");
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     loadReviews();
   }, []);
+
+  const handleRefreshReviews = () => {
+    loadReviews();
+  };
 
   const renderRatingDots = (rating: number) => {
     return Array.from({ length: 5 }).map((_, i) => (
@@ -326,7 +331,7 @@ const ReviewWidget: React.FC = () => {
             </div>
             <div className="google-section">
               <a
-                href="https://www.google.com/maps/place/Rosi+Trattoria/@45.1632341,1.5304252,16z/data=!3m1!5s0x47f897d9258e5ed5:0x3732e7ea5011b941!4m8!3m7!1s0x47滚897e00d125fe3:0xdd18d96369f9f106!8m2!3d45.1632303!4d1.5330001!9m1!1b1!16s%2Fg%2F11pb_g8cpr?entry=ttu&g_ep=EgoyMDI1MDYxNS4wIKXMDSoASAFQAw%3D%3D"
+                href="https://www.google.com/maps/place/Rosi+Trattoria/@45.1632341,1.5304252,16z/data=!3m1!5s0x47f897d9258e5ed5:0x3732e7ea5011b941!4m8!3m7!1s0x47f897e00d125fe3:0xdd18d96369f9f106!8m2!3d45.1632303!4d1.5330001!9m1!1b1!16s%2Fg%2F11pb_g8cpr?entry=ttu&g_ep=EgoyMDI1MDYxNS4wIKXMDSoASAFQAw%3D%3D"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="brand-link"
@@ -340,9 +345,7 @@ const ReviewWidget: React.FC = () => {
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      d="M22.56 12
-
-.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                      d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
                       fill="#4285F4"
                     />
                     <path
@@ -370,26 +373,47 @@ const ReviewWidget: React.FC = () => {
           </div>
           <div className="header-content">
             <h2>Avis de nos clients</h2>
-            <a
-              href="https://www.tripadvisor.fr/UserReviewEdit-g196612-d23792112-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="write-review-btn"
-            >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+            <div className="header-buttons">
+              <button
+                className="refresh-reviews-btn"
+                onClick={handleRefreshReviews}
+                disabled={loading}
               >
-                <path
-                  d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM20.71 7.04C21.1 6.65 21.1 6.02 20.71 5.63L18.37 3.29C17.98 2.9 17.35 2.9 16.96 3.29L15.13 5.12L18.88 8.87L20.71 7.04Z"
-                  fill="currentColor"
-                />
-              </svg>
-              Laisser un avis
-            </a>
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M17.65 6.35C16.2 4.9 14.21 4 12 4C7.58 4 4.01 7.58 4.01 12C4.01 16.42 7.58 20 12 20C15.73 20 18.84 17.45 19.73 14H17.65C16.83 16.33 14.61 18 12 18C8.69 18 6 15.31 6 12C6 8.69 8.69 6 12 6C13.66 6 15.14 6.69 16.22 7.78L13 11H20V4L17.65 6.35Z"
+                    fill="currentColor"
+                  />
+                </svg>
+                Rafraîchir les avis
+              </button>
+              <a
+                href="https://www.tripadvisor.fr/UserReviewEdit-g196612-d23792112-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="write-review-btn"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM20.71 7.04C21.1 6.65 21.1 6.02 20.71 5.63L18.37 3.29C17.98 2.9 17.35 2.9 16.96 3.29L15.13 5.12L18.88 8.87L20.71 7.04Z"
+                    fill="currentColor"
+                  />
+                </svg>
+                Laisser un avis
+              </a>
+            </div>
           </div>
           <div className="loading-shimmer">
             <div className="shimmer-line"></div>
@@ -474,26 +498,47 @@ const ReviewWidget: React.FC = () => {
           </div>
           <div className="header-content">
             <h2>Avis de nos clients</h2>
-            <a
-              href="https://www.tripadvisor.fr/UserReviewEdit-g196612-d23792112-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="write-review-btn"
-            >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+            <div className="header-buttons">
+              <button
+                className="refresh-reviews-btn"
+                onClick={handleRefreshReviews}
+                disabled={loading}
               >
-                <path
-                  d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM20.71 7.04C21.1 6.65 21.1 6.02 20.71 5.63L18.37 3.29C17.98 2.9 17.35 2.9 16.96 3.29L15.13 5.12L18.88 8.87L20.71 7.04Z"
-                  fill="currentColor"
-                />
-              </svg>
-              Laisser un avis
-            </a>
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M17.65 6.35C16.2 4.9 14.21 4 12 4C7.58 4 4.01 7.58 4.01 12C4.01 16.42 7.58 20 12 20C15.73 20 18.84 17.45 19.73 14H17.65C16.83 16.33 14.61 18 12 18C8.69 18 6 15.31 6 12C6 8.69 8.69 6 12 6C13.66 6 15.14 6.69 16.22 7.78L13 11H20V4L17.65 6.35Z"
+                    fill="currentColor"
+                  />
+                </svg>
+                Rafraîchir les avis
+              </button>
+              <a
+                href="https://www.tripadvisor.fr/UserReviewEdit-g196612-d23792112-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="write-review-btn"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM20.71 7.04C21.1 6.65 21.1 6.02 20.71 5.63L18.37 3.29C17.98 2.9 17.35 2.9 16.96 3.29L15.13 5.12L18.88 8.87L20.71 7.04Z"
+                    fill="currentColor"
+                  />
+                </svg>
+                Laisser un avis
+              </a>
+            </div>
           </div>
         </div>
         <div className="error">
@@ -574,26 +619,47 @@ const ReviewWidget: React.FC = () => {
           </div>
           <div className="header-content">
             <h2>Avis de nos clients</h2>
-            <a
-              href="https://www.tripadvisor.fr/UserReviewEdit-g196612-d23792112-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="write-review-btn"
-            >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+            <div className="header-buttons">
+              <button
+                className="refresh-reviews-btn"
+                onClick={handleRefreshReviews}
+                disabled={loading}
               >
-                <path
-                  d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM20.71 7.04C21.1 6.65 21.1 6.02 20.71 5.63L18.37 3.29C17.98 2.9 17.35 2.9 16.96 3.29L15.13 5.12L18.88 8.87L20.71 7.04Z"
-                  fill="currentColor"
-                />
-              </svg>
-              Laisser un avis
-            </a>
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M17.65 6.35C16.2 4.9 14.21 4 12 4C7.58 4 4.01 7.58 4.01 12C4.01 16.42 7.58 20 12 20C15.73 20 18.84 17.45 19.73 14H17.65C16.83 16.33 14.61 18 12 18C8.69 18 6 15.31 6 12C6 8.69 8.69 6 12 6C13.66 6 15.14 6.69 16.22 7.78L13 11H20V4L17.65 6.35Z"
+                    fill="currentColor"
+                  />
+                </svg>
+                Rafraîchir les avis
+              </button>
+              <a
+                href="https://www.tripadvisor.fr/UserReviewEdit-g196612-d23792112-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="write-review-btn"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM20.71 7.04C21.1 6.65 21.1 6.02 20.71 5.63L18.37 3.29C17.98 2.9 17.35 2.9 16.96 3.29L15.13 5.12L18.88 8.87L20.71 7.04Z"
+                    fill="currentColor"
+                  />
+                </svg>
+                Laisser un avis
+              </a>
+            </div>
           </div>
         </div>
         <div className="no-reviews">
@@ -675,26 +741,47 @@ const ReviewWidget: React.FC = () => {
 
         <div className="header-content">
           <h2>Avis de nos clients</h2>
-          <a
-            href="https://www.tripadvisor.fr/UserReviewEdit-g196612-d23792112-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="write-review-btn"
-          >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+          <div className="header-buttons">
+            <button
+              className="refresh-reviews-btn"
+              onClick={handleRefreshReviews}
+              disabled={loading}
             >
-              <path
-                d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM20.71 7.04C21.1 6.65 21.1 6.02 20.71 5.63L18.37 3.29C17.98 2.9 17.35 2.9 16.96 3.29L15.13 5.12L18.88 8.87L20.71 7.04Z"
-                fill="currentColor"
-              />
-            </svg>
-            Laisser un avis
-          </a>
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M17.65 6.35C16.2 4.9 14.21 4 12 4C7.58 4 4.01 7.58 4.01 12C4.01 16.42 7.58 20 12 20C15.73 20 18.84 17.45 19.73 14H17.65C16.83 16.33 14.61 18 12 18C8.69 18 6 15.31 6 12C6 8.69 8.69 6 12 6C13.66 6 15.14 6.69 16.22 7.78L13 11H20V4L17.65 6.35Z"
+                  fill="currentColor"
+                />
+              </svg>
+              Rafraîchir les avis
+            </button>
+            <a
+              href="https://www.tripadvisor.fr/UserReviewEdit-g196612-d23792112-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="write-review-btn"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM20.71 7.04C21.1 6.65 21.1 6.02 20.71 5.63L18.37 3.29C17.98 2.9 17.35 2.9 16.96 3.29L15.13 5.12L18.88 8.87L20.71 7.04Z"
+                  fill="currentColor"
+                />
+              </svg>
+              Laisser un avis
+            </a>
+          </div>
         </div>
       </div>
 
