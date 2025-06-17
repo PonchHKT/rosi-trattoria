@@ -25,6 +25,7 @@ const MenuDisplay: React.FC = () => {
   const [selectedMenu, setSelectedMenu] = useState<string>("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
   const containerRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -157,6 +158,7 @@ const MenuDisplay: React.FC = () => {
     if (selectedMenu === "a_emporter") {
       setIsLoading(false);
     }
+    // For "sur_place", the timer will handle when to show the PDF
 
     const pdfFile = getPdfFile();
     if (!pdfFile) return;
@@ -302,7 +304,7 @@ const MenuDisplay: React.FC = () => {
                     <Menu className="service-icon" size={20} />
                     <div className="service-info">
                       <span className="service-label">
-                        Sélectionnez une carte
+                        Sélectionner une carte
                       </span>
                       <span className="service-description">
                         Choisir le type de service
@@ -349,21 +351,38 @@ const MenuDisplay: React.FC = () => {
             onLoadError={(error) => console.error("PDF load error:", error)}
             loading={null}
           >
-            {isLoading || !numPages ? (
+            {/* Show loading state for both menus, but hide PDF for sur_place during timer */}
+            {isLoading ? (
               <div className="document-loading">
                 <div className="loading-content">
                   <div className="loading-spinner"></div>
                   <span className="loading-announcement">
-                    Chargement en cours...
+                    Chargement en cours
                     <br />
                     <small>
-                      Patientez, le PDF peut mettre un moment à s'afficher.
+                      L'affichage du PDF peut demander un court instant
                     </small>
                   </span>
                 </div>
               </div>
             ) : (
+              /* Show PDF when loading timer is complete */
               renderPages()
+            )}
+
+            {/* Hidden PDF rendering during loading to let it load in background */}
+            {isLoading && (
+              <div
+                style={{
+                  position: "absolute",
+                  left: "-9999px",
+                  top: "-9999px",
+                  opacity: 0,
+                  pointerEvents: "none",
+                }}
+              >
+                {renderPages()}
+              </div>
             )}
           </Document>
         </div>

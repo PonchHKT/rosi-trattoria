@@ -132,6 +132,7 @@ body {
 
   .menu-selection {
     border-top: 1px solid var(--glass-border);
+    padding-top: 1.5rem;
 
     .service-title {
       color: var(--text-primary);
@@ -154,9 +155,11 @@ body {
       text-decoration: underline;
       color: var(--primary-pink);
       cursor: pointer;
+      transition: all 0.2s ease;
 
       &:hover {
         color: var(--primary-pink);
+        transform: translateY(-1px);
       }
     }
 
@@ -174,15 +177,75 @@ body {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 1.25rem;
-        background: black;
-        border: 2px solid var(--glass-border);
-        border-radius: 12px;
+        padding: 1.5rem;
+        background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+        border: 2px solid transparent;
+        border-radius: 16px;
         cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06),
+          inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        position: relative;
+        overflow: hidden;
+
+        // Effet de brillance au survol
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.1),
+            transparent
+          );
+          transition: left 0.6s ease;
+          z-index: 1;
+        }
+
+        &:hover {
+          transform: translateY(-2px);
+          border-color: var(--primary-blue);
+          box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2),
+            0 4px 6px -2px rgba(0, 0, 0, 0.1), 0 0 0 1px var(--primary-blue),
+            0 0 20px rgba(117, 185, 249, 0.3);
+
+          &::before {
+            left: 100%;
+          }
+
+          .dropdown-arrow {
+            color: var(--primary-blue);
+            transform: scale(1.1);
+          }
+
+          .service-icon {
+            transform: scale(1.1);
+            color: var(--primary-pink);
+          }
+        }
+
+        &:active {
+          transform: translateY(-1px);
+        }
 
         &.selected {
-          background: black;
+          background: linear-gradient(135deg, #1f1f23 0%, #16161a 100%);
           border-color: var(--primary-pink);
+          box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.3),
+            0 0 0 1px var(--primary-pink), 0 0 25px rgba(236, 72, 153, 0.4);
+
+          .dropdown-trigger-content .service-icon {
+            color: var(--primary-pink) !important;
+          }
+
+          .dropdown-arrow {
+            color: var(--primary-pink) !important;
+          }
         }
 
         .dropdown-trigger-content {
@@ -190,10 +253,13 @@ body {
           align-items: center;
           gap: 1rem;
           flex: 1;
+          position: relative;
+          z-index: 2;
 
           .service-icon {
             color: var(--primary-blue);
             flex-shrink: 0;
+            transition: all 0.3s ease;
           }
 
           .service-info {
@@ -206,39 +272,52 @@ body {
             .service-label {
               color: var(--text-primary);
               font-weight: 600;
-              font-size: 1rem;
+              font-size: 1.1rem;
               line-height: 1.2;
+              transition: color 0.2s ease;
             }
 
             .service-description {
               color: var(--text-muted);
-              font-size: 0.85rem;
+              font-size: 0.9rem;
               font-weight: 500;
+              transition: color 0.2s ease;
             }
           }
 
           .discount-badge {
-            background: var(--green-primary);
+            background: linear-gradient(
+              135deg,
+              var(--green-primary) 0%,
+              var(--green-secondary) 100%
+            );
             color: white;
             font-size: 0.75rem;
             font-weight: 800;
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             flex-shrink: 0;
+            box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+            animation: pulse-glow 2s infinite;
           }
         }
 
         .dropdown-arrow {
           color: var(--text-secondary);
           flex-shrink: 0;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          position: relative;
+          z-index: 2;
 
           &.open {
-            transform: rotate(180deg);
+            transform: rotate(180deg) scale(1.1);
             color: var(--primary-blue);
           }
         }
+
+        // Indicateur visuel "Cliquez ici"
       }
 
       .dropdown-menu {
@@ -247,28 +326,70 @@ body {
         left: 0;
         right: 0;
         background: rgba(0, 0, 0, 0.95);
+        backdrop-filter: blur(12px);
         border: 1px solid var(--glass-border);
-        border-radius: 12px;
+        border-radius: 16px;
         z-index: 100;
         visibility: hidden;
         opacity: 0;
         transform: translateY(-10px) scale(0.95);
         margin-top: 0.5rem;
         overflow: hidden;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3),
+          0 10px 10px -5px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
         &.open {
           visibility: visible;
           opacity: 1;
           transform: translateY(0) scale(1);
+          color: var(--primary-pink);
         }
 
         .dropdown-option {
           display: flex;
           align-items: center;
           gap: 1rem;
-          padding: 1.25rem;
+          padding: 1.5rem;
           cursor: pointer;
           border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+          transition: all 0.2s ease;
+          position: relative;
+          overflow: hidden;
+
+          &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+              90deg,
+              transparent,
+              rgba(117, 185, 249, 0.1),
+              transparent
+            );
+            transition: left 0.4s ease;
+          }
+
+          &:hover {
+            background: rgba(117, 185, 249, 0.1);
+            transform: translateX(4px);
+
+            &::before {
+              left: 100%;
+            }
+
+            .service-icon {
+              color: var(--primary-pink);
+              transform: scale(1.1);
+            }
+
+            .service-label {
+              color: var(--primary-blue);
+            }
+          }
 
           &:last-child {
             border-bottom: none;
@@ -277,6 +398,7 @@ body {
           .service-icon {
             color: var(--primary-blue);
             flex-shrink: 0;
+            transition: all 0.2s ease;
           }
 
           .service-info {
@@ -289,6 +411,7 @@ body {
               color: var(--text-primary);
               font-weight: 600;
               font-size: 1rem;
+              transition: color 0.2s ease;
             }
 
             .service-description {
@@ -299,7 +422,11 @@ body {
           }
 
           .discount-badge {
-            background: var(--green-primary);
+            background: linear-gradient(
+              135deg,
+              var(--green-primary) 0%,
+              var(--green-secondary) 100%
+            );
             color: white;
             font-size: 0.75rem;
             font-weight: 800;
@@ -308,6 +435,7 @@ body {
             text-transform: uppercase;
             letter-spacing: 0.5px;
             flex-shrink: 0;
+            box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
           }
         }
       }
@@ -369,7 +497,7 @@ body {
 .pdf-page-grid {
   display: flex;
   flex-direction: column;
-  gap: 60px; /* Increased spacing for desktop */
+  gap: 60px;
   width: 100%;
   align-items: center;
 }
@@ -448,13 +576,40 @@ body {
   z-index: 100;
 }
 
-// Animation du spinner - DÉFINIE AVANT les media queries
+// Animations
 @keyframes spin {
   0% {
     transform: rotate(0deg);
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+  }
+  50% {
+    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3),
+      0 0 15px rgba(16, 185, 129, 0.4);
+  }
+}
+
+@keyframes bounce-hint {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-4px);
+  }
+  60% {
+    transform: translateY(-2px);
   }
 }
 
@@ -514,46 +669,43 @@ body {
 
       .download-section {
         margin-bottom: 1.25rem;
-
-        .download-button {
-          padding: 0.9rem 1.25rem;
-          font-size: 0.9rem;
-          gap: 0.6rem;
-
-          .download-icon {
-            width: 16px;
-            height: 16px;
-          }
-        }
       }
 
       .dropdown-container {
         .dropdown-trigger {
-          padding: 1rem;
+          padding: 1.25rem;
+
+          // Réduire la taille de l'indicateur sur mobile
+          &:not(.selected)::after {
+            font-size: 0.65rem;
+            padding: 0.25rem 0.5rem;
+            top: -6px;
+            right: 8px;
+          }
 
           .dropdown-trigger-content {
             gap: 0.75rem;
 
             .service-info {
               .service-label {
-                font-size: 0.95rem;
+                font-size: 1rem;
               }
 
               .service-description {
-                font-size: 0.8rem;
+                font-size: 0.85rem;
               }
             }
 
             .discount-badge {
               font-size: 0.7rem;
-              padding: 0.3rem 0.6rem;
+              padding: 0.4rem 0.7rem;
             }
           }
         }
 
         .dropdown-menu {
           .dropdown-option {
-            padding: 1rem;
+            padding: 1.25rem;
             gap: 0.75rem;
 
             .service-info {
@@ -601,7 +753,7 @@ body {
   }
 
   .pdf-page-grid {
-    gap: 30px; /* Maintain smaller gap for tablets */
+    gap: 30px;
   }
 
   .pdf-page-container {
@@ -655,46 +807,38 @@ body {
     }
 
     .menu-selection {
-      .download-section {
-        margin-bottom: 1rem;
-
-        .download-button {
-          padding: 0.8rem 1rem;
-          font-size: 0.85rem;
-          gap: 0.5rem;
-
-          .download-icon {
-            width: 14px;
-            height: 14px;
-          }
-        }
-      }
-
       .dropdown-container {
         .dropdown-trigger {
-          padding: 0.9rem;
+          padding: 1rem;
+
+          &:not(.selected)::after {
+            font-size: 0.6rem;
+            padding: 0.2rem 0.4rem;
+            top: -5px;
+            right: 6px;
+          }
 
           .dropdown-trigger-content {
             .service-info {
               .service-label {
-                font-size: 0.9rem;
+                font-size: 0.95rem;
               }
 
               .service-description {
-                font-size: 0.75rem;
+                font-size: 0.8rem;
               }
             }
 
             .discount-badge {
               font-size: 0.65rem;
-              padding: 0.25rem 0.5rem;
+              padding: 0.3rem 0.6rem;
             }
           }
         }
 
         .dropdown-menu {
           .dropdown-option {
-            padding: 0.9rem;
+            padding: 1rem;
 
             .service-info {
               .service-label {
@@ -711,29 +855,6 @@ body {
               padding: 0.25rem 0.5rem;
             }
           }
-        }
-      }
-    }
-  }
-
-  .document-loading {
-    min-height: 150px;
-
-    .loading-content {
-      gap: 1rem;
-
-      .loading-spinner {
-        width: 36px;
-        height: 36px;
-        animation: spin 1s linear infinite;
-        will-change: transform;
-      }
-
-      .loading-announcement {
-        font-size: 0.95rem;
-
-        small {
-          font-size: 0.8rem;
         }
       }
     }
@@ -747,7 +868,7 @@ body {
   }
 
   .pdf-page-grid {
-    gap: 6px; /* Maintain smaller gap for mobile */
+    gap: 6px;
   }
 
   .pdf-page-container.mobile-optimized {
@@ -756,14 +877,11 @@ body {
   }
 }
 
-// CORRECTION IMPORTANTE : Ne pas désactiver l'animation du spinner
 @media (prefers-reduced-motion: reduce) {
-  // Garder l'animation du spinner car elle est essentielle pour le feedback utilisateur
   .loading-spinner {
     animation: spin 1s linear infinite !important;
   }
 
-  // Désactiver seulement les animations non-essentielles
   .dropdown-trigger,
   .dropdown-menu,
   .dropdown-arrow {
@@ -772,6 +890,15 @@ body {
 
   .menu-container {
     scroll-behavior: auto !important;
+  }
+
+  // Désactiver les animations non-essentielles mais garder les indicateurs visuels
+  .dropdown-trigger:not(.selected)::after {
+    animation: none !important;
+  }
+
+  .discount-badge {
+    animation: none !important;
   }
 }
 

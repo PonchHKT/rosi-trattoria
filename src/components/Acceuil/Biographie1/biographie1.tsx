@@ -52,54 +52,31 @@ const Biographie1: React.FC = () => {
             de détente et de tranquillité.
           </p>
 
-          <AnimatedSection
-            animationType="card-animate"
-            delay={400}
-            threshold={0.3}
-          >
-            <div className="biographie__capacity">
-              <AnimatedSection animationType="title-animate" delay={100}>
-                <h3 className="biographie__capacity-title">
-                  Capacité d'accueil
-                </h3>
-              </AnimatedSection>
+          <div className="biographie__capacity">
+            <h3 className="biographie__capacity-title">Capacité d'accueil</h3>
 
-              <div className="biographie__capacity-grid">
-                <AnimatedSection
-                  animationType="bio-flip-left"
-                  delay={100}
-                  staggerDelay={1}
-                >
-                  <div className="biographie__capacity-item">
-                    <span className="biographie__capacity-icon indoor"></span>
-                    <p>
-                      <strong>50 places</strong> à l'intérieur
-                    </p>
-                    <p className="biographie__capacity-desc">
-                      Idéal pour repas d'affaires ou privés dans un cadre
-                      intime.
-                    </p>
-                  </div>
-                </AnimatedSection>
+            <div className="biographie__capacity-grid">
+              <div className="biographie__capacity-item">
+                <span className="biographie__capacity-icon indoor"></span>
+                <p>
+                  <strong>50 places</strong> à l'intérieur
+                </p>
+                <p className="biographie__capacity-desc">
+                  Idéal pour repas d'affaires ou privés dans un cadre intime.
+                </p>
+              </div>
 
-                <AnimatedSection
-                  animationType="bio-flip-right"
-                  delay={150}
-                  staggerDelay={2}
-                >
-                  <div className="biographie__capacity-item">
-                    <span className="biographie__capacity-icon outdoor"></span>
-                    <p>
-                      <strong>100 places</strong> en terrasse
-                    </p>
-                    <p className="biographie__capacity-desc">
-                      Profitez de l'extérieur quand le temps le permet.
-                    </p>
-                  </div>
-                </AnimatedSection>
+              <div className="biographie__capacity-item">
+                <span className="biographie__capacity-icon outdoor"></span>
+                <p>
+                  <strong>100 places</strong> en terrasse
+                </p>
+                <p className="biographie__capacity-desc">
+                  Profitez de l'extérieur quand le temps le permet.
+                </p>
               </div>
             </div>
-          </AnimatedSection>
+          </div>
 
           <AnimatedSection animationType="fade-in-left" delay={100}>
             <p className="biographie__text">
