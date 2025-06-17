@@ -108,16 +108,10 @@ const Biographie1: React.FC = () => {
             </p>
           </AnimatedSection>
 
-          <AnimatedSection
-            animationType="fade-in-right"
-            delay={200}
-            threshold={0.4}
-          >
-            <blockquote className="biographie__quote">
-              Nous vous accueillons dans un cadre chaleureux pour déguster de
-              délicieuses pizzas Italiennes
-            </blockquote>
-          </AnimatedSection>
+          <blockquote className="biographie__quote">
+            Nous vous accueillons dans un cadre chaleureux pour déguster de
+            délicieuses pizzas Italiennes
+          </blockquote>
         </section>
       </div>
     </div>
