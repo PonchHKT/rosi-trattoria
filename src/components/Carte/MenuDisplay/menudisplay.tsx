@@ -25,12 +25,27 @@ const MenuDisplay: React.FC = () => {
   const [selectedMenu, setSelectedMenu] = useState<string>("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [pdfLoaded, setPdfLoaded] = useState(false);
+  const [showPdf, setShowPdf] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const loadingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Detect if device is mobile
   const isMobile = () => window.innerWidth < 768;
+
+  // Mobile-specific loading optimization
+  const getMobileLoadingDelay = () => {
+    const mobile = isMobile();
+    if (!mobile) return 3000; // Desktop: 1.5 seconds
+
+    // Mobile optimization based on menu type
+    if (selectedMenu === "sur_place") {
+      return 6000; // Mobile sur_place: 3 seconds
+    }
+    return 2000; // Mobile a_emporter: 2 seconds
+  };
 
   // Handle responsive page width
   useEffect(() => {
@@ -62,7 +77,7 @@ const MenuDisplay: React.FC = () => {
   // Handle scroll to update current page
   useEffect(() => {
     const handleScroll = () => {
-      if (!numPages) return;
+      if (!numPages || !showPdf) return;
       const pageElements = document.querySelectorAll(".pdf-page-container");
       let newCurrentPage = currentPage;
 
@@ -78,27 +93,72 @@ const MenuDisplay: React.FC = () => {
       }
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [numPages, currentPage]);
+    const throttledScroll = isMobile()
+      ? throttle(handleScroll, 100)
+      : handleScroll;
 
-  // Handle menu selection with conditional loading timer
+    window.addEventListener("scroll", throttledScroll, { passive: true });
+    return () => window.removeEventListener("scroll", throttledScroll);
+  }, [numPages, currentPage, showPdf]);
+
+  // Simple throttle function for mobile optimization
+  const throttle = (func: Function, delay: number) => {
+    let timeoutId: NodeJS.Timeout;
+    let lastExecTime = 0;
+    return (...args: any[]) => {
+      const currentTime = Date.now();
+      if (currentTime - lastExecTime > delay) {
+        func(...args);
+        lastExecTime = currentTime;
+      } else {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+          func(...args);
+          lastExecTime = Date.now();
+        }, delay - (currentTime - lastExecTime));
+      }
+    };
+  };
+
+  // Handle menu selection with improved loading
   const handleMenuSelect = (menuType: string) => {
+    console.log("Menu selected:", menuType);
+
+    // Clear any existing timeout
+    if (loadingTimeoutRef.current) {
+      clearTimeout(loadingTimeoutRef.current);
+    }
+
+    // Reset all states
     setSelectedMenu(menuType);
     setDropdownOpen(false);
     setNumPages(null);
     setPageDimensions([]);
     setCurrentPage(1);
+    setPdfLoaded(false);
+    setShowPdf(false);
+
+    // Show loading immediately
     setIsLoading(true);
 
-    // Only set timer for "sur_place" menu (7 seconds)
-    if (menuType === "sur_place") {
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 7000);
-    }
-    // For "a_emporter", loading will be handled by PDF load success
+    const loadingDelay = getMobileLoadingDelay();
+    console.log("Loading delay set to:", loadingDelay, "ms");
+
+    // Set minimum loading time
+    loadingTimeoutRef.current = setTimeout(() => {
+      console.log("Loading timer finished, pdfLoaded:", pdfLoaded);
+      setIsLoading(false);
+    }, loadingDelay);
   };
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (loadingTimeoutRef.current) {
+        clearTimeout(loadingTimeoutRef.current);
+      }
+    };
+  }, []);
 
   // Determine PDF file based on selection
   const getPdfFile = () => {
@@ -146,35 +206,80 @@ const MenuDisplay: React.FC = () => {
     return options.find((option) => option.value === selectedMenu);
   };
 
-  // Handle PDF load success to get page dimensions
+  // Handle PDF load success
   const handleDocumentLoadSuccess = async ({
     numPages,
   }: {
     numPages: number;
   }) => {
+    console.log("PDF loaded successfully:", numPages, "pages");
     setNumPages(numPages);
+    setPdfLoaded(true);
 
-    // For "a_emporter", stop loading immediately when PDF loads
-    if (selectedMenu === "a_emporter") {
-      setIsLoading(false);
-    }
-    // For "sur_place", the timer will handle when to show the PDF
-
-    const pdfFile = getPdfFile();
-    if (!pdfFile) return;
-    const pdf = await pdfjs.getDocument(pdfFile).promise;
-    const dimensions = [];
-    for (let i = 1; i <= numPages; i++) {
-      const page = await pdf.getPage(i);
-      const viewport = page.getViewport({ scale: 1 });
-      dimensions.push({ width: viewport.width, height: viewport.height });
-    }
-    setPageDimensions(dimensions);
+    // Load page dimensions
+    await loadPageDimensions(numPages);
   };
 
-  // Render PDF pages
+  // Separate function to load page dimensions
+  const loadPageDimensions = async (totalPages: number) => {
+    const pdfFile = getPdfFile();
+    if (!pdfFile) return;
+
+    try {
+      const pdf = await pdfjs.getDocument(pdfFile).promise;
+      const dimensions: { width: number; height: number }[] = [];
+
+      if (isMobile()) {
+        // Load first few pages immediately
+        const immediatePages = Math.min(3, totalPages);
+        for (let i = 1; i <= immediatePages; i++) {
+          const page = await pdf.getPage(i);
+          const viewport = page.getViewport({ scale: 1 });
+          dimensions.push({ width: viewport.width, height: viewport.height });
+        }
+        setPageDimensions([...dimensions]);
+
+        // Load remaining pages with delay
+        if (totalPages > immediatePages) {
+          setTimeout(async () => {
+            const remainingDimensions = [];
+            for (let i = immediatePages + 1; i <= totalPages; i++) {
+              const page = await pdf.getPage(i);
+              const viewport = page.getViewport({ scale: 1 });
+              remainingDimensions.push({
+                width: viewport.width,
+                height: viewport.height,
+              });
+            }
+            setPageDimensions([...dimensions, ...remainingDimensions]);
+          }, 100);
+        }
+      } else {
+        // Desktop: load all at once
+        for (let i = 1; i <= totalPages; i++) {
+          const page = await pdf.getPage(i);
+          const viewport = page.getViewport({ scale: 1 });
+          dimensions.push({ width: viewport.width, height: viewport.height });
+        }
+        setPageDimensions(dimensions);
+      }
+    } catch (error) {
+      console.error("Error loading page dimensions:", error);
+    }
+  };
+
+  // Effect to show PDF when both conditions are met
+  useEffect(() => {
+    if (pdfLoaded && !isLoading && !showPdf) {
+      console.log("Both conditions met, showing PDF");
+      setShowPdf(true);
+    }
+  }, [pdfLoaded, isLoading, showPdf]);
+
+  // Render PDF pages with mobile optimization
   const renderPages = () => {
-    if (!numPages || !pageDimensions.length) return null;
+    console.log("renderPages called, numPages:", numPages);
+    if (!numPages) return null;
 
     const mobile = isMobile();
 
@@ -182,8 +287,11 @@ const MenuDisplay: React.FC = () => {
       <div className="pdf-page-grid">
         {Array.from({ length: numPages }, (_, i) => {
           const pageNumber = i + 1;
-          const isLandscape =
-            pageDimensions[i]?.width > pageDimensions[i]?.height;
+          const pageDimension = pageDimensions[i];
+          const isLandscape = pageDimension
+            ? pageDimension.width > pageDimension.height
+            : false;
+
           const adjustedWidth =
             mobile && isLandscape ? pageWidth * 1.2 : pageWidth;
 
@@ -212,9 +320,9 @@ const MenuDisplay: React.FC = () => {
               <Page
                 pageNumber={pageNumber}
                 width={adjustedWidth}
-                renderTextLayer={true}
+                renderTextLayer={!mobile}
                 renderAnnotationLayer={false}
-                renderMode="canvas"
+                renderMode={"svg" as unknown as RenderMode}
                 className="pdf-page"
                 loading={
                   <div
@@ -345,50 +453,44 @@ const MenuDisplay: React.FC = () => {
 
       {selectedMenu && (
         <div className="pdf-section">
-          <Document
-            file={getPdfFile()}
-            onLoadSuccess={handleDocumentLoadSuccess}
-            onLoadError={(error) => console.error("PDF load error:", error)}
-            loading={null}
-          >
-            {/* Show loading state for both menus, but hide PDF for sur_place during timer */}
-            {isLoading ? (
-              <div className="document-loading">
-                <div className="loading-content">
-                  <div className="loading-spinner"></div>
-                  <span className="loading-announcement">
-                    Chargement en cours
-                    <br />
-                    <small>
-                      L'affichage du PDF peut demander un court instant
-                    </small>
-                  </span>
-                </div>
+          {/* Loading overlay - show when isLoading is true */}
+          {isLoading && (
+            <div className="document-loading">
+              <div className="loading-content">
+                <div className="loading-spinner"></div>
+                <span className="loading-announcement">
+                  Chargement en cours...
+                  <br />
+                  <small>
+                    L'affichage du PDF peut demander un court instant
+                  </small>
+                </span>
               </div>
-            ) : (
-              /* Show PDF when loading timer is complete */
-              renderPages()
-            )}
+            </div>
+          )}
 
-            {/* Hidden PDF rendering during loading to let it load in background */}
-            {isLoading && (
+          {/* PDF content - show when not loading */}
+          {!isLoading && (
+            <Document
+              file={getPdfFile()}
+              onLoadSuccess={handleDocumentLoadSuccess}
+              onLoadError={(error) => console.error("PDF load error:", error)}
+              loading={null}
+            >
               <div
                 style={{
-                  position: "absolute",
-                  left: "-9999px",
-                  top: "-9999px",
-                  opacity: 0,
-                  pointerEvents: "none",
+                  opacity: showPdf ? 1 : 0,
+                  transition: "opacity 0.3s ease-in-out",
                 }}
               >
                 {renderPages()}
               </div>
-            )}
-          </Document>
+            </Document>
+          )}
         </div>
       )}
 
-      {numPages && !isLoading && (
+      {numPages && showPdf && (
         <div className="page-indicator">
           Page {currentPage} / {numPages}
         </div>
