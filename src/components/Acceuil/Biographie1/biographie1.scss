@@ -47,10 +47,25 @@ body {
   flex-direction: column;
   gap: 0.8rem;
   transition: font-size 0.3s ease;
+  text-align: center;
+  min-height: 200px;
+  justify-content: center;
+}
+
+.biographie__title-main {
+  display: block;
+  min-height: 1.3em;
 }
 
 .biographie__title-accent {
   color: #fff;
+  background: linear-gradient(45deg, var(--primary-pink), var(--primary-blue));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 3s ease-in-out infinite;
+  display: block;
+  min-height: 1.3em;
 }
 
 .biographie__intro {
@@ -245,7 +260,39 @@ body {
   opacity: 0.5;
 }
 
-@keyframes shimmer {
+// Typewriter animation styles
+
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+// Special glow effect for completed typewriter text
+.biographie__title-main,
+.biographie__title-accent {
+  &.typing-complete {
+    animation: titleGlow 2s ease-in-out;
+  }
+}
+
+@keyframes titleGlow {
+  0%,
+  100% {
+    text-shadow: 0 0 10px rgba(30, 144, 255, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(255, 105, 180, 0.5),
+      0 0 30px rgba(30, 144, 255, 0.3), 0 0 40px rgba(255, 105, 180, 0.2);
+  }
+}
+
+@keyframes gradientShift {
   0%,
   100% {
     background: linear-gradient(
@@ -253,6 +300,9 @@ body {
       var(--primary-pink),
       var(--primary-blue)
     );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
   50% {
     background: linear-gradient(
@@ -260,18 +310,279 @@ body {
       var(--primary-blue),
       var(--primary-pink)
     );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 }
 
-/* Media Queries */
+// Typewriter-specific animation class
+.typewriter-animate {
+  opacity: 1;
+  transform: none;
+}
+
+.typewriter-animate.visible {
+  opacity: 1;
+  transform: none;
+}
+
+// Base animation classes
+.scroll-animate,
+.fade-in-left,
+.fade-in-right,
+.fade-in-scale,
+.fade-in-rotate,
+.title-animate,
+.card-animate,
+.typewriter-animate,
+.bio-slide-left,
+.bio-slide-right,
+.bio-wave-left,
+.bio-wave-right,
+.bio-flip-left,
+.bio-flip-right,
+.bio-morph-left,
+.bio-morph-right,
+.bio-particle-left,
+.bio-particle-right {
+  opacity: 0;
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+// Fade in from left
+.fade-in-left {
+  transform: translateX(-50px);
+}
+
+.fade-in-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+// Fade in from right
+.fade-in-right {
+  transform: translateX(50px);
+}
+
+.fade-in-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+// Fade in with scale
+.fade-in-scale {
+  transform: scale(0.8);
+}
+
+.fade-in-scale.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+// Title animate with typewriter effect
+.title-animate {
+  transform: translateY(-30px);
+  transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.title-animate.visible {
+  opacity: 1;
+  transform: translateY(0);
+  animation: titleGlow 2s ease-in-out;
+}
+
+// Card animate with bounce
+.card-animate {
+  transform: translateY(50px) scale(0.95);
+  transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.card-animate.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+// Bio slide animations
+.bio-slide-left {
+  transform: translateX(-100px) rotate(-5deg);
+  transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.bio-slide-left.visible {
+  opacity: 1;
+  transform: translateX(0) rotate(0deg);
+}
+
+.bio-slide-right {
+  transform: translateX(100px) rotate(5deg);
+  transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.bio-slide-right.visible {
+  opacity: 1;
+  transform: translateX(0) rotate(0deg);
+}
+
+// Bio wave animations
+.bio-wave-left {
+  transform: translateX(-80px) translateY(20px);
+  transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.bio-wave-left.visible {
+  opacity: 1;
+  transform: translateX(0) translateY(0);
+  animation: waveEffect 2s ease-in-out;
+}
+
+.bio-wave-right {
+  transform: translateX(80px) translateY(-20px);
+  transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.bio-wave-right.visible {
+  opacity: 1;
+  transform: translateX(0) translateY(0);
+  animation: waveEffect 2s ease-in-out;
+}
+
+@keyframes waveEffect {
+  0%,
+  100% {
+    transform: translateX(0) translateY(0);
+  }
+  25% {
+    transform: translateX(5px) translateY(-3px);
+  }
+  50% {
+    transform: translateX(0) translateY(0);
+  }
+  75% {
+    transform: translateX(-5px) translateY(3px);
+  }
+}
+
+// Bio flip animations
+.bio-flip-left {
+  transform: perspective(1000px) rotateY(-90deg) translateX(-50px);
+  transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.bio-flip-left.visible {
+  opacity: 1;
+  transform: perspective(1000px) rotateY(0deg) translateX(0);
+}
+
+.bio-flip-right {
+  transform: perspective(1000px) rotateY(90deg) translateX(50px);
+  transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.bio-flip-right.visible {
+  opacity: 1;
+  transform: perspective(1000px) rotateY(0deg) translateX(0);
+}
+
+// Bio morph animations
+.bio-morph-left {
+  transform: translateX(-100px) scaleX(0.5) skewX(-15deg);
+  transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.bio-morph-left.visible {
+  opacity: 1;
+  transform: translateX(0) scaleX(1) skewX(0deg);
+}
+
+.bio-morph-right {
+  transform: translateX(100px) scaleX(0.5) skewX(15deg);
+  transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.bio-morph-right.visible {
+  opacity: 1;
+  transform: translateX(0) scaleX(1) skewX(0deg);
+}
+
+// Stagger delays
+.stagger-delay-1.visible {
+  animation-delay: 0.1s;
+}
+
+.stagger-delay-2.visible {
+  animation-delay: 0.2s;
+}
+
+.stagger-delay-3.visible {
+  animation-delay: 0.3s;
+}
+
+.stagger-delay-4.visible {
+  animation-delay: 0.4s;
+}
+
+// Enhanced hover effects for animated elements
+.biographie__capacity-item.visible {
+  transition: all 0.3s ease, background 0.3s ease, transform 0.3s ease;
+}
+
+.biographie__capacity-item.visible:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 10px 25px rgba(30, 144, 255, 0.2);
+}
+
+// Special animation for quote
+.biographie__quote.visible {
+  animation: quoteReveal 1.5s ease-in-out;
+}
+
+@keyframes quoteReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translateY(-5px) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+// Smooth entrance for the entire section
+.biographie__section.visible {
+  animation: sectionEntrance 1s ease-out;
+}
+
+@keyframes sectionEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Mobile responsiveness for typewriter
 @media (max-width: 768px) {
   .biographie__hero {
-    padding: 2rem 1rem 1rem; // Réduction du padding top pour faire de la place à l'image
+    padding: 2rem 1rem 1rem;
   }
 
   .biographie__title {
     font-size: 2.5rem;
-    margin-top: 3rem; // Ajout d'une marge pour l'image
+    margin-top: 3rem;
+    min-height: 160px;
+  }
+
+  .biographie__title-main,
+  .biographie__title-accent {
+    min-height: 1.2em;
   }
 
   .biographie__intro {
@@ -328,5 +639,100 @@ body {
     margin: 2rem 0 0 0;
   }
 
-  // Correction principale pour l'image sur mobile
+  .fade-in-left,
+  .bio-slide-left,
+  .bio-morph-left {
+    transform: translateX(-30px);
+  }
+
+  .fade-in-right,
+  .bio-slide-right,
+  .bio-morph-right {
+    transform: translateX(30px);
+  }
+
+  .bio-flip-left {
+    transform: perspective(1000px) rotateY(-45deg) translateX(-30px);
+  }
+
+  .bio-flip-right {
+    transform: perspective(1000px) rotateY(45deg) translateX(30px);
+  }
+
+  .title-animate {
+    transform: translateY(-20px);
+  }
+
+  .card-animate {
+    transform: translateY(30px) scale(0.98);
+  }
+}
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+  .scroll-animate,
+  .fade-in-left,
+  .fade-in-right,
+  .fade-in-scale,
+  .fade-in-rotate,
+  .title-animate,
+  .card-animate,
+  .typewriter-animate,
+  .bio-slide-left,
+  .bio-slide-right,
+  .bio-wave-left,
+  .bio-wave-right,
+  .bio-flip-left,
+  .bio-flip-right,
+  .bio-morph-left,
+  .bio-morph-right,
+  .bio-particle-left,
+  .bio-particle-right {
+    transition: opacity 0.3s ease;
+    transform: none;
+  }
+
+  .scroll-animate.visible,
+  .fade-in-left.visible,
+  .fade-in-right.visible,
+  .fade-in-scale.visible,
+  .fade-in-rotate.visible,
+  .title-animate.visible,
+  .card-animate.visible,
+  .typewriter-animate.visible,
+  .bio-slide-left.visible,
+  .bio-slide-right.visible,
+  .bio-wave-left.visible,
+  .bio-wave-right.visible,
+  .bio-flip-left.visible,
+  .bio-flip-right.visible,
+  .bio-morph-left.visible,
+  .bio-morph-right.visible,
+  .bio-particle-left.visible,
+  .bio-particle-right.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  .biographie__title-accent {
+    animation: none;
+  }
+}
+
+@keyframes shimmer {
+  0%,
+  100% {
+    background: linear-gradient(
+      45deg,
+      var(--primary-pink),
+      var(--primary-blue)
+    );
+  }
+  50% {
+    background: linear-gradient(
+      45deg,
+      var(--primary-blue),
+      var(--primary-pink)
+    );
+  }
 }
