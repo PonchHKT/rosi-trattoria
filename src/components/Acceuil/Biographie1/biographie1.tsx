@@ -120,7 +120,7 @@ const Biographie1: React.FC = () => {
             </AnimatedSection>
 
             <AnimatedSection
-              animationType="bio-wave-right"
+              animationType="fade-in-right"
               delay={500}
               threshold={0.4}
             >
