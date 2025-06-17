@@ -168,10 +168,12 @@ body {
     }
 
     .dropdown-container {
+      z-index: 1000;
       position: relative;
       width: 100%;
 
       .dropdown-trigger {
+        z-index: 1000;
         width: 100%;
         display: flex;
         align-items: center;
@@ -202,7 +204,6 @@ body {
             transparent
           );
           transition: left 0.6s ease;
-          z-index: 1;
         }
 
         &:hover {
