@@ -1,18 +1,17 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { X, Menu, Phone } from "lucide-react";
 import "./navbar.scss";
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const location = useLocation();
 
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleLinkClick = (index: number) => {
-    setActiveIndex(index);
+  const handleLinkClick = () => {
     setIsOpen(false);
   };
 
@@ -24,10 +23,14 @@ const Navbar: React.FC = () => {
     { label: "Accueil", path: "/" },
     { label: "Carte", path: "/carte" },
     { label: "Nos valeurs", path: "/nos-valeurs" },
-
     { label: "Recrutement", path: "/recrutement" },
     { label: "Contact", path: "/contact" },
   ];
+
+  // Fonction pour vérifier si le lien est actif
+  const isActiveLink = (path: string) => {
+    return location.pathname === path;
+  };
 
   return (
     <nav className="navbar">
@@ -55,9 +58,9 @@ const Navbar: React.FC = () => {
                 <Link
                   to={item.path}
                   className={`navbar__link ${
-                    activeIndex === index ? "navbar__link--active" : ""
+                    isActiveLink(item.path) ? "navbar__link--active" : ""
                   }`}
-                  onClick={() => handleLinkClick(index)}
+                  onClick={handleLinkClick}
                 >
                   {item.label}
                 </Link>
