@@ -34,6 +34,23 @@ const RecrutementDisplay: React.FC = () => {
             </p>
           </div>
         </div>
+
+        <div className="philosophy__team-photo">
+          <div className="container">
+            <div className="team-photo-frame">
+              <div className="team-photo-frame__inner">
+                <img
+                  src="/images/rosi-team.jpg"
+                  alt="L'équipe Rosi Trattoria"
+                  className="team-photo-frame__image"
+                />
+                <div className="team-photo-frame__overlay">
+                  <div className="team-photo-frame__gradient"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section className="positions">
