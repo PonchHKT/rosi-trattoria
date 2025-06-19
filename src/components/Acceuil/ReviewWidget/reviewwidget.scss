@@ -1,39 +1,38 @@
 $brand-green: #00af87;
-$brand-orange: #ff5722;
+
 $google-blue: #4285f4;
 $google-red: #ea4335;
 $google-yellow: #fbbc05;
 $google-green: #34a853;
 $tripadvisor-green: #00af87;
 $light-bg: #000000;
-$card-bg: #fcfcfc;
-$dark-text: #ffffff;
+$card-bg: #000000;
+$dark-text: #333333;
 $muted-text: #666666;
-$light-text: #888888;
+$light-text: #000000;
 $border-color: #e8e8e8;
 $border-radius: 20px;
-$shadow-subtle: 0 1px 3px rgba(255, 255, 255, 0.05);
-$shadow-light: 0 4px 12px rgba(255, 255, 255, 0.08);
-$shadow-medium: 0 8px 24px rgba(255, 255, 255, 0.12);
-$pink: #ff69b4; // Added pink color variable
+$shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
+$shadow-light: 0 4px 12px rgba(0, 0, 0, 0.08);
+$shadow-medium: 0 8px 24px rgba(0, 0, 0, 0.12);
+$pink: #ff69b4;
 
 .review-widget {
-  max-width: 1200px;
+  max-width: 1400px;
   width: 100%;
   margin: 40px auto;
   background: $light-bg;
   border-radius: $border-radius;
-
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
   position: relative;
-
   overflow: hidden;
+  box-shadow: $shadow-light;
 
   .widget-header {
     padding: 24px 32px;
     text-align: center;
-    background: #000000;
+    background: black;
 
     .brand-section {
       display: flex;
@@ -43,8 +42,7 @@ $pink: #ff69b4; // Added pink color variable
       padding: 12px;
       background: black;
       border-radius: 12px;
-
-      backdrop-filter: blur(8px);
+      box-shadow: $shadow-subtle;
 
       .tripadvisor-section {
         display: flex;
@@ -80,7 +78,7 @@ $pink: #ff69b4; // Added pink color variable
           .rating-number {
             font-size: 28px;
             font-weight: 800;
-            color: $tripadvisor-green;
+            color: $brand-green;
             line-height: 1;
           }
 
@@ -127,7 +125,7 @@ $pink: #ff69b4; // Added pink color variable
           align-items: center;
           gap: 6px;
           font-weight: 600;
-          color: $dark-text;
+          color: white;
           font-size: 14px;
           max-height: 36px;
 
@@ -186,7 +184,7 @@ $pink: #ff69b4; // Added pink color variable
       gap: 12px;
 
       h2 {
-        color: $dark-text;
+        color: white;
         font-size: 26px;
         font-weight: 800;
         margin: 0;
@@ -214,7 +212,6 @@ $pink: #ff69b4; // Added pink color variable
         font-weight: 700;
         font-size: 14px;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
         border: none;
         cursor: pointer;
 
@@ -231,17 +228,18 @@ $pink: #ff69b4; // Added pink color variable
           );
           transform: translateY(-2px);
         }
+
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
       }
 
       .write-review-btn {
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        background: linear-gradient(
-          135deg,
-          $brand-green 0%,
-          darken($brand-green, 5%) 100%
-        );
+        background: $brand-green;
         color: white;
         padding: 10px 20px;
         border-radius: 50px;
@@ -249,7 +247,6 @@ $pink: #ff69b4; // Added pink color variable
         font-weight: 700;
         font-size: 14px;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
         border: none;
         cursor: pointer;
 
@@ -284,19 +281,19 @@ $pink: #ff69b4; // Added pink color variable
           height: 10px;
           border-radius: 50%;
           border: none;
-          background: gray; // Updated to use pink variable
-          opacity: 0.3; // Lower opacity for inactive state
+          background: white;
+          opacity: 0.3;
           cursor: pointer;
           transition: all 0.3s ease;
 
           &:hover {
-            opacity: 0.6; // Slightly brighter on hover
+            opacity: 0.6;
             transform: scale(1.2);
           }
 
           &.active {
-            background: var(--primary-blue);
-            opacity: 1; // Full opacity for active state
+            background: $pink;
+            opacity: 1;
             transform: scale(1.2);
           }
         }
@@ -305,13 +302,6 @@ $pink: #ff69b4; // Added pink color variable
 
     .loading-shimmer {
       .shimmer-line {
-        height: 20px;
-        background: black;
-        background-size: 200% 100%;
-        animation: shimmer 1.8s infinite;
-        border-radius: 6px;
-        margin-bottom: 10px;
-
         &.short {
           width: 70%;
           margin: 0 auto;
@@ -328,7 +318,7 @@ $pink: #ff69b4; // Added pink color variable
     .keen-slider {
       overflow: hidden;
       max-width: 100%;
-      height: auto !important;
+      height: auto;
       transition: height 0.3s ease;
     }
 
@@ -337,57 +327,54 @@ $pink: #ff69b4; // Added pink color variable
       justify-content: center;
       align-items: flex-start;
       max-width: 100%;
-      height: auto !important;
-      min-height: 0 !important;
+      height: auto;
+      min-height: 0;
     }
   }
 
   .review-item {
     display: flex;
     flex-direction: column;
-    background: #000000;
+    background: black;
     padding: 24px 32px;
     width: 100%;
-    max-width: 1200px;
+    max-width: 1400px;
     box-sizing: border-box;
     border-radius: 12px;
     position: relative;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     margin: 0 auto;
-    height: auto !important;
+    height: auto;
     flex: 0 0 auto;
+    box-shadow: $shadow-subtle;
 
     .review-content {
       flex: 1 1 auto;
       display: flex;
       flex-direction: column;
+      align-items: center;
+      text-align: center;
     }
 
     .review-header {
+      padding-bottom: 10px;
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
+      align-items: center;
+      width: 100%;
       margin-bottom: 12px;
-      flex-wrap: wrap;
-      gap: 12px;
 
       .rating-section {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-
         .rating {
           display: flex;
           gap: 4px;
 
           .rating-dot {
-            font-size: 14px;
-            color: #ddd;
-            transition: all 0.2s ease;
+            font-size: 16px;
+            color: gray;
 
             &.filled {
-              color: $tripadvisor-green;
-              transform: scale(1.1);
+              color: $brand-green;
             }
           }
         }
@@ -396,95 +383,98 @@ $pink: #ff69b4; // Added pink color variable
       .review-meta {
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
-        gap: 4px;
-        font-size: 13px;
-        color: $light-text;
+        gap: 8px;
+        font-size: 12px;
+        color: white;
 
-        .review-date {
-          font-weight: 600;
-          color: $muted-text;
-        }
-
+        .review-date,
         .trip-type {
-          background: #000000;
-          border: 1px solid $border-color;
-          color: white;
-          padding: 3px 10px;
-          border-radius: 12px;
-          font-size: 11px;
-          font-weight: 800;
-          letter-spacing: 0.2px;
-          text-transform: uppercase;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 500;
         }
+      }
+      .trip-type {
+        border: 1px solid white;
+        background: white;
+        padding: 2px 8px;
+        border-radius: 60px;
+        color: black;
+      }
+      .review-date {
+        color: white;
       }
     }
 
     .review-title {
       font-size: 18px;
       font-weight: 800;
-      color: $dark-text;
+      color: white;
       margin: 0 0 12px;
       line-height: 1.3;
       letter-spacing: -0.3px;
+      width: 100%;
+
+      &::before {
+        content: '"';
+      }
+
+      &::after {
+        content: '"';
+      }
     }
 
     .review-text {
       font-size: 15px;
-      color: $dark-text;
+      color: white;
       line-height: 1.5;
       margin-bottom: 16px;
       letter-spacing: -0.1px;
       font-weight: 400;
       word-break: break-word;
       flex: 1 1 auto;
+      width: 100%;
+      padding: 0 16px;
+
+      &::before {
+        content: '"';
+      }
+
+      &::after {
+        content: '"';
+      }
     }
 
     .reviewer-info {
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
+      width: 100%;
+      margin-top: 12px;
+      font-size: 13px;
+      color: $muted-text;
       align-items: center;
-      padding-top: 12px;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-      margin-top: auto;
-      flex-shrink: 0;
 
       .reviewer-details {
         display: flex;
         flex-direction: column;
-        gap: 3px;
+        gap: 4px;
+        align-items: center;
 
         .reviewer-name {
-          font-weight: 700;
-          color: $dark-text;
-          font-size: 14px;
-          letter-spacing: -0.2px;
+          color: white;
+          font-weight: 800;
+          text-decoration: none;
 
-          &.clickable {
-            text-decoration: none;
-            transition: color 0.2s ease;
-
-            &:hover {
-              color: $brand-green;
-            }
+          &.clickable:hover {
+            color: $brand-green;
+            text-decoration: underline;
           }
         }
 
         .contributions {
-          font-size: 12px;
-          color: $light-text;
           font-weight: 500;
         }
-      }
-
-      .helpful-votes {
-        font-size: 11px;
-        color: $dark-text;
-        font-weight: 600;
-        background: #000000;
-        padding: 5px 10px;
-        border-radius: 16px;
-        border: 1px solid $border-color;
       }
     }
   }
@@ -499,9 +489,11 @@ $pink: #ff69b4; // Added pink color variable
     .spinner {
       width: 36px;
       height: 36px;
-      color: black;
+      border: 4px solid $brand-green;
+      border-top: 4px solid transparent;
       border-radius: 50%;
       margin: 0 auto 16px;
+      animation: spin 1s linear infinite;
     }
 
     .error-icon,
@@ -547,24 +539,27 @@ $pink: #ff69b4; // Added pink color variable
   }
 
   @media (max-width: 1024px) {
-    max-width: 900px;
+    .review-widget {
+      padding-bottom: 100px;
+    }
+    max-width: 1100px;
 
     .slider-container {
       .keen-slider {
-        height: auto !important;
+        height: auto;
       }
 
       .keen-slider__slide {
         align-items: flex-start;
-        height: auto !important;
-        min-height: 0 !important;
+        height: auto;
+        min-height: 0;
       }
     }
 
     .review-item {
-      max-width: 700px;
+      max-width: 1000px;
       padding: 20px;
-      height: auto !important;
+      height: auto;
     }
   }
 
@@ -573,6 +568,8 @@ $pink: #ff69b4; // Added pink color variable
     border-radius: 0;
     max-width: 100vw;
     width: 100vw;
+    padding-bottom: 50px;
+    padding-top: 50px;
 
     .widget-header {
       background: black;
@@ -648,6 +645,7 @@ $pink: #ff69b4; // Added pink color variable
         gap: 10px;
 
         h2 {
+          color: white;
           font-size: 20px;
           letter-spacing: -0.4px;
         }
@@ -675,6 +673,7 @@ $pink: #ff69b4; // Added pink color variable
           gap: 5px;
 
           .indicator {
+            background: white;
             width: 8px;
             height: 8px;
           }
@@ -684,51 +683,24 @@ $pink: #ff69b4; // Added pink color variable
 
     .slider-container {
       .keen-slider {
-        height: auto !important;
+        height: auto;
       }
 
       .keen-slider__slide {
         align-items: flex-start;
-        height: auto !important;
-        min-height: 0 !important;
+        height: auto;
+        min-height: 0;
       }
     }
 
     .review-item {
       padding: 12px;
       max-width: 100%;
-      height: auto !important;
-
-      .reviewer-info {
-        align-items: center;
-        margin-top: 8px;
-      }
+      height: auto;
 
       .review-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-        margin-bottom: 8px;
-
-        .rating-section {
-          .rating {
-            gap: 3px;
-
-            .rating-dot {
-              font-size: 13px;
-            }
-          }
-        }
-
-        .review-meta {
-          align-items: flex-start;
-          font-size: 12px;
-
-          .trip-type {
-            font-size: 10px;
-            padding: 2px 8px;
-          }
-        }
+        padding-left: 16px; // Added padding to move away from edges
+        padding-right: 16px;
       }
 
       .review-title {
@@ -741,53 +713,7 @@ $pink: #ff69b4; // Added pink color variable
         font-size: 14px;
         margin-bottom: 8px;
         line-height: 1.4;
-      }
-
-      .reviewer-info {
-        align-items: center;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-        padding-top: 8px;
-      }
-    }
-
-    .slider-indicators {
-      padding: 8px 0;
-      gap: 5px;
-
-      .indicator {
-        width: 8px;
-        height: 8px;
-      }
-    }
-
-    .widget-footer {
-      padding: 10px 20px;
-
-      .powered-by {
-        font-size: 11px;
-      }
-    }
-
-    .loading,
-    .error,
-    .no-reviews {
-      padding: 30px 16px;
-
-      .spinner {
-        width: 30px;
-        height: 30px;
-        border-width: 2px;
-      }
-
-      .error-icon,
-      .empty-icon {
-        font-size: 36px;
-      }
-
-      p {
-        font-size: 14px;
+        padding: 0 8px;
       }
     }
   }
@@ -797,6 +723,8 @@ $pink: #ff69b4; // Added pink color variable
     max-width: 100vw;
     width: 100vw;
     border-radius: 0;
+    padding-bottom: 50px;
+    padding-top: 50px;
 
     .widget-header {
       padding: 12px 16px;
@@ -869,6 +797,7 @@ $pink: #ff69b4; // Added pink color variable
         gap: 8px;
 
         h2 {
+          color: white;
           font-size: 18px;
           letter-spacing: -0.3px;
         }
@@ -905,49 +834,24 @@ $pink: #ff69b4; // Added pink color variable
 
     .slider-container {
       .keen-slider {
-        height: auto !important;
+        height: auto;
       }
 
       .keen-slider__slide {
         align-items: flex-start;
-        height: auto !important;
-        min-height: 0 !important;
+        height: auto;
+        min-height: 0;
       }
     }
 
     .review-item {
       padding: 8px;
       max-width: 100%;
-      height: auto !important;
-
-      .reviewer-info {
-        align-items: center;
-        margin-top: 6px;
-      }
+      height: auto;
 
       .review-header {
-        gap: 6px;
-        margin-bottom: 6px;
-
-        .rating-section {
-          .rating {
-            gap: 2px;
-
-            .rating-dot {
-              font-size: 12px;
-            }
-          }
-        }
-
-        .review-meta {
-          align-items: flex-start;
-          font-size: 11px;
-
-          .googler-trip-type {
-            font-size: 9px;
-            padding: 2px 6px;
-          }
-        }
+        padding-left: 12px; // Added padding to move away from edges
+        padding-right: 12px;
       }
 
       .review-title {
@@ -958,51 +862,7 @@ $pink: #ff69b4; // Added pink color variable
       .review-text {
         font-size: 13px;
         margin-bottom: 6px;
-      }
-
-      .reviewer-info {
-        align-items: center;
-        gap: 6px;
-        padding-top: 6px;
-      }
-    }
-
-    .slider-indicators {
-      padding: 4px 0;
-      gap: 4px;
-
-      .indicator {
-        width: 6px;
-        height: 6px;
-      }
-    }
-
-    .widget-footer {
-      padding: 8px 16px;
-
-      .powered-by {
-        font-size: 10px;
-      }
-    }
-
-    .loading,
-    .error,
-    .no-reviews {
-      padding: 20px 12px;
-
-      .spinner {
-        width: 24px;
-        height: 24px;
-        border-width: 2px;
-      }
-
-      .error-icon,
-      .empty-icon {
-        font-size: 28px;
-      }
-
-      p {
-        font-size: 13px;
+        padding: 0 4px;
       }
     }
   }

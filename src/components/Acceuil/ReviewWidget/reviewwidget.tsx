@@ -8,7 +8,6 @@ interface TripAdvisorUser {
   name: string;
   contributions: {
     totalContributions: number;
-    helpfulVotes: number;
   };
   username?: string;
   link?: string;
@@ -23,7 +22,6 @@ interface TripAdvisorReview {
   publishedDate: string;
   publishedPlatform: string;
   rating: number;
-  helpfulVotes: number;
   text: string;
   roomTip: string | null;
   travelDate: string;
@@ -39,7 +37,6 @@ interface Review {
   title: string;
   text: string;
   tripType: string;
-  helpfulVotes: number;
   contributions: number;
   url: string;
   userProfileUrl?: string;
@@ -278,7 +275,6 @@ const ReviewWidget: React.FC = () => {
             title: review.title.trim(),
             text: review.text.trim(),
             tripType: translatedTripType,
-            helpfulVotes: review.helpfulVotes,
             contributions: review.user.contributions.totalContributions,
             url: review.url,
             userProfileUrl: userProfileUrl,
@@ -409,25 +405,6 @@ const ReviewWidget: React.FC = () => {
           <div className="header-content">
             <h2>Avis de nos clients</h2>
             <div className="header-buttons">
-              <button
-                className="refresh-reviews-btn"
-                onClick={handleRefreshReviews}
-                disabled={loading}
-              >
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M17.65 6.35C16.2 4.9 14.21 4 12 4C7.58 4 4.01 7.58 4.01 12C4.01 16.42 7.58 20 12 20C15.73 20 18.84 17.45 19.73 14H17.65C16.83 16.33 14.61 18 12 18C8.69 18 6 15.31 6 12C6 8.69 8.69 6 12 6C13.66 6 15.14 6.69 16.22 7.78L13 11H20V4L17.65 6.35Z"
-                    fill="currentColor"
-                  />
-                </svg>
-                Rafraîchir les avis
-              </button>
               <a
                 href="https://www.tripadvisor.fr/UserReviewEdit-g196612-d23792112-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html"
                 target="_blank"
@@ -448,6 +425,25 @@ const ReviewWidget: React.FC = () => {
                 </svg>
                 Laisser un avis
               </a>
+              <button
+                className="refresh-reviews-btn"
+                onClick={handleRefreshReviews}
+                disabled={loading}
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M17.65 6.35C16.2 4.9 14.21 4 12 4C7.58 4 4.01 7.58 4.01 12C4.01 16.42 7.58 20 12 20C15.73 20 18.84 17.45 19.73 14H17.65C16.83 16.33 14.61 18 12 18C8.69 18 6 15.31 6 12C6 8.69 8.69 6 12 6C13.66 6 15.14 6.69 16.22 7.78L13 11H20V4L17.65 6.35Z"
+                    fill="currentColor"
+                  />
+                </svg>
+                Rafraîchir les avis
+              </button>
             </div>
             <div className="slider-indicators">
               {reviews.map((_, index) => (
@@ -541,25 +537,6 @@ const ReviewWidget: React.FC = () => {
           <div className="header-content">
             <h2>Avis de nos clients</h2>
             <div className="header-buttons">
-              <button
-                className="refresh-reviews-btn"
-                onClick={handleRefreshReviews}
-                disabled={loading}
-              >
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M17.65 6.35C16.2 4.9 14.21 4 12 4C7.58 4 4.01 7.58 4.01 12C4.01 16.42 7.58 20 12 20C15.73 20 18.84 17.45 19.73 14H17.65C16.83 16.33 14.61 18 12 18C8.69 18 6 15.31 6 12C6 8.69 8.69 6 12 6C13.66 6 15.14 6.69 16.22 7.78L13 11H20V4L17.65 6.35Z"
-                    fill="currentColor"
-                  />
-                </svg>
-                Rafraîchir les avis
-              </button>
               <a
                 href="https://www.tripadvisor.fr/UserReviewEdit-g196612-d23792112-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html"
                 target="_blank"
@@ -580,6 +557,25 @@ const ReviewWidget: React.FC = () => {
                 </svg>
                 Laisser un avis
               </a>
+              <button
+                className="refresh-reviews-btn"
+                onClick={handleRefreshReviews}
+                disabled={loading}
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M17.65 6.35C16.2 4.9 14.21 4 12 4C7.58 4 4.01 7.58 4.01 12C4.01 16.42 7.58 20 12 20C15.73 20 18.84 17.45 19.73 14H17.65C16.83 16.33 14.61 18 12 18C8.69 18 6 15.31 6 12C6 8.69 8.69 6 12 6C13.66 6 15.14 6.69 16.22 7.78L13 11H20V4L17.65 6.35Z"
+                    fill="currentColor"
+                  />
+                </svg>
+                Rafraîchir les avis
+              </button>
             </div>
             <div className="slider-indicators">
               {reviews.map((_, index) => (
@@ -673,25 +669,6 @@ const ReviewWidget: React.FC = () => {
           <div className="header-content">
             <h2>Avis de nos clients</h2>
             <div className="header-buttons">
-              <button
-                className="refresh-reviews-btn"
-                onClick={handleRefreshReviews}
-                disabled={loading}
-              >
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M17.65 6.35C16.2 4.9 14.21 4 12 4C7.58 4 4.01 7.58 4.01 12C4.01 16.42 7.58 20 12 20C15.73 20 18.84 17.45 19.73 14H17.65C16.83 16.33 14.61 18 12 18C8.69 18 6 15.31 6 12C6 8.69 8.69 6 12 6C13.66 6 15.14 6.69 16.22 7.78L13 11H20V4L17.65 6.35Z"
-                    fill="currentColor"
-                  />
-                </svg>
-                Rafraîchir les avis
-              </button>
               <a
                 href="https://www.tripadvisor.fr/UserReviewEdit-g196612-d23792112-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html"
                 target="_blank"
@@ -712,6 +689,25 @@ const ReviewWidget: React.FC = () => {
                 </svg>
                 Laisser un avis
               </a>
+              <button
+                className="refresh-reviews-btn"
+                onClick={handleRefreshReviews}
+                disabled={loading}
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M17.65 6.35C16.2 4.9 14.21 4 12 4C7.58 4 4.01 7.58 4.01 12C4.01 16.42 7.58 20 12 20C15.73 20 18.84 17.45 19.73 14H17.65C16.83 16.33 14.61 18 12 18C8.69 18 6 15.31 6 12C6 8.69 8.69 6 12 6C13.66 6 15.14 6.69 16.22 7.78L13 11H20V4L17.65 6.35Z"
+                    fill="currentColor"
+                  />
+                </svg>
+                Rafraîchir les avis
+              </button>
             </div>
             <div className="slider-indicators">
               {reviews.map((_, index) => (
@@ -806,25 +802,6 @@ const ReviewWidget: React.FC = () => {
         <div className="header-content">
           <h2>Avis de nos clients</h2>
           <div className="header-buttons">
-            <button
-              className="refresh-reviews-btn"
-              onClick={handleRefreshReviews}
-              disabled={loading}
-            >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M17.65 6.35C16.2 4.9 14.21 4 12 4C7.58 4 4.01 7.58 4.01 12C4.01 16.42 7.58 20 12 20C15.73 20 18.84 17.45 19.73 14H17.65C16.83 16.33 14.61 18 12 18C8.69 18 6 15.31 6 12C6 8.69 8.69 6 12 6C13.66 6 15.14 6.69 16.22 7.78L13 11H20V4L17.65 6.35Z"
-                  fill="currentColor"
-                />
-              </svg>
-              Rafraîchir les avis
-            </button>
             <a
               href="https://www.tripadvisor.fr/UserReviewEdit-g196612-d23792112-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html"
               target="_blank"
@@ -845,6 +822,25 @@ const ReviewWidget: React.FC = () => {
               </svg>
               Laisser un avis
             </a>
+            <button
+              className="refresh-reviews-btn"
+              onClick={handleRefreshReviews}
+              disabled={loading}
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M17.65 6.35C16.2 4.9 14.21 4 12 4C7.58 4 4.01 7.58 4.01 12C4.01 16.42 7.58 20 12 20C15.73 20 18.84 17.45 19.73 14H17.65C16.83 16.33 14.61 18 12 18C8.69 18 6 15.31 6 12C6 8.69 8.69 6 12 6C13.66 6 15.14 6.69 16.22 7.78L13 11H20V4L17.65 6.35Z"
+                  fill="currentColor"
+                />
+              </svg>
+              Rafraîchir les avis
+            </button>
           </div>
           <div className="slider-indicators">
             {reviews.map((_, index) => (
@@ -867,11 +863,6 @@ const ReviewWidget: React.FC = () => {
               <div className="review-item">
                 <div className="review-content">
                   <div className="review-header">
-                    <div className="rating-section">
-                      <div className="rating">
-                        {renderRatingDots(review.rating)}
-                      </div>
-                    </div>
                     <div className="review-meta">
                       <span className="review-date">
                         Visité en {review.date}
@@ -879,6 +870,11 @@ const ReviewWidget: React.FC = () => {
                       {review.tripType && (
                         <span className="trip-type">{review.tripType}</span>
                       )}
+                    </div>
+                    <div className="rating-section">
+                      <div className="rating">
+                        {renderRatingDots(review.rating)}
+                      </div>
                     </div>
                   </div>
                   <h3 className="review-title">{review.title}</h3>
@@ -903,13 +899,6 @@ const ReviewWidget: React.FC = () => {
                       {review.contributions > 1 ? "s" : ""}
                     </span>
                   </div>
-                  {review.helpfulVotes > 0 && (
-                    <div className="helpful-votes">
-                      👍 {review.helpfulVotes} vote
-                      {review.helpfulVotes > 1 ? "s" : ""} utile
-                      {review.helpfulVotes > 1 ? "s" : ""}
-                    </div>
-                  )}
                 </div>
               </div>
             </div>

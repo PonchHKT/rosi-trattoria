@@ -29,12 +29,14 @@ const Biographie1: React.FC = () => {
               </span>
             )}
           </div>
-
-          <p className="biographie__intro">
-            Découvrez une expérience culinaire unique dans un cadre chaleureux
-            et moderne, où la tradition italienne rencontre l'élégance
-            contemporaine.
-          </p>
+          <AnimatedSection animationType="fade-in-scale" delay={3000}>
+            {" "}
+            <p className="biographie__intro">
+              Découvrez une expérience culinaire unique dans un cadre chaleureux
+              et moderne, où la tradition italienne rencontre l'élégance
+              contemporaine.
+            </p>
+          </AnimatedSection>
         </div>
       </AnimatedSection>
 
@@ -78,12 +80,10 @@ const Biographie1: React.FC = () => {
             </div>
           </div>
 
-          <AnimatedSection animationType="fade-in-left" delay={100}>
-            <p className="biographie__text">
-              Nous proposons des pizzas délicieuses aux saveurs originales. Vous
-              pouvez les apprécier sur place ou les emporter.
-            </p>
-          </AnimatedSection>
+          <p className="biographie__text">
+            Nous proposons des pizzas délicieuses aux saveurs originales. Vous
+            pouvez les apprécier sur place ou les emporter.
+          </p>
 
           <blockquote className="biographie__quote">
             Nous vous accueillons dans un cadre chaleureux pour déguster de

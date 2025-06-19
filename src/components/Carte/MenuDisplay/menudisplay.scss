@@ -65,6 +65,51 @@ body {
   position: relative;
 }
 
+.dropdown-trigger {
+  z-index: 1000;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+  position: relative;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+
+    .dropdown-arrow {
+      color: var(--text-primary);
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &.selected {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    .dropdown-trigger-content .service-icon {
+      color: var(--primary-blue);
+    }
+
+    .dropdown-arrow {
+      color: var(--text-primary);
+    }
+  }
+}
+
 .hours-section {
   z-index: 100;
   margin: 2rem 0;
@@ -208,10 +253,7 @@ body {
 
         &:hover {
           transform: translateY(-2px);
-          border-color: var(--primary-blue);
-          box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2),
-            0 4px 6px -2px rgba(0, 0, 0, 0.1), 0 0 0 1px var(--primary-blue),
-            0 0 20px rgba(117, 185, 249, 0.3);
+          border-color: var(--primary-pink);
 
           &::before {
             left: 100%;
@@ -385,10 +427,6 @@ body {
           .service-icon {
             color: var(--primary-pink);
             transform: scale(1.1);
-          }
-
-          .service-label {
-            color: var(--primary-blue);
           }
         }
 

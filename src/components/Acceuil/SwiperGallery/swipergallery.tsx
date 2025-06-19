@@ -7,14 +7,12 @@ import "swiper/css/autoplay";
 import "swiper/css/effect-coverflow";
 import "./swipergallery.scss";
 
-// Fonction pour mélanger un tableau// Définir un type pour les slides
 type Slide = {
   id: number;
   src: string;
   alt: string;
 };
 
-// Fonction pour mélanger un tableau
 const shuffleArray = (array: Slide[]): Slide[] => {
   const newArray = [...array];
   for (let i = newArray.length - 1; i > 0; i--) {
@@ -27,7 +25,6 @@ const shuffleArray = (array: Slide[]): Slide[] => {
 const SwiperGallery: React.FC = () => {
   const swiperRef = useRef<SwiperType | null>(null);
 
-  // Génère et mélange les slides
   const slides = useMemo(() => {
     const slidesArray = [...Array(40).keys()].map((i) => ({
       id: i,
@@ -37,7 +34,6 @@ const SwiperGallery: React.FC = () => {
     return shuffleArray(slidesArray);
   }, []);
 
-  // Le reste de votre code reste inchangé
   const randomInitialSlide = useMemo(() => {
     return Math.floor(Math.random() * slides.length);
   }, [slides.length]);

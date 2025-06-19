@@ -1,4 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Italiana&family=Italianno&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Italiana&family=Italianno&family=Dancing+Script&family=Playfair+Display&family=Bellefair&family=Courgette&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Cursive:wght@400..700&family=Edu+QLD+Hand:wght@400..700&display=swap");
 
 .navbar {
   background-color: black;
@@ -6,7 +7,7 @@
   width: 100%;
   position: fixed;
   z-index: 999;
-  font-family: "Italiana", serif;
+  font-family: "Playfair Display", serif;
 
   &__container {
     max-width: 1200px;
@@ -30,9 +31,10 @@
   }
 
   &__brand {
-    font-family: "Italianno", cursive;
-    font-size: 3rem;
+    font-family: "Edu NSW ACT Cursive", cursive;
+    font-size: 2rem;
     font-weight: bold;
+
     &-rosi {
       padding-right: 7px;
     }
@@ -70,30 +72,30 @@
     overflow: hidden;
     transition: max-height 0.3s ease-in-out;
     flex-direction: column;
-    font-family: "Italiana", serif;
+    font-family: "Dancing Script", cursive;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     margin: 0;
     padding: 0;
 
     &--open {
-      max-height: 400px; /* Augmenté de 300px à 400px */
+      max-height: 400px;
     }
   }
 
   &__item {
     text-align: center;
-    margin: 0.8rem 0; /* Réduit de 1rem à 0.8rem pour plus de compacité */
+    margin: 0.8rem 0;
   }
 
   &__link {
     color: white;
     text-decoration: none;
     position: relative;
-    padding: 0.8rem 1rem; /* Réduit le padding vertical de 1rem à 0.8rem */
+    padding: 0.8rem 1rem;
     display: inline-block;
     transition: color 0.3s ease;
     font-weight: bold;
-    font-size: 1.1rem;
+    font-size: 1.5rem; /* Taille de police augmentée */
 
     &::after {
       content: "";
@@ -184,13 +186,13 @@
 
     &__link {
       padding: 0.5rem 1rem;
-      font-size: 1rem;
+      font-size: 1.5rem; /* Taille de police augmentée pour les grands écrans */
     }
   }
 
   @media (max-width: 767px) {
     &__brand {
-      font-size: 2.2rem;
+      font-size: 1.6rem;
     }
 
     &__right-section {

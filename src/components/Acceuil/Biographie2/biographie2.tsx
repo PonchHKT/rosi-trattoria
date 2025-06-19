@@ -41,38 +41,27 @@ const Biographie2: React.FC = () => {
           </AnimatedSection>
 
           {/* Highlight avec animation de scale */}
-          <AnimatedSection
-            animationType="fade-in-scale"
-            delay={700}
-            threshold={0.1}
-          >
-            <div className="bio2-biographie__highlight">
-              Notre charcuterie{" "}
-              <span className="bio2-biographie__rovagnati">
-                <span className="rov">Rov</span>
-                <span className="agn">agn</span>
-                <span className="ati">ati</span>
-              </span>{" "}
-              située à Milan est l'une des plus prestigieuses d'Italie depuis{" "}
-              1943 et tranchée à la minute.
-            </div>
-          </AnimatedSection>
+
+          <div className="bio2-biographie__highlight">
+            Notre charcuterie{" "}
+            <span className="bio2-biographie__rovagnati">
+              <span className="rov">Rov</span>
+              <span className="agn">agn</span>
+              <span className="ati">ati</span>
+            </span>{" "}
+            située à Milan est l'une des plus prestigieuses d'Italie depuis 1943
+            et tranchée à la minute.
+          </div>
 
           {/* Deuxième paragraphe avec Pascal depuis la gauche */}
-          <AnimatedSection
-            animationType="fade-in-left"
-            delay={900}
-            threshold={0.1}
-          >
-            <p className="bio2-biographie__text">
-              Notre pizzaïolo{" "}
-              <span className="bio2-biographie__pascal-text">Pascal</span>,
-              passionné de pizza, maîtrise toutes les techniques de préparation
-              de pâtes faites maison au levain naturel.
-              <br /> De plus, nous utilisons uniquement des produits bio
-              provenant directement d'Italie.
-            </p>
-          </AnimatedSection>
+
+          <p className="bio2-biographie__text">
+            Notre pizzaïolo <strong>Pascal </strong>
+            passionné de pizza, maîtrise toutes les techniques de préparation de
+            pâtes faites maison au levain naturel.
+            <br /> De plus, nous utilisons uniquement des produits bio provenant
+            directement d'Italie.
+          </p>
 
           {/* Citation finale avec animation de scale */}
 

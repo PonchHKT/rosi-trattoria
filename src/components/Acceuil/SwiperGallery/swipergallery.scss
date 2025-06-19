@@ -5,6 +5,13 @@ $transition-speed: 0.3s;
 $overlay-opacity-desktop: 0.1;
 $overlay-opacity-mobile: 0.05;
 
+// Mixin pour les optimisations GPU
+@mixin gpu-optimize {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+}
+
 .gallery-container {
   width: 100%;
   display: flex;
@@ -12,12 +19,10 @@ $overlay-opacity-mobile: 0.05;
   align-items: center;
   padding-bottom: 100px;
   background-color: var(--bg-primary);
-
-  // Utilise contain pour limiter les repaints
   contain: layout style;
 
   @media (max-width: 640px) {
-    padding: 100px 0;
+    padding: 25px 0;
   }
 }
 
@@ -26,8 +31,6 @@ $overlay-opacity-mobile: 0.05;
   width: 100%;
   max-width: 1520px;
   margin: 0 20px;
-
-  // Améliore les performances avec will-change
   will-change: transform;
 
   @media (max-width: 640px) {
@@ -45,18 +48,13 @@ $overlay-opacity-mobile: 0.05;
   padding: 50px 0;
   display: flex;
   align-items: center;
-
-  // Optimisations critiques pour les performances
   contain: layout style paint;
-  transform: translateZ(0); // Force l'accélération GPU
-  backface-visibility: hidden;
+  @include gpu-optimize;
 
   @media (max-width: 640px) {
     height: 300px;
     padding: 20px 0;
     border-radius: $border-radius-mobile;
-
-    // Désactive certaines optimisations coûteuses sur mobile
     will-change: auto;
   }
 
@@ -68,8 +66,6 @@ $overlay-opacity-mobile: 0.05;
   .swiper-wrapper {
     display: flex;
     align-items: center;
-
-    // Optimisation pour les transitions fluides
     transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
@@ -83,20 +79,13 @@ $overlay-opacity-mobile: 0.05;
     background-color: #000;
     transition: transform $transition-speed ease, opacity $transition-speed ease;
     height: 100% !important;
-
-    // Optimisations GPU
-    transform: translateZ(0);
-    backface-visibility: hidden;
+    @include gpu-optimize;
 
     @media (max-width: 640px) {
       border-radius: $border-radius-mobile;
-
-      // Simplifie les transitions sur mobile pour de meilleures performances
       transform: none !important;
       opacity: 0.7;
       transition: opacity $transition-speed ease;
-
-      // Optimise le compositing
       will-change: opacity;
 
       &.swiper-slide-active {
@@ -105,7 +94,6 @@ $overlay-opacity-mobile: 0.05;
       }
     }
 
-    // Optimisation pour les écrans desktop
     @media (min-width: 641px) {
       will-change: transform, opacity;
     }
@@ -121,16 +109,12 @@ $overlay-opacity-mobile: 0.05;
     z-index: 1;
     border-radius: $border-radius-desktop;
     transition: background $transition-speed ease;
-
-    // Optimise le compositing
     will-change: background-color;
-    transform: translateZ(0);
+    @include gpu-optimize;
 
     @media (max-width: 640px) {
       border-radius: $border-radius-mobile;
       background: rgba(0, 0, 0, $overlay-opacity-mobile);
-
-      // Désactive will-change sur mobile
       will-change: auto;
     }
   }
@@ -144,40 +128,26 @@ $overlay-opacity-mobile: 0.05;
     border-radius: $border-radius-desktop;
     display: block;
     cursor: pointer;
-
-    // Optimisations critiques pour les images
-    transform: translateZ(0);
-    backface-visibility: hidden;
-
-    // Améliore le rendu des images
+    @include gpu-optimize;
     image-rendering: -webkit-optimize-contrast;
-    image-rendering: crisp-edges;
-
-    // Effet hover pour indiquer l'interactivité
     transition: transform $transition-speed ease, opacity $transition-speed ease;
 
     @media (hover: hover) {
       &:hover {
-        transform: translateZ(0) scale(1.02);
+        transform: scale(1.02);
       }
     }
 
     @media (max-width: 640px) {
       border-radius: $border-radius-mobile;
-
-      // Optimisations spécifiques mobile
       image-rendering: -webkit-optimize-contrast;
-
-      // Force l'accélération matérielle pour les images
       transform: translate3d(0, 0, 0);
 
-      // Effet tactile sur mobile
       &:active {
-        transform: translate3d(0, 0, 0) scale(0.98);
+        transform: scale(0.98);
       }
     }
 
-    // Optimisation pour les écrans haute densité
     @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
       image-rendering: -webkit-optimize-contrast;
     }
@@ -193,7 +163,6 @@ $overlay-opacity-mobile: 0.05;
     }
   }
 
-  // Désactive complètement les ombres sur mobile pour les performances
   @media (max-width: 640px) {
     .swiper-slide-shadow,
     .swiper-slide-shadow-left,
@@ -203,20 +172,15 @@ $overlay-opacity-mobile: 0.05;
   }
 }
 
-// Optimisations spécifiques pour les appareils tactiles
 @media (hover: none) and (pointer: coarse) {
   .my-swiper {
     .swiper-slide {
-      // Améliore la réactivité tactile
       touch-action: pan-x;
-
-      // Optimise les performances tactiles
       -webkit-tap-highlight-color: transparent;
     }
   }
 }
 
-// Améliore les performances d'animation sur les appareils avec motion réduite
 @media (prefers-reduced-motion: reduce) {
   .my-swiper {
     .swiper-slide {
@@ -229,15 +193,12 @@ $overlay-opacity-mobile: 0.05;
   }
 }
 
-// Optimisations pour les connexions lentes
 @media (prefers-reduced-data: reduce) {
   .swiper-image {
-    // Réduit la qualité pour économiser la bande passante
     image-rendering: pixelated;
   }
 }
 
-/* Keyframes optimisées - uniquement sur desktop */
 @media (min-width: 641px) and (prefers-reduced-motion: no-preference) {
   @keyframes rect1 {
     0% {

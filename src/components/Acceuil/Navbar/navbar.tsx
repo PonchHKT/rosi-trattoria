@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom"; // Ensure NavLink is imported
+import { Link } from "react-router-dom";
 import { X, Menu } from "lucide-react";
 import "./navbar.scss";
 
@@ -53,19 +53,15 @@ const Navbar: React.FC = () => {
           >
             {navItems.map((item, index) => (
               <li className="navbar__item" key={index}>
-                <NavLink
+                <Link
                   to={item.path}
-                  className={({ isActive }) =>
-                    `navbar__link ${
-                      isActive || activeIndex === index
-                        ? "navbar__link--active"
-                        : ""
-                    }`
-                  }
+                  className={`navbar__link ${
+                    activeIndex === index ? "navbar__link--active" : ""
+                  }`}
                   onClick={() => handleLinkClick(index)}
                 >
                   {item.label}
-                </NavLink>
+                </Link>
               </li>
             ))}
           </ul>
