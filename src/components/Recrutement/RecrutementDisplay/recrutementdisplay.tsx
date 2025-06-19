@@ -85,7 +85,7 @@ const RecrutementDisplay: React.FC = () => {
                 <div className="position-card__section">
                   <h4 className="position-card__subtitle">Profil Recherché</h4>
                   <ul className="position-card__skills">
-                    <li>Un excellence relationnelle</li>
+                    <li>Un excellent relationnelle</li>
                     <li>Résistance au stress</li>
                     <li>Mémoire et organisation</li>
                     <li>Souriant</li>
