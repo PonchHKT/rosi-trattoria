@@ -1,42 +1,112 @@
 // components/Acceuil/Biographie1/biographie1.tsx
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import AnimatedSection from "../AnimatedSection/AnimatedSection";
 import { Typewriter } from "../TypeWriter/typewriter";
 import "./biographie1.scss";
 
 const Biographie1: React.FC = () => {
   const [showAccent, setShowAccent] = useState(false);
+  const [showIntro, setShowIntro] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [hasBeenTriggered, setHasBeenTriggered] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasBeenTriggered) {
+          setIsVisible(true);
+          setHasBeenTriggered(true);
+        } else if (!entry.isIntersecting && hasBeenTriggered) {
+          // Réinitialiser les états quand le composant sort de la vue
+          // avec un délai pour éviter les réinitialisations intempestives
+          setTimeout(() => {
+            if (!entry.isIntersecting) {
+              setShowAccent(false);
+              setShowIntro(false);
+              setIsVisible(false);
+              setHasBeenTriggered(false);
+            }
+          }, 1000);
+        }
+      },
+      {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.1,
+      }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, [hasBeenTriggered]);
+
+  // Alternative : Reset basé sur le focus/blur de la page
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        // Page devient invisible
+        return;
+      } else {
+        // Page redevient visible - reset si nécessaire
+        if (hasBeenTriggered && !isVisible) {
+          setShowAccent(false);
+          setShowIntro(false);
+          setIsVisible(false);
+          setHasBeenTriggered(false);
+        }
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [hasBeenTriggered, isVisible]);
 
   return (
-    <div className="biographie">
+    <div className="biographie" ref={sectionRef}>
       <AnimatedSection animationType="fade-in-scale" delay={200}>
         <div className="biographie__hero">
           <div className="biographie__title">
-            <Typewriter
-              text="LA PASSION ET L'EXIGENCE"
-              speed={60}
-              delay={600}
-              onComplete={() => setShowAccent(true)}
-              className="biographie__title-main"
-            />
+            {isVisible && (
+              <Typewriter
+                text="LA PASSION ET L'EXIGENCE"
+                speed={90}
+                delay={600}
+                onComplete={() => setShowAccent(true)}
+                className="biographie__title-main"
+                key={`main-${hasBeenTriggered}`} // Force re-render
+              />
+            )}
             {showAccent && (
               <span className="biographie__title-accent">
                 <Typewriter
                   text="MÈNENT À L'EXCELLENCE"
-                  speed={60}
-                  delay={300}
+                  speed={80}
+                  delay={500}
+                  onComplete={() => setShowIntro(true)}
+                  key={`accent-${hasBeenTriggered}`} // Force re-render
                 />
               </span>
             )}
           </div>
-          <AnimatedSection animationType="fade-in-scale" delay={3000}>
-            {" "}
-            <p className="biographie__intro">
-              Découvrez une expérience culinaire unique dans un cadre chaleureux
-              et moderne, où la tradition italienne rencontre l'élégance
-              contemporaine.
-            </p>
-          </AnimatedSection>
+          {showIntro && (
+            <AnimatedSection animationType="fade-in-scale" delay={800}>
+              <p className="biographie__intro">
+                Découvrez une expérience culinaire unique dans un cadre
+                chaleureux et moderne, où la tradition italienne rencontre
+                l'élégance contemporaine.
+              </p>
+            </AnimatedSection>
+          )}
         </div>
       </AnimatedSection>
 
