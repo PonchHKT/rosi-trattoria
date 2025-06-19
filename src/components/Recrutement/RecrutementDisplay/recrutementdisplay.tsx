@@ -76,21 +76,21 @@ const RecrutementDisplay: React.FC = () => {
                     <li>Directeur de Salle</li>
                     <li>Maître d'Hôtel</li>
                     <li>Chef de Rang</li>
-                    <li>Serveur Qualifié</li>
+                    <li>Serveur</li>
                     <li>Commis de Salle</li>
-                    <li>Barman Mixologue</li>
+                    <li>Barman</li>
                   </ul>
                 </div>
 
                 <div className="position-card__section">
                   <h4 className="position-card__subtitle">Profil Recherché</h4>
                   <ul className="position-card__skills">
-                    <li>Excellence relationnelle</li>
-                    <li>Gestion du stress</li>
+                    <li>Un excellence relationnelle</li>
+                    <li>Résistance au stress</li>
                     <li>Mémoire et organisation</li>
-                    <li>Présentation soignée</li>
-                    <li>Adaptabilité</li>
-                    <li>Langues étrangères (plus)</li>
+                    <li>Souriant</li>
+                    <li>Curieux</li>
+                    <li>La pratique de langues étrangères</li>
                   </ul>
                 </div>
               </div>
@@ -114,7 +114,7 @@ const RecrutementDisplay: React.FC = () => {
                     <li>Second de Cuisine</li>
                     <li>Chef de Partie</li>
                     <li>Commis de Cuisine</li>
-                    <li>Pizzaolo</li>
+
                     <li>Plongeur</li>
                   </ul>
                 </div>
@@ -122,12 +122,12 @@ const RecrutementDisplay: React.FC = () => {
                 <div className="position-card__section">
                   <h4 className="position-card__subtitle">Profil Recherché</h4>
                   <ul className="position-card__skills">
-                    <li>Créativité culinaire</li>
-                    <li>Techniques maîtrisées</li>
-                    <li>Organisation méthodique</li>
-                    <li>Résistance physique</li>
-                    <li>Esprit d'équipe</li>
-                    <li>Passion des produits</li>
+                    <li>Créativité</li>
+                    <li>Adaptabilité</li>
+                    <li>Être bien organisé</li>
+                    <li>Être résistant au stress</li>
+                    <li>Maîtriser toutes les techniques de cuisine</li>
+                    <li>Aimer le travail d'équipe</li>
                   </ul>
                 </div>
               </div>
