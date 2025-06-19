@@ -15,7 +15,7 @@ const Biographie1: React.FC = () => {
             <Typewriter
               text="LA PASSION ET L'EXIGENCE"
               speed={60}
-              delay={400}
+              delay={600}
               onComplete={() => setShowAccent(true)}
               className="biographie__title-main"
             />
