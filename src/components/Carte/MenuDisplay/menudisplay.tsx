@@ -205,6 +205,16 @@ const MenuDisplay: React.FC = () => {
             </div>
           )}
 
+          {/* Image des méthodes de paiement */}
+          <div
+            className={`payment-methods-image ${selectedMenu ? "hidden" : ""}`}
+          >
+            <img
+              src="/images/logo/methode-paiement.png"
+              alt="Méthodes de paiement acceptées"
+            />
+          </div>
+
           <div className="dropdown-container" ref={dropdownRef}>
             <div
               className={`dropdown-trigger ${selectedMenu ? "selected" : ""}`}

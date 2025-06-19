@@ -178,7 +178,6 @@ body {
 
   .menu-selection {
     border-top: 1px solid var(--glass-border);
-    padding-top: 1.5rem;
 
     .service-title {
       color: var(--text-primary);
@@ -211,6 +210,32 @@ body {
     .download-icon {
       flex-shrink: 0;
       margin-right: 0.5rem;
+    }
+
+    .payment-methods-image {
+      padding-bottom: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 1.5rem 0;
+      opacity: 1;
+      transform: translateY(0);
+      transition: all 0.3s ease-in-out;
+
+      &.hidden {
+        opacity: 0;
+        transform: translateY(-20px);
+        visibility: hidden;
+        height: 0;
+        margin: 0;
+      }
+
+      img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
     }
 
     .dropdown-container {
@@ -728,6 +753,14 @@ body {
         margin-bottom: 1.25rem;
       }
 
+      .payment-methods-image {
+        margin: 1rem 0;
+
+        img {
+          max-width: 90%;
+        }
+      }
+
       .dropdown-container {
         .dropdown-trigger {
           padding: 1.25rem;
@@ -867,6 +900,14 @@ body {
     }
 
     .menu-selection {
+      .payment-methods-image {
+        margin: 0.75rem 0;
+
+        img {
+          max-width: 85%;
+        }
+      }
+
       .dropdown-container {
         .dropdown-trigger {
           padding: 1rem;
@@ -945,7 +986,8 @@ body {
   .dropdown-trigger,
   .dropdown-menu,
   .dropdown-arrow,
-  .pdf-overlay {
+  .pdf-overlay,
+  .payment-methods-image {
     transition: none !important;
   }
 
