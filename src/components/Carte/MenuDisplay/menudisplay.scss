@@ -151,6 +151,7 @@ body {
     margin-bottom: 2rem;
 
     .hours-item {
+      font-weight: bold;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -163,7 +164,7 @@ body {
 
       span:first-child {
         font-weight: 600;
-        color: var(--text-primary);
+        color: white;
       }
 
       &.closed {
