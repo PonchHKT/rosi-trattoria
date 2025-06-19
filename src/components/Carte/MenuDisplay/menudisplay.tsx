@@ -164,7 +164,7 @@ const MenuDisplay: React.FC = () => {
         </div>
         <div className="hours-list">
           <div className="hours-item">
-            <span>Mar - Mecr - Jeu </span>
+            <span>Mar - Mer - Jeu </span>
             <span>12h-14h / 19h-21h30</span>
           </div>
           <div className="hours-item">
