@@ -24,6 +24,12 @@
     gap: 0.5rem;
   }
 
+  &__brand-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
   &__right-section {
     display: flex;
     align-items: center;
@@ -34,6 +40,7 @@
     font-family: "Edu NSW ACT Cursive", cursive;
     font-size: 2rem;
     font-weight: bold;
+    margin: 0;
 
     &-rosi {
       padding-right: 7px;
@@ -45,20 +52,49 @@
     }
   }
 
+  &__mobile-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  &__phone-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: 2px solid white;
+    border-radius: 50%;
+    color: rgb(38, 207, 9);
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+
   &__toggle {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
     background: none;
-    border: none;
+    border: 2px solid white;
+    border-radius: 4px;
     cursor: pointer;
     z-index: 1001;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+    color: white;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
   }
 
   &__links {
@@ -95,7 +131,7 @@
     display: inline-block;
     transition: color 0.3s ease;
     font-weight: bold;
-    font-size: 1.5rem; /* Taille de police augmentée */
+    font-size: 1.5rem;
 
     &::after {
       content: "";
@@ -134,6 +170,7 @@
     display: flex;
     height: 4px;
     width: 100%;
+    min-width: 120px;
   }
 
   &__flag--green {
@@ -159,9 +196,23 @@
     &__left-section {
       flex-direction: row;
       align-items: center;
+      gap: 1rem;
+    }
+
+    &__brand-container {
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    &__mobile-controls {
+      display: none;
     }
 
     &__toggle {
+      display: none;
+    }
+
+    &__phone-button {
       display: none;
     }
 
@@ -186,7 +237,11 @@
 
     &__link {
       padding: 0.5rem 1rem;
-      font-size: 1.5rem; /* Taille de police augmentée pour les grands écrans */
+      font-size: 1.5rem;
+    }
+
+    &__flag-bar {
+      width: 120px;
     }
   }
 
@@ -197,12 +252,21 @@
 
     &__right-section {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       gap: 1rem;
     }
 
     &__container {
       justify-content: space-between;
+      align-items: center;
+    }
+
+    &__mobile-controls {
+      align-items: center;
+    }
+
+    &__flag-bar {
+      width: 100px;
     }
   }
 }

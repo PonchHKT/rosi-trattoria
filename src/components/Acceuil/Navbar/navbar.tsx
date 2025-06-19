@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { X, Menu } from "lucide-react";
+import { X, Menu, Phone } from "lucide-react";
 import "./navbar.scss";
 
 const Navbar: React.FC = () => {
@@ -16,6 +16,10 @@ const Navbar: React.FC = () => {
     setIsOpen(false);
   };
 
+  const handlePhoneCall = () => {
+    window.location.href = "tel:0544314447";
+  };
+
   const navItems = [
     { label: "Accueil", path: "/" },
     { label: "Nos valeurs", path: "/nos-valeurs" },
@@ -25,34 +29,28 @@ const Navbar: React.FC = () => {
   ];
 
   return (
-    <nav className="navbar" aria-label="Navigation principale">
+    <nav className="navbar">
       <div className="navbar__container">
         <div className="navbar__left-section">
-          <div className="navbar__brand">
-            <span className="navbar__brand-rosi">Rosi</span>{" "}
-            <span className="navbar__brand-trattoria">Trattoria</span>
+          <div className="navbar__brand-container">
+            <h1 className="navbar__brand">
+              <span className="navbar__brand-rosi">Rosi</span>
+              <span className="navbar__brand-trattoria">Trattoria</span>
+            </h1>
+            <div className="navbar__flag-bar">
+              <div className="navbar__flag--green"></div>
+              <div className="navbar__flag--white"></div>
+              <div className="navbar__flag--red"></div>
+            </div>
           </div>
         </div>
 
         <div className="navbar__right-section">
-          <button
-            className="navbar__toggle"
-            onClick={toggleNavbar}
-            aria-label={isOpen ? "Fermer le menu" : "Ouvrir le menu"}
-            aria-expanded={isOpen}
-          >
-            {isOpen ? (
-              <X size={28} color="white" />
-            ) : (
-              <Menu size={28} color="white" />
-            )}
-          </button>
-
           <ul
             className={`navbar__links ${isOpen ? "navbar__links--open" : ""}`}
           >
             {navItems.map((item, index) => (
-              <li className="navbar__item" key={index}>
+              <li key={index} className="navbar__item">
                 <Link
                   to={item.path}
                   className={`navbar__link ${
@@ -65,13 +63,25 @@ const Navbar: React.FC = () => {
               </li>
             ))}
           </ul>
-        </div>
-      </div>
 
-      <div className="navbar__flag-bar" aria-hidden="true">
-        <span className="navbar__flag--green"></span>
-        <span className="navbar__flag--white"></span>
-        <span className="navbar__flag--red"></span>
+          <div className="navbar__mobile-controls">
+            <button
+              className="navbar__phone-button"
+              onClick={handlePhoneCall}
+              aria-label="Appeler le restaurant"
+            >
+              <Phone size={20} />
+            </button>
+
+            <button
+              className="navbar__toggle"
+              onClick={toggleNavbar}
+              aria-label="Toggle navigation"
+            >
+              {isOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          </div>
+        </div>
       </div>
     </nav>
   );
