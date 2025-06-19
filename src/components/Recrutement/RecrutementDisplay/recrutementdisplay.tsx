@@ -149,7 +149,7 @@ const RecrutementDisplay: React.FC = () => {
               </div>
               <div className="team__info">
                 <h3 className="team__name">Pascal</h3>
-                <p className="team__role">Pizzaolo Expert</p>
+                <p className="team__role">Pizzaolo</p>
                 <p className="team__bio">
                   Après 30 ans passés dans une grande chaine de restauration
                   Française, je décide de vous faire partager ma passion suite à
