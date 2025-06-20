@@ -1,37 +1,52 @@
+// Variables
 $brand-green: #00af87;
 $google-blue: #4285f4;
-$google-red: #ea4335;
-$google-yellow: #fbbc05;
-$google-green: #34a853;
+$google-yellow: #ffc107;
 $tripadvisor-green: #00af87;
-$light-bg: #000000;
-$card-bg: #000000;
-$dark-text: #333333;
-$muted-text: #666666;
-$light-text: #000000;
-$border-color: #e8e8e8;
+$background: #000000;
+$text-white: #ffffff;
+$text-muted: #666666;
 $border-radius: 20px;
-$shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
 $shadow-light: 0 4px 12px rgba(0, 0, 0, 0.08);
-$shadow-medium: 0 8px 24px rgba(0, 0, 0, 0.12);
-$pink: #ff69b4;
+$shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+// Mixins pour les étoiles
+@mixin star-base {
+  font-size: 18px;
+  color: #ddd;
+  transition: all 0.2s ease;
+  line-height: 1;
+  user-select: none;
+}
+
+@mixin star-filled($color) {
+  color: $color;
+  transform: scale(1.05);
+  text-shadow: 0 0 4px rgba($color, 0.3);
+}
+
+@mixin star-container {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+}
 
 .review-widget {
   max-width: 1400px;
   width: 100%;
   margin: 40px auto;
-  background: $light-bg;
+  background: $background;
   border-radius: $border-radius;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
-  position: relative;
   overflow: hidden;
   box-shadow: $shadow-light;
 
+  // Header
   .widget-header {
     padding: 24px 32px;
     text-align: center;
-    background: black;
+    background: $background;
 
     .brand-section {
       display: flex;
@@ -39,72 +54,10 @@ $pink: #ff69b4;
       align-items: center;
       margin-bottom: 20px;
       padding: 12px;
-      background: black;
-
+      background: $background;
       box-shadow: $shadow-subtle;
 
-      .tripadvisor-section {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 6px;
-
-        .brand-link {
-          text-decoration: none;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 6px;
-        }
-
-        .tripadvisor-logo {
-          max-width: 130px;
-          height: auto;
-          max-height: 36px;
-          opacity: 0.95;
-          transition: opacity 0.2s ease;
-
-          &:hover {
-            opacity: 1;
-          }
-        }
-
-        .rating-display {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-
-          .rating-number {
-            font-size: 28px;
-            font-weight: 800;
-            color: $brand-green;
-            line-height: 1;
-          }
-
-          .tripadvisor-stars {
-            display: flex;
-            gap: 2px;
-
-            .tripadvisor-star {
-              font-size: 18px;
-              color: #ddd;
-              transition: all 0.2s ease;
-
-              &.filled {
-                color: $google-yellow;
-                transform: scale(1.05);
-              }
-            }
-          }
-
-          .review-count {
-            color: $muted-text;
-            font-size: 12px;
-            font-weight: 500;
-          }
-        }
-      }
-
+      .tripadvisor-section,
       .google-section {
         display: flex;
         flex-direction: column;
@@ -118,13 +71,29 @@ $pink: #ff69b4;
           align-items: center;
           gap: 6px;
         }
+      }
 
+      .tripadvisor-section {
+        .tripadvisor-logo {
+          max-width: 130px;
+          height: auto;
+          max-height: 36px;
+          opacity: 0.95;
+          transition: opacity 0.2s ease;
+
+          &:hover {
+            opacity: 1;
+          }
+        }
+      }
+
+      .google-section {
         .google-logo {
           display: flex;
           align-items: center;
           gap: 6px;
           font-weight: 600;
-          color: white;
+          color: $text-white;
           font-size: 14px;
           max-height: 36px;
 
@@ -137,178 +106,154 @@ $pink: #ff69b4;
             letter-spacing: -0.2px;
           }
         }
+      }
 
-        .rating-display {
-          display: flex;
-          align-items: center;
-          gap: 10px;
+      .rating-display {
+        display: flex;
+        align-items: center;
+        gap: 10px;
 
-          .rating-number {
-            font-size: 28px;
-            font-weight: 800;
-            color: $google-blue;
-            line-height: 1;
-          }
-
-          .google-stars {
-            display: flex;
-            gap: 2px;
-
-            .google-star {
-              font-size: 18px;
-              color: #ddd;
-              transition: all 0.2s ease;
-
-              &.filled {
-                color: #ffc107;
-                transform: scale(1.05);
-              }
-            }
-          }
-
-          .review-count {
-            color: $muted-text;
-            font-size: 12px;
-            font-weight: 500;
-          }
+        .rating-number {
+          font-size: 28px;
+          font-weight: 800;
+          line-height: 1;
         }
+
+        .review-count {
+          color: $text-muted;
+          font-size: 12px;
+          font-weight: 500;
+        }
+      }
+
+      .tripadvisor-section .rating-display .rating-number {
+        color: $brand-green;
+      }
+
+      .google-section .rating-display .rating-number {
+        color: $google-blue;
       }
     }
 
     .header-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-
       h2 {
-        color: white;
+        color: $text-white;
         font-size: 26px;
         font-weight: 800;
         margin: 0;
         letter-spacing: -0.6px;
       }
-
-      .header-buttons {
-        display: flex;
-        gap: 8px;
-      }
-
-      .refresh-reviews-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        background: linear-gradient(
-          135deg,
-          $brand-green 0%,
-          darken($brand-green, 5%) 100%
-        );
-        color: white;
-        padding: 10px 20px;
-        border-radius: 50px;
-        text-decoration: none;
-        font-weight: 700;
-        font-size: 14px;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        border: none;
-        cursor: pointer;
-
-        svg {
-          width: 16px;
-          height: 16px;
-        }
-
-        &:hover {
-          background: linear-gradient(
-            135deg,
-            darken($brand-green, 3%) 0%,
-            darken($brand-green, 8%) 100%
-          );
-          transform: translateY(-2px);
-        }
-
-        &:disabled {
-          opacity: 0.6;
-          cursor: not-allowed;
-        }
-      }
-
-      .write-review-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        background: $brand-green;
-        color: white;
-        padding: 10px 20px;
-        border-radius: 50px;
-        text-decoration: none;
-        font-weight: 700;
-        font-size: 14px;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        border: none;
-        cursor: pointer;
-
-        svg {
-          width: 16px;
-          height: 16px;
-        }
-
-        &:hover {
-          background: linear-gradient(
-            135deg,
-            darken($brand-green, 3%) 0%,
-            darken($brand-green, 8%) 100%
-          );
-          transform: translateY(-2px);
-        }
-
-        &:active {
-          transform: translateY(0);
-        }
-      }
-
-      .slider-indicators {
-        display: flex;
-        justify-content: center;
-        gap: 6px;
-        padding: 8px 0;
-        width: 100%;
-
-        .indicator {
-          width: 10px;
-          height: 10px;
-          border-radius: 50%;
-          border: none;
-          background: white;
-          opacity: 0.3;
-          cursor: pointer;
-          transition: all 0.3s ease;
-
-          &:hover {
-            opacity: 0.6;
-            transform: scale(1.2);
-          }
-
-          &.active {
-            background: white;
-            opacity: 1;
-            transform: scale(1.2);
-          }
-        }
-      }
     }
 
     .loading-shimmer {
       .shimmer-line {
+        height: 20px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.1),
+          transparent
+        );
+        background-size: 200% 100%;
+        animation: shimmer 1.5s infinite;
+        border-radius: 4px;
+        margin: 8px 0;
+
         &.short {
           width: 70%;
-          margin: 0 auto;
+          margin: 8px auto;
         }
       }
     }
   }
 
+  // Étoiles Google - SYSTÈME CORRIGÉ
+  .google-stars {
+    @include star-container;
+
+    .google-star {
+      @include star-base;
+
+      &.filled {
+        @include star-filled($google-yellow); // Jaune Google
+      }
+
+      &.empty {
+        color: #ddd;
+      }
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  }
+
+  // Étoiles TripAdvisor
+  .tripadvisor-stars {
+    @include star-container;
+
+    .tripadvisor-star {
+      @include star-base;
+
+      &.filled {
+        @include star-filled($google-yellow); // Jaune aussi pour TripAdvisor
+      }
+
+      &.empty {
+        color: #ddd;
+      }
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  }
+
+  // Étoiles génériques pour les avis individuels
+  .rating {
+    @include star-container;
+
+    .google-star {
+      @include star-base;
+
+      &.filled {
+        @include star-filled($google-yellow); // Jaune Google
+      }
+
+      &.empty {
+        color: #ddd;
+      }
+    }
+  }
+
+  // Étoiles système unifié (au cas où)
+  .stars {
+    @include star-container;
+
+    .star {
+      @include star-base;
+
+      &.filled {
+        &.google {
+          @include star-filled($google-yellow);
+        }
+
+        &.tripadvisor {
+          @include star-filled($google-yellow);
+        }
+      }
+
+      &.empty {
+        color: #ddd;
+      }
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  }
+
+  // Slider
   .slider-container {
     position: relative;
     padding: 0;
@@ -318,7 +263,6 @@ $pink: #ff69b4;
       overflow: hidden;
       max-width: 100%;
       height: auto;
-      transition: height 0.3s ease;
     }
 
     .keen-slider__slide {
@@ -327,116 +271,74 @@ $pink: #ff69b4;
       align-items: flex-start;
       max-width: 100%;
       height: auto;
-      min-height: 0;
     }
   }
 
+  // Review items
   .review-item {
     display: flex;
     flex-direction: column;
-    background: black;
+    background: $background;
     padding: 24px 32px;
     width: 100%;
     max-width: 1400px;
     box-sizing: border-box;
     border-radius: 12px;
-    position: relative;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     margin: 0 auto;
-    height: auto;
-    flex: 0 0 auto;
     box-shadow: $shadow-subtle;
-    min-height: auto;
 
     .review-content {
-      flex: 1 1 auto;
+      flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
-      min-height: auto;
     }
 
     .review-header {
-      padding-bottom: 10px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       width: 100%;
       margin-bottom: 12px;
-
-      .rating-section {
-        .rating {
-          display: flex;
-          gap: 4px;
-
-          .rating-dot {
-            font-size: 16px;
-            color: gray;
-
-            &.filled {
-              color: $brand-green;
-            }
-          }
-        }
-      }
+      padding-bottom: 10px;
 
       .review-meta {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        font-size: 12px;
-        color: white;
-
-        .review-date,
-        .trip-type {
-          display: flex;
-          align-items: center;
-          justify-content: center;
+        .review-date {
+          font-size: 12px;
+          color: $text-white;
           font-weight: 500;
         }
       }
 
-      .trip-type {
-        border: 1px solid white;
-        background: white;
-        padding: 2px 8px;
-        border-radius: 60px;
-        color: black;
-      }
+      .rating-section {
+        .rating {
+          @include star-container;
 
-      .review-date {
-        color: white;
-      }
-    }
+          .google-star {
+            @include star-base;
 
-    .review-title {
-      font-size: 18px;
-      font-weight: 800;
-      color: white;
-      margin: 0 0 12px;
-      line-height: 1.3;
-      letter-spacing: -0.3px;
-      width: 100%;
+            &.filled {
+              @include star-filled($google-yellow); // Jaune Google
+            }
 
-      &::before {
-        content: '"';
-      }
-
-      &::after {
-        content: '"';
+            &.empty {
+              color: #ddd;
+            }
+          }
+        }
       }
     }
 
     .review-text {
       font-size: 15px;
-      color: white;
+      color: $text-white;
       line-height: 1.5;
       margin-bottom: 16px;
       letter-spacing: -0.1px;
       font-weight: 400;
       word-break: break-word;
-      flex: 1 1 auto;
       width: 100%;
       padding: 0 16px;
 
@@ -455,11 +357,8 @@ $pink: #ff69b4;
       width: 100%;
       margin-top: 12px;
       font-size: 13px;
-      color: $muted-text;
+      color: $text-muted;
       align-items: center;
-      flex-shrink: 0;
-      margin-bottom: 0;
-      padding-bottom: 0;
 
       .reviewer-details {
         display: flex;
@@ -468,14 +367,8 @@ $pink: #ff69b4;
         align-items: center;
 
         .reviewer-name {
-          color: white;
+          color: $text-white;
           font-weight: 800;
-          text-decoration: none;
-
-          &.clickable:hover {
-            color: $brand-green;
-            text-decoration: underline;
-          }
         }
 
         .contributions {
@@ -485,22 +378,13 @@ $pink: #ff69b4;
     }
   }
 
+  // États de chargement et d'erreur
   .loading,
   .error,
   .no-reviews {
     text-align: center;
     padding: 40px 20px;
-    color: $muted-text;
-
-    .spinner {
-      width: 36px;
-      height: 36px;
-      border: 4px solid $brand-green;
-      border-top: 4px solid transparent;
-      border-radius: 50%;
-      margin: 0 auto 16px;
-      animation: spin 1s linear infinite;
-    }
+    color: $text-muted;
 
     .error-icon,
     .empty-icon {
@@ -526,15 +410,7 @@ $pink: #ff69b4;
     }
   }
 
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-
+  // Animations
   @keyframes shimmer {
     0% {
       background-position: -200% 0;
@@ -544,29 +420,13 @@ $pink: #ff69b4;
     }
   }
 
+  // Responsive Design
   @media (max-width: 1024px) {
-    .review-widget {
-      padding-bottom: 100px;
-    }
-
     max-width: 1100px;
-
-    .slider-container {
-      .keen-slider {
-        height: auto;
-      }
-
-      .keen-slider__slide {
-        align-items: flex-start;
-        height: auto;
-        min-height: 0;
-      }
-    }
 
     .review-item {
       max-width: 1000px;
       padding: 20px;
-      height: auto;
     }
   }
 
@@ -579,7 +439,6 @@ $pink: #ff69b4;
     padding-top: 100px;
 
     .widget-header {
-      background: black;
       padding: 16px 24px;
 
       .brand-section {
@@ -587,172 +446,64 @@ $pink: #ff69b4;
         gap: 12px;
         padding: 10px 16px;
 
-        .tripadvisor-section {
-          .tripadvisor-logo {
-            max-width: 110px;
-            max-height: 32px;
-          }
+        .tripadvisor-section .tripadvisor-logo {
+          max-width: 110px;
+          max-height: 32px;
+        }
 
-          .rating-display {
-            gap: 8px;
+        .google-section .google-logo {
+          font-size: 13px;
+          gap: 5px;
 
-            .rating-number {
-              font-size: 24px;
-            }
-
-            .tripadvisor-stars {
-              .tripadvisor-star {
-                font-size: 16px;
-              }
-            }
-
-            .review-count {
-              font-size: 11px;
-            }
+          .google-svg {
+            width: 20px;
+            height: 20px;
           }
         }
 
-        .google-section {
-          .google-logo {
-            font-size: 13px;
-            gap: 5px;
+        .rating-display {
+          gap: 8px;
 
-            .google-svg {
-              width: 20px;
-              height: 20px;
-            }
-
-            span {
-              font-size: 13px;
-            }
+          .rating-number {
+            font-size: 24px;
           }
 
-          .rating-display {
-            gap: 8px;
+          .review-count {
+            font-size: 11px;
+          }
+        }
 
-            .rating-number {
-              font-size: 24px;
-            }
-
-            .google-stars {
-              .google-star {
-                font-size: 16px;
-              }
-            }
-
-            .review-count {
-              font-size: 11px;
-            }
+        .google-stars,
+        .tripadvisor-stars {
+          .google-star,
+          .tripadvisor-star {
+            font-size: 16px;
           }
         }
       }
 
-      .header-content {
-        flex-direction: column;
-        gap: 10px;
-
-        h2 {
-          color: white;
-          font-size: 25px;
-          letter-spacing: -0.4px;
-        }
-
-        .header-buttons {
-          gap: 6px;
-          width: 100%;
-
-          .refresh-reviews-btn,
-          .write-review-btn {
-            font-size: 13px;
-            padding: 8px 16px;
-            width: 100%;
-            justify-content: center;
-
-            svg {
-              width: 14px;
-              height: 14px;
-            }
-          }
-        }
-
-        .slider-indicators {
-          padding: 8px 0;
-          gap: 5px;
-
-          .indicator {
-            background: white;
-            width: 8px;
-            height: 8px;
-          }
-        }
+      .header-content h2 {
+        font-size: 25px;
+        letter-spacing: -0.4px;
       }
     }
 
     .slider-container {
       padding: 0 16px;
-
-      .keen-slider {
-        height: auto;
-        min-height: auto;
-      }
-
-      .keen-slider__slide {
-        align-items: flex-start;
-        height: auto;
-        min-height: 0;
-        display: flex;
-      }
     }
 
     .review-item {
       padding: 20px 24px;
-      max-width: 100%;
-      height: auto;
       margin: 0 8px;
-      flex: none;
-
-      .review-content {
-        min-height: auto;
-        flex: none;
-      }
-
-      .review-header {
-        padding-left: 0;
-        padding-right: 0;
-      }
-
-      .review-title {
-        font-size: 16px;
-        margin-bottom: 8px;
-        letter-spacing: -0.2px;
-        padding: 0;
-      }
 
       .review-text {
         font-size: 14px;
-        margin-bottom: 8px;
-        line-height: 1.5;
         padding: 0;
-        max-width: 100%;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-      }
-
-      .reviewer-info {
-        margin-top: 16px;
-        margin-bottom: 0;
-        padding-bottom: 0;
-        flex-shrink: 0;
       }
     }
   }
 
   @media (max-width: 480px) {
-    margin: 0;
-    max-width: 100vw;
-    width: 100vw;
-    border-radius: 0;
-    padding-bottom: 50px;
     padding-top: 100px;
 
     .widget-header {
@@ -762,159 +513,58 @@ $pink: #ff69b4;
         padding: 8px 12px;
         gap: 10px;
 
-        .tripadvisor-section {
-          .tripadvisor-logo {
-            max-width: 90px;
-            max-height: 28px;
-          }
+        .tripadvisor-section .tripadvisor-logo {
+          max-width: 90px;
+          max-height: 28px;
+        }
 
-          .rating-display {
-            gap: 6px;
+        .google-section .google-logo {
+          font-size: 12px;
+          gap: 4px;
 
-            .rating-number {
-              font-size: 20px;
-            }
-
-            .tripadvisor-stars {
-              .tripadvisor-star {
-                font-size: 14px;
-              }
-            }
-
-            .review-count {
-              font-size: 10px;
-            }
+          .google-svg {
+            width: 18px;
+            height: 18px;
           }
         }
 
-        .google-section {
-          .google-logo {
-            font-size: 12px;
-            gap: 4px;
+        .rating-display {
+          gap: 6px;
 
-            .google-svg {
-              width: 18px;
-              height: 18px;
-            }
-
-            span {
-              font-size: 12px;
-            }
+          .rating-number {
+            font-size: 20px;
           }
 
-          .rating-display {
-            gap: 6px;
+          .review-count {
+            font-size: 10px;
+          }
+        }
 
-            .rating-number {
-              font-size: 20px;
-            }
-
-            .google-stars {
-              .google-star {
-                font-size: 14px;
-              }
-            }
-
-            .review-count {
-              font-size: 10px;
-            }
+        .google-stars,
+        .tripadvisor-stars {
+          .google-star,
+          .tripadvisor-star {
+            font-size: 14px;
           }
         }
       }
 
-      .header-content {
-        gap: 8px;
-
-        h2 {
-          color: white;
-          font-size: 25px;
-          letter-spacing: -0.3px;
-        }
-
-        .header-buttons {
-          gap: 6px;
-          width: 100%;
-
-          .refresh-reviews-btn,
-          .write-review-btn {
-            font-size: 12px;
-            padding: 6px 12px;
-            width: 100%;
-            justify-content: center;
-
-            svg {
-              width: 12px;
-              height: 12px;
-            }
-          }
-        }
-
-        .slider-indicators {
-          padding: 4px 0;
-          gap: 4px;
-
-          .indicator {
-            width: 6px;
-            height: 6px;
-          }
-        }
+      .header-content h2 {
+        font-size: 22px;
+        letter-spacing: -0.3px;
       }
     }
 
     .slider-container {
       padding: 0 20px;
-
-      .keen-slider {
-        height: auto;
-        min-height: auto;
-      }
-
-      .keen-slider__slide {
-        align-items: flex-start;
-        height: auto;
-        min-height: 0;
-        display: flex;
-      }
     }
 
     .review-item {
       padding: 16px 20px;
-      max-width: 100%;
-      height: auto;
       margin: 0 4px;
-      flex: none;
-
-      .review-content {
-        min-height: auto;
-        flex: none;
-      }
-
-      .review-header {
-        padding-left: 0;
-        padding-right: 0;
-      }
-
-      .review-title {
-        font-size: 14px;
-        margin-bottom: 8px;
-        padding: 0;
-      }
 
       .review-text {
         font-size: 13px;
-        margin-bottom: 12px;
-        line-height: 1.5;
-        padding: 0;
-        max-width: 100%;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-      }
-
-      .reviewer-info {
-        margin-top: 12px;
-        margin-bottom: 0;
-        padding-bottom: 0;
-        flex-shrink: 0;
       }
     }
   }

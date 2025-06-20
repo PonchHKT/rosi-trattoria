@@ -3,30 +3,14 @@ import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 import "./reviewwidget.scss";
 
-interface TripAdvisorUser {
-  userId: string;
+// Interface pour le format de votre JSON
+interface GoogleReviewJSON {
   name: string;
-  contributions: {
-    totalContributions: number;
-  };
-  username?: string;
-  link?: string;
-}
-
-interface TripAdvisorReview {
-  id: string;
-  url: string;
-  title: string;
-  lang: string;
-  locationId: string;
-  publishedDate: string;
-  publishedPlatform: string;
-  rating: number;
+  reviewUrl: string;
+  stars: number;
   text: string;
-  roomTip: string | null;
-  travelDate: string;
-  tripType: string;
-  user: TripAdvisorUser;
+  title: string;
+  url: string;
 }
 
 interface Review {
@@ -34,12 +18,9 @@ interface Review {
   reviewer: string;
   rating: number;
   date: string;
-  title: string;
   text: string;
-  tripType: string;
-  contributions: number;
-  url: string;
-  userProfileUrl?: string;
+  reviewCount: number;
+  profilePhotoUrl?: string;
 }
 
 const ReviewWidget: React.FC = () => {
@@ -99,90 +80,69 @@ const ReviewWidget: React.FC = () => {
   const loadReviews = async () => {
     try {
       setLoading(true);
-      const response = await fetch("/tripadvisor.json");
+      const response = await fetch("/googlereviews.json");
       if (!response.ok) {
-        throw new Error("Failed to load reviews JSON file");
+        throw new Error("Failed to load Google reviews JSON file");
       }
-      const jsonData: TripAdvisorReview[] = await response.json();
+      const jsonData: GoogleReviewJSON[] = await response.json();
+
+      console.log("Données JSON chargées:", jsonData); // Debug
+
       const transformedReviews: Review[] = jsonData
         .filter(
-          (review: TripAdvisorReview) =>
-            review.text && review.user?.name && review.rating >= 4
+          (review: GoogleReviewJSON) =>
+            review.text && review.name && review.stars >= 4
         )
-        .map((review: TripAdvisorReview) => {
-          let formattedDate = "2025";
+        .map((review: GoogleReviewJSON, index) => {
+          // Générer une date aléatoire récente (6 derniers mois)
+          const now = new Date();
+          const sixMonthsAgo = new Date();
+          sixMonthsAgo.setMonth(now.getMonth() - 6);
 
-          if (review.travelDate) {
-            try {
-              const [yearStr, monthStr] = review.travelDate.split("-");
-              const year = parseInt(yearStr) || 2025;
-              const month = parseInt(monthStr) || 1;
+          const randomTime =
+            sixMonthsAgo.getTime() +
+            Math.random() * (now.getTime() - sixMonthsAgo.getTime());
+          const randomDate = new Date(randomTime);
 
-              const months = [
-                "Janvier",
-                "Février",
-                "Mars",
-                "Avril",
-                "Mai",
-                "Juin",
-                "Juillet",
-                "Août",
-                "Septembre",
-                "Octobre",
-                "Novembre",
-                "Décembre",
-              ];
-              if (month >= 1 && month <= 12) {
-                formattedDate = `${months[month - 1]} ${year}`;
-              }
-            } catch {
-              formattedDate = review.travelDate;
-            }
-          }
+          const months = [
+            "Janvier",
+            "Février",
+            "Mars",
+            "Avril",
+            "Mai",
+            "Juin",
+            "Juillet",
+            "Août",
+            "Septembre",
+            "Octobre",
+            "Novembre",
+            "Décembre",
+          ];
 
-          const tripTypeTranslations: { [key: string]: string } = {
-            COUPLES: "En couple",
-            FAMILY: "En famille",
-            FRIENDS: "Entre amis",
-            SOLO: "Solo",
-            BUSINESS: "Voyage d'affaires",
-          };
-
-          const translatedTripType =
-            review.tripType && review.tripType.toLowerCase() !== "none"
-              ? tripTypeTranslations[review.tripType] || review.tripType
-              : "";
-
-          let userProfileUrl = "";
-          if (review.user.link) {
-            userProfileUrl = review.user.link.startsWith("www.")
-              ? `https://${review.user.link}`
-              : review.user.link;
-          } else if (review.user.username) {
-            userProfileUrl = `https://www.tripadvisor.com/Profile/${review.user.username}`;
-          }
+          const formattedDate = `${
+            months[randomDate.getMonth()]
+          } ${randomDate.getFullYear()}`;
 
           return {
-            id: review.id,
-            reviewer: review.user.name.trim(),
-            rating: review.rating,
+            id: review.reviewUrl || `review-${index}`, // Utiliser reviewUrl comme ID unique
+            reviewer: review.name.trim(),
+            rating: review.stars,
             date: formattedDate,
-            title: review.title.trim(),
             text: review.text.trim(),
-            tripType: translatedTripType,
-            contributions: review.user.contributions.totalContributions,
-            url: review.url,
-            userProfileUrl: userProfileUrl,
+            reviewCount: Math.floor(Math.random() * 50) + 1, // Nombre d'avis aléatoire entre 1 et 50
+            profilePhotoUrl: undefined, // Pas d'URL de photo dans votre format
           };
         });
+
+      console.log("Avis transformés:", transformedReviews); // Debug
 
       // Mélanger les avis avant de les afficher
       const shuffledReviews = shuffleArray(transformedReviews);
       setReviews(shuffledReviews);
       setLoading(false);
     } catch (fetchError) {
-      console.error("Error loading JSON file:", fetchError);
-      setError("Impossible de charger les avis");
+      console.error("Error loading Google reviews JSON file:", fetchError);
+      setError("Impossible de charger les avis Google");
       setLoading(false);
     }
   };
@@ -221,14 +181,6 @@ const ReviewWidget: React.FC = () => {
     setTimeout(() => {
       setIsPaused(false);
     }, 2000);
-  };
-
-  const renderRatingDots = (rating: number) => {
-    return Array.from({ length: 5 }).map((_, i) => (
-      <span key={i} className={`rating-dot ${i < rating ? "filled" : "empty"}`}>
-        ●
-      </span>
-    ));
   };
 
   const renderGoogleStars = (rating: number) => {
@@ -584,36 +536,20 @@ const ReviewWidget: React.FC = () => {
                       <span className="review-date">
                         Visité en {review.date}
                       </span>
-                      {review.tripType && (
-                        <span className="trip-type">{review.tripType}</span>
-                      )}
                     </div>
                     <div className="rating-section">
                       <div className="rating">
-                        {renderRatingDots(review.rating)}
+                        {renderGoogleStars(review.rating)}
                       </div>
                     </div>
                   </div>
-                  <h3 className="review-title">{review.title}</h3>
                   <div className="review-text">{review.text}</div>
                 </div>
                 <div className="reviewer-info">
                   <div className="reviewer-details">
-                    {review.userProfileUrl ? (
-                      <a
-                        href={review.userProfileUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="reviewer-name clickable"
-                      >
-                        {review.reviewer}
-                      </a>
-                    ) : (
-                      <span className="reviewer-name">{review.reviewer}</span>
-                    )}
+                    <span className="reviewer-name">{review.reviewer}</span>
                     <span className="contributions">
-                      {review.contributions} contribution
-                      {review.contributions > 1 ? "s" : ""}
+                      {review.reviewCount} avis
                     </span>
                   </div>
                 </div>
