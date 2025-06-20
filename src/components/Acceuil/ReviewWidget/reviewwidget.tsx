@@ -3,7 +3,7 @@ import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 import "./reviewwidget.scss";
 
-// Interface pour le format de votre JSON
+// Interface pour le format Google
 interface GoogleReviewJSON {
   name: string;
   reviewUrl: string;
@@ -13,6 +13,25 @@ interface GoogleReviewJSON {
   url: string;
 }
 
+// Interface pour le format TripAdvisor
+interface TripAdvisorReviewJSON {
+  title: string;
+  rating: number;
+  travelDate: string;
+  publishedDate: string;
+  text: string;
+  url: string;
+  user: {
+    name: string;
+    contributions: {
+      totalContributions: number;
+    };
+  };
+}
+
+// Union type pour tous les formats
+type ReviewJSON = GoogleReviewJSON | TripAdvisorReviewJSON;
+
 interface Review {
   id: string;
   reviewer: string;
@@ -21,6 +40,7 @@ interface Review {
   text: string;
   reviewCount: number;
   profilePhotoUrl?: string;
+  source: "google" | "tripadvisor"; // Nouvelle propriété pour identifier la source
 }
 
 const ReviewWidget: React.FC = () => {
@@ -46,6 +66,13 @@ const ReviewWidget: React.FC = () => {
     slideChanged() {},
   });
 
+  // Fonction pour vérifier si c'est un avis TripAdvisor
+  const isTripAdvisorReview = (
+    review: ReviewJSON
+  ): review is TripAdvisorReviewJSON => {
+    return "user" in review && "travelDate" in review;
+  };
+
   // Fonction pour mélanger un tableau (Fisher-Yates shuffle)
   const shuffleArray = <T,>(array: T[]): T[] => {
     const shuffled = [...array];
@@ -66,7 +93,7 @@ const ReviewWidget: React.FC = () => {
       if (!isPaused && instanceRef.current) {
         instanceRef.current.next();
       }
-    }, 4000); // Change de slide toutes les 4 secondes
+    }, 4000);
   };
 
   // Fonction pour arrêter l'auto-slide
@@ -82,18 +109,23 @@ const ReviewWidget: React.FC = () => {
       setLoading(true);
       const response = await fetch("/googlereviews.json");
       if (!response.ok) {
-        throw new Error("Failed to load Google reviews JSON file");
+        throw new Error("Failed to load reviews JSON file");
       }
-      const jsonData: GoogleReviewJSON[] = await response.json();
+      const jsonData: ReviewJSON[] = await response.json();
 
-      console.log("Données JSON chargées:", jsonData); // Debug
+      console.log("Données JSON chargées:", jsonData);
 
       const transformedReviews: Review[] = jsonData
-        .filter(
-          (review: GoogleReviewJSON) =>
-            review.text && review.name && review.stars >= 4
-        )
-        .map((review: GoogleReviewJSON, index) => {
+        .filter((review: ReviewJSON) => {
+          if (isTripAdvisorReview(review)) {
+            return review.text && review.user.name && review.rating >= 4;
+          } else {
+            return review.text && review.name && review.stars >= 4;
+          }
+        })
+        .map((review: ReviewJSON, index) => {
+          const isTripAdvisor = isTripAdvisorReview(review);
+
           // Générer une date aléatoire récente (6 derniers mois)
           const now = new Date();
           const sixMonthsAgo = new Date();
@@ -123,26 +155,40 @@ const ReviewWidget: React.FC = () => {
             months[randomDate.getMonth()]
           } ${randomDate.getFullYear()}`;
 
-          return {
-            id: review.reviewUrl || `review-${index}`, // Utiliser reviewUrl comme ID unique
-            reviewer: review.name.trim(),
-            rating: review.stars,
-            date: formattedDate,
-            text: review.text.trim(),
-            reviewCount: Math.floor(Math.random() * 50) + 1, // Nombre d'avis aléatoire entre 1 et 50
-            profilePhotoUrl: undefined, // Pas d'URL de photo dans votre format
-          };
+          if (isTripAdvisor) {
+            return {
+              id: review.url || `tripadvisor-review-${index}`,
+              reviewer: review.user.name.trim(),
+              rating: review.rating,
+              date: formattedDate,
+              text: review.text.trim(),
+              reviewCount: review.user.contributions.totalContributions,
+              profilePhotoUrl: undefined,
+              source: "tripadvisor" as const,
+            };
+          } else {
+            return {
+              id: review.reviewUrl || `google-review-${index}`,
+              reviewer: review.name.trim(),
+              rating: review.stars,
+              date: formattedDate,
+              text: review.text.trim(),
+              reviewCount: Math.floor(Math.random() * 50) + 1,
+              profilePhotoUrl: undefined,
+              source: "google" as const,
+            };
+          }
         });
 
-      console.log("Avis transformés:", transformedReviews); // Debug
+      console.log("Avis transformés:", transformedReviews);
 
       // Mélanger les avis avant de les afficher
       const shuffledReviews = shuffleArray(transformedReviews);
       setReviews(shuffledReviews);
       setLoading(false);
     } catch (fetchError) {
-      console.error("Error loading Google reviews JSON file:", fetchError);
-      setError("Impossible de charger les avis Google");
+      console.error("Error loading reviews JSON file:", fetchError);
+      setError("Impossible de charger les avis");
       setLoading(false);
     }
   };
@@ -157,7 +203,6 @@ const ReviewWidget: React.FC = () => {
       startAutoSlide();
     }
 
-    // Nettoyer l'intervalle au démontage du composant
     return () => {
       stopAutoSlide();
     };
@@ -177,7 +222,6 @@ const ReviewWidget: React.FC = () => {
   };
 
   const handleTouchEnd = () => {
-    // Reprendre après un délai pour permettre la lecture
     setTimeout(() => {
       setIsPaused(false);
     }, 2000);
@@ -200,9 +244,25 @@ const ReviewWidget: React.FC = () => {
         key={i}
         className={`tripadvisor-star ${i < rating ? "filled" : "empty"}`}
       >
-        ★
+        ●
       </span>
     ));
+  };
+
+  // Nouvelle fonction pour rendre les étoiles selon la source
+  const renderReviewStars = (
+    rating: number,
+    source: "google" | "tripadvisor"
+  ) => {
+    if (source === "tripadvisor") {
+      return (
+        <div className="tripadvisor-stars">
+          {renderTripAdvisorStars(rating)}
+        </div>
+      );
+    } else {
+      return <div className="google-stars">{renderGoogleStars(rating)}</div>;
+    }
   };
 
   if (loading) {
@@ -210,27 +270,6 @@ const ReviewWidget: React.FC = () => {
       <div className="review-widget">
         <div className="widget-header">
           <div className="brand-section">
-            <div className="tripadvisor-section">
-              <a
-                href="https://www.tripadvisor.fr/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="brand-link"
-              >
-                <img
-                  src="/images/logo/tripadvisor_white.png"
-                  alt="TripAdvisor"
-                  className="tripadvisor-logo"
-                />
-                <div className="rating-display">
-                  <span className="rating-number">4,8</span>
-                  <div className="tripadvisor-stars">
-                    {renderTripAdvisorStars(5)}
-                  </div>
-                  <span className="review-count">(326 avis)</span>
-                </div>
-              </a>
-            </div>
             <div className="google-section">
               <a
                 href="https://www.google.com/maps/place/Rosi+Trattoria/@45.1632341,1.5304252,16z/data=!3m1!5s0x47f897d9258e5ed5:0x3732e7ea5011b941!4m8!3m7!1s0x47f897e00d125fe3:0xdd18d96369f9f106!8m2!3d45.1632303!4d1.5330001!9m1!1b1!16s%2Fg%2F11pb_g8cpr?entry=ttu&g_ep=EgoyMDI1MDYxNS4wIKXMDSoASAFQAw%3D%3D"
@@ -269,6 +308,27 @@ const ReviewWidget: React.FC = () => {
                   <span className="rating-number">4,9</span>
                   <div className="google-stars">{renderGoogleStars(5)}</div>
                   <span className="review-count">(1,851 avis)</span>
+                </div>
+              </a>
+            </div>
+            <div className="tripadvisor-section">
+              <a
+                href="https://www.tripadvisor.fr/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="brand-link"
+              >
+                <img
+                  src="/images/logo/tripadvisor_white.png"
+                  alt="TripAdvisor"
+                  className="tripadvisor-logo"
+                />
+                <div className="rating-display">
+                  <span className="rating-number">4,8</span>
+                  <div className="tripadvisor-stars">
+                    {renderTripAdvisorStars(5)}
+                  </div>
+                  <span className="review-count">(326 avis)</span>
                 </div>
               </a>
             </div>
@@ -290,27 +350,6 @@ const ReviewWidget: React.FC = () => {
       <div className="review-widget">
         <div className="widget-header">
           <div className="brand-section">
-            <div className="tripadvisor-section">
-              <a
-                href="https://www.tripadvisor.fr/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="brand-link"
-              >
-                <img
-                  src="/images/logo/tripadvisor_white.png"
-                  alt="TripAdvisor"
-                  className="tripadvisor-logo"
-                />
-                <div className="rating-display">
-                  <span className="rating-number">4,8</span>
-                  <div className="tripadvisor-stars">
-                    {renderTripAdvisorStars(5)}
-                  </div>
-                  <span className="review-count">(326 avis)</span>
-                </div>
-              </a>
-            </div>
             <div className="google-section">
               <a
                 href="https://www.google.com/maps/place/Rosi+Trattoria/@45.1632341,1.5304252,16z/data=!3m1!5s0x47f897d9258e5ed5:0x3732e7ea5011b941!4m8!3m7!1s0x47f897e00d125fe3:0xdd18d96369f9f106!8m2!3d45.1632303!4d1.5330001!9m1!1b1!16s%2Fg%2F11pb_g8cpr?entry=ttu&g_ep=EgoyMDI1MDYxNS4wIKXMDSoASAFQAw%3D%3D"
@@ -349,6 +388,27 @@ const ReviewWidget: React.FC = () => {
                   <span className="rating-number">4,9</span>
                   <div className="google-stars">{renderGoogleStars(5)}</div>
                   <span className="review-count">(1,851 avis)</span>
+                </div>
+              </a>
+            </div>
+            <div className="tripadvisor-section">
+              <a
+                href="https://www.tripadvisor.fr/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="brand-link"
+              >
+                <img
+                  src="/images/logo/tripadvisor_white.png"
+                  alt="TripAdvisor"
+                  className="tripadvisor-logo"
+                />
+                <div className="rating-display">
+                  <span className="rating-number">4,8</span>
+                  <div className="tripadvisor-stars">
+                    {renderTripAdvisorStars(5)}
+                  </div>
+                  <span className="review-count">(326 avis)</span>
                 </div>
               </a>
             </div>
@@ -370,27 +430,6 @@ const ReviewWidget: React.FC = () => {
       <div className="review-widget">
         <div className="widget-header">
           <div className="brand-section">
-            <div className="tripadvisor-section">
-              <a
-                href="https://www.tripadvisor.fr/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="brand-link"
-              >
-                <img
-                  src="/images/logo/tripadvisor_white.png"
-                  alt="TripAdvisor"
-                  className="tripadvisor-logo"
-                />
-                <div className="rating-display">
-                  <span className="rating-number">4,8</span>
-                  <div className="tripadvisor-stars">
-                    {renderTripAdvisorStars(5)}
-                  </div>
-                  <span className="review-count">(326 avis)</span>
-                </div>
-              </a>
-            </div>
             <div className="google-section">
               <a
                 href="https://www.google.com/maps/place/Rosi+Trattoria/@45.1632341,1.5304252,16z/data=!3m1!5s0x47f897d9258e5ed5:0x3732e7ea5011b941!4m8!3m7!1s0x47f897e00d125fe3:0xdd18d96369f9f106!8m2!3d45.1632303!4d1.5330001!9m1!1b1!16s%2Fg%2F11pb_g8cpr?entry=ttu&g_ep=EgoyMDI1MDYxNS4wIKXMDSoASAFQAw%3D%3D"
@@ -432,6 +471,27 @@ const ReviewWidget: React.FC = () => {
                 </div>
               </a>
             </div>
+            <div className="tripadvisor-section">
+              <a
+                href="https://www.tripadvisor.fr/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="brand-link"
+              >
+                <img
+                  src="/images/logo/tripadvisor_white.png"
+                  alt="TripAdvisor"
+                  className="tripadvisor-logo"
+                />
+                <div className="rating-display">
+                  <span className="rating-number">4,8</span>
+                  <div className="tripadvisor-stars">
+                    {renderTripAdvisorStars(5)}
+                  </div>
+                  <span className="review-count">(326 avis)</span>
+                </div>
+              </a>
+            </div>
           </div>
           <div className="header-content">
             <h2>Avis de nos clients</h2>
@@ -449,27 +509,6 @@ const ReviewWidget: React.FC = () => {
     <div className="review-widget">
       <div className="widget-header">
         <div className="brand-section">
-          <div className="tripadvisor-section">
-            <a
-              href="https://www.tripadvisor.fr/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="brand-link"
-            >
-              <img
-                src="/images/logo/tripadvisor_white.png"
-                alt="TripAdvisor"
-                className="tripadvisor-logo"
-              />
-              <div className="rating-display">
-                <span className="rating-number">4,8</span>
-                <div className="tripadvisor-stars">
-                  {renderTripAdvisorStars(5)}
-                </div>
-                <span className="review-count">(326 avis)</span>
-              </div>
-            </a>
-          </div>
           <div className="google-section">
             <a
               href="https://www.google.com/maps/place/Rosi+Trattoria/@45.1632341,1.5304252,16z/data=!3m1!5s0x47f897d9258e5ed5:0x3732e7ea5011b941!4m8!3m7!1s0x47f897e00d125fe3:0xdd18d96369f9f106!8m2!3d45.1632303!4d1.5330001!9m1!1b1!16s%2Fg%2F11pb_g8cpr?entry=ttu&g_ep=EgoyMDI1MDYxNS4wIKXMDSoASAFQAw%3D%3D"
@@ -512,6 +551,27 @@ const ReviewWidget: React.FC = () => {
               </div>
             </a>
           </div>
+          <div className="tripadvisor-section">
+            <a
+              href="https://www.tripadvisor.fr/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="brand-link"
+            >
+              <img
+                src="/images/logo/tripadvisor_white.png"
+                alt="TripAdvisor"
+                className="tripadvisor-logo"
+              />
+              <div className="rating-display">
+                <span className="rating-number">4,8</span>
+                <div className="tripadvisor-stars">
+                  {renderTripAdvisorStars(5)}
+                </div>
+                <span className="review-count">(326 avis)</span>
+              </div>
+            </a>
+          </div>
         </div>
         <div className="header-content">
           <h2>Avis de nos clients</h2>
@@ -538,9 +598,7 @@ const ReviewWidget: React.FC = () => {
                       </span>
                     </div>
                     <div className="rating-section">
-                      <div className="rating">
-                        {renderGoogleStars(review.rating)}
-                      </div>
+                      {renderReviewStars(review.rating, review.source)}
                     </div>
                   </div>
                   <div className="review-text">{review.text}</div>
@@ -548,9 +606,6 @@ const ReviewWidget: React.FC = () => {
                 <div className="reviewer-info">
                   <div className="reviewer-details">
                     <span className="reviewer-name">{review.reviewer}</span>
-                    <span className="contributions">
-                      {review.reviewCount} avis
-                    </span>
                   </div>
                 </div>
               </div>

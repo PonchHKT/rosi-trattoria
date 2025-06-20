@@ -2,7 +2,7 @@
 $brand-green: #00af87;
 $google-blue: #4285f4;
 $google-yellow: #ffc107;
-$tripadvisor-green: #00af87;
+$tripadvisor-green: #00aa6c; // Couleur officielle TripAdvisor
 $background: #000000;
 $text-white: #ffffff;
 $text-muted: #666666;
@@ -167,7 +167,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
   }
 
-  // Étoiles Google - SYSTÈME CORRIGÉ
+  // Étoiles Google
   .google-stars {
     @include star-container;
 
@@ -188,7 +188,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
   }
 
-  // Étoiles TripAdvisor
+  // Étoiles TripAdvisor - CORRIGÉ
   .tripadvisor-stars {
     @include star-container;
 
@@ -196,7 +196,9 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
       @include star-base;
 
       &.filled {
-        @include star-filled($google-yellow); // Jaune aussi pour TripAdvisor
+        @include star-filled(
+          $tripadvisor-green
+        ); // VERT TripAdvisor au lieu de jaune
       }
 
       &.empty {
@@ -209,7 +211,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
   }
 
-  // Étoiles génériques pour les avis individuels
+  // Étoiles génériques pour les avis individuels (Google uniquement)
   .rating {
     @include star-container;
 
@@ -239,7 +241,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
         }
 
         &.tripadvisor {
-          @include star-filled($google-yellow);
+          @include star-filled($tripadvisor-green); // VERT pour TripAdvisor
         }
       }
 
