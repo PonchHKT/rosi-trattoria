@@ -30,7 +30,9 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <h2>Bientôt disponible</h2>
-        <p>Le distributeur sera bientôt disponible. Restez à l'écoute !</p>
+        <p>
+          Le distributeur de pizza sera bientôt disponible. Restez à l'écoute !
+        </p>
         <button className="modal-confirm-button" onClick={onClose}>
           OK
         </button>
