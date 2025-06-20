@@ -9,31 +9,60 @@ const Biographie1: React.FC = () => {
   const [showIntro, setShowIntro] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [hasBeenTriggered, setHasBeenTriggered] = useState(false);
+  const [animationKey, setAnimationKey] = useState(0);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const resetTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Fonction pour réinitialiser l'animation
+  const resetAnimation = () => {
+    setShowAccent(false);
+    setShowIntro(false);
+    setIsVisible(false);
+    setHasBeenTriggered(false);
+    setAnimationKey((prev) => prev + 1); // Force le re-render des Typewriter
+  };
+
+  // Fonction pour démarrer l'animation
+  const startAnimation = () => {
+    if (!hasBeenTriggered) {
+      setIsVisible(true);
+      setHasBeenTriggered(true);
+    }
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !hasBeenTriggered) {
-          setIsVisible(true);
-          setHasBeenTriggered(true);
-        } else if (!entry.isIntersecting && hasBeenTriggered) {
-          // Réinitialiser les états quand le composant sort de la vue
-          // avec un délai pour éviter les réinitialisations intempestives
-          setTimeout(() => {
-            if (!entry.isIntersecting) {
-              setShowAccent(false);
-              setShowIntro(false);
-              setIsVisible(false);
-              setHasBeenTriggered(false);
+        // Nettoyer le timeout précédent si il existe
+        if (resetTimeoutRef.current) {
+          clearTimeout(resetTimeoutRef.current);
+          resetTimeoutRef.current = null;
+        }
+
+        if (entry.isIntersecting) {
+          // Élément visible
+          startAnimation();
+        } else if (hasBeenTriggered) {
+          // Élément invisible après avoir été déclenché
+          // Attendre un délai avant de réinitialiser pour éviter les clignotements
+          resetTimeoutRef.current = setTimeout(() => {
+            // Vérifier à nouveau si l'élément est toujours invisible
+            if (sectionRef.current) {
+              const rect = sectionRef.current.getBoundingClientRect();
+              const isStillInvisible =
+                rect.bottom < 0 || rect.top > window.innerHeight;
+
+              if (isStillInvisible) {
+                resetAnimation();
+              }
             }
-          }, 1000);
+          }, 1500); // Délai plus long pour éviter les réinitialisations intempestives
         }
       },
       {
         root: null,
-        rootMargin: "0px",
-        threshold: 0.1,
+        rootMargin: "-10% 0px -10% 0px", // Marges pour déclencher l'animation plus tôt/tard
+        threshold: [0, 0.1, 0.5], // Plusieurs seuils pour une détection plus précise
       }
     );
 
@@ -42,26 +71,30 @@ const Biographie1: React.FC = () => {
     }
 
     return () => {
+      if (resetTimeoutRef.current) {
+        clearTimeout(resetTimeoutRef.current);
+      }
       if (sectionRef.current) {
         observer.unobserve(sectionRef.current);
       }
     };
   }, [hasBeenTriggered]);
 
-  // Alternative : Reset basé sur le focus/blur de la page
+  // Gestion de la visibilité de la page
   useEffect(() => {
     const handleVisibilityChange = () => {
-      if (document.hidden) {
-        // Page devient invisible
-        return;
-      } else {
-        // Page redevient visible - reset si nécessaire
-        if (hasBeenTriggered && !isVisible) {
-          setShowAccent(false);
-          setShowIntro(false);
-          setIsVisible(false);
-          setHasBeenTriggered(false);
-        }
+      if (!document.hidden && hasBeenTriggered) {
+        // Page redevient visible - vérifier si on doit réinitialiser
+        setTimeout(() => {
+          if (sectionRef.current) {
+            const rect = sectionRef.current.getBoundingClientRect();
+            const isInView = rect.top < window.innerHeight && rect.bottom > 0;
+
+            if (!isInView) {
+              resetAnimation();
+            }
+          }
+        }, 100);
       }
     };
 
@@ -69,7 +102,36 @@ const Biographie1: React.FC = () => {
     return () => {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
-  }, [hasBeenTriggered, isVisible]);
+  }, [hasBeenTriggered]);
+
+  // Gestion du scroll pour une réinitialisation plus précise
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!hasBeenTriggered || !sectionRef.current) return;
+
+      const rect = sectionRef.current.getBoundingClientRect();
+      const isCompletelyOutOfView =
+        rect.bottom < -200 || rect.top > window.innerHeight + 200;
+
+      if (isCompletelyOutOfView) {
+        // Nettoyer le timeout si il existe
+        if (resetTimeoutRef.current) {
+          clearTimeout(resetTimeoutRef.current);
+        }
+
+        resetTimeoutRef.current = setTimeout(() => {
+          resetAnimation();
+        }, 2000); // Délai plus long pour le scroll
+      }
+    };
+
+    const throttledHandleScroll = throttle(handleScroll, 100);
+    window.addEventListener("scroll", throttledHandleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", throttledHandleScroll);
+    };
+  }, [hasBeenTriggered]);
 
   return (
     <div className="biographie" ref={sectionRef}>
@@ -79,11 +141,14 @@ const Biographie1: React.FC = () => {
             {isVisible && (
               <Typewriter
                 text="LA PASSION ET L'EXIGENCE"
-                speed={90}
-                delay={600}
-                onComplete={() => setShowAccent(true)}
+                speed={85} // Vitesse légèrement plus rapide
+                delay={400} // Délai réduit
+                onComplete={() => {
+                  // Délai plus court pour une transition plus fluide
+                  setTimeout(() => setShowAccent(true), 300);
+                }}
                 className="biographie__title-main"
-                key={`main-${hasBeenTriggered}`} // Force re-render
+                key={`main-${animationKey}`} // Utilise la clé d'animation
               />
             )}
             {showAccent && (
@@ -91,15 +156,18 @@ const Biographie1: React.FC = () => {
                 <Typewriter
                   text="MÈNENT À L'EXCELLENCE"
                   speed={80}
-                  delay={500}
-                  onComplete={() => setShowIntro(true)}
-                  key={`accent-${hasBeenTriggered}`} // Force re-render
+                  delay={200} // Délai réduit pour une meilleure fluidité
+                  onComplete={() => {
+                    // Délai plus court pour l'intro
+                    setTimeout(() => setShowIntro(true), 400);
+                  }}
+                  key={`accent-${animationKey}`} // Utilise la clé d'animation
                 />
               </span>
             )}
           </div>
           {showIntro && (
-            <AnimatedSection animationType="fade-in-scale" delay={800}>
+            <AnimatedSection animationType="fade-in-scale" delay={600}>
               <p className="biographie__intro">
                 Découvrez une expérience culinaire unique dans un cadre
                 chaleureux et moderne, où la tradition italienne rencontre
@@ -164,5 +232,20 @@ const Biographie1: React.FC = () => {
     </div>
   );
 };
+
+// Fonction utilitaire pour throttle
+function throttle<T extends (...args: any[]) => void>(
+  func: T,
+  limit: number
+): T {
+  let inThrottle: boolean;
+  return function (this: any, ...args: any[]) {
+    if (!inThrottle) {
+      func.apply(this, args);
+      inThrottle = true;
+      setTimeout(() => (inThrottle = false), limit);
+    }
+  } as T;
+}
 
 export default Biographie1;
