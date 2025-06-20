@@ -57,6 +57,10 @@ const ReviewWidget: React.FC = () => {
     },
     loop: true,
     mode: "free-snap",
+    vertical: false,
+    defaultAnimation: {
+      duration: 500,
+    },
     created() {},
     slideChanged() {},
   });
