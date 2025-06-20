@@ -141,7 +141,7 @@ const Biographie1: React.FC = () => {
             {isVisible && (
               <Typewriter
                 text="LA PASSION ET L'EXIGENCE"
-                speed={85} // Vitesse légèrement plus rapide
+                speed={40} // Vitesse légèrement plus rapide
                 delay={400} // Délai réduit
                 onComplete={() => {
                   // Délai plus court pour une transition plus fluide
@@ -155,7 +155,7 @@ const Biographie1: React.FC = () => {
               <span className="biographie__title-accent">
                 <Typewriter
                   text="MÈNENT À L'EXCELLENCE"
-                  speed={80}
+                  speed={60}
                   delay={200} // Délai réduit pour une meilleure fluidité
                   onComplete={() => {
                     // Délai plus court pour l'intro
