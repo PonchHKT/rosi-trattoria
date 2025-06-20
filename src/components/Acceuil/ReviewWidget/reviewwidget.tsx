@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 import "./reviewwidget.scss";
@@ -47,156 +47,49 @@ const ReviewWidget: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isPaused, setIsPaused] = useState(false);
-  const [isAfk, setIsAfk] = useState(false);
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const autoSlideInterval = useRef<NodeJS.Timeout | null>(null);
 
-  const debounce = useCallback(
-    (func: (...args: any[]) => void, wait: number) => {
-      let timeout: NodeJS.Timeout;
-      return (...args: any[]) => {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => func(...args), wait);
-      };
-    },
-    []
-  );
-
-  const updateSliderHeight = useCallback(() => {
-    if (!instanceRef.current) return;
-
-    const currentSlide = instanceRef.current.track.details.rel;
-    const slideElement = document.querySelector(
-      `.keen-slider__slide:nth-child(${currentSlide + 1}) .review-item`
-    ) as HTMLElement;
-
-    if (slideElement) {
-      const sliderContainer = document.querySelector(
-        ".keen-slider"
-      ) as HTMLElement;
-      if (sliderContainer) {
-        slideElement.style.height = "auto";
-        sliderContainer.style.height = "auto";
-        void slideElement.offsetHeight;
-        const slideHeight = slideElement.getBoundingClientRect().height;
-        sliderContainer.style.height = `${slideHeight + 10}px`;
-      }
-    }
-  }, []);
-
-  const debouncedUpdateSliderHeight = useCallback(
-    debounce(updateSliderHeight, 5),
-    [updateSliderHeight]
-  );
-
-  const [sliderRef, instanceRef] = useKeenSlider({
-    loop: true,
+  const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
+    initial: 0,
     slides: {
       perView: 1,
       spacing: 16,
     },
-    initial: 0,
-    created: () => {
-      setTimeout(debouncedUpdateSliderHeight, 200);
-    },
-    slideChanged: (slider) => {
-      debouncedUpdateSliderHeight();
-      setCurrentSlide(slider.track.details.rel);
-    },
+    loop: true,
     mode: "free-snap",
-    range: {
-      min: -Infinity,
-      max: Infinity,
-    },
+    created() {},
+    slideChanged() {},
   });
 
-  useEffect(() => {
-    let afkTimeout: NodeJS.Timeout;
-    const resetStyles = () => {
-      document
-        .querySelectorAll(".review-widget, .review-widget *")
-        .forEach((el) => {
-          (el as HTMLElement).style.fontSize = "";
-          (el as HTMLElement).style.fontFamily = "";
-        });
-      debouncedUpdateSliderHeight();
-    };
-
-    const handleUserActivity = () => {
-      setIsAfk(false);
-      clearTimeout(afkTimeout);
-      afkTimeout = setTimeout(() => {
-        setIsAfk(true);
-        resetStyles();
-      }, 300000);
-    };
-
-    window.addEventListener("mousemove", handleUserActivity);
-    window.addEventListener("keydown", handleUserActivity);
-    window.addEventListener("touchstart", handleUserActivity);
-
-    return () => {
-      window.removeEventListener("mousemove", handleUserActivity);
-      window.removeEventListener("keydown", handleUserActivity);
-      window.removeEventListener("touchstart", handleUserActivity);
-      clearTimeout(afkTimeout);
-    };
-  }, [debouncedUpdateSliderHeight]);
-
-  useEffect(() => {
-    if (reviews.length > 0 && instanceRef.current) {
-      const resizeObserver = new ResizeObserver(() => {
-        if (!isAfk) {
-          debouncedUpdateSliderHeight();
-        }
-      });
-
-      const slides = document.querySelectorAll(".review-item");
-      slides.forEach((slide) => {
-        resizeObserver.observe(slide);
-      });
-
-      setTimeout(debouncedUpdateSliderHeight, 300);
-
-      const handleInteraction = () => {
-        setIsPaused(true);
-        setTimeout(() => {
-          setIsPaused(false);
-        }, 10000);
-      };
-
-      slides.forEach((slide) => {
-        slide.addEventListener("click", handleInteraction);
-        slide.addEventListener("touchstart", handleInteraction);
-      });
-
-      return () => {
-        resizeObserver.disconnect();
-        slides.forEach((slide) => {
-          slide.removeEventListener("click", handleInteraction);
-          slide.removeEventListener("touchstart", handleInteraction);
-        });
-      };
+  // Fonction pour mélanger un tableau (Fisher-Yates shuffle)
+  const shuffleArray = <T,>(array: T[]): T[] => {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
-  }, [reviews, debouncedUpdateSliderHeight, isAfk]);
+    return shuffled;
+  };
 
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (!isPaused && reviews.length > 1 && !isAfk) {
-      interval = setInterval(() => {
-        if (instanceRef.current) {
-          instanceRef.current.next();
-        }
-      }, 6000);
+  // Fonction pour démarrer l'auto-slide
+  const startAutoSlide = () => {
+    if (autoSlideInterval.current) {
+      clearInterval(autoSlideInterval.current);
     }
 
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [reviews.length, isPaused, isAfk]);
+    autoSlideInterval.current = setInterval(() => {
+      if (!isPaused && instanceRef.current) {
+        instanceRef.current.next();
+      }
+    }, 4000); // Change de slide toutes les 4 secondes
+  };
 
-  const getRandomReviews = (reviewsArray: Review[], count: number = 5) => {
-    const shuffled = [...reviewsArray].sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, count);
+  // Fonction pour arrêter l'auto-slide
+  const stopAutoSlide = () => {
+    if (autoSlideInterval.current) {
+      clearInterval(autoSlideInterval.current);
+      autoSlideInterval.current = null;
+    }
   };
 
   const loadReviews = async () => {
@@ -206,9 +99,7 @@ const ReviewWidget: React.FC = () => {
       if (!response.ok) {
         throw new Error("Failed to load reviews JSON file");
       }
-
       const jsonData: TripAdvisorReview[] = await response.json();
-
       const transformedReviews: Review[] = jsonData
         .filter(
           (review: TripAdvisorReview) =>
@@ -281,7 +172,9 @@ const ReviewWidget: React.FC = () => {
           };
         });
 
-      setReviews(getRandomReviews(transformedReviews, 5));
+      // Mélanger les avis avant de les afficher
+      const shuffledReviews = shuffleArray(transformedReviews);
+      setReviews(shuffledReviews);
       setLoading(false);
     } catch (fetchError) {
       console.error("Error loading JSON file:", fetchError);
@@ -294,14 +187,36 @@ const ReviewWidget: React.FC = () => {
     loadReviews();
   }, []);
 
-  const handleRefreshReviews = () => {
-    loadReviews();
+  // Démarrer l'auto-slide quand les avis sont chargés
+  useEffect(() => {
+    if (reviews.length > 0 && !loading) {
+      startAutoSlide();
+    }
+
+    // Nettoyer l'intervalle au démontage du composant
+    return () => {
+      stopAutoSlide();
+    };
+  }, [reviews, loading, isPaused]);
+
+  // Gestionnaires d'événements pour pause/reprise
+  const handleMouseEnter = () => {
+    setIsPaused(true);
   };
 
-  const handleIndicatorClick = (index: number) => {
-    if (instanceRef.current) {
-      instanceRef.current.moveToIdx(index);
-    }
+  const handleMouseLeave = () => {
+    setIsPaused(false);
+  };
+
+  const handleTouchStart = () => {
+    setIsPaused(true);
+  };
+
+  const handleTouchEnd = () => {
+    // Reprendre après un délai pour permettre la lecture
+    setTimeout(() => {
+      setIsPaused(false);
+    }, 2000);
   };
 
   const renderRatingDots = (rating: number) => {
@@ -404,62 +319,10 @@ const ReviewWidget: React.FC = () => {
           </div>
           <div className="header-content">
             <h2>Avis de nos clients</h2>
-            <div className="header-buttons">
-              <a
-                href="https://www.tripadvisor.fr/UserReviewEdit-g196612-d23792112-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="write-review-btn"
-              >
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM20.71 7.04C21.1 6.65 21.1 6.02 20.71 5.63L18.37 3.29C17.98 2.9 17.35 2.9 16.96 3.29L15.13 5.12L18.88 8.87L20.71 7.04Z"
-                    fill="currentColor"
-                  />
-                </svg>
-                Laisser un avis
-              </a>
-              <button
-                className="refresh-reviews-btn"
-                onClick={handleRefreshReviews}
-                disabled={loading}
-              >
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M17.65 6.35C16.2 4.9 14.21 4 12 4C7.58 4 4.01 7.58 4.01 12C4.01 16.42 7.58 20 12 20C15.73 20 18.84 17.45 19.73 14H17.65C16.83 16.33 14.61 18 12 18C8.69 18 6 15.31 6 12C6 8.69 8.69 6 12 6C13.66 6 15.14 6.69 16.22 7.78L13 11H20V4L17.65 6.35Z"
-                    fill="currentColor"
-                  />
-                </svg>
-                Rafraîchir les avis
-              </button>
+            <div className="loading-shimmer">
+              <div className="shimmer-line"></div>
+              <div className="shimmer-line short"></div>
             </div>
-            <div className="slider-indicators">
-              {reviews.map((_, index) => (
-                <button
-                  key={index}
-                  className={`indicator ${
-                    index === currentSlide ? "active" : ""
-                  }`}
-                  onClick={() => handleIndicatorClick(index)}
-                />
-              ))}
-            </div>
-          </div>
-          <div className="loading-shimmer">
-            <div className="shimmer-line"></div>
-            <div className="shimmer-line short"></div>
           </div>
         </div>
       </div>
@@ -536,58 +399,6 @@ const ReviewWidget: React.FC = () => {
           </div>
           <div className="header-content">
             <h2>Avis de nos clients</h2>
-            <div className="header-buttons">
-              <a
-                href="https://www.tripadvisor.fr/UserReviewEdit-g196612-d23792112-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="write-review-btn"
-              >
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM20.71 7.04C21.1 6.65 21.1 6.02 20.71 5.63L18.37 3.29C17.98 2.9 17.35 2.9 16.96 3.29L15.13 5.12L18.88 8.87L20.71 7.04Z"
-                    fill="currentColor"
-                  />
-                </svg>
-                Laisser un avis
-              </a>
-              <button
-                className="refresh-reviews-btn"
-                onClick={handleRefreshReviews}
-                disabled={loading}
-              >
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M17.65 6.35C16.2 4.9 14.21 4 12 4C7.58 4 4.01 7.58 4.01 12C4.01 16.42 7.58 20 12 20C15.73 20 18.84 17.45 19.73 14H17.65C16.83 16.33 14.61 18 12 18C8.69 18 6 15.31 6 12C6 8.69 8.69 6 12 6C13.66 6 15.14 6.69 16.22 7.78L13 11H20V4L17.65 6.35Z"
-                    fill="currentColor"
-                  />
-                </svg>
-                Rafraîchir les avis
-              </button>
-            </div>
-            <div className="slider-indicators">
-              {reviews.map((_, index) => (
-                <button
-                  key={index}
-                  className={`indicator ${
-                    index === currentSlide ? "active" : ""
-                  }`}
-                  onClick={() => handleIndicatorClick(index)}
-                />
-              ))}
-            </div>
           </div>
         </div>
         <div className="error">
@@ -668,58 +479,6 @@ const ReviewWidget: React.FC = () => {
           </div>
           <div className="header-content">
             <h2>Avis de nos clients</h2>
-            <div className="header-buttons">
-              <a
-                href="https://www.tripadvisor.fr/UserReviewEdit-g196612-d23792112-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="write-review-btn"
-              >
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM20.71 7.04C21.1 6.65 21.1 6.02 20.71 5.63L18.37 3.29C17.98 2.9 17.35 2.9 16.96 3.29L15.13 5.12L18.88 8.87L20.71 7.04Z"
-                    fill="currentColor"
-                  />
-                </svg>
-                Laisser un avis
-              </a>
-              <button
-                className="refresh-reviews-btn"
-                onClick={handleRefreshReviews}
-                disabled={loading}
-              >
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M17.65 6.35C16.2 4.9 14.21 4 12 4C7.58 4 4.01 7.58 4.01 12C4.01 16.42 7.58 20 12 20C15.73 20 18.84 17.45 19.73 14H17.65C16.83 16.33 14.61 18 12 18C8.69 18 6 15.31 6 12C6 8.69 8.69 6 12 6C13.66 6 15.14 6.69 16.22 7.78L13 11H20V4L17.65 6.35Z"
-                    fill="currentColor"
-                  />
-                </svg>
-                Rafraîchir les avis
-              </button>
-            </div>
-            <div className="slider-indicators">
-              {reviews.map((_, index) => (
-                <button
-                  key={index}
-                  className={`indicator ${
-                    index === currentSlide ? "active" : ""
-                  }`}
-                  onClick={() => handleIndicatorClick(index)}
-                />
-              ))}
-            </div>
           </div>
         </div>
         <div className="no-reviews">
@@ -798,66 +557,20 @@ const ReviewWidget: React.FC = () => {
             </a>
           </div>
         </div>
-
         <div className="header-content">
           <h2>Avis de nos clients</h2>
-          <div className="header-buttons">
-            <a
-              href="https://www.tripadvisor.fr/UserReviewEdit-g196612-d23792112-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="write-review-btn"
-            >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM20.71 7.04C21.1 6.65 21.1 6.02 20.71 5.63L18.37 3.29C17.98 2.9 17.35 2.9 16.96 3.29L15.13 5.12L18.88 8.87L20.71 7.04Z"
-                  fill="currentColor"
-                />
-              </svg>
-              Laisser un avis
-            </a>
-            <button
-              className="refresh-reviews-btn"
-              onClick={handleRefreshReviews}
-              disabled={loading}
-            >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M17.65 6.35C16.2 4.9 14.21 4 12 4C7.58 4 4.01 7.58 4.01 12C4.01 16.42 7.58 20 12 20C15.73 20 18.84 17.45 19.73 14H17.65C16.83 16.33 14.61 18 12 18C8.69 18 6 15.31 6 12C6 8.69 8.69 6 12 6C13.66 6 15.14 6.69 16.22 7.78L13 11H20V4L17.65 6.35Z"
-                  fill="currentColor"
-                />
-              </svg>
-              Rafraîchir les avis
-            </button>
-          </div>
-          <div className="slider-indicators">
-            {reviews.map((_, index) => (
-              <button
-                key={index}
-                className={`indicator ${
-                  index === currentSlide ? "active" : ""
-                }`}
-                onClick={() => handleIndicatorClick(index)}
-              />
-            ))}
-          </div>
         </div>
       </div>
 
       <div className="slider-container">
-        <div ref={sliderRef} className="keen-slider">
+        <div
+          ref={sliderRef}
+          className="keen-slider"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
           {reviews.map((review) => (
             <div key={review.id} className="keen-slider__slide">
               <div className="review-item">

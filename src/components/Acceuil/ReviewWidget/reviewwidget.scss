@@ -41,7 +41,7 @@ $pink: #ff69b4;
       margin-bottom: 20px;
       padding: 12px;
       background: black;
-      border-radius: 12px;
+      padding-top: 50px;
       box-shadow: $shadow-subtle;
 
       .tripadvisor-section {
@@ -573,12 +573,12 @@ $pink: #ff69b4;
 
     .widget-header {
       background: black;
-      padding: 16px 20px;
+      padding: 16px 24px; // Augmenté de 20px à 24px
 
       .brand-section {
         flex-direction: column;
         gap: 12px;
-        padding: 10px;
+        padding: 10px 16px; // Ajouté padding horizontal
 
         .tripadvisor-section {
           .tripadvisor-logo {
@@ -646,7 +646,7 @@ $pink: #ff69b4;
 
         h2 {
           color: white;
-          font-size: 20px;
+          font-size: 25px;
           letter-spacing: -0.4px;
         }
 
@@ -682,6 +682,8 @@ $pink: #ff69b4;
     }
 
     .slider-container {
+      padding: 0 16px; // Ajout de padding pour le container du slider
+
       .keen-slider {
         height: auto;
       }
@@ -694,30 +696,209 @@ $pink: #ff69b4;
     }
 
     .review-item {
-      padding: 12px;
+      padding: 20px 24px; // Augmenté le padding horizontal de 12px à 24px
       max-width: 100%;
       height: auto;
+      margin: 0 8px; // Ajout de marge externe
 
       .review-header {
-        padding-left: 16px; // Added padding to move away from edges
-        padding-right: 16px;
+        padding-left: 0; // Supprimé le padding supplémentaire car déjà dans review-item
+        padding-right: 0;
       }
 
       .review-title {
         font-size: 16px;
         margin-bottom: 8px;
         letter-spacing: -0.2px;
+        padding: 0; // S'assurer qu'il n'y a pas de padding supplémentaire
       }
 
       .review-text {
         font-size: 14px;
         margin-bottom: 8px;
-        line-height: 1.4;
-        padding: 0 8px;
+        line-height: 1.5; // Amélioré de 1.4 à 1.5
+        padding: 0; // Supprimé le padding pour éviter la surcharge
+        max-width: 100%;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
+
+      .reviewer-info {
+        margin-top: 16px; // Augmenté l'espace
       }
     }
   }
 
+  // Modifications à apporter dans le fichier reviewwidget.scss
+
+  // Remplacer la section @media (max-width: 768px) existante par :
+  @media (max-width: 768px) {
+    margin: 0;
+    border-radius: 0;
+    max-width: 100vw;
+    width: 100vw;
+    padding-bottom: 50px;
+    padding-top: 50px;
+
+    .widget-header {
+      background: black;
+      padding: 16px 24px; // Augmenté de 20px à 24px
+
+      .brand-section {
+        flex-direction: column;
+        gap: 12px;
+        padding: 10px 16px; // Ajouté padding horizontal
+
+        .tripadvisor-section {
+          .tripadvisor-logo {
+            max-width: 110px;
+            max-height: 32px;
+          }
+
+          .rating-display {
+            gap: 8px;
+
+            .rating-number {
+              font-size: 24px;
+            }
+
+            .tripadvisor-stars {
+              .tripadvisor-star {
+                font-size: 16px;
+              }
+            }
+
+            .review-count {
+              font-size: 11px;
+            }
+          }
+        }
+
+        .google-section {
+          .google-logo {
+            font-size: 13px;
+            gap: 5px;
+
+            .google-svg {
+              width: 20px;
+              height: 20px;
+            }
+
+            span {
+              font-size: 13px;
+            }
+          }
+
+          .rating-display {
+            gap: 8px;
+
+            .rating-number {
+              font-size: 24px;
+            }
+
+            .google-stars {
+              .google-star {
+                font-size: 16px;
+              }
+            }
+
+            .review-count {
+              font-size: 11px;
+            }
+          }
+        }
+      }
+
+      .header-content {
+        flex-direction: column;
+        gap: 10px;
+
+        h2 {
+          color: white;
+          font-size: 25px;
+          letter-spacing: -0.4px;
+        }
+
+        .header-buttons {
+          gap: 6px;
+          width: 100%;
+
+          .refresh-reviews-btn,
+          .write-review-btn {
+            font-size: 13px;
+            padding: 8px 16px;
+            width: 100%;
+            justify-content: center;
+
+            svg {
+              width: 14px;
+              height: 14px;
+            }
+          }
+        }
+
+        .slider-indicators {
+          padding: 8px 0;
+          gap: 5px;
+
+          .indicator {
+            background: white;
+            width: 8px;
+            height: 8px;
+          }
+        }
+      }
+    }
+
+    .slider-container {
+      padding: 0 16px; // Ajout de padding pour le container du slider
+
+      .keen-slider {
+        height: auto;
+      }
+
+      .keen-slider__slide {
+        align-items: flex-start;
+        height: auto;
+        min-height: 0;
+      }
+    }
+
+    .review-item {
+      padding: 20px 24px; // Augmenté le padding horizontal de 12px à 24px
+      max-width: 100%;
+      height: auto;
+      margin: 0 8px; // Ajout de marge externe
+
+      .review-header {
+        padding-left: 0; // Supprimé le padding supplémentaire car déjà dans review-item
+        padding-right: 0;
+      }
+
+      .review-title {
+        font-size: 16px;
+        margin-bottom: 8px;
+        letter-spacing: -0.2px;
+        padding: 0; // S'assurer qu'il n'y a pas de padding supplémentaire
+      }
+
+      .review-text {
+        font-size: 14px;
+        margin-bottom: 8px;
+        line-height: 1.5; // Amélioré de 1.4 à 1.5
+        padding: 0; // Supprimé le padding pour éviter la surcharge
+        max-width: 100%;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
+
+      .reviewer-info {
+        margin-top: 16px; // Augmenté l'espace
+      }
+    }
+  }
+
+  // Remplacer la section @media (max-width: 480px) existante par :
   @media (max-width: 480px) {
     margin: 0;
     max-width: 100vw;
@@ -727,10 +908,10 @@ $pink: #ff69b4;
     padding-top: 50px;
 
     .widget-header {
-      padding: 12px 16px;
+      padding: 12px 20px; // Augmenté de 16px à 20px
 
       .brand-section {
-        padding: 8px;
+        padding: 8px 12px; // Augmenté le padding horizontal
         gap: 10px;
 
         .tripadvisor-section {
@@ -798,7 +979,7 @@ $pink: #ff69b4;
 
         h2 {
           color: white;
-          font-size: 18px;
+          font-size: 25px;
           letter-spacing: -0.3px;
         }
 
@@ -833,6 +1014,8 @@ $pink: #ff69b4;
     }
 
     .slider-container {
+      padding: 0 20px; // Augmenté le padding du container
+
       .keen-slider {
         height: auto;
       }
@@ -845,24 +1028,34 @@ $pink: #ff69b4;
     }
 
     .review-item {
-      padding: 8px;
+      padding: 16px 20px; // Augmenté significativement le padding horizontal
       max-width: 100%;
       height: auto;
+      margin: 0 4px; // Réduit la marge pour compenser le padding augmenté
 
       .review-header {
-        padding-left: 12px; // Added padding to move away from edges
-        padding-right: 12px;
+        padding-left: 0;
+        padding-right: 0;
       }
 
       .review-title {
         font-size: 14px;
-        margin-bottom: 6px;
+        margin-bottom: 8px; // Augmenté de 6px à 8px
+        padding: 0;
       }
 
       .review-text {
         font-size: 13px;
-        margin-bottom: 6px;
-        padding: 0 4px;
+        margin-bottom: 12px; // Augmenté de 6px à 12px
+        line-height: 1.5; // Amélioré la hauteur de ligne
+        padding: 0;
+        max-width: 100%;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
+
+      .reviewer-info {
+        margin-top: 12px; // Augmenté l'espace en haut
       }
     }
   }
