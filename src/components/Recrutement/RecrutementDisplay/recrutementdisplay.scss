@@ -121,9 +121,15 @@ body {
   &__subtitle {
     font-size: clamp(1.125rem, 2.5vw, 1.375rem);
     color: var(--text-secondary);
-    max-width: 600px;
+    max-width: 900px;
     margin: 0 auto;
     font-weight: 400;
+    white-space: nowrap;
+
+    @media (max-width: 768px) {
+      white-space: normal;
+      max-width: 100%;
+    }
   }
 }
 
