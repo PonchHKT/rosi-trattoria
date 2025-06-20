@@ -111,6 +111,12 @@ const HomeVideoSection: React.FC = () => {
             <button className="primary-button">Réserver</button>
           </a>
           <button
+            className="secondary-button"
+            onClick={handleCarteClick} // Add onClick handler
+          >
+            Voir la carte
+          </button>
+          <button
             className="distributor-button"
             onClick={handleDistributorClick}
           >
@@ -127,12 +133,7 @@ const HomeVideoSection: React.FC = () => {
             </svg>
             Distributeur
           </button>
-          <button
-            className="secondary-button"
-            onClick={handleCarteClick} // Add onClick handler
-          >
-            Voir la carte
-          </button>
+
           <a
             href="https://carte.rosi-trattoria.com/menu"
             target="_blank"
