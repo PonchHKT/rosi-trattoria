@@ -1,5 +1,6 @@
 // components/Acceuil/Biographie1/biographie1.tsx
 import React, { useState, useEffect, useRef } from "react";
+import { Armchair } from "lucide-react";
 import AnimatedSection from "../AnimatedSection/AnimatedSection";
 import { Typewriter } from "../TypeWriter/typewriter";
 import "./biographie1.scss";
@@ -197,7 +198,9 @@ const Biographie1: React.FC = () => {
 
             <div className="biographie__capacity-grid">
               <div className="biographie__capacity-item">
-                <span className="biographie__capacity-icon indoor"></span>
+                <div className="biographie__capacity-icon">
+                  <Armchair size={32} color="#ff69b4" />
+                </div>
                 <p>
                   <strong>50 places</strong> à l'intérieur
                 </p>
@@ -207,7 +210,9 @@ const Biographie1: React.FC = () => {
               </div>
 
               <div className="biographie__capacity-item">
-                <span className="biographie__capacity-icon outdoor"></span>
+                <div className="biographie__capacity-icon">
+                  <Armchair size={32} color="#ff69b4" />
+                </div>
                 <p>
                   <strong>100 places</strong> en terrasse
                 </p>

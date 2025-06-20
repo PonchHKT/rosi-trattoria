@@ -27,8 +27,12 @@ const Navbar: React.FC = () => {
     { label: "Contact", path: "/contact" },
   ];
 
-  // Fonction pour vérifier si le lien est actif
+  // Fonction pour vérifier si le lien est actif (exclut la page d'accueil)
   const isActiveLink = (path: string) => {
+    // Si c'est la page d'accueil, ne jamais l'activer automatiquement
+    if (path === "/") {
+      return false;
+    }
     return location.pathname === path;
   };
 

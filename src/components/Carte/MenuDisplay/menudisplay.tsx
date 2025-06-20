@@ -29,6 +29,12 @@ const MenuDisplay: React.FC = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const loadingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Fonction pour détecter si on est en août
+  const isAugustMonth = () => {
+    const currentMonth = new Date().getMonth(); // 0 = janvier, 7 = août
+    return currentMonth === 7;
+  };
+
   const isMobile = () => window.innerWidth < 768;
 
   const getLoadingDelay = () => {
@@ -152,6 +158,51 @@ const MenuDisplay: React.FC = () => {
     );
   };
 
+  // Fonction pour obtenir les horaires selon le mois
+  const getHoursItems = () => {
+    const isAugust = isAugustMonth();
+
+    if (isAugust) {
+      // Horaires d'août avec lundi ouvert
+      return [
+        {
+          days: "Lun - Mar - Mer - Jeu",
+          hours: "12h-14h / 19h-21h30",
+          closed: false,
+        },
+        {
+          days: "Ven - Sam",
+          hours: "12h-14h / 19h-22h30",
+          closed: false,
+        },
+        {
+          days: "Dim",
+          hours: "Fermé",
+          closed: true,
+        },
+      ];
+    } else {
+      // Horaires normaux
+      return [
+        {
+          days: "Mar - Mer - Jeu",
+          hours: "12h-14h / 19h-21h30",
+          closed: false,
+        },
+        {
+          days: "Ven - Sam",
+          hours: "12h-14h / 19h-22h30",
+          closed: false,
+        },
+        {
+          days: "Lun - Dim",
+          hours: "Fermé",
+          closed: true,
+        },
+      ];
+    }
+  };
+
   const selectedMenuInfo = getSelectedMenuInfo();
 
   return (
@@ -161,20 +212,20 @@ const MenuDisplay: React.FC = () => {
           <Calendar className="calendar-icon" size={20} />
           <Clock className="clock-icon" size={20} />
           <h2>Nos horaires</h2>
+          {isAugustMonth() && (
+            <span className="august-notice">🌞 Horaires d'été</span>
+          )}
         </div>
         <div className="hours-list">
-          <div className="hours-item">
-            <span>Mar - Mer - Jeu </span>
-            <span>12h-14h / 19h-21h30</span>
-          </div>
-          <div className="hours-item">
-            <span>Ven - Sam</span>
-            <span>12h-14h / 19h-22h30</span>
-          </div>
-          <div className="hours-item closed">
-            <span>Lun - Dim</span>
-            <span>Fermé</span>
-          </div>
+          {getHoursItems().map((item, index) => (
+            <div
+              key={index}
+              className={`hours-item ${item.closed ? "closed" : ""}`}
+            >
+              <span>{item.days}</span>
+              <span>{item.hours}</span>
+            </div>
+          ))}
         </div>
 
         {selectedMenu && isLoading && (

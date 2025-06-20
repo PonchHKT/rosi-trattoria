@@ -41,6 +41,43 @@ interface FacebookResponse {
 const Footer: React.FC = () => {
   const [facebookPosts, setFacebookPosts] = useState<FacebookPost[]>([]);
   const [loading, setLoading] = useState(true);
+  const [emailCopied, setEmailCopied] = useState(false);
+
+  // Détection du mois d'août
+  const isAugust = () => {
+    const currentMonth = new Date().getMonth();
+    return currentMonth === 7; // Août = index 7 (0-indexed)
+  };
+
+  // Fonction pour copier l'email
+  const copyEmailToClipboard = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    const email = "rosi.trattoria@gmail.com";
+
+    try {
+      await navigator.clipboard.writeText(email);
+      setEmailCopied(true);
+
+      // Masquer la notification après 3 secondes
+      setTimeout(() => {
+        setEmailCopied(false);
+      }, 3000);
+    } catch (err) {
+      console.error("Erreur lors de la copie de l'email:", err);
+      // Fallback pour les navigateurs plus anciens
+      const textArea = document.createElement("textarea");
+      textArea.value = email;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textArea);
+
+      setEmailCopied(true);
+      setTimeout(() => {
+        setEmailCopied(false);
+      }, 3000);
+    }
+  };
 
   useEffect(() => {
     const initFacebookSDK = () => {
@@ -224,9 +261,21 @@ const Footer: React.FC = () => {
                   <Mail />
                 </div>
                 <div className="footer__contact-details">
-                  <a href="mailto:rosi.trattoria@gmail.com">
-                    rosi.trattoria@gmail.com
-                  </a>
+                  <div className="footer__email-container">
+                    <a
+                      href="#"
+                      onClick={copyEmailToClipboard}
+                      className="footer__email-link"
+                      title="Cliquer pour copier l'adresse email"
+                    >
+                      rosi.trattoria@gmail.com
+                    </a>
+                    {emailCopied && (
+                      <div className="footer__email-notification">
+                        <span>Copié dans le presse-papiers</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
 
@@ -237,7 +286,11 @@ const Footer: React.FC = () => {
                 <div className="footer__contact-details">
                   <div className="footer__hours-list">
                     <div className="footer__hours-item">
-                      <span className="footer__hours-day">Mardi-Jeudi</span>
+                      <span className="footer__hours-day">
+                        {isAugust()
+                          ? "Lun-Mar-Mer-Jeu"
+                          : "Mardi-Mercredi-Jeudi"}
+                      </span>
                       <span className="footer__hours-time">
                         12h-14h / 19h-21h30
                       </span>
@@ -249,7 +302,9 @@ const Footer: React.FC = () => {
                       </span>
                     </div>
                     <div className="footer__hours-item">
-                      <span className="footer__hours-day">Lundi, Dimanche</span>
+                      <span className="footer__hours-day">
+                        {isAugust() ? "Dimanche" : "Lundi, Dimanche"}
+                      </span>
                       <span className="footer__hours-closed">Fermé</span>
                     </div>
                   </div>
