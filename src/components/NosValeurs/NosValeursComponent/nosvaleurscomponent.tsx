@@ -110,7 +110,8 @@ const NosValeursComponent: React.FC = () => {
               <Trophy size={32} className="nos-valeurs__formation-icon" />
               <div className="nos-valeurs__formation-text">
                 <span className="nos-valeurs__formation-subtitle">
-                  Formé par John Bergh - Double Champion du Monde
+                  Formé par John Bergh
+                  <br /> Double Champion du Monde
                 </span>
               </div>
             </div>
