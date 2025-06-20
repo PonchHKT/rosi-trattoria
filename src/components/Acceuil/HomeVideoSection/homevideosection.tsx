@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 import ComingSoonModal from "../ComingSoonModal/ComingSoonModal";
 import "./homevideosection.scss";
 
 const HomeVideoSection: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
 
   useEffect(() => {
     const video = videoRef.current;
@@ -47,7 +47,6 @@ const HomeVideoSection: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  // Handle navigation to Carte page
   const handleCarteClick = () => {
     navigate("/carte");
   };
@@ -110,28 +109,24 @@ const HomeVideoSection: React.FC = () => {
           >
             <button className="primary-button">Réserver</button>
           </a>
-          <button
-            className="secondary-button"
-            onClick={handleCarteClick} // Add onClick handler
-          >
+          <button className="secondary-button" onClick={handleCarteClick}>
             Voir la carte
           </button>
           <button
             className="distributor-button"
             onClick={handleDistributorClick}
           >
-            <svg
-              className="distributor-icon"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4ZM20 18H4V6H20V18ZM6 8H8V10H6V8ZM6 12H8V14H6V12ZM6 16H8V18H6V16ZM10 8H14V10H10V8ZM10 12H14V14H10V12ZM10 16H14V18H10V16ZM16 8H18V10H16V8ZM16 12H18V14H16V12Z"
-                fill="currentColor"
-              />
-            </svg>
             Distributeur
+            <img
+              src="/images/logo/pizza.png"
+              alt="Pizza"
+              className="distributor-icon rotating-pizza"
+              style={{
+                width: "24px",
+                height: "24px",
+                objectFit: "contain",
+              }}
+            />
           </button>
 
           <a
@@ -148,6 +143,21 @@ const HomeVideoSection: React.FC = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       />
+
+      <style>{`
+        .rotating-pizza {
+          animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+      `}</style>
     </section>
   );
 };
