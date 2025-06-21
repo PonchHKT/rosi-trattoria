@@ -334,7 +334,7 @@ const ReviewWidget: React.FC = () => {
         </div>
       </div>
       <div className="header-content">
-        <h2>Avis de nos clients</h2>
+        <h2>Découvrez les petits mots qui nous motivent chaque jour.</h2>
 
         {loading && (
           <div className="loading-shimmer">
