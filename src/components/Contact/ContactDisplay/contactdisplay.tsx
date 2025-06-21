@@ -208,7 +208,6 @@ const ContactDisplay: React.FC = () => {
                     messageStatut.includes("succès") ? "success" : "error"
                   }`}
                 >
-                  {messageStatut.includes("succès") ? "✅" : "❌"}{" "}
                   {messageStatut}
                 </div>
               )}
