@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import emailjs from "@emailjs/browser";
-import "./ContactDisplay.scss";
+import "./contactdisplay.scss";
 
 const ContactDisplay: React.FC = () => {
   const [formData, setFormData] = useState({
