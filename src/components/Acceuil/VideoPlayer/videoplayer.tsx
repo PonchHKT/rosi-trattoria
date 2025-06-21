@@ -27,6 +27,7 @@ const VideoPlayer: React.FC = () => {
   const [showControls, setShowControls] = useState<boolean>(true);
   const [isInitialized, setIsInitialized] = useState<boolean>(false);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+  const [shouldAutoPlay, setShouldAutoPlay] = useState<boolean>(false);
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const playerRef = useRef<HTMLDivElement>(null);
@@ -90,10 +91,16 @@ const VideoPlayer: React.FC = () => {
         videoRef.current.pause();
         setIsPlaying(false);
       } else {
-        videoRef.current.play().catch((error) => {
-          console.error("Play failed:", error);
-        });
-        setIsPlaying(true);
+        videoRef.current
+          .play()
+          .then(() => {
+            setIsPlaying(true);
+            // Activer le plein écran sur mobile quand l'utilisateur démarre manuellement la vidéo
+            activateFullscreenOnMobile();
+          })
+          .catch((error) => {
+            console.error("Play failed:", error);
+          });
       }
     }
   };
@@ -133,11 +140,43 @@ const VideoPlayer: React.FC = () => {
         videoRef.current.currentTime = 0.01;
         setCurrentTime(0.01);
         setIsInitialized(true);
+
+        // Si on doit jouer automatiquement après le chargement
+        if (shouldAutoPlay) {
+          videoRef.current
+            .play()
+            .then(() => {
+              setIsPlaying(true);
+              activateFullscreenOnMobile();
+            })
+            .catch((error) => {
+              console.error("Autoplay failed:", error);
+            })
+            .finally(() => {
+              setShouldAutoPlay(false);
+            });
+        }
       } catch (error) {
         console.warn("Could not set start time:", error);
         videoRef.current.currentTime = 0;
         setCurrentTime(0);
         setIsInitialized(true);
+
+        // Si on doit jouer automatiquement après le chargement
+        if (shouldAutoPlay) {
+          videoRef.current
+            .play()
+            .then(() => {
+              setIsPlaying(true);
+              activateFullscreenOnMobile();
+            })
+            .catch((error) => {
+              console.error("Autoplay failed:", error);
+            })
+            .finally(() => {
+              setShouldAutoPlay(false);
+            });
+        }
       }
     }
   };
@@ -181,11 +220,12 @@ const VideoPlayer: React.FC = () => {
     }
   };
 
-  const changeVideo = (index: number) => {
+  const changeVideo = (index: number, autoPlay: boolean = false) => {
     setCurrentVideo(index);
     setCurrentTime(0);
     setIsInitialized(false);
     setIsPlaying(false);
+    setShouldAutoPlay(autoPlay);
 
     if (videoRef.current) {
       videoRef.current.load();
@@ -193,18 +233,6 @@ const VideoPlayer: React.FC = () => {
       const handleCanPlay = () => {
         if (videoRef.current) {
           setStartTime();
-
-          videoRef.current
-            .play()
-            .then(() => {
-              setIsPlaying(true);
-              activateFullscreenOnMobile();
-            })
-            .catch((error) => {
-              console.error("Auto-play failed:", error);
-              setIsPlaying(false);
-            });
-
           videoRef.current.removeEventListener("canplay", handleCanPlay);
         }
       };
@@ -221,6 +249,12 @@ const VideoPlayer: React.FC = () => {
   const prevVideo = () => {
     const prev = (currentVideo - 1 + videos.length) % videos.length;
     changeVideo(prev);
+  };
+
+  // Gestionnaire pour la fin de vidéo - ne fait plus rien automatiquement
+  const handleVideoEnded = () => {
+    setIsPlaying(false);
+    // La vidéo s'arrête simplement, pas de passage automatique à la suivante
   };
 
   const toggleFullscreen = async () => {
@@ -424,7 +458,7 @@ const VideoPlayer: React.FC = () => {
             className="video-player__video"
             onTimeUpdate={handleTimeUpdate}
             onLoadedMetadata={handleLoadedMetadata}
-            onEnded={nextVideo}
+            onEnded={handleVideoEnded}
             onClick={togglePlay}
             preload="metadata"
             playsInline
@@ -529,7 +563,7 @@ const VideoPlayer: React.FC = () => {
               <div
                 key={index}
                 onClick={() => {
-                  changeVideo(index);
+                  changeVideo(index, true); // autoPlay = true
                 }}
                 className={`video-player__playlist-item ${
                   currentVideo === index
