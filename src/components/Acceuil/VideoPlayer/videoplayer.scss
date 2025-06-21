@@ -12,6 +12,8 @@
   --transition-normal: 300ms;
   --border-radius: 1rem;
   --border-radius-lg: 1.5rem;
+  --primary-blue: #449df0;
+  --primary-pink: #ec008c;
 }
 
 // Global fix for iOS and consistent rendering
@@ -55,17 +57,16 @@ body {
 // Wrapper to center the player
 .video-player-wrapper {
   min-height: 100vh;
-  min-height: -webkit-fill-available; // Fix for iOS
+  min-height: -webkit-fill-available;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--bg-dark);
   width: 100%;
-  max-width: 100vw; // Ensure full viewport width
+  max-width: 100vw;
   overflow-x: hidden;
   box-sizing: border-box;
 
-  // iOS-specific fix
   @supports (-webkit-touch-callout: none) {
     min-height: -webkit-fill-available;
     padding: 0;
@@ -74,12 +75,10 @@ body {
   }
 }
 
-// Main component
+// Main component - CENTRÉ SUR DESKTOP
 .video-player {
   padding-top: 100px;
   width: 100%;
-  max-width: 100%; // Prevent exceeding viewport
-  margin: 0; // Remove auto margins
   background: var(--bg-dark);
   border-radius: var(--border-radius-lg);
   overflow: hidden;
@@ -87,36 +86,63 @@ body {
   position: relative;
   box-sizing: border-box;
 
-  // Main content
+  // Centrage sur desktop avec largeur maximale
+  @media (min-width: 1024px) {
+    max-width: 1400px; // Largeur maximale du lecteur
+    margin: 0 auto; // Centre le lecteur
+    width: 95%; // Laisse un peu d'espace sur les côtés
+  }
+
+  // Main content - AMÉLIORÉ pour le centrage
   &__content {
-    align-items: center;
-    justify-content: center;
     position: relative;
     display: flex;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
-  }
 
-  // Main video player
-  &__main {
-    position: relative;
-    flex: 1;
-    background: var(--bg-dark);
-    width: 100%;
-    box-sizing: border-box;
-    @include transition(flex);
+    // Desktop - alignement centré
+    @media (min-width: 1024px) {
+      align-items: flex-start;
+      justify-content: center; // Centre le contenu
+      gap: 0; // Pas d'espace entre vidéo et playlist
+    }
 
-    &--with-playlist {
-      flex: 0.75;
-
-      @media (max-width: 1024px) {
-        flex: 1;
-      }
+    // Mobile reste centré
+    @media (max-width: 1023px) {
+      align-items: center;
+      justify-content: center;
     }
   }
 
-  // Video element
+  // Main video player - LARGEUR CONTRÔLÉE
+  &__main {
+    position: relative;
+    background: var(--bg-dark);
+    box-sizing: border-box;
+    @include transition(flex);
+
+    // Desktop - largeur fixe optimale
+    @media (min-width: 1024px) {
+      width: 900px; // Largeur fixe pour la vidéo
+      flex: 0 0 900px; // Pas de croissance/rétrécissement
+      max-width: 900px;
+    }
+
+    // Tablette
+    @media (min-width: 768px) and (max-width: 1023px) {
+      width: 100%;
+      flex: 1;
+    }
+
+    // Mobile
+    @media (max-width: 767px) {
+      width: 100%;
+      flex: 1;
+    }
+  }
+
+  // Video element - ASPECT RATIO CONTRÔLÉ
   &__video {
     width: 100%;
     height: auto;
@@ -124,9 +150,14 @@ body {
     object-fit: cover;
     cursor: pointer;
     display: block;
-    max-width: 100%; // Prevent overflow
+    max-width: 100%;
     -webkit-playsinline: true;
-    // 'playsinline' is an HTML attribute, not a CSS property.
+
+    // Sur desktop, maintient les proportions parfaites
+    @media (min-width: 1024px) {
+      border-radius: 0;
+      height: 506px; // Hauteur calculée pour 900px de largeur en 16:9
+    }
   }
 
   // Playlist hint
@@ -317,21 +348,26 @@ body {
     font-size: 0.875rem;
   }
 
-  // Playlist
+  // Playlist - ALIGNEMENT PARFAIT À DROITE
   &__playlist {
-    width: 20rem;
     background: black;
     @include transition(transform);
     position: relative;
     z-index: 10;
-    transform: translateX(100%);
-    border-left: 1px solid black;
 
+    // Desktop - alignement parfait à droite de la vidéo
     @media (min-width: 1024px) {
       position: static;
+      width: 320px; // Largeur fixe pour la playlist
+      flex: 0 0 320px; // Pas de croissance/rétrécissement
+      height: 506px; // Même hauteur que la vidéo
+      min-height: 506px;
+      max-height: 506px;
       transform: translateX(0);
       opacity: 0;
       @include transition(opacity);
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
+      overflow: hidden;
 
       &--visible {
         opacity: 1;
@@ -339,11 +375,14 @@ body {
       }
     }
 
+    // Mobile - reste inchangé
     @media (max-width: 1023px) {
       position: absolute;
       right: 0;
       top: 0;
       height: 100%;
+      width: 20rem;
+      transform: translateX(100%);
 
       &--visible {
         transform: translateX(0);
@@ -376,6 +415,7 @@ body {
     align-items: center;
     justify-content: space-between;
     background: black;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   &__playlist-title {
@@ -394,8 +434,17 @@ body {
   &__playlist-content {
     color: var(--primary-blue);
     overflow-y: auto;
-    height: calc(100% - 5rem);
     padding-bottom: 1rem;
+
+    // Hauteur adaptée sur desktop - prend toute la hauteur disponible
+    @media (min-width: 1024px) {
+      height: calc(506px - 60px); // Hauteur totale moins header
+      max-height: calc(506px - 60px);
+    }
+
+    @media (max-width: 1023px) {
+      height: calc(100% - 5rem);
+    }
   }
 
   // Playlist items
@@ -403,19 +452,19 @@ body {
     padding: 1rem;
     cursor: pointer;
     @include transition();
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     display: flex;
     align-items: flex-start;
     background: black;
     gap: 0.75rem;
 
     &:hover {
-      background: white;
+      background: rgba(255, 255, 255, 0.05);
     }
 
     &--active {
-      background: white;
-      border-left: 6px solid var(--primary-blue);
+      background: rgba(68, 157, 240, 0.1);
+      border-left: 4px solid var(--primary-blue);
 
       .video-player__playlist-item-title {
         color: var(--primary-blue);
@@ -429,7 +478,7 @@ body {
   }
 
   &__playlist-item-title {
-    color: var(--primary-blue);
+    color: var(--text-white);
     font-size: 0.875rem;
     font-weight: bold;
     margin: 0 0 0.25rem 0;
@@ -439,6 +488,12 @@ body {
     line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+
+    // Active state
+    .video-player__playlist-item--active & {
+      color: var(--primary-blue);
+      font-weight: 600;
+    }
   }
 
   &__playlist-item-meta {
@@ -457,33 +512,23 @@ body {
   .video-player__thumbnail-fallback {
     background: linear-gradient(135deg, #449df0, #ec008c);
   }
+
   // Thumbnail
   &__thumbnail {
-    width: 5rem;
-    height: 3rem;
-    border-radius: 0px;
+    width: 4rem;
+    height: 2.5rem;
+    border-radius: 4px;
     @include flex-center;
     position: relative;
     overflow: hidden;
     flex-shrink: 0;
+    background: var(--bg-gray);
   }
 
   &__thumbnail-overlay {
     position: absolute;
     inset: 0;
     background: rgba(0, 0, 0, 0.2);
-  }
-
-  &__thumbnail-playing {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: var(--primary-blue);
-    color: var(--text-white);
-    border-radius: 50%;
-    padding: 0.25rem;
-    z-index: 15;
   }
 
   // Toggle mobile
@@ -509,6 +554,7 @@ body {
     padding: 0 !important;
     border-radius: 0 !important;
     background: var(--bg-dark) !important;
+    max-width: none !important;
 
     .video-player__content {
       height: 100vh;
@@ -518,20 +564,22 @@ body {
     .video-player__main {
       height: 100vh;
       width: 100vw;
+      max-width: none;
+      flex: 1;
     }
 
     .video-player__video {
       height: 100vh;
       width: 100vw;
-      object-fit: contain; // Pour maintenir les proportions
+      object-fit: contain;
     }
 
     .video-player__playlist {
-      display: none; // Masquer la playlist en plein écran
+      display: none;
     }
 
     .video-player__mobile-toggle {
-      display: none; // Masquer le toggle en plein écran
+      display: none;
     }
   }
 
@@ -547,9 +595,8 @@ body {
     width: 100%;
     max-width: 100vw;
     margin: 0;
-    padding-top: 50px; // Ajout du padding-top de 50px sur mobile
+    padding-top: 50px;
 
-    // iOS-specific fix
     @supports (-webkit-touch-callout: none) {
       width: 100%;
       max-width: 100vw;
@@ -579,8 +626,8 @@ body {
       width: 100%;
       max-width: 100%;
       border-radius: 0;
-      min-height: 40vh; // Réduit pour laisser plus de place à la playlist
-      height: 45vh; // Réduit pour plus d'espace playlist
+      min-height: 40vh;
+      height: 45vh;
       object-fit: cover;
     }
 
@@ -596,7 +643,7 @@ body {
       border-top: 1px solid black;
 
       &--visible {
-        max-height: 55vh; // Augmenté de 40vh à 55vh pour plus de hauteur
+        max-height: 55vh;
         transform: none;
         opacity: 1;
       }
@@ -606,10 +653,9 @@ body {
       }
     }
 
-    // Ensure playlist content can scroll on mobile
     &__playlist-content {
       height: auto;
-      max-height: 50vh; // Augmenté de 35vh à 50vh pour plus de place
+      max-height: 50vh;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       padding-bottom: 1rem;
@@ -663,9 +709,8 @@ body {
     width: 100%;
     max-width: 100vw;
     margin: 0;
-    padding-top: 50px; // Ajout du padding-top de 50px sur mobile
+    padding-top: 50px;
 
-    // iOS-specific fix
     @supports (-webkit-touch-callout: none) {
       width: 100%;
       max-width: 100vw;
@@ -675,18 +720,18 @@ body {
     &__video {
       width: 100%;
       max-width: 100%;
-      min-height: 35vh; // Réduit encore pour laisser plus de place
-      height: 40vh; // Réduit pour plus d'espace playlist
+      min-height: 35vh;
+      height: 40vh;
     }
 
     &__playlist {
       &--visible {
-        max-height: 60vh; // Augmenté encore plus sur petits écrans
+        max-height: 60vh;
       }
     }
 
     &__playlist-content {
-      max-height: 55vh; // Plus d'espace pour la playlist sur petits écrans
+      max-height: 55vh;
     }
 
     &__controls {
@@ -726,23 +771,22 @@ body {
     }
   }
 
-  // Orientation paysage sur mobile - équilibre vidéo/playlist
   @media (orientation: landscape) and (max-height: 500px) {
-    padding-top: 50px; // Maintien du padding-top même en paysage
+    padding-top: 50px;
 
     &__video {
-      height: 60vh !important; // Réduit de 85vh à 60vh
+      height: 60vh !important;
       min-height: 60vh !important;
     }
 
     &__playlist {
       &--visible {
-        max-height: 40vh; // Augmenté de 15vh à 40vh
+        max-height: 40vh;
       }
     }
 
     &__playlist-content {
-      max-height: 35vh; // Plus d'espace même en paysage
+      max-height: 35vh;
     }
   }
 }
@@ -757,6 +801,7 @@ body {
   margin: 0 !important;
   padding: 0 !important;
   border-radius: 0 !important;
+  max-width: none !important;
 
   .video-player__content {
     height: 100vh;
@@ -766,6 +811,8 @@ body {
   .video-player__main {
     height: 100vh;
     width: 100vw;
+    max-width: none;
+    flex: 1;
   }
 
   .video-player__video {
@@ -783,9 +830,8 @@ body {
   }
 }
 
-// Plein écran pour la vidéo seule (iOS Safari)
 video::-webkit-media-controls-fullscreen-button {
-  display: none; // Masquer le bouton natif pour utiliser le nôtre
+  display: none;
 }
 
 video:-webkit-full-screen {
@@ -794,7 +840,6 @@ video:-webkit-full-screen {
   object-fit: contain;
 }
 
-// Styles pour le plein écran sur mobile
 @media (max-width: 768px) {
   .video-player--fullscreen {
     .video-player__controls {
@@ -820,7 +865,6 @@ video:-webkit-full-screen {
   }
 }
 
-// iOS-specific global fix
 @supports (-webkit-touch-callout: none) {
   body {
     overflow-x: hidden;
@@ -906,7 +950,6 @@ video:-webkit-full-screen {
   }
 }
 
-// Utility classes
 .fade-in {
   animation: fadeIn var(--transition-normal) ease-out;
 }
@@ -919,37 +962,48 @@ video:-webkit-full-screen {
   animation: pulse 2s infinite;
 }
 
-// Custom scrollbar
+// Styles pour cacher la scrollbar de la playlist
 .video-player__playlist-content {
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
+  // Cacher la scrollbar sur desktop
+  @media (min-width: 1024px) {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer et Edge */
 
-  &::-webkit-scrollbar-track {
-    background: white;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: var(--text-gray-dark);
-    border-radius: 3px;
-
-    &:hover {
-      background: var(--text-gray);
+    &::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Edge */
     }
   }
 
-  scrollbar-width: thin;
-  scrollbar-color: var(--text-gray-dark) var(--bg-gray);
+  // Garder une scrollbar personnalisée sur mobile/tablette
+  @media (max-width: 1023px) {
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--text-gray-dark);
+      border-radius: 3px;
+
+      &:hover {
+        background: var(--text-gray);
+      }
+    }
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--text-gray-dark) rgba(255, 255, 255, 0.1);
+  }
 }
 
-// Focus states for accessibility
 .video-player__btn:focus,
 .video-player__volume-slider:focus,
 .video-player__progress:focus {
   outline-offset: 2px;
 }
 
-// Loading states
 .video-player__loading {
   @include flex-center;
   position: absolute;
@@ -971,7 +1025,6 @@ video:-webkit-full-screen {
   }
 }
 
-// Reduced motion for accessibility
 @media (prefers-reduced-motion: reduce) {
   .video-player {
     * {

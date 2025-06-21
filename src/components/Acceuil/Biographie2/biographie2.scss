@@ -9,8 +9,11 @@
 }
 
 .bio2-biographie__content {
+  padding-bottom: 100px;
   margin: 0 auto;
-  padding: 5rem 1.5rem;
+  padding: 5rem 1.5rem 100px 1.5rem;
+  /*       top   right   bottom left */
+
   display: flex;
   flex-direction: column;
   gap: 3rem;

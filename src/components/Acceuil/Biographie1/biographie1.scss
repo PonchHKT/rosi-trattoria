@@ -46,10 +46,18 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
-  transition: font-size 0.3s ease;
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   text-align: center;
   min-height: 200px;
   justify-content: center;
+  opacity: 0;
+  transform: translateY(-30px);
+}
+
+.biographie__title.visible {
+  opacity: 1;
+  transform: translateY(0);
+  animation: titleEntrance 1s ease-out;
 }
 
 .biographie__title-main {
@@ -260,38 +268,23 @@ body {
   opacity: 0.5;
 }
 
-// Typewriter animation styles
-
-@keyframes blink {
-  0%,
-  50% {
-    opacity: 1;
-  }
-  51%,
-  100% {
+// Animation pour l'entrée du titre
+@keyframes titleEntrance {
+  0% {
     opacity: 0;
-  }
-}
-
-// Special glow effect for completed typewriter text
-.biographie__title-main,
-.biographie__title-accent {
-  &.typing-complete {
-    animation: titleGlow 2s ease-in-out;
-  }
-}
-
-@keyframes titleGlow {
-  0%,
-  100% {
-    text-shadow: 0 0 10px rgba(30, 144, 255, 0.3);
+    transform: translateY(-30px) scale(0.95);
   }
   50% {
-    text-shadow: 0 0 20px rgba(255, 105, 180, 0.5),
-      0 0 30px rgba(30, 144, 255, 0.3), 0 0 40px rgba(255, 105, 180, 0.2);
+    opacity: 0.7;
+    transform: translateY(-5px) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 
+// Animation pour le gradient du titre
 @keyframes gradientShift {
   0%,
   100% {
@@ -316,17 +309,6 @@ body {
   }
 }
 
-// Typewriter-specific animation class
-.typewriter-animate {
-  opacity: 1;
-  transform: none;
-}
-
-.typewriter-animate.visible {
-  opacity: 1;
-  transform: none;
-}
-
 // Base animation classes
 .scroll-animate,
 .fade-in-left,
@@ -335,7 +317,6 @@ body {
 .fade-in-rotate,
 .title-animate,
 .card-animate,
-.typewriter-animate,
 .bio-slide-left,
 .bio-slide-right,
 .bio-wave-left,
@@ -380,7 +361,7 @@ body {
   transform: scale(1);
 }
 
-// Title animate with typewriter effect
+// Title animate
 .title-animate {
   transform: translateY(-30px);
   transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -389,7 +370,6 @@ body {
 .title-animate.visible {
   opacity: 1;
   transform: translateY(0);
-  animation: titleGlow 2s ease-in-out;
 }
 
 // Card animate with bounce
@@ -568,7 +548,7 @@ body {
   }
 }
 
-// Mobile responsiveness for typewriter
+// Mobile responsiveness
 @media (max-width: 768px) {
   .biographie__hero {
     padding: 0rem 1rem 1rem;

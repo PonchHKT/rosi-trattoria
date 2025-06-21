@@ -10,9 +10,6 @@ import {
 } from "lucide-react";
 import "./videoplayer.scss";
 
-// Note: Ensure your HTML <head> includes the following viewport meta tag for consistent rendering across devices:
-// <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
 interface Video {
   title: string;
   url: string;
@@ -24,7 +21,7 @@ const VideoPlayer: React.FC = () => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [volume, setVolume] = useState<number>(1);
   const [isMuted, setIsMuted] = useState<boolean>(false);
-  const [currentTime, setCurrentTime] = useState<number>(0.02);
+  const [currentTime, setCurrentTime] = useState<number>(0);
   const [duration, setDuration] = useState<number>(0);
   const [showPlaylist, setShowPlaylist] = useState<boolean>(false);
   const [showControls, setShowControls] = useState<boolean>(true);
@@ -37,41 +34,55 @@ const VideoPlayer: React.FC = () => {
 
   const videos: Video[] = [
     {
+      title: "Présentation de Rosi Trattoria",
+      url: "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/rosipresentation2025.mp4",
+      thumbnail: "/images/thumbnails/presentation-rosi-trattoria.png",
+    },
+    {
       title: "La focaccia chez Rosi",
-      url: "https://res.cloudinary.com/dc5jx2yo7/video/upload/q_auto,f_mp4/v1749570162/egp8n38xx3wmpyg42jnx.mp4",
+      url: "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/rosifocaccia.mp4",
       thumbnail: "/images/thumbnails/la-forracia-chez-rosi.png",
     },
     {
       title: "Les pâtes fraiche de Rosi",
-      url: "https://res.cloudinary.com/dc5jx2yo7/video/upload/q_auto,f_mp4/v1749570162/egp8n38xx3wmpyg42jnx.mp4",
+      url: "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/rosipatefraiche.mp4",
       thumbnail: "/images/thumbnails/pates-fraiche-rosi.png",
     },
     {
       title: "Les secrets de la pâte Rosi",
-      url: "https://res.cloudinary.com/dc5jx2yo7/video/upload/q_auto,f_mp4/v1749570162/egp8n38xx3wmpyg42jnx.mp4",
+      url: "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/rosisecretspates.mp4",
       thumbnail: "/images/thumbnails/secrets-de-la-pate-rosi.png",
     },
     {
       title: "La téglia et Focaccia de Rosi",
-      url: "https://res.cloudinary.com/dc5jx2yo7/video/upload/q_auto,f_mp4/v1749570162/egp8n38xx3wmpyg42jnx.mp4",
+      url: "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/rositegliafoccacia.mp4",
       thumbnail: "/images/thumbnails/teglia-et-foraccia-de-rosi.png",
     },
     {
       title: "Capri c'est fini",
-      url: "https://res.cloudinary.com/dc5jx2yo7/video/upload/q_auto,f_mp4/v1749570162/egp8n38xx3wmpyg42jnx.mp4",
+      url: "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/rosicapri.mp4",
       thumbnail: "/images/thumbnails/rosi-capri.png",
     },
     {
       title: "Les Tiramisu de Rosi",
-      url: "https://res.cloudinary.com/dc5jx2yo7/video/upload/q_auto,f_mp4/v1749570162/egp8n38xx3wmpyg42jnx.mp4",
+      url: "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/rositiramistu.mp4",
       thumbnail: "/images/thumbnails/tiramisu-de-rosi.png",
     },
     {
-      title: "Présentation de Rosi Trattoria",
-      url: "https://res.cloudinary.com/dc5jx2yo7/video/upload/q_auto,f_mp4/v1749570162/egp8n38xx3wmpyg42jnx.mp4",
-      thumbnail: "/images/thumbnails/presentation-rosi-trattoria.png",
+      title: "Les cocktails de Rosi",
+      url: "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/rosicocktail.mp4",
+      thumbnail: "/images/thumbnails/les-cocktails-rosi.png",
     },
   ];
+
+  const isMobile = () => {
+    return (
+      window.innerWidth <= 768 ||
+      /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      )
+    );
+  };
 
   const togglePlay = () => {
     if (videoRef.current) {
@@ -113,9 +124,19 @@ const VideoPlayer: React.FC = () => {
   const handleLoadedMetadata = () => {
     if (videoRef.current) {
       setDuration(videoRef.current.duration);
-      if (!isInitialized) {
-        videoRef.current.currentTime = 0.02;
-        setCurrentTime(0.02);
+    }
+  };
+
+  const setStartTime = () => {
+    if (videoRef.current && videoRef.current.readyState >= 2) {
+      try {
+        videoRef.current.currentTime = 0.01;
+        setCurrentTime(0.01);
+        setIsInitialized(true);
+      } catch (error) {
+        console.warn("Could not set start time:", error);
+        videoRef.current.currentTime = 0;
+        setCurrentTime(0);
         setIsInitialized(true);
       }
     }
@@ -137,13 +158,58 @@ const VideoPlayer: React.FC = () => {
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
+  const activateFullscreenOnMobile = async () => {
+    if (!isMobile()) return;
+
+    try {
+      const video = videoRef.current;
+      if (!video) return;
+
+      if (video.requestFullscreen) {
+        await video.requestFullscreen();
+      } else if ((video as any).webkitRequestFullscreen) {
+        (video as any).webkitRequestFullscreen();
+      } else if ((video as any).webkitEnterFullscreen) {
+        (video as any).webkitEnterFullscreen();
+      } else if ((video as any).mozRequestFullScreen) {
+        (video as any).mozRequestFullScreen();
+      } else if ((video as any).msRequestFullscreen) {
+        (video as any).msRequestFullscreen();
+      }
+    } catch (error) {
+      console.warn("Mobile fullscreen failed:", error);
+    }
+  };
+
   const changeVideo = (index: number) => {
     setCurrentVideo(index);
-    setIsPlaying(false);
-    setCurrentTime(0.02);
+    setCurrentTime(0);
     setIsInitialized(false);
+    setIsPlaying(false);
+
     if (videoRef.current) {
       videoRef.current.load();
+
+      const handleCanPlay = () => {
+        if (videoRef.current) {
+          setStartTime();
+
+          videoRef.current
+            .play()
+            .then(() => {
+              setIsPlaying(true);
+              activateFullscreenOnMobile();
+            })
+            .catch((error) => {
+              console.error("Auto-play failed:", error);
+              setIsPlaying(false);
+            });
+
+          videoRef.current.removeEventListener("canplay", handleCanPlay);
+        }
+      };
+
+      videoRef.current.addEventListener("canplay", handleCanPlay);
     }
   };
 
@@ -157,7 +223,6 @@ const VideoPlayer: React.FC = () => {
     changeVideo(prev);
   };
 
-  // Fonction plein écran améliorée pour mobile
   const toggleFullscreen = async () => {
     try {
       const video = videoRef.current;
@@ -165,7 +230,6 @@ const VideoPlayer: React.FC = () => {
 
       if (!video) return;
 
-      // Vérifier si on est déjà en plein écran
       const isCurrentlyFullscreen =
         document.fullscreenElement ||
         (document as any).webkitFullscreenElement ||
@@ -173,7 +237,6 @@ const VideoPlayer: React.FC = () => {
         (document as any).msFullscreenElement;
 
       if (isCurrentlyFullscreen) {
-        // Sortir du plein écran
         if (document.exitFullscreen) {
           await document.exitFullscreen();
         } else if ((document as any).webkitExitFullscreen) {
@@ -184,15 +247,12 @@ const VideoPlayer: React.FC = () => {
           (document as any).msExitFullscreen();
         }
       } else {
-        // Entrer en plein écran
-        // Essayer d'abord avec la vidéo elle-même (meilleur pour mobile)
         try {
           if (video.requestFullscreen) {
             await video.requestFullscreen();
           } else if ((video as any).webkitRequestFullscreen) {
             (video as any).webkitRequestFullscreen();
           } else if ((video as any).webkitEnterFullscreen) {
-            // Spécifique à iOS Safari
             (video as any).webkitEnterFullscreen();
           } else if ((video as any).mozRequestFullScreen) {
             (video as any).mozRequestFullScreen();
@@ -200,7 +260,6 @@ const VideoPlayer: React.FC = () => {
             (video as any).msRequestFullscreen();
           }
         } catch (videoError) {
-          // Si le plein écran sur la vidéo échoue, essayer avec le conteneur
           if (player) {
             if (player.requestFullscreen) {
               await player.requestFullscreen();
@@ -216,9 +275,6 @@ const VideoPlayer: React.FC = () => {
       }
     } catch (error) {
       console.warn("Fullscreen not supported or failed:", error);
-
-      // Fallback pour les appareils qui ne supportent pas le plein écran
-      // On peut implémenter un plein écran "simulé" en CSS
       setIsFullscreen(!isFullscreen);
     }
   };
@@ -239,7 +295,6 @@ const VideoPlayer: React.FC = () => {
     }, 3000);
   };
 
-  // Détecter les changements de plein écran
   useEffect(() => {
     const handleFullscreenChange = () => {
       const isCurrentlyFullscreen = !!(
@@ -273,31 +328,55 @@ const VideoPlayer: React.FC = () => {
     };
   }, []);
 
-  // Gestion des événements vidéo
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
     const handlePlay = () => setIsPlaying(true);
     const handlePause = () => setIsPlaying(false);
+
     const handleLoadedData = () => {
       if (!isInitialized && video.readyState >= 2) {
-        video.currentTime = 0.02;
-        setCurrentTime(0.02);
-        setIsInitialized(true);
+        setStartTime();
+      }
+    };
+
+    const handleLoadedMetadataEvent = () => {
+      if (!isInitialized) {
+        setTimeout(() => {
+          setStartTime();
+        }, 100);
       }
     };
 
     video.addEventListener("play", handlePlay);
     video.addEventListener("pause", handlePause);
     video.addEventListener("loadeddata", handleLoadedData);
+    video.addEventListener("loadedmetadata", handleLoadedMetadataEvent);
 
     return () => {
       video.removeEventListener("play", handlePlay);
       video.removeEventListener("pause", handlePause);
       video.removeEventListener("loadeddata", handleLoadedData);
+      video.removeEventListener("loadedmetadata", handleLoadedMetadataEvent);
     };
   }, [currentVideo, isInitialized]);
+
+  useEffect(() => {
+    if (videoRef.current && !isInitialized) {
+      const video = videoRef.current;
+
+      if (video.readyState >= 2) {
+        setStartTime();
+      } else {
+        const handleInitialLoad = () => {
+          setStartTime();
+          video.removeEventListener("loadeddata", handleInitialLoad);
+        };
+        video.addEventListener("loadeddata", handleInitialLoad);
+      }
+    }
+  }, [isInitialized]);
 
   useEffect(() => {
     return () => {
@@ -307,7 +386,6 @@ const VideoPlayer: React.FC = () => {
     };
   }, []);
 
-  // Auto-show playlist on desktop only
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1024 && !showPlaylist) {
@@ -333,7 +411,6 @@ const VideoPlayer: React.FC = () => {
       }`}
     >
       <div className="video-player__content">
-        {/* Lecteur vidéo principal */}
         <div
           className={`video-player__main ${
             showPlaylist ? "video-player__main--with-playlist" : ""
@@ -352,7 +429,6 @@ const VideoPlayer: React.FC = () => {
             preload="metadata"
             playsInline
             muted={isMuted}
-            // Attributs pour un meilleur support mobile
             webkit-playsinline="true"
             x-webkit-airplay="allow"
           >
@@ -360,18 +436,15 @@ const VideoPlayer: React.FC = () => {
             Your browser does not support the video tag.
           </video>
 
-          {/* Contrôles vidéo */}
           <div
             className={`video-player__controls ${
               showControls ? "video-player__controls--visible" : ""
             }`}
           >
-            {/* Titre de la vidéo */}
             <h2 className="video-player__current-title">
               {videos[currentVideo].title}
             </h2>
 
-            {/* Barre de progression */}
             <div className="video-player__progress" onClick={handleSeek}>
               <div
                 className="video-player__progress-bar"
@@ -381,7 +454,6 @@ const VideoPlayer: React.FC = () => {
               </div>
             </div>
 
-            {/* Contrôles */}
             <div className="video-player__controls-row">
               <div className="video-player__controls-left">
                 <button
@@ -441,7 +513,6 @@ const VideoPlayer: React.FC = () => {
           </div>
         </div>
 
-        {/* Playlist */}
         <div
           className={`video-player__playlist ${
             showPlaylist ? "video-player__playlist--visible" : ""
@@ -466,7 +537,6 @@ const VideoPlayer: React.FC = () => {
                     : ""
                 }`}
               >
-                {/* Thumbnail avec image */}
                 <div className="video-player__thumbnail">
                   <img
                     src={video.thumbnail}
@@ -481,12 +551,6 @@ const VideoPlayer: React.FC = () => {
                     }}
                   />
                   <div className="video-player__thumbnail-overlay"></div>
-
-                  {currentVideo === index && (
-                    <div className="video-player__thumbnail-playing">
-                      {isPlaying ? <Pause size={16} /> : <Play size={16} />}
-                    </div>
-                  )}
                 </div>
 
                 <div className="video-player__playlist-item-content">
@@ -503,13 +567,12 @@ const VideoPlayer: React.FC = () => {
         </div>
       </div>
 
-      {/* Playlist toggle pour mobile */}
       <div className="video-player__mobile-toggle">
         <button
           onClick={togglePlaylist}
           className="video-player__btn video-player__btn--mobile"
         >
-          {showPlaylist ? "Masquer la playlist" : "Afficher la playlist"}
+          {showPlaylist ? "Masquer" : "Voir plus"}
         </button>
       </div>
     </div>

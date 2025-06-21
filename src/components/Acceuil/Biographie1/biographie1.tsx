@@ -2,25 +2,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Armchair } from "lucide-react";
 import AnimatedSection from "../AnimatedSection/AnimatedSection";
-import { Typewriter } from "../TypeWriter/typewriter";
 import "./biographie1.scss";
 
 const Biographie1: React.FC = () => {
-  const [showAccent, setShowAccent] = useState(false);
-  const [showIntro, setShowIntro] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [hasBeenTriggered, setHasBeenTriggered] = useState(false);
-  const [animationKey, setAnimationKey] = useState(0);
   const sectionRef = useRef<HTMLDivElement>(null);
   const resetTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Fonction pour réinitialiser l'animation
   const resetAnimation = () => {
-    setShowAccent(false);
-    setShowIntro(false);
     setIsVisible(false);
     setHasBeenTriggered(false);
-    setAnimationKey((prev) => prev + 1); // Force le re-render des Typewriter
   };
 
   // Fonction pour démarrer l'animation
@@ -138,44 +131,22 @@ const Biographie1: React.FC = () => {
     <div className="biographie" ref={sectionRef}>
       <AnimatedSection animationType="fade-in-scale" delay={200}>
         <div className="biographie__hero">
-          <div className="biographie__title">
-            {isVisible && (
-              <Typewriter
-                text="LA PASSION ET L'EXIGENCE"
-                speed={40} // Vitesse légèrement plus rapide
-                delay={400} // Délai réduit
-                onComplete={() => {
-                  // Délai plus court pour une transition plus fluide
-                  setTimeout(() => setShowAccent(true), 300);
-                }}
-                className="biographie__title-main"
-                key={`main-${animationKey}`} // Utilise la clé d'animation
-              />
-            )}
-            {showAccent && (
-              <span className="biographie__title-accent">
-                <Typewriter
-                  text="MÈNENT À L'EXCELLENCE"
-                  speed={60}
-                  delay={200} // Délai réduit pour une meilleure fluidité
-                  onComplete={() => {
-                    // Délai plus court pour l'intro
-                    setTimeout(() => setShowIntro(true), 400);
-                  }}
-                  key={`accent-${animationKey}`} // Utilise la clé d'animation
-                />
-              </span>
-            )}
+          <div className={`biographie__title ${isVisible ? "visible" : ""}`}>
+            <span className="biographie__title-main">
+              LA PASSION ET L'EXIGENCE
+            </span>
+            <span className="biographie__title-accent">
+              MÈNENT À L'EXCELLENCE
+            </span>
           </div>
-          {showIntro && (
-            <AnimatedSection animationType="fade-in-scale" delay={600}>
-              <p className="biographie__intro">
-                Découvrez une expérience culinaire unique dans un cadre
-                chaleureux et moderne, où la tradition italienne rencontre
-                l'élégance contemporaine.
-              </p>
-            </AnimatedSection>
-          )}
+
+          <AnimatedSection animationType="fade-in-scale" delay={400}>
+            <p className="biographie__intro">
+              Découvrez une expérience culinaire unique dans un cadre chaleureux
+              et moderne, où la tradition italienne rencontre l'élégance
+              contemporaine.
+            </p>
+          </AnimatedSection>
         </div>
       </AnimatedSection>
 
