@@ -12,6 +12,7 @@
   animation: fadeIn 0.3s ease-in-out;
 
   .modal-content {
+    border: 1px solid var(--primary-pink);
     background: #000000;
     border-radius: 12px;
     padding: 2rem;
