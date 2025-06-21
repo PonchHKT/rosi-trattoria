@@ -129,7 +129,7 @@ const Biographie1: React.FC = () => {
 
   return (
     <div className="biographie" ref={sectionRef}>
-      <AnimatedSection animationType="fade-in-scale" delay={200}>
+      <AnimatedSection animationType="fade-in-scale" delay={100}>
         <div className="biographie__hero">
           <div className={`biographie__title ${isVisible ? "visible" : ""}`}>
             <span className="biographie__title-main">
@@ -140,7 +140,7 @@ const Biographie1: React.FC = () => {
             </span>
           </div>
 
-          <AnimatedSection animationType="fade-in-scale" delay={400}>
+          <AnimatedSection animationType="fade-in-scale" delay={200}>
             <p className="biographie__intro">
               Découvrez une expérience culinaire unique dans un cadre chaleureux
               et moderne, où la tradition italienne rencontre l'élégance
