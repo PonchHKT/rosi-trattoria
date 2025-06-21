@@ -1,0 +1,433 @@
+@import url("https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Cursive:wght@400..700&family=Edu+QLD+Hand:wght@400..700&display=swap");
+:root {
+  --primary-blue: #75b9f9;
+  --primary-pink: rgb(236, 0, 140);
+  --background: #000000;
+  --surface: #1a1a1a;
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --text-muted: #666666;
+  --border: #333333;
+  --border-focus: var(--primary-blue);
+}
+
+// Reset
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+// Container principal
+.contact-container {
+  min-height: 100vh;
+  background: var(--background);
+  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+  color: var(--text-primary);
+  padding: 40px 20px;
+}
+
+// Content principal - STRUCTURE RÉORGANISÉE
+.contact-content {
+  padding-bottom: 100px;
+  padding-top: 90px;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  // Desktop : 2 colonnes (restaurant-info | form-section)
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "restaurant form"
+    "map map";
+  gap: 60px;
+  align-items: start;
+
+  // Tablette : restaurant-info et form côte à côte, carte en dessous
+  @media (max-width: 1024px) {
+    padding-top: 30px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "restaurant form"
+      "map map";
+    gap: 40px;
+  }
+
+  // Mobile : NOUVEL ORDRE - form en premier, puis restaurant, puis carte
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "form"
+      "restaurant"
+      "map";
+    gap: 30px;
+  }
+}
+
+// Section informations restaurant
+.restaurant-info {
+  grid-area: restaurant;
+
+  padding: 40px;
+  text-align: center;
+
+  .logo-container {
+    margin: 30px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .restaurant-logo {
+      max-width: 400px;
+      max-height: 400px;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+
+      // MODIFICATION : Logo garde sa taille sur mobile !
+      @media (max-width: 768px) {
+        max-width: 400px;
+        max-height: 300px;
+      }
+
+      @media (max-width: 480px) {
+        max-width: 350px;
+        max-height: 250px;
+      }
+    }
+  }
+
+  .restaurant-slogan {
+    padding: 20px;
+    background: var(--primary-pink);
+    border-radius: 8px;
+    color: white;
+    margin-top: 30px;
+
+    p {
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+      letter-spacing: 1px;
+    }
+
+    span {
+      font-weight: 500;
+      font-size: 0.85rem;
+      opacity: 0.9;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 30px 20px;
+  }
+}
+
+// Section formulaire
+.form-section {
+  grid-area: form;
+
+  .form-container {
+    background: #0a0a0a;
+    border-radius: 12px;
+    padding: 40px;
+    border: 1px solid var(--border);
+
+    @media (max-width: 768px) {
+      padding: 30px 20px;
+    }
+  }
+
+  .form-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .form-description {
+    color: var(--text-secondary);
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 0.95rem;
+  }
+}
+
+// Section carte - MAINTENANT SÉPARÉE
+.map-section {
+  grid-area: map;
+  background: var(--surface);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  position: relative;
+
+  iframe {
+    display: block;
+    filter: brightness(0.8) contrast(1.1);
+    height: 300px;
+
+    // Plus grande sur mobile comme demandé
+    @media (max-width: 1024px) {
+      height: 400px;
+    }
+  }
+
+  .contact-details {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 220px;
+
+    @media (max-width: 768px) {
+      position: static;
+      background: rgba(0, 0, 0, 0.95);
+      margin-top: 0;
+      border-radius: 0 0 12px 12px;
+      border-top: 1px solid var(--border);
+      min-width: auto;
+      width: 100%;
+    }
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    @media (max-width: 768px) {
+      padding: 8px;
+      gap: 10px;
+    }
+
+    .contact-icon {
+      width: 16px;
+      height: 16px;
+      color: var(--primary-blue);
+      flex-shrink: 0;
+
+      @media (max-width: 768px) {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    .contact-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+
+      span {
+        color: var(--text-secondary);
+        font-size: 0.75rem;
+        line-height: 1.2;
+        font-weight: 500;
+
+        &:first-child {
+          color: var(--text-primary);
+        }
+
+        @media (max-width: 768px) {
+          font-size: 0.8rem;
+        }
+      }
+    }
+  }
+}
+
+// Formulaire avec placeholder flottant
+.contact-form {
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .input-group {
+    position: relative;
+    margin-bottom: 20px;
+
+    label {
+      position: absolute;
+      left: 16px;
+      top: 14px;
+      color: var(--text-muted);
+      font-size: 1rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      pointer-events: none;
+      background: var(--surface);
+      padding: 0 4px;
+      z-index: 1;
+
+      @media (max-width: 480px) {
+        font-size: 0.9rem;
+      }
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-size: 1rem;
+      font-family: inherit;
+      transition: all 0.3s ease;
+
+      @media (max-width: 480px) {
+        padding: 12px 14px;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: var(--border-focus);
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      &:focus + label,
+      &:not(:placeholder-shown) + label {
+        top: -8px;
+        font-size: 0.8rem;
+        color: var(--primary-pink);
+        font-weight: 600;
+      }
+
+      &::placeholder {
+        color: transparent;
+      }
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+      font-family: inherit;
+      padding-top: 18px;
+
+      &:focus + label,
+      &:not(:placeholder-shown) + label {
+        top: -8px;
+      }
+    }
+
+    label:after {
+      content: "";
+    }
+  }
+
+  .file-upload {
+    margin-bottom: 25px;
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .file-label {
+      display: inline-block;
+      padding: 12px 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+
+      &:hover {
+        border-color: var(--primary-blue);
+        background: rgba(255, 255, 255, 0.08);
+        color: var(--text-primary);
+      }
+    }
+  }
+
+  .submit-button {
+    width: 100%;
+    padding: 16px;
+    background: var(--primary-blue);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover:not(:disabled) {
+      background: #5da8f0;
+      transform: translateY(-1px);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    &:disabled,
+    &.loading {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+  }
+
+  .status-message {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    font-weight: 500;
+    text-align: center;
+
+    &.success {
+      background: rgba(34, 197, 94, 0.1);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      color: #22c55e;
+    }
+
+    &.error {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #ef4444;
+    }
+  }
+}
+
+// Responsive final
+@media (max-width: 768px) {
+  .contact-container {
+    padding: 80px 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .restaurant-info .restaurant-name {
+    font-size: 1.5rem;
+  }
+}
