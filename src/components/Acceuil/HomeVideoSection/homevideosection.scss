@@ -98,13 +98,14 @@
 
     .buttons {
       display: flex;
-      gap: 1rem;
+      gap: 1.2rem;
       flex-wrap: wrap;
 
       a {
         text-decoration: none;
       }
 
+      /* Styles de base harmonisés pour tous les boutons */
       .primary-button,
       .secondary-button,
       .white-button,
@@ -112,9 +113,9 @@
         font-family: "Inter", sans-serif;
         font-size: 1rem;
         font-weight: 500;
-        padding: 0.875rem 2rem;
+        padding: 1rem 2.25rem;
         border: none;
-        border-radius: 8px;
+        border-radius: 12px;
         cursor: pointer;
         transition: all 0.3s ease;
         letter-spacing: 0.02em;
@@ -122,7 +123,11 @@
         overflow: hidden;
         display: flex;
         align-items: center;
+        justify-content: center;
         gap: 0.5rem;
+        min-width: 140px;
+        height: 52px;
+        box-sizing: border-box;
 
         &:hover {
           transform: translateY(-1px);
@@ -156,37 +161,22 @@
       }
 
       .white-button {
-        border-radius: 30px;
         background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
         color: #1f2937;
+        border: 1.5px solid transparent;
         box-shadow: 0 4px 16px rgba(255, 255, 255, 0.3);
-        animation: pulse 2s infinite ease-in-out;
-        font-weight: 700;
 
         &:hover {
           background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);
           box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4);
-          transform: scale(1.05);
-        }
-
-        @keyframes pulse {
-          0% {
-            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
-          }
-          50% {
-            box-shadow: 0 0 10px 8px rgba(255, 255, 255, 0.2);
-          }
-          100% {
-            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
-          }
         }
       }
 
       .distributor-button {
-        background: #fb5252;
+        background: linear-gradient(135deg, #fb5252 0%, #ef4444 100%);
         color: white;
         border: 1.5px solid transparent;
-        box-shadow: 0 4px 16px rgba(255, 153, 153, 0.25);
+        box-shadow: 0 4px 16px rgba(251, 82, 82, 0.25);
 
         .distributor-icon {
           width: 1.2rem;
@@ -196,8 +186,8 @@
         }
 
         &:hover {
-          background: #ff8080;
-          box-shadow: 0 6px 20px rgba(255, 153, 153, 0.35);
+          background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+          box-shadow: 0 6px 20px rgba(251, 82, 82, 0.35);
         }
       }
     }
@@ -214,7 +204,7 @@
     }
 
     .content {
-      margin-top: -50px; // Remonté de 50px
+      margin-top: -50px;
       margin-left: 2rem;
       margin-right: 2rem;
       max-width: none;
@@ -241,19 +231,17 @@
       .buttons {
         flex-direction: column;
         align-items: flex-start;
-        gap: 0.75rem;
+        gap: 1rem;
 
-        .white-button {
-          border-radius: 30px;
-        }
         .primary-button,
         .secondary-button,
+        .white-button,
         .distributor-button {
           width: 100%;
-          border-radius: 10px;
-          max-width: 163px;
-          padding: 0.75rem 1.5rem;
+          max-width: 200px;
+          padding: 0.9rem 1.8rem;
           font-size: 0.95rem;
+          height: 48px;
         }
 
         .distributor-button {
@@ -270,7 +258,7 @@
     .content {
       margin-left: 0.5rem;
       margin-right: 1.5rem;
-      margin-top: -80px; // Encore plus remonté sur très petits écrans
+      margin-top: -80px;
 
       .slogan {
         font-size: 2rem;
@@ -286,6 +274,18 @@
 
         .address-text {
           font-size: 1rem;
+        }
+      }
+
+      .buttons {
+        .primary-button,
+        .secondary-button,
+        .white-button,
+        .distributor-button {
+          max-width: 180px;
+          padding: 0.8rem 1.6rem;
+          font-size: 0.9rem;
+          height: 44px;
         }
       }
     }

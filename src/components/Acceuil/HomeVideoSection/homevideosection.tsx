@@ -51,13 +51,20 @@ const HomeVideoSection: React.FC = () => {
     navigate("/carte");
   };
 
+  const handleClickCollectClick = () => {
+    window.open(
+      "https://carte.rosi-trattoria.com/menu",
+      "_blank",
+      "noopener,noreferrer"
+    );
+  };
+
   return (
     <section className="home-video-section">
       <video
         ref={videoRef}
         className="background-video"
-        src="https://cdn.jsdelivr.net/gh/PonchHKT/rosi-assets/homevideo.mp4
-"
+        src="https://cdn.jsdelivr.net/gh/PonchHKT/rosi-assets/homevideo.mp4"
         autoPlay
         muted
         loop
@@ -67,8 +74,7 @@ const HomeVideoSection: React.FC = () => {
         aria-hidden="true"
       >
         <source
-          src="https://cdn.jsdelivr.net/gh/PonchHKT/rosi-assets/homevideo.mp4
-"
+          src="https://cdn.jsdelivr.net/gh/PonchHKT/rosi-assets/homevideo.mp4"
           type="video/mp4"
         />
         Your browser does not support the video tag.
@@ -130,14 +136,9 @@ const HomeVideoSection: React.FC = () => {
               }}
             />
           </button>
-
-          <a
-            href="https://carte.rosi-trattoria.com/menu"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <button className="white-button">Click & Collect</button>
-          </a>
+          <button className="white-button" onClick={handleClickCollectClick}>
+            Click & Collect
+          </button>
         </div>
       </div>
 
