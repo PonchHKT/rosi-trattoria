@@ -1,5 +1,6 @@
 import React from "react";
 import { Utensils, ChefHat } from "lucide-react";
+import { Link } from "react-router-dom";
 import "./recrutementdisplay.scss";
 
 const RecrutementDisplay: React.FC = () => {
@@ -194,12 +195,9 @@ const RecrutementDisplay: React.FC = () => {
               Envoyez votre candidature (CV + lettre de motivation) en précisant
               le poste souhaité
             </p>
-            <a
-              href="mailto:rosi.trattoriarecrutement@gmail.com"
-              className="cta__button"
-            >
+            <Link to="/contact" className="cta__button">
               Postuler Maintenant
-            </a>
+            </Link>
           </div>
         </div>
       </section>
