@@ -122,14 +122,7 @@ const NosValeursComponent: React.FC = () => {
           </div>
         </article>
 
-        {/* Quote inspirante - MAINTENANT EN DEUXIÈME POSITION */}
-        <blockquote className="nos-valeurs__quote" role="complementary">
-          <Sparkles className="nos-valeurs__quote-icon" size={32} />
-          Chez Rosi Trattoria, chaque pizza raconte une histoire d'amour entre
-          tradition et passion.
-        </blockquote>
-
-        {/* Feature Cards - MAINTENANT EN TROISIÈME POSITION */}
+        {/* Feature Cards - MAINTENANT EN DEUXIÈME POSITION */}
         <div
           className="nos-valeurs__feature-cards"
           role="region"
@@ -162,6 +155,13 @@ const NosValeursComponent: React.FC = () => {
             })}
           </div>
         </div>
+
+        {/* Quote inspirante - MAINTENANT EN TROISIÈME POSITION (après les cartes) */}
+        <blockquote className="nos-valeurs__quote" role="complementary">
+          <Sparkles className="nos-valeurs__quote-icon" size={32} />
+          Chez Rosi Trattoria, chaque pizza raconte une histoire d'amour entre
+          tradition et passion.
+        </blockquote>
 
         {/* Main Sections - MAINTENANT EN DERNIÈRE POSITION */}
         <div className="nos-valeurs__main-block" role="main">
