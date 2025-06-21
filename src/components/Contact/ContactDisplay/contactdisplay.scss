@@ -72,7 +72,6 @@
   text-align: center;
 
   .logo-container {
-    margin: 30px 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -341,28 +340,73 @@
     }
   }
 
-  .file-upload {
+  // Nouvelle section pour fichier et reCAPTCHA côte à côte
+  .file-recaptcha-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 20px;
+    align-items: center;
     margin-bottom: 25px;
 
-    input[type="file"] {
-      display: none;
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      gap: 15px;
+      text-align: center;
     }
 
-    .file-label {
-      display: inline-block;
-      padding: 12px 20px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 2px dashed var(--border);
-      border-radius: 8px;
-      color: var(--text-secondary);
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-size: 0.9rem;
+    .file-upload {
+      margin-bottom: 0; // Reset la marge car elle est maintenant dans le grid
 
-      &:hover {
-        border-color: var(--primary-blue);
-        background: rgba(255, 255, 255, 0.08);
-        color: var(--text-primary);
+      input[type="file"] {
+        display: none;
+      }
+
+      .file-label {
+        display: inline-block;
+        padding: 12px 20px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 2px dashed var(--border);
+        border-radius: 8px;
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+        width: 100%;
+        text-align: center;
+
+        &:hover {
+          border-color: var(--primary-blue);
+          background: rgba(255, 255, 255, 0.08);
+          color: var(--text-primary);
+        }
+
+        @media (max-width: 768px) {
+          padding: 14px 20px;
+        }
+      }
+    }
+
+    .recaptcha-container {
+      display: flex;
+      justify-content: flex-end;
+
+      @media (max-width: 768px) {
+        justify-content: center;
+      }
+
+      // Style pour le reCAPTCHA dans le thème sombre
+      .g-recaptcha {
+        transform: scale(0.9);
+        transform-origin: right center;
+
+        @media (max-width: 768px) {
+          transform: scale(0.85);
+          transform-origin: center center;
+        }
+
+        @media (max-width: 480px) {
+          transform: scale(0.75);
+        }
       }
     }
   }

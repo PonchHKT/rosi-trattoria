@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import emailjs from "@emailjs/browser";
+import ReCAPTCHA from "react-google-recaptcha";
 import "./contactdisplay.scss";
 
 const ContactDisplay: React.FC = () => {
@@ -12,7 +13,9 @@ const ContactDisplay: React.FC = () => {
   const [fichier, setFichier] = useState<File | null>(null);
   const [envoiEnCours, setEnvoiEnCours] = useState(false);
   const [messageStatut, setMessageStatut] = useState("");
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const gererChangementInput = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -29,8 +32,19 @@ const ContactDisplay: React.FC = () => {
     }
   };
 
+  const gererRecaptcha = (token: string | null) => {
+    setRecaptchaToken(token);
+  };
+
   const envoyerEmail = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Vérification du reCAPTCHA
+    if (!recaptchaToken) {
+      setMessageStatut("Veuillez compléter le reCAPTCHA.");
+      return;
+    }
+
     setEnvoiEnCours(true);
     setMessageStatut("");
 
@@ -41,6 +55,7 @@ const ContactDisplay: React.FC = () => {
         phone: formData.telephone,
         message: formData.message,
         attachment: fichier ? fichier.name : "Aucun fichier",
+        recaptcha_token: recaptchaToken, // Inclure le token reCAPTCHA
       };
 
       await emailjs.send(
@@ -53,8 +68,14 @@ const ContactDisplay: React.FC = () => {
       setMessageStatut("Message envoyé avec succès !");
       setFormData({ nom: "", email: "", telephone: "", message: "" });
       setFichier(null);
+      setRecaptchaToken(null);
+
+      // Reset du formulaire et du reCAPTCHA
       if (formRef.current) {
         formRef.current.reset();
+      }
+      if (recaptchaRef.current) {
+        recaptchaRef.current.reset();
       }
     } catch (error) {
       setMessageStatut("Erreur lors de l'envoi. Veuillez réessayer.");
@@ -149,21 +170,33 @@ const ContactDisplay: React.FC = () => {
                 <label htmlFor="message">Message *</label>
               </div>
 
-              <div className="file-upload">
-                <input
-                  type="file"
-                  id="fichier"
-                  onChange={gererChangementFichier}
-                  accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                />
-                <label htmlFor="fichier" className="file-label">
-                  📎 {fichier ? fichier.name : "Joindre un fichier"}
-                </label>
+              {/* Section fichier et reCAPTCHA côte à côte */}
+              <div className="file-recaptcha-row">
+                <div className="file-upload">
+                  <input
+                    type="file"
+                    id="fichier"
+                    onChange={gererChangementFichier}
+                    accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                  />
+                  <label htmlFor="fichier" className="file-label">
+                    📎 {fichier ? fichier.name : "Joindre un fichier"}
+                  </label>
+                </div>
+
+                <div className="recaptcha-container">
+                  <ReCAPTCHA
+                    ref={recaptchaRef}
+                    sitekey="6LdPjGgrAAAAAHrHRpF9Y7p4Yd-pUfbqxqksIZcL"
+                    onChange={gererRecaptcha}
+                    theme="dark"
+                  />
+                </div>
               </div>
 
               <button
                 type="submit"
-                disabled={envoiEnCours}
+                disabled={envoiEnCours || !recaptchaToken}
                 className={`submit-button ${envoiEnCours ? "loading" : ""}`}
               >
                 {envoiEnCours ? "Envoi en cours..." : "Envoyer le message"}
