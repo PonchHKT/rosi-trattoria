@@ -134,10 +134,7 @@
   grid-area: form;
 
   .form-container {
-    background: #0a0a0a;
-    border-radius: 12px;
     padding: 40px;
-    border: 1px solid var(--border);
 
     @media (max-width: 768px) {
       padding: 30px 20px;
