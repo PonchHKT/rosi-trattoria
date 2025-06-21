@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { Trophy, Home, Wheat, Leaf, Sparkles } from "lucide-react";
+import { Home, Wheat, Leaf, Sparkles } from "lucide-react";
 import "./nosvaleurscomponent.scss";
 import Swipergallery from "../../Acceuil/SwiperGallery/swipergallery";
 
@@ -88,6 +88,12 @@ const NosValeursComponent: React.FC = () => {
         {/* Hero Section avec Pascal - MAINTENANT EN PREMIER */}
         <article className="nos-valeurs__hero" role="banner">
           <div className="nos-valeurs__pascal-showcase">
+            <div className="nos-valeurs__pascal-name-container">
+              <div className="nos-valeurs__pascal-title">
+                <span>Maître Pizzaïolo</span>
+              </div>
+              <h2 className="nos-valeurs__pascal-name">Pascal Bellemain</h2>
+            </div>
             <div className="nos-valeurs__pascal-image-container">
               <img
                 src="/images/pascal.jpg"
@@ -97,24 +103,6 @@ const NosValeursComponent: React.FC = () => {
               />
               <div className="nos-valeurs__image-overlay"></div>
             </div>
-            <div className="nos-valeurs__pascal-name-container">
-              <div className="nos-valeurs__pascal-title">
-                <span>Maître Pizzaïolo</span>
-              </div>
-              <h2 className="nos-valeurs__pascal-name">Pascal Bellemain</h2>
-            </div>
-          </div>
-
-          <div className="nos-valeurs__formation-highlight">
-            <div className="nos-valeurs__formation-badge">
-              <Trophy size={32} className="nos-valeurs__formation-icon" />
-              <div className="nos-valeurs__formation-text">
-                <span className="nos-valeurs__formation-subtitle">
-                  Formé par John Bergh
-                  <br /> Double Champion du Monde
-                </span>
-              </div>
-            </div>
           </div>
 
           <div className="nos-valeurs__intro-text">
@@ -123,6 +111,7 @@ const NosValeursComponent: React.FC = () => {
               CHAMPION DU MONDE, AFIN DE VOUS OFFRIR UNE PIZZA ÉTHIQUE ET
               GASTRONOMIQUE.
             </p>
+
             <p className="nos-valeurs__intro-body">
               <strong>"</strong>Chez nous, c'est pâte au levain naturel maison
               pour une meilleure digestion. Je favorise au maximum les petits
