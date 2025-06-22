@@ -80,9 +80,16 @@ function optimizeHtml(html, route) {
       <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "Votre Entreprise",
-        "url": "${CONFIG.baseUrl}",
+        "@type": "Restaurant",
+        "name": "Rosi Trattoria",
+        "url": "https://rosi-trattoria.vercel.app",
+        "description": "Restaurant italien authentique proposant des spécialités traditionnelles dans une ambiance chaleureuse",
+        "servesCuisine": "Italian",
+        "priceRange": "$$",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "France"
+        },
         "sameAs": []
       }
       </script>
@@ -104,9 +111,6 @@ async function processRoute(browser, route, attempt = 1) {
     console.log(`📄 Pre-rendering: ${route.path} (tentative ${attempt})`);
 
     page = await browser.newPage();
-
-    // Optimisations Puppeteer pour les performances (désactivé le blocage pour Windows)
-    // await page.setRequestInterception(true);
 
     // Configuration de la viewport pour le SEO mobile
     await page.setViewport({ width: 1200, height: 800 });
@@ -208,10 +212,8 @@ async function processBatch(browser, routeBatch) {
 
 // Générer un sitemap XML
 function generateSitemap(results) {
-  const baseUrl = CONFIG.baseUrl.replace(
-    "localhost:4173",
-    "https://rosi-trattoria.vercel.app"
-  );
+  // Utilisation directe de l'URL de production
+  const baseUrl = ("https://rosi-trattoria.vercel.app", "localhost:4173");
 
   const urls = results
     .filter((result) => result.success)
@@ -237,16 +239,23 @@ ${urls}
 
 // Générer un robots.txt
 function generateRobotsTxt() {
-  const baseUrl = CONFIG.baseUrl.replace(
-    "localhost:4173",
-    "https://rosi-trattoria.vercel.app"
-  );
+  const baseUrl = ("https://rosi-trattoria.vercel.app", "localhost:4173");
 
   return `User-agent: *
 Allow: /
 
 Sitemap: ${baseUrl}/sitemap.xml
-`;
+
+# Disallow admin or private areas (if any)
+# Disallow: /admin/
+# Disallow: /private/
+
+# Allow all search engines to crawl
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /`;
 }
 
 // Fonction principale
