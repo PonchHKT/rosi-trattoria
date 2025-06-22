@@ -461,8 +461,7 @@ const ReviewWidget: React.FC = () => {
         </div>
       </div>
       <div className="header-content">
-        <h2>"Découvrez chaque mot qui nous motive chaque jour"</h2>
-        <p className="reviews-subtitle">Restaurant Rosi Trattoria</p>
+        <h2>"Découvrez les mots qui nous motivent chaque jour"</h2>
 
         {loading && (
           <div className="loading-shimmer" aria-label="Chargement des avis">
