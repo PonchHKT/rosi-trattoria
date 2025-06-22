@@ -26,7 +26,7 @@ const NosValeursPageSEO = () => (
       property="og:description"
       content="Pascal Bellemain, notre pizzaïolo formé par le champion du monde John Bergh, vous offre une pizza éthique avec pâte au levain naturel et produits bio locaux."
     />
-    <meta property="og:image" content="/images/pascal.jpg" />
+    <meta property="og:image" content="/images/meta-rosi.png" />
     <meta property="og:type" content="website" />
     <meta
       property="og:url"
@@ -43,7 +43,7 @@ const NosValeursPageSEO = () => (
       name="twitter:description"
       content="Formation John Bergh, pâte au levain naturel, produits bio locaux. Découvrez l'authenticité italienne chez Rosi Trattoria."
     />
-    <meta name="twitter:image" content="/images/pascal.jpg" />
+    <meta name="twitter:image" content="/images/meta-rosi.png" />
 
     {/* Schema.org pour la page About/Valeurs */}
     <script type="application/ld+json">
@@ -96,7 +96,7 @@ const NosValeursPageSEO = () => (
           "Produits bio italiens",
           "Techniques artisanales",
         ],
-        image: "/images/pascal.jpg",
+        image: "/images/meta-rosi.png",
       })}
     </script>
 
@@ -182,10 +182,10 @@ const NosValeursPageSEO = () => (
           name: "Rosi Trattoria",
           logo: {
             "@type": "ImageObject",
-            url: "/images/logo/logo-rosi.png",
+            url: "/images/meta-rosi.png",
           },
         },
-        image: "/images/pascal.jpg",
+        image: "/images/meta-rosi.png",
         datePublished: "2024-01-01",
         dateModified: "2024-12-01",
         mainEntityOfPage: "https://www.rosi-trattoria.com/nos-valeurs",

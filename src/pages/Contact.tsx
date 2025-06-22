@@ -25,7 +25,7 @@ const ContactPageSEO = () => (
       property="og:description"
       content="Contactez-nous pour vos réservations, renseignements ou candidatures. Restaurant italien authentique au cœur de Brive-la-Gaillarde. Réponse rapide garantie !"
     />
-    <meta property="og:image" content="/images/logo/rositrattorialogo.png" />
+    <meta property="og:image" content="/images/meta-rosi.png" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.rosi-trattoria.com/contact" />
     {/* Twitter Card */}
@@ -38,7 +38,7 @@ const ContactPageSEO = () => (
       name="twitter:description"
       content="📞 05 44 31 44 47 | 📍 11 Prom. des Tilleuls, Brive | Formulaire en ligne disponible. Fraîcheur • Qualité • Authenticité 100% Italiano !"
     />
-    <meta name="twitter:image" content="/images/logo/rositrattorialogo.png" />
+    <meta name="twitter:image" content="/images/meta-rosi.png" />
     {/* Schema.org pour les coordonnées de contact */}
     <script type="application/ld+json">
       {JSON.stringify({
@@ -206,7 +206,7 @@ const ContactPageSEO = () => (
         "@type": "Organization",
         name: "Rosi Trattoria",
         slogan: "Fraîcheur • Qualité • Authenticité - 100% Italiano",
-        logo: "/images/logo/rositrattorialogo.png",
+        logo: "/images/meta-rosi.png",
         contactPoint: {
           "@type": "ContactPoint",
           telephone: "+33544314447",
@@ -244,10 +244,10 @@ const ContactPageSEO = () => (
           name: "Rosi Trattoria",
           logo: {
             "@type": "ImageObject",
-            url: "/images/logo/rositrattorialogo.png",
+            url: "/images/meta-rosi.png",
           },
         },
-        image: "/images/logo/rositrattorialogo.png",
+        image: "/images/meta-rosi.pngg",
         datePublished: "2024-01-01",
         dateModified: "2024-12-01",
         mainEntityOfPage: "https://www.rosi-trattoria.com/contact",

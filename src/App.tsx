@@ -40,7 +40,7 @@ const HomePageSEO = () => (
       property="og:description"
       content="Pizzas napolitaines faites maison, produits bio et locaux. Rosi Trattoria à Brive-la-Gaillarde vous invite à savourer l'Italie authentique."
     />
-    <meta property="og:image" content="/images/logo/og-image.jpg" />
+    <meta property="og:image" content="/images/meta-rosi.png" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.rosi-trattoria.com/" />
 
@@ -54,7 +54,7 @@ const HomePageSEO = () => (
       name="twitter:description"
       content="Découvrez Rosi Trattoria : pizzas artisanales napolitaines, bio, locales et faites maison à Brive-la-Gaillarde."
     />
-    <meta name="twitter:image" content="/images/logo/og-image.jpg" />
+    <meta name="twitter:image" content="/images/meta-rosi.png" />
 
     {/* Schema.org pour SEO local */}
     <script type="application/ld+json">
@@ -79,7 +79,7 @@ const HomePageSEO = () => (
         description:
           "Rosi Trattoria propose des pizzas napolitaines artisanales, faites maison avec des produits bio et locaux, dans un cadre chaleureux à Brive-la-Gaillarde.",
         priceRange: "€€",
-        image: "/images/logo/og-image.jpg",
+        image: "/images/meta-rosi.png",
         hasMenu: "https://www.rosi-trattoria.com/carte",
         acceptsReservations: true,
       })}

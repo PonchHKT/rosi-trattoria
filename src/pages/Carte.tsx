@@ -24,7 +24,7 @@ const CartePageSEO = () => (
       property="og:description"
       content="Pizzas napolitaines authentiques, pâte au levain naturel, produits bio italiens. Consultez notre carte complète sur place et à emporter."
     />
-    <meta property="og:image" content="/images/carte/carte-preview.jpg" />
+    <meta property="og:image" content="/images/meta-rosi.png" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.rosi-trattoria.com/carte" />
 
@@ -38,7 +38,7 @@ const CartePageSEO = () => (
       name="twitter:description"
       content="Découvrez nos pizzas napolitaines bio faites maison. Pâte au levain, produits italiens premium."
     />
-    <meta name="twitter:image" content="/images/carte/carte-preview.jpg" />
+    <meta name="twitter:image" content="/images/meta-rosi.png" />
 
     {/* Schema.org pour menu de restaurant */}
     <script type="application/ld+json">

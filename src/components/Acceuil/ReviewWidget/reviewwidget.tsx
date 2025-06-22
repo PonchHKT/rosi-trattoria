@@ -632,7 +632,7 @@ const ReviewWidget: React.FC = () => {
                         : "TripAdvisor"
                     }
                   >
-                    "{review.text}"
+                    {review.text}
                   </blockquote>
                 </div>
                 <div className="reviewer-info">

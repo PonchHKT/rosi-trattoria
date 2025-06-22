@@ -26,7 +26,7 @@ const RecrutementPageSEO = () => (
       property="og:description"
       content="L'image du Rosi-Trattoria c'est vous ! Rejoignez Pascal et Gwen dans une aventure culinaire authentique. Postes en cuisine et service disponibles."
     />
-    <meta property="og:image" content="/images/rosi-team.jpg" />
+    <meta property="og:image" content="/images/meta-rosi.png" />
     <meta property="og:type" content="website" />
     <meta
       property="og:url"
@@ -43,7 +43,7 @@ const RecrutementPageSEO = () => (
       name="twitter:description"
       content="Passionné, responsable et enthousiaste ? Rejoignez notre équipe ! Postes en cuisine et service disponibles à Brive-la-Gaillarde."
     />
-    <meta name="twitter:image" content="/images/rosi-team.jpg" />
+    <meta name="twitter:image" content="/images/meta-rosi.png" />
 
     {/* Schema.org pour les offres d'emploi */}
     <script type="application/ld+json">
@@ -61,7 +61,7 @@ const RecrutementPageSEO = () => (
           "@type": "Restaurant",
           name: "Rosi Trattoria",
           sameAs: "https://www.rosi-trattoria.com",
-          logo: "/images/logo/logo-rosi.png",
+          logo: "/images/meta-rosi.png",
         },
         jobLocation: {
           "@type": "Place",
@@ -170,7 +170,7 @@ const RecrutementPageSEO = () => (
             jobTitle: "Pizzaïolo Expert",
             description:
               "30 ans d'expérience en restauration, formé par John Bergh (double champion du monde)",
-            image: "/images/pascal.jpg",
+            image: "/images/meta-rosi.png",
           },
           {
             "@type": "Person",
@@ -178,7 +178,7 @@ const RecrutementPageSEO = () => (
             jobTitle: "Directrice de Salle",
             description:
               "20 ans d'expérience dans la restauration, passionnée par l'accueil client",
-            image: "/images/gwen.jpg",
+            image: "/images/meta-rosi.png",
           },
         ],
       })}
@@ -266,10 +266,10 @@ const RecrutementPageSEO = () => (
           name: "Rosi Trattoria",
           logo: {
             "@type": "ImageObject",
-            url: "/images/logo/logo-rosi.png",
+            url: "/images/meta-rosi.png",
           },
         },
-        image: "/images/rosi-team.jpg",
+        image: "/images/meta-rosi.png",
         datePublished: "2024-01-01",
         dateModified: "2024-12-01",
         mainEntityOfPage: "https://www.rosi-trattoria.com/recrutement",
