@@ -97,7 +97,8 @@ const ReviewWidget: React.FC = () => {
       worstRating: "1",
     };
 
-    const reviewsSchema = reviews.slice(0, 10).map((review) => ({
+    // Utiliser tous les avis pour le schema (limité à 20 pour les performances)
+    const reviewsSchema = reviews.slice(0, 20).map((review) => ({
       "@type": "Review",
       itemReviewed: {
         // AJOUT OBLIGATOIRE
@@ -266,8 +267,6 @@ const ReviewWidget: React.FC = () => {
             };
           }
         });
-
-      console.log("Avis transformés:", transformedReviews);
 
       // Mélanger les avis avant de les afficher
       const shuffledReviews = shuffleArray(transformedReviews);
@@ -463,9 +462,7 @@ const ReviewWidget: React.FC = () => {
       </div>
       <div className="header-content">
         <h2>"Découvrez chaque mot qui nous motive chaque jour"</h2>
-        <p className="reviews-subtitle">
-          Avis clients vérifiés - Restaurant Rosi Trattoria
-        </p>
+        <p className="reviews-subtitle">Restaurant Rosi Trattoria</p>
 
         {loading && (
           <div className="loading-shimmer" aria-label="Chargement des avis">
@@ -537,7 +534,7 @@ const ReviewWidget: React.FC = () => {
     >
       {renderHeader()}
 
-      {/* Carrousel pour l'UX */}
+      {/* Carrousel pour l'UX - AFFICHE TOUS LES AVIS */}
       <div className="slider-container">
         <div
           ref={sliderRef}
@@ -549,7 +546,8 @@ const ReviewWidget: React.FC = () => {
           role="region"
           aria-label="Carrousel d'avis clients"
         >
-          {reviews.slice(0, 10).map((review) => (
+          {/* MODIFICATION PRINCIPALE : utiliser TOUS les avis au lieu de slice(0, 10) */}
+          {reviews.map((review) => (
             <article
               key={review.id}
               className="keen-slider__slide"
@@ -667,7 +665,7 @@ const ReviewWidget: React.FC = () => {
         </div>
       </div>
 
-      {/* Section SEO optimisée - Contenu indexable mais discret */}
+      {/* Section SEO optimisée - Utilise également tous les avis mais limité pour les performances */}
       <div className="seo-reviews-section">
         {/* Texte SEO compact et discret */}
         <div className="seo-content">
@@ -678,9 +676,9 @@ const ReviewWidget: React.FC = () => {
             Réservations 05 44 31 44 47.
           </p>
 
-          {/* Avis compacts pour SEO avec ADRESSE COMPLÈTE */}
+          {/* Avis compacts pour SEO avec ADRESSE COMPLÈTE - limité à 50 pour les performances */}
           <div className="seo-reviews-hidden">
-            {reviews.slice(0, 10).map((review) => (
+            {reviews.slice(0, 50).map((review) => (
               <div
                 key={`seo-${review.id}`}
                 className="seo-review-compact"
