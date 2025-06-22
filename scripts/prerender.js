@@ -10,13 +10,14 @@ const __dirname = path.dirname(__filename);
 const writeFile = promisify(fs.writeFile);
 const mkdir = promisify(fs.mkdir);
 
-// Configuration
+// Configuration corrigée
 const CONFIG = {
-  baseUrl:
-    process.env.NODE_ENV === "production"
-      ? "http://localhost:4173" // Port preview de Vite
-      : "http://localhost:4173",
-  // ... reste de la config
+  baseUrl: "http://localhost:4173",
+  distDir: path.join(__dirname, "../dist"),
+  timeout: 30000,
+  waitTime: 2000,
+  retries: 2,
+  maxConcurrency: 2, // Réduire pour Vercel
 };
 
 // Routes avec métadonnées pour le SEO
@@ -102,6 +103,23 @@ function optimizeHtml(html, route) {
   return optimizedHtml;
 }
 
+// Fonction pour vérifier si le serveur est disponible
+async function waitForServer(url, maxAttempts = 30) {
+  for (let i = 0; i < maxAttempts; i++) {
+    try {
+      const response = await fetch(url);
+      if (response.ok) {
+        console.log("✅ Serveur disponible");
+        return true;
+      }
+    } catch (error) {
+      console.log(`⏳ Attente du serveur (${i + 1}/${maxAttempts})...`);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+    }
+  }
+  throw new Error("Le serveur n'est pas disponible après 30 secondes");
+}
+
 // Fonction pour traiter une route avec retry
 async function processRoute(browser, route, attempt = 1) {
   let page = null;
@@ -116,7 +134,7 @@ async function processRoute(browser, route, attempt = 1) {
 
     // Aller à la page avec des options optimisées
     await page.goto(`${CONFIG.baseUrl}${route.path}`, {
-      waitUntil: "domcontentloaded",
+      waitUntil: "networkidle0", // Attendre que le réseau soit inactif
       timeout: CONFIG.timeout,
     });
 
@@ -211,8 +229,7 @@ async function processBatch(browser, routeBatch) {
 
 // Générer un sitemap XML
 function generateSitemap(results) {
-  // Utilisation directe de l'URL de production
-  const baseUrl = ("https://rosi-trattoria.vercel.app", "localhost:4173");
+  const baseUrl = "https://rosi-trattoria.vercel.app";
 
   const urls = results
     .filter((result) => result.success)
@@ -238,16 +255,12 @@ ${urls}
 
 // Générer un robots.txt
 function generateRobotsTxt() {
-  const baseUrl = ("https://rosi-trattoria.vercel.app", "localhost:4173");
+  const baseUrl = "https://rosi-trattoria.vercel.app";
 
   return `User-agent: *
 Allow: /
 
 Sitemap: ${baseUrl}/sitemap.xml
-
-# Disallow admin or private areas (if any)
-# Disallow: /admin/
-# Disallow: /private/
 
 # Allow all search engines to crawl
 User-agent: Googlebot
@@ -263,7 +276,15 @@ async function prerender() {
 
   const startTime = Date.now();
 
-  // Lancer Puppeteer avec des options optimisées pour Windows
+  // Vérifier que le serveur est disponible
+  try {
+    await waitForServer(CONFIG.baseUrl);
+  } catch (error) {
+    console.error("❌ Erreur:", error.message);
+    process.exit(1);
+  }
+
+  // Lancer Puppeteer avec des options optimisées pour Vercel
   const browser = await puppeteer.launch({
     headless: "new",
     args: [
@@ -271,59 +292,66 @@ async function prerender() {
       "--disable-setuid-sandbox",
       "--disable-dev-shm-usage",
       "--disable-gpu",
-      "--single-process", // Important pour Vercel
+      "--single-process",
       "--no-zygote",
       "--disable-extensions",
       "--disable-background-timer-throttling",
       "--disable-backgrounding-occluded-windows",
       "--disable-renderer-backgrounding",
+      "--memory-pressure-off",
+      "--max_old_space_size=4096",
     ],
-    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH, // Pour Vercel
+    executablePath:
+      process.env.PUPPETEER_EXECUTABLE_PATH ||
+      process.env.GOOGLE_CHROME_BIN ||
+      undefined,
   });
 
   const results = [];
 
-  // Traiter les routes par lots pour éviter la surcharge
-  for (let i = 0; i < routes.length; i += CONFIG.maxConcurrency) {
-    const batch = routes.slice(i, i + CONFIG.maxConcurrency);
-    console.log(
-      `📦 Processing batch ${Math.floor(i / CONFIG.maxConcurrency) + 1}...`
-    );
+  try {
+    // Traiter les routes par lots pour éviter la surcharge
+    for (let i = 0; i < routes.length; i += CONFIG.maxConcurrency) {
+      const batch = routes.slice(i, i + CONFIG.maxConcurrency);
+      console.log(
+        `📦 Processing batch ${Math.floor(i / CONFIG.maxConcurrency) + 1}...`
+      );
 
-    const batchResults = await processBatch(browser, batch);
-    results.push(...batchResults);
-  }
+      const batchResults = await processBatch(browser, batch);
+      results.push(...batchResults);
+    }
 
-  await browser.close();
+    // Générer le sitemap
+    const sitemap = generateSitemap(results);
+    await writeFile(path.join(CONFIG.distDir, "sitemap.xml"), sitemap, "utf8");
+    console.log("🗺️  Sitemap généré: sitemap.xml");
 
-  // Générer le sitemap
-  const sitemap = generateSitemap(results);
-  await writeFile(path.join(CONFIG.distDir, "sitemap.xml"), sitemap, "utf8");
-  console.log("🗺️  Sitemap généré: sitemap.xml");
+    // Générer robots.txt
+    const robotsTxt = generateRobotsTxt();
+    await writeFile(path.join(CONFIG.distDir, "robots.txt"), robotsTxt, "utf8");
+    console.log("🤖 Robots.txt généré");
 
-  // Générer robots.txt
-  const robotsTxt = generateRobotsTxt();
-  await writeFile(path.join(CONFIG.distDir, "robots.txt"), robotsTxt, "utf8");
-  console.log("🤖 Robots.txt généré");
+    // Statistiques finales
+    const successful = results.filter((r) => r.success).length;
+    const failed = results.filter((r) => !r.success).length;
+    const duration = ((Date.now() - startTime) / 1000).toFixed(2);
 
-  // Statistiques finales
-  const successful = results.filter((r) => r.success).length;
-  const failed = results.filter((r) => !r.success).length;
-  const duration = ((Date.now() - startTime) / 1000).toFixed(2);
+    console.log("\n📊 Statistiques:");
+    console.log(`   ✅ Réussis: ${successful}`);
+    console.log(`   ❌ Échecs: ${failed}`);
+    console.log(`   ⏱️  Durée: ${duration}s`);
+    console.log("\n🎉 Pre-rendering terminé !");
 
-  console.log("\n📊 Statistiques:");
-  console.log(`   ✅ Réussis: ${successful}`);
-  console.log(`   ❌ Échecs: ${failed}`);
-  console.log(`   ⏱️  Durée: ${duration}s`);
-  console.log("\n🎉 Pre-rendering terminé !");
-
-  // Afficher les erreurs s'il y en a
-  const errors = results.filter((r) => !r.success);
-  if (errors.length > 0) {
-    console.log("\n❌ Échecs détaillés:");
-    errors.forEach((error) => {
-      console.log(`   ${error.route}: ${error.error}`);
-    });
+    // Afficher les erreurs s'il y en a
+    const errors = results.filter((r) => !r.success);
+    if (errors.length > 0) {
+      console.log("\n❌ Échecs détaillés:");
+      errors.forEach((error) => {
+        console.log(`   ${error.route}: ${error.error}`);
+      });
+    }
+  } finally {
+    await browser.close();
   }
 }
 
@@ -333,7 +361,13 @@ process.on("unhandledRejection", (reason, promise) => {
   process.exit(1);
 });
 
-prerender().catch((error) => {
-  console.error("❌ Erreur fatale:", error);
-  process.exit(1);
-});
+// Exporter la fonction pour l'utiliser dans d'autres scripts
+export { prerender };
+
+// Exécuter seulement si appelé directement
+if (import.meta.url === `file://${process.argv[1]}`) {
+  prerender().catch((error) => {
+    console.error("❌ Erreur fatale:", error);
+    process.exit(1);
+  });
+}

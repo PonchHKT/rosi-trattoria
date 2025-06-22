@@ -5,10 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && npm run prerender:simple",
+    "build:full": "node scripts/build.js",
     "build:local": "npm run build && npm run preview & sleep 5 && npm run prerender && pkill -f 'vite preview'",
-    "preview": "vite preview",
+    "preview": "vite preview --port 4173 --host",
     "prerender": "node scripts/prerender.js",
+    "prerender:simple": "node -e \"console.log('⚠️ Prerender skipped on Vercel build - will be handled separately')\"",
+    "postbuild": "node scripts/generate-seo-files.js",
     "lint": "eslint ."
   },
   "dependencies": {
@@ -51,5 +54,8 @@
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.30.1",
     "vite": "^6.3.5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
