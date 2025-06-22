@@ -556,7 +556,7 @@ const ReviewWidget: React.FC = () => {
               itemScope
               itemType="https://schema.org/Review"
             >
-              {/* Ajout de itemReviewed - OBLIGATOIRE */}
+              {/* itemReviewed avec ADRESSE COMPLÈTE - OBLIGATOIRE pour Google */}
               <div
                 itemProp="itemReviewed"
                 itemScope
@@ -568,6 +568,7 @@ const ReviewWidget: React.FC = () => {
                   itemProp="url"
                   content="https://www.rosi-trattoria.com/"
                 />
+                {/* ADRESSE COMPLÈTE - FIX POUR GOOGLE SEO */}
                 <div
                   itemProp="address"
                   itemScope
@@ -583,9 +584,19 @@ const ReviewWidget: React.FC = () => {
                   />
                   <meta itemProp="postalCode" content="19100" />
                   <meta itemProp="addressCountry" content="FR" />
+                  <meta itemProp="addressRegion" content="Nouvelle-Aquitaine" />
                 </div>
                 <meta itemProp="telephone" content="+33544314447" />
                 <meta itemProp="servesCuisine" content="Italian" />
+                {/* Coordonnées géographiques pour plus de précision */}
+                <div
+                  itemProp="geo"
+                  itemScope
+                  itemType="https://schema.org/GeoCoordinates"
+                >
+                  <meta itemProp="latitude" content="45.1632303" />
+                  <meta itemProp="longitude" content="1.5330001" />
+                </div>
               </div>
 
               <div className="review-item">
@@ -667,7 +678,7 @@ const ReviewWidget: React.FC = () => {
             Réservations 05 44 31 44 47.
           </p>
 
-          {/* Avis compacts pour SEO - quasi invisibles */}
+          {/* Avis compacts pour SEO avec ADRESSE COMPLÈTE */}
           <div className="seo-reviews-hidden">
             {reviews.slice(0, 10).map((review) => (
               <div
@@ -676,13 +687,40 @@ const ReviewWidget: React.FC = () => {
                 itemScope
                 itemType="https://schema.org/Review"
               >
-                {/* itemReviewed OBLIGATOIRE - Version compacte */}
+                {/* itemReviewed OBLIGATOIRE avec ADRESSE COMPLÈTE */}
                 <div
                   itemProp="itemReviewed"
                   itemScope
                   itemType="https://schema.org/Restaurant"
                 >
                   <span itemProp="name">Rosi Trattoria</span>
+                  <meta
+                    itemProp="url"
+                    content="https://www.rosi-trattoria.com/"
+                  />
+                  {/* ADRESSE COMPLÈTE OBLIGATOIRE pour Google */}
+                  <div
+                    itemProp="address"
+                    itemScope
+                    itemType="https://schema.org/PostalAddress"
+                  >
+                    <meta
+                      itemProp="streetAddress"
+                      content="11 Prom. des Tilleuls"
+                    />
+                    <meta
+                      itemProp="addressLocality"
+                      content="Brive-la-Gaillarde"
+                    />
+                    <meta itemProp="postalCode" content="19100" />
+                    <meta itemProp="addressCountry" content="FR" />
+                    <meta
+                      itemProp="addressRegion"
+                      content="Nouvelle-Aquitaine"
+                    />
+                  </div>
+                  <meta itemProp="telephone" content="+33544314447" />
+                  <meta itemProp="servesCuisine" content="Italian" />
                 </div>
 
                 <cite
