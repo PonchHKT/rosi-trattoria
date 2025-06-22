@@ -13,7 +13,7 @@ const writeFile = promisify(fs.writeFile);
 // Configuration
 const CONFIG = {
   distDir: path.join(__dirname, "../dist"),
-  baseUrl: "https://rosi-trattoria.vercel.app",
+  baseUrl: "https://rosi-trattoria.com",
 };
 
 // Routes

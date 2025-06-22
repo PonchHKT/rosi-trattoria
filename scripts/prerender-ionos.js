@@ -6,13 +6,13 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Configuration simplifiée pour Vercel
+// Configuration adaptée pour IONOS
 const CONFIG = {
   distDir: path.join(__dirname, "../dist"),
-  baseUrl: "https://rosi-trattoria.vercel.app",
+  baseUrl: "https://rosi-trattoria.com",
 };
 
-// Routes avec métadonnées SEO
+// Routes avec métadonnées SEO (identiques à votre config Vercel)
 const routes = [
   {
     path: "/",
@@ -67,7 +67,7 @@ const routes = [
   },
 ];
 
-// Fonction pour injecter les meta tags SEO
+// Fonction pour injecter les meta tags SEO (identique)
 function injectSEOMeta(html, route) {
   const dom = new JSDOM(html);
   const document = dom.window.document;
@@ -137,7 +137,7 @@ function injectSEOMeta(html, route) {
         addressCountry: "FR",
       },
       telephone: "+33544314447",
-      url: "https://rosi-trattoria.vercel.app/",
+      url: CONFIG.baseUrl,
       openingHours: [
         "Tu-Th 12:00-14:00,19:00-21:30",
         "Fr-Sa 12:00-14:00,19:00-22:30",
@@ -193,9 +193,57 @@ User-agent: facebookexternalhit
 Allow: /`;
 }
 
-// Fonction principale de prerender pour Vercel
-async function prerenderForVercel() {
-  console.log("🚀 Démarrage du prerender optimisé pour Vercel...");
+// Fonction pour générer .htaccess pour IONOS
+function generateHtaccess() {
+  return `# Configuration pour SPA React sur IONOS
+RewriteEngine On
+
+# Gestion du routage côté client
+RewriteBase /
+RewriteRule ^index\\.html$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.html [L]
+
+# Optimisations de cache
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
+
+# Compression GZIP
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+</IfModule>
+
+# Sécurité
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options nosniff
+    Header always set X-Frame-Options DENY
+    Header always set X-XSS-Protection "1; mode=block"
+</IfModule>`;
+}
+
+// Fonction principale de prerender pour IONOS
+async function prerenderForIONOS() {
+  console.log("🚀 Démarrage du prerender optimisé pour IONOS...");
 
   try {
     // Lire le fichier HTML de base
@@ -230,7 +278,7 @@ async function prerenderForVercel() {
     // Générer le sitemap
     const sitemap = generateSitemap(routes);
     fs.writeFileSync(path.join(CONFIG.distDir, "sitemap.xml"), sitemap, "utf8");
-    console.log("🗺️  Sitemap généré");
+    console.log("🗺️ Sitemap généré");
 
     // Générer robots.txt
     const robotsTxt = generateRobotsTxt();
@@ -241,13 +289,22 @@ async function prerenderForVercel() {
     );
     console.log("🤖 Robots.txt généré");
 
-    console.log("🎉 Prerender Vercel terminé avec succès !");
+    // Générer .htaccess pour IONOS
+    const htaccess = generateHtaccess();
+    fs.writeFileSync(path.join(CONFIG.distDir, ".htaccess"), htaccess, "utf8");
+    console.log("⚙️ .htaccess généré pour IONOS");
+
+    console.log("🎉 Prerender IONOS terminé avec succès !");
     console.log(`📊 ${routes.length} pages générées avec succès`);
+    console.log(`📂 Tous les fichiers sont prêts dans: ${CONFIG.distDir}`);
+    console.log(
+      "🚀 Vous pouvez maintenant uploader le contenu du dossier dist/ sur IONOS"
+    );
   } catch (error) {
     console.error("❌ Erreur lors du prerender:", error.message);
 
-    // Ne pas faire échouer le build, continuer avec les fichiers SEO de base
-    console.log("⚠️  Continuité avec génération SEO basique...");
+    // Génération des fichiers SEO de base en cas d'erreur
+    console.log("⚠️ Continuité avec génération SEO basique...");
 
     try {
       const sitemap = generateSitemap(routes);
@@ -264,6 +321,13 @@ async function prerenderForVercel() {
         "utf8"
       );
 
+      const htaccess = generateHtaccess();
+      fs.writeFileSync(
+        path.join(CONFIG.distDir, ".htaccess"),
+        htaccess,
+        "utf8"
+      );
+
       console.log("✅ Fichiers SEO basiques générés");
     } catch (fallbackError) {
       console.error("❌ Erreur critique:", fallbackError.message);
@@ -271,9 +335,13 @@ async function prerenderForVercel() {
   }
 }
 
-// Exécuter le prerender
-prerenderForVercel().catch((error) => {
-  console.error("❌ Erreur fatale:", error);
-  // Ne pas faire échouer le build
-  process.exit(0);
-});
+// Exporter la fonction pour réutilisation
+export { prerenderForIONOS as prerender };
+
+// Exécuter le prerender si appelé directement
+if (import.meta.url === `file://${process.argv[1]}`) {
+  prerenderForIONOS().catch((error) => {
+    console.error("❌ Erreur fatale:", error);
+    process.exit(1);
+  });
+}
