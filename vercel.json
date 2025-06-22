@@ -5,6 +5,14 @@
   "installCommand": "npm install",
   "devCommand": "npm run dev",
   "framework": "vite",
+  "functions": {
+    "app/api/*.js": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "env": {
+    "NODE_ENV": "production"
+  },
   "headers": [
     {
       "source": "/video/(.*)",
@@ -50,6 +58,15 @@
       ]
     },
     {
+      "source": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|webp|woff|woff2))$",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
       "source": "/(.*)",
       "headers": [
         {
@@ -58,11 +75,15 @@
         },
         {
           "key": "X-Frame-Options",
-          "value": "DENY"
+          "value": "SAMEORIGIN"
         },
         {
           "key": "X-XSS-Protection",
           "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
         }
       ]
     }
@@ -77,9 +98,24 @@
       "destination": "/robots.txt"
     },
     {
+      "source": "/carte",
+      "destination": "/carte/index.html"
+    },
+    {
+      "source": "/nos-valeurs",
+      "destination": "/nos-valeurs/index.html"
+    },
+    {
+      "source": "/recrutement",
+      "destination": "/recrutement/index.html"
+    },
+    {
+      "source": "/contact",
+      "destination": "/contact/index.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
   ]
-
 }

@@ -1,373 +1,279 @@
-import puppeteer from "puppeteer";
+import { JSDOM } from "jsdom";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { promisify } from "util";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const writeFile = promisify(fs.writeFile);
-const mkdir = promisify(fs.mkdir);
-
-// Configuration corrigée
+// Configuration simplifiée pour Vercel
 const CONFIG = {
-  baseUrl: "http://localhost:4173",
   distDir: path.join(__dirname, "../dist"),
-  timeout: 30000,
-  waitTime: 2000,
-  retries: 2,
-  maxConcurrency: 2, // Réduire pour Vercel
+  baseUrl: "https://rosi-trattoria.vercel.app",
 };
 
-// Routes avec métadonnées pour le SEO
+// Routes avec métadonnées SEO
 const routes = [
   {
     path: "/",
+    title:
+      "Rosi Trattoria – Pizzeria Italienne Bio, Locale & Fait Maison à Brive-la-Gaillarde",
+    description:
+      "Rosi Trattoria est une pizzeria italienne à Brive-la-Gaillarde. Pizzas napolitaines bio, locales, faites maison au feu de bois. Produits frais, ambiance chaleureuse.",
+    keywords:
+      "pizzeria Brive, pizza napolitaine bio, restaurant italien fait maison, trattoria Brive-la-Gaillarde",
     priority: 1.0,
     changefreq: "daily",
   },
   {
     path: "/carte",
+    title: "Notre Carte - Pizzas Napolitaines Bio | Rosi Trattoria Brive",
+    description:
+      "Découvrez notre carte de pizzas napolitaines artisanales, faites maison avec des produits bio et locaux. Pâtes levées 48h, cuisson au feu de bois.",
+    keywords:
+      "carte pizzas napolitaines, menu restaurant italien Brive, pizza bio fait maison",
     priority: 0.9,
     changefreq: "weekly",
   },
   {
     path: "/nos-valeurs",
+    title: "Nos Valeurs - Bio, Local & Artisanal | Rosi Trattoria",
+    description:
+      "Découvrez les valeurs de Rosi Trattoria : engagement pour le bio, produits locaux, artisanat italien authentique et respect de l'environnement.",
+    keywords:
+      "valeurs restaurant bio, cuisine italienne artisanale, produits locaux Brive",
     priority: 0.8,
     changefreq: "monthly",
   },
   {
     path: "/recrutement",
+    title: "Recrutement - Rejoignez l'équipe Rosi Trattoria Brive",
+    description:
+      "Rosi Trattoria recrute ! Rejoignez notre équipe passionnée dans notre pizzeria italienne à Brive-la-Gaillarde. Postes disponibles en cuisine et service.",
+    keywords:
+      "emploi pizzeria Brive, recrutement restaurant italien, job cuisine service",
     priority: 0.7,
     changefreq: "weekly",
   },
   {
     path: "/contact",
+    title: "Contact & Réservation - Rosi Trattoria Brive-la-Gaillarde",
+    description:
+      "Contactez Rosi Trattoria pour vos réservations. Adresse, horaires, téléphone. Pizzeria italienne au 11 Prom. des Tilleuls, Brive-la-Gaillarde.",
+    keywords:
+      "contact pizzeria Brive, réservation restaurant italien, adresse Rosi Trattoria",
     priority: 0.6,
     changefreq: "monthly",
   },
 ];
 
-// Optimisations SEO pour le HTML
-function optimizeHtml(html, route) {
-  let optimizedHtml = html;
+// Fonction pour injecter les meta tags SEO
+function injectSEOMeta(html, route) {
+  const dom = new JSDOM(html);
+  const document = dom.window.document;
+  const head = document.head;
 
-  // Supprimer les scripts de développement et les sourcemaps
-  optimizedHtml = optimizedHtml.replace(
-    /<script[^>]*src="[^"]*\.map"[^>]*><\/script>/gi,
-    ""
+  // Supprimer les meta tags existants pour éviter les doublons
+  const existingMetas = head.querySelectorAll(
+    'meta[name="description"], meta[name="keywords"], title'
   );
+  existingMetas.forEach((meta) => meta.remove());
 
-  // Ajouter des balises meta pour le cache
-  const cacheMetaTags = `
-    <meta http-equiv="Cache-Control" content="public, max-age=31536000">
-    <meta name="robots" content="index, follow">
-    <meta name="googlebot" content="index, follow">
-  `;
+  // Créer et injecter les nouveaux meta tags
+  const title = document.createElement("title");
+  title.textContent = route.title;
+  head.insertBefore(title, head.firstChild);
 
-  optimizedHtml = optimizedHtml.replace(/<\/head>/i, `${cacheMetaTags}</head>`);
+  const metaDescription = document.createElement("meta");
+  metaDescription.setAttribute("name", "description");
+  metaDescription.setAttribute("content", route.description);
+  head.appendChild(metaDescription);
 
-  // Minifier le HTML (suppression des espaces superflus)
-  optimizedHtml = optimizedHtml
-    .replace(/>\s+</g, "><")
-    .replace(/\s{2,}/g, " ")
-    .trim();
+  const metaKeywords = document.createElement("meta");
+  metaKeywords.setAttribute("name", "keywords");
+  metaKeywords.setAttribute("content", route.keywords);
+  head.appendChild(metaKeywords);
 
-  // Ajouter des données structurées pour le SEO si c'est la page d'accueil
+  // Open Graph tags
+  const ogTitle = document.createElement("meta");
+  ogTitle.setAttribute("property", "og:title");
+  ogTitle.setAttribute("content", route.title);
+  head.appendChild(ogTitle);
+
+  const ogDescription = document.createElement("meta");
+  ogDescription.setAttribute("property", "og:description");
+  ogDescription.setAttribute("content", route.description);
+  head.appendChild(ogDescription);
+
+  const ogUrl = document.createElement("meta");
+  ogUrl.setAttribute("property", "og:url");
+  ogUrl.setAttribute("content", `${CONFIG.baseUrl}${route.path}`);
+  head.appendChild(ogUrl);
+
+  const ogImage = document.createElement("meta");
+  ogImage.setAttribute("property", "og:image");
+  ogImage.setAttribute("content", `${CONFIG.baseUrl}/images/logo/og-image.jpg`);
+  head.appendChild(ogImage);
+
+  // Canonical URL
+  const canonical = document.createElement("link");
+  canonical.setAttribute("rel", "canonical");
+  canonical.setAttribute("href", `${CONFIG.baseUrl}${route.path}`);
+  head.appendChild(canonical);
+
+  // Schema.org pour la page d'accueil
   if (route.path === "/") {
-    const structuredData = `
-      <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Restaurant",
-        "name": "Rosi Trattoria",
-        "url": "https://rosi-trattoria.vercel.app",
-        "description": "Restaurant italien authentique proposant des spécialités traditionnelles dans une ambiance chaleureuse",
-        "servesCuisine": "Italian",
-        "priceRange": "$$",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "France"
-        },
-        "sameAs": []
-      }
-      </script>
-    `;
-    optimizedHtml = optimizedHtml.replace(
-      /<\/body>/i,
-      `${structuredData}</body>`
-    );
-  }
-
-  return optimizedHtml;
-}
-
-// Fonction pour vérifier si le serveur est disponible
-async function waitForServer(url, maxAttempts = 30) {
-  for (let i = 0; i < maxAttempts; i++) {
-    try {
-      const response = await fetch(url);
-      if (response.ok) {
-        console.log("✅ Serveur disponible");
-        return true;
-      }
-    } catch (error) {
-      console.log(`⏳ Attente du serveur (${i + 1}/${maxAttempts})...`);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-    }
-  }
-  throw new Error("Le serveur n'est pas disponible après 30 secondes");
-}
-
-// Fonction pour traiter une route avec retry
-async function processRoute(browser, route, attempt = 1) {
-  let page = null;
-
-  try {
-    console.log(`📄 Pre-rendering: ${route.path} (tentative ${attempt})`);
-
-    page = await browser.newPage();
-
-    // Configuration de la viewport pour le SEO mobile
-    await page.setViewport({ width: 1200, height: 800 });
-
-    // Aller à la page avec des options optimisées
-    await page.goto(`${CONFIG.baseUrl}${route.path}`, {
-      waitUntil: "networkidle0", // Attendre que le réseau soit inactif
-      timeout: CONFIG.timeout,
+    const script = document.createElement("script");
+    script.setAttribute("type", "application/ld+json");
+    script.textContent = JSON.stringify({
+      "@context": "http://schema.org",
+      "@type": "Restaurant",
+      name: "Rosi Trattoria",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "11 Prom. des Tilleuls",
+        addressLocality: "Brive-la-Gaillarde",
+        postalCode: "19100",
+        addressCountry: "FR",
+      },
+      telephone: "+33544314447",
+      url: "https://rosi-trattoria.vercel.app/",
+      openingHours: [
+        "Tu-Th 12:00-14:00,19:00-21:30",
+        "Fr-Sa 12:00-14:00,19:00-22:30",
+      ],
+      servesCuisine: "Italian",
+      description: route.description,
+      priceRange: "€€",
+      image: `${CONFIG.baseUrl}/images/logo/og-image.jpg`,
+      hasMenu: `${CONFIG.baseUrl}/carte`,
+      acceptsReservations: true,
     });
-
-    // Attendre que React soit monté
-    await page.waitForSelector("body", { timeout: 10000 });
-
-    // Attendre que les éléments SEO soient chargés (avec fallback)
-    try {
-      await page.waitForFunction(
-        () => {
-          const meta = document.head.querySelector('meta[name="description"]');
-          return (
-            meta &&
-            meta.getAttribute("content") &&
-            meta.getAttribute("content").length > 0
-          );
-        },
-        { timeout: 8000 }
-      );
-    } catch (e) {
-      console.log(
-        `⚠️  Meta description non trouvée pour ${route.path}, continuation...`
-      );
-    }
-
-    // Temps d'attente supplémentaire pour s'assurer que tout est chargé
-    await new Promise((resolve) => setTimeout(resolve, CONFIG.waitTime));
-
-    // Récupérer le HTML complet
-    const html = await page.content();
-
-    // Optimiser le HTML pour le SEO
-    const optimizedHtml = optimizeHtml(html, route);
-
-    // Créer le chemin de fichier
-    const routePath = route.path === "/" ? "/index" : route.path;
-    const dirPath = path.join(CONFIG.distDir, routePath);
-    const filePath =
-      route.path === "/"
-        ? path.join(CONFIG.distDir, "index.html")
-        : path.join(dirPath, "index.html");
-
-    // Créer le répertoire si nécessaire
-    if (route.path !== "/") {
-      await mkdir(dirPath, { recursive: true });
-    }
-
-    // Écrire le fichier HTML pre-rendu
-    await writeFile(filePath, optimizedHtml, "utf8");
-
-    console.log(`✅ Pre-rendu sauvé: ${filePath}`);
-
-    // Fermer la page proprement
-    if (page && !page.isClosed()) {
-      await page.close();
-    }
-
-    return { success: true, route: route.path, filePath };
-  } catch (error) {
-    console.error(
-      `❌ Erreur pour ${route.path} (tentative ${attempt}):`,
-      error.message
-    );
-
-    // Fermer la page en cas d'erreur
-    if (page && !page.isClosed()) {
-      try {
-        await page.close();
-      } catch (closeError) {
-        console.log(
-          `⚠️  Erreur lors de la fermeture de page: ${closeError.message}`
-        );
-      }
-    }
-
-    if (attempt < CONFIG.retries) {
-      console.log(`🔄 Nouvelle tentative pour ${route.path}...`);
-      // Attendre un peu avant de réessayer
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      return processRoute(browser, route, attempt + 1);
-    }
-
-    return { success: false, route: route.path, error: error.message };
+    head.appendChild(script);
   }
+
+  return dom.serialize();
 }
 
-// Fonction pour traiter les routes par lot
-async function processBatch(browser, routeBatch) {
-  const promises = routeBatch.map((route) => processRoute(browser, route));
-  return Promise.all(promises);
-}
-
-// Générer un sitemap XML
-function generateSitemap(results) {
-  const baseUrl = "https://rosi-trattoria.vercel.app";
-
-  const urls = results
-    .filter((result) => result.success)
-    .map((result) => {
-      const route = routes.find((r) => r.path === result.route);
-      return `
+// Fonction pour générer le sitemap
+function generateSitemap(routes) {
+  const urls = routes
+    .map(
+      (route) => `
   <url>
-    <loc>${baseUrl}${route.path === "/" ? "" : route.path}</loc>
+    <loc>${CONFIG.baseUrl}${route.path === "/" ? "" : route.path}</loc>
     <lastmod>${new Date().toISOString().split("T")[0]}</lastmod>
     <changefreq>${route.changefreq}</changefreq>
     <priority>${route.priority}</priority>
-  </url>`;
-    })
+  </url>`
+    )
     .join("");
 
-  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+  return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls}
 </urlset>`;
-
-  return sitemap;
 }
 
-// Générer un robots.txt
+// Fonction pour générer robots.txt
 function generateRobotsTxt() {
-  const baseUrl = "https://rosi-trattoria.vercel.app";
-
   return `User-agent: *
 Allow: /
 
-Sitemap: ${baseUrl}/sitemap.xml
+Sitemap: ${CONFIG.baseUrl}/sitemap.xml
 
-# Allow all search engines to crawl
+# Optimisations pour les moteurs de recherche
 User-agent: Googlebot
 Allow: /
 
 User-agent: Bingbot
+Allow: /
+
+User-agent: facebookexternalhit
 Allow: /`;
 }
 
-// Fonction principale
-async function prerender() {
-  console.log("🚀 Démarrage du pre-rendering optimisé...");
-
-  const startTime = Date.now();
-
-  // Vérifier que le serveur est disponible
-  try {
-    await waitForServer(CONFIG.baseUrl);
-  } catch (error) {
-    console.error("❌ Erreur:", error.message);
-    process.exit(1);
-  }
-
-  // Lancer Puppeteer avec des options optimisées pour Vercel
-  const browser = await puppeteer.launch({
-    headless: "new",
-    args: [
-      "--no-sandbox",
-      "--disable-setuid-sandbox",
-      "--disable-dev-shm-usage",
-      "--disable-gpu",
-      "--single-process",
-      "--no-zygote",
-      "--disable-extensions",
-      "--disable-background-timer-throttling",
-      "--disable-backgrounding-occluded-windows",
-      "--disable-renderer-backgrounding",
-      "--memory-pressure-off",
-      "--max_old_space_size=4096",
-    ],
-    executablePath:
-      process.env.PUPPETEER_EXECUTABLE_PATH ||
-      process.env.GOOGLE_CHROME_BIN ||
-      undefined,
-  });
-
-  const results = [];
+// Fonction principale de prerender pour Vercel
+async function prerenderForVercel() {
+  console.log("🚀 Démarrage du prerender optimisé pour Vercel...");
 
   try {
-    // Traiter les routes par lots pour éviter la surcharge
-    for (let i = 0; i < routes.length; i += CONFIG.maxConcurrency) {
-      const batch = routes.slice(i, i + CONFIG.maxConcurrency);
-      console.log(
-        `📦 Processing batch ${Math.floor(i / CONFIG.maxConcurrency) + 1}...`
-      );
+    // Lire le fichier HTML de base
+    const indexPath = path.join(CONFIG.distDir, "index.html");
+    const baseHtml = fs.readFileSync(indexPath, "utf8");
 
-      const batchResults = await processBatch(browser, batch);
-      results.push(...batchResults);
+    // Générer les pages avec SEO injecté
+    for (const route of routes) {
+      console.log(`📄 Génération de la page: ${route.path}`);
+
+      // Injecter les meta tags SEO
+      const optimizedHtml = injectSEOMeta(baseHtml, route);
+
+      // Créer le répertoire si nécessaire
+      if (route.path !== "/") {
+        const routeDir = path.join(CONFIG.distDir, route.path);
+        if (!fs.existsSync(routeDir)) {
+          fs.mkdirSync(routeDir, { recursive: true });
+        }
+
+        // Écrire le fichier HTML
+        const filePath = path.join(routeDir, "index.html");
+        fs.writeFileSync(filePath, optimizedHtml, "utf8");
+        console.log(`✅ Page générée: ${filePath}`);
+      } else {
+        // Remplacer l'index.html de base
+        fs.writeFileSync(indexPath, optimizedHtml, "utf8");
+        console.log(`✅ Page d'accueil optimisée: ${indexPath}`);
+      }
     }
 
     // Générer le sitemap
-    const sitemap = generateSitemap(results);
-    await writeFile(path.join(CONFIG.distDir, "sitemap.xml"), sitemap, "utf8");
-    console.log("🗺️  Sitemap généré: sitemap.xml");
+    const sitemap = generateSitemap(routes);
+    fs.writeFileSync(path.join(CONFIG.distDir, "sitemap.xml"), sitemap, "utf8");
+    console.log("🗺️  Sitemap généré");
 
     // Générer robots.txt
     const robotsTxt = generateRobotsTxt();
-    await writeFile(path.join(CONFIG.distDir, "robots.txt"), robotsTxt, "utf8");
+    fs.writeFileSync(
+      path.join(CONFIG.distDir, "robots.txt"),
+      robotsTxt,
+      "utf8"
+    );
     console.log("🤖 Robots.txt généré");
 
-    // Statistiques finales
-    const successful = results.filter((r) => r.success).length;
-    const failed = results.filter((r) => !r.success).length;
-    const duration = ((Date.now() - startTime) / 1000).toFixed(2);
+    console.log("🎉 Prerender Vercel terminé avec succès !");
+    console.log(`📊 ${routes.length} pages générées avec succès`);
+  } catch (error) {
+    console.error("❌ Erreur lors du prerender:", error.message);
 
-    console.log("\n📊 Statistiques:");
-    console.log(`   ✅ Réussis: ${successful}`);
-    console.log(`   ❌ Échecs: ${failed}`);
-    console.log(`   ⏱️  Durée: ${duration}s`);
-    console.log("\n🎉 Pre-rendering terminé !");
+    // Ne pas faire échouer le build, continuer avec les fichiers SEO de base
+    console.log("⚠️  Continuité avec génération SEO basique...");
 
-    // Afficher les erreurs s'il y en a
-    const errors = results.filter((r) => !r.success);
-    if (errors.length > 0) {
-      console.log("\n❌ Échecs détaillés:");
-      errors.forEach((error) => {
-        console.log(`   ${error.route}: ${error.error}`);
-      });
+    try {
+      const sitemap = generateSitemap(routes);
+      fs.writeFileSync(
+        path.join(CONFIG.distDir, "sitemap.xml"),
+        sitemap,
+        "utf8"
+      );
+
+      const robotsTxt = generateRobotsTxt();
+      fs.writeFileSync(
+        path.join(CONFIG.distDir, "robots.txt"),
+        robotsTxt,
+        "utf8"
+      );
+
+      console.log("✅ Fichiers SEO basiques générés");
+    } catch (fallbackError) {
+      console.error("❌ Erreur critique:", fallbackError.message);
     }
-  } finally {
-    await browser.close();
   }
 }
 
-// Gestion des erreurs globales
-process.on("unhandledRejection", (reason, promise) => {
-  console.error("❌ Erreur non gérée:", reason);
-  process.exit(1);
+// Exécuter le prerender
+prerenderForVercel().catch((error) => {
+  console.error("❌ Erreur fatale:", error);
+  // Ne pas faire échouer le build
+  process.exit(0);
 });
-
-// Exporter la fonction pour l'utiliser dans d'autres scripts
-export { prerender };
-
-// Exécuter seulement si appelé directement
-if (import.meta.url === `file://${process.argv[1]}`) {
-  prerender().catch((error) => {
-    console.error("❌ Erreur fatale:", error);
-    process.exit(1);
-  });
-}
