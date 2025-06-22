@@ -1,59 +1,3 @@
-// Animations pour le texte en attente d'API
-@keyframes loadingDots {
-  0%,
-  20% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
-@keyframes textPulse {
-  0%,
-  100% {
-    opacity: 0.4;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-@keyframes typewriter {
-  0% {
-    width: 0;
-  }
-  70% {
-    width: 100%;
-  }
-  100% {
-    width: 100%;
-  }
-}
-
-@keyframes blinkCursor {
-  0%,
-  50% {
-    border-color: transparent;
-  }
-  51%,
-  100% {
-    border-color: var(--primary-blue);
-  }
-}
-
-@keyframes loadingShimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
 // Animation pour la notification email
 @keyframes slideInUp {
   0% {
@@ -114,18 +58,19 @@
 
   &__grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: 3rem;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 4rem;
     margin-bottom: 4rem;
+    justify-items: center;
 
     @media (max-width: 1024px) {
       grid-template-columns: 1fr 1fr;
-      gap: 2.5rem;
+      gap: 3rem;
     }
 
     @media (max-width: 768px) {
       grid-template-columns: 1fr;
-      gap: 2rem;
+      gap: 2.5rem;
     }
   }
 
@@ -133,6 +78,8 @@
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    text-align: center;
+    align-items: center;
 
     @media (max-width: 768px) {
       align-items: center;
@@ -144,6 +91,7 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    align-items: center;
   }
 
   &__logo {
@@ -152,19 +100,12 @@
     max-width: 200px;
     object-fit: contain;
     filter: brightness(1.1);
-
-    @media (max-width: 768px) {
-      margin: 0 auto;
-    }
   }
 
   &__rating {
     display: flex;
     gap: 0.25rem;
-
-    @media (max-width: 768px) {
-      justify-content: center;
-    }
+    justify-content: center;
   }
 
   &__star {
@@ -179,21 +120,21 @@
     font-weight: 600;
     color: var(--primary-pink);
     line-height: 1.4;
+    text-align: center;
   }
 
   &__description {
     color: #cbd5e1;
     line-height: 1.6;
+    text-align: center;
+    max-width: 300px;
   }
 
   &__social {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-
-    @media (max-width: 768px) {
-      align-items: center;
-    }
+    align-items: center;
   }
 
   &__social-title {
@@ -201,6 +142,7 @@
     font-weight: 600;
     color: white;
     margin: 0;
+    text-align: center;
   }
 
   &__social-buttons {
@@ -287,6 +229,12 @@
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    max-width: 350px;
+    width: 100%;
+
+    @media (max-width: 768px) {
+      max-width: none;
+    }
   }
 
   &__section-title {
@@ -294,11 +242,10 @@
     font-weight: 600;
     color: white;
     margin: 0 0 1.5rem 0;
+    text-align: center;
 
-    .footer__contact & {
-      @media (max-width: 768px) {
-        padding-top: 18px;
-      }
+    @media (max-width: 768px) {
+      text-align: center;
     }
   }
 
@@ -470,48 +417,20 @@
     font-size: 0.875rem;
     line-height: 1.5;
     width: 100%;
-
-    // Desktop: disposition en colonnes avec plus d'espace
-    @media (min-width: 769px) {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    // Mobile: garder l'ancien comportement
-    @media (max-width: 768px) {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
   }
 
   &__hours-item {
-    flex-direction: column;
-    // Desktop: flex avec justification spacée
-    @media (min-width: 769px) {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.5rem 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 
-      &:last-child {
-        border-bottom: none;
-      }
-    }
-
-    // Mobile: garder l'ancien comportement
-    @media (max-width: 768px) {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.5rem 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-
-      &:last-child {
-        border-bottom: none;
-      }
+    &:last-child {
+      border-bottom: none;
     }
 
     @media (max-width: 480px) {
@@ -526,22 +445,14 @@
     font-weight: 600;
     color: white;
     flex-shrink: 0;
-
-    // Desktop: largeur flexible avec min-width
-    @media (min-width: 769px) {
-      min-width: 60%;
-      max-width: 70%;
-    }
+    min-width: 60%;
+    max-width: 70%;
   }
 
   &__hours-time {
     color: #cbd5e1;
     text-align: right;
     flex-shrink: 0;
-
-    @media (max-width: 768px) {
-      text-align: right;
-    }
 
     @media (max-width: 480px) {
       text-align: left;
@@ -554,10 +465,6 @@
     text-align: right;
     flex-shrink: 0;
 
-    @media (max-width: 768px) {
-      text-align: right;
-    }
-
     @media (max-width: 480px) {
       text-align: left;
     }
@@ -567,12 +474,23 @@
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    max-width: 250px;
+    width: 100%;
+
+    @media (max-width: 768px) {
+      max-width: none;
+    }
   }
 
   &__nav-links {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
+    align-items: center;
+
+    @media (max-width: 768px) {
+      align-items: center;
+    }
   }
 
   &__nav-link {
@@ -580,131 +498,11 @@
     text-decoration: none;
     transition: all 0.2s ease;
     padding: 0.25rem 0;
-  }
-
-  &__facebook {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  &__facebook-title {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-
-    svg {
-      width: 1.25rem;
-      height: 1.25rem;
-      color: var(--primary-blue);
-    }
-  }
-
-  &__facebook-posts {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  &__facebook-loading {
-    color: #94a3b8;
-    font-style: italic;
     text-align: center;
-    padding: 1rem;
-  }
-
-  &__facebook-post {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 0.5rem;
-    padding: 1rem;
-    transition: background-color 0.2s ease;
-    border: 1px solid rgba(255, 255, 255, 0.1);
 
     &:hover {
-      background: rgba(255, 255, 255, 0.08);
-    }
-  }
-
-  &__facebook-image {
-    width: 100%;
-    height: 6rem;
-    object-fit: cover;
-    border-radius: 0.5rem;
-    margin-bottom: 0.75rem;
-  }
-
-  &__facebook-content {
-    color: #cbd5e1;
-    font-size: 0.875rem;
-    line-height: 1.5;
-    margin-bottom: 0.75rem;
-
-    // Animation typewriter pour le contenu en attente d'API
-    &--loading {
-      font-weight: bold;
-      position: relative;
-      overflow: hidden;
-      white-space: nowrap;
-      width: 0;
-      animation: typewriter 4s ease-in-out infinite;
-
-      &::after {
-        content: "";
-      }
-    }
-
-    // Animation alternative avec effet shimmer
-    &--loading-shimmer {
-      background: linear-gradient(
-        90deg,
-        rgba(203, 213, 225, 0.4) 25%,
-        rgba(203, 213, 225, 0.8) 50%,
-        rgba(203, 213, 225, 0.4) 75%
-      );
-      background-size: 200% 100%;
-      background-clip: text;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: loadingShimmer 2s linear infinite;
-    }
-  }
-
-  &__facebook-meta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 0.75rem;
-    color: #94a3b8;
-  }
-
-  &__facebook-likes {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-
-    svg {
-      width: 0.75rem;
-      height: 0.75rem;
-      color: var(--primary-pink);
-    }
-  }
-
-  &__facebook-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--primary-blue);
-    text-decoration: none;
-    font-size: 0.875rem;
-    transition: color 0.2s ease;
-
-    svg {
-      width: 1rem;
-      height: 1rem;
-    }
-
-    &:hover {
-      color: #93c5fd;
+      color: var(--primary-blue);
+      transform: translateY(-1px);
     }
   }
 
@@ -729,6 +527,11 @@
     color: #94a3b8;
     font-size: 0.875rem;
     margin: 0;
+    text-align: center;
+
+    @media (min-width: 768px) {
+      text-align: left;
+    }
   }
 
   &__legal-links {
@@ -736,6 +539,11 @@
     align-items: center;
     gap: 1.5rem;
     font-size: 0.875rem;
+    justify-content: center;
+
+    @media (min-width: 768px) {
+      justify-content: flex-end;
+    }
   }
 
   &__legal-link {

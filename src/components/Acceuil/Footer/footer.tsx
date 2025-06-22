@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   MapPin,
   Phone,
@@ -6,41 +6,11 @@ import {
   Facebook,
   Instagram,
   Clock,
-  Heart,
   Star,
 } from "lucide-react";
 import "./footer.scss";
 
-interface FacebookPost {
-  id: string;
-  message?: string;
-  story?: string;
-  created_time: string;
-  likes?: {
-    summary: {
-      total_count: number;
-    };
-  };
-  attachments?: {
-    data: Array<{
-      media?: {
-        image?: {
-          src: string;
-        };
-      };
-    }>;
-  };
-  isApiWaiting?: boolean; // Nouveau champ pour identifier les posts en attente
-}
-
-interface FacebookResponse {
-  data: FacebookPost[];
-  error?: any;
-}
-
 const Footer: React.FC = () => {
-  const [facebookPosts, setFacebookPosts] = useState<FacebookPost[]>([]);
-  const [loading, setLoading] = useState(true);
   const [emailCopied, setEmailCopied] = useState(false);
 
   // Détection du mois d'août
@@ -77,100 +47,6 @@ const Footer: React.FC = () => {
         setEmailCopied(false);
       }, 3000);
     }
-  };
-
-  useEffect(() => {
-    const initFacebookSDK = () => {
-      if (typeof window !== "undefined" && (window as any).FB) {
-        (window as any).FB.init({
-          appId: import.meta.env.VITE_FACEBOOK_APP_ID,
-          cookie: true,
-          xfbml: true,
-          version: "v18.0",
-        });
-
-        loadFacebookPosts();
-      }
-    };
-
-    if (!(window as any).FB) {
-      const script = document.createElement("script");
-      script.src = "https://connect.facebook.net/fr_FR/sdk.js";
-      script.async = true;
-      script.defer = true;
-      script.onload = initFacebookSDK;
-      document.head.appendChild(script);
-    } else {
-      initFacebookSDK();
-    }
-  }, []);
-
-  const loadFacebookPosts = () => {
-    if (!(window as any).FB) return;
-
-    const pageId = "ROSI.TRATTORIA";
-
-    (window as any).FB.api(
-      `/${pageId}/feed`,
-      "GET",
-      {
-        fields:
-          "id,message,story,created_time,likes.summary(true),attachments{media}",
-        limit: 3,
-        access_token: import.meta.env.VITE_FACEBOOK_ACCESS_TOKEN,
-      },
-      (response: FacebookResponse) => {
-        if (response && !response.error) {
-          setFacebookPosts(response.data || []);
-        } else {
-          console.error(
-            "Erreur lors du chargement des posts Facebook:",
-            response.error
-          );
-          // Posts avec animation de chargement
-          setFacebookPosts([
-            {
-              id: "1",
-              message: "Awaiting API Request TOKEN...",
-              created_time: "2025-06-11T10:00:00Z",
-              likes: { summary: { total_count: 0 } },
-              isApiWaiting: true,
-            },
-            {
-              id: "2",
-              message: "Awaiting API Request TOKEN...",
-              created_time: "2025-06-11T15:30:00Z",
-              likes: { summary: { total_count: 0 } },
-              isApiWaiting: true,
-            },
-            {
-              id: "3",
-              message: "Awaiting API Request TOKEN...",
-              created_time: "2025-06-11T20:00:00Z",
-              likes: { summary: { total_count: 0 } },
-              isApiWaiting: true,
-            },
-          ]);
-        }
-        setLoading(false);
-      }
-    );
-  };
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("fr-FR", {
-      day: "numeric",
-      month: "short",
-    });
-  };
-
-  const getPostContent = (post: FacebookPost) => {
-    return post.message || post.story || "Nouveau post sur notre page Facebook";
-  };
-
-  const getPostImage = (post: FacebookPost) => {
-    return post.attachments?.data?.[0]?.media?.image?.src;
   };
 
   return (
@@ -379,87 +255,6 @@ const Footer: React.FC = () => {
               </a>
             </nav>
           </div>
-
-          <aside className="footer__facebook">
-            <h3 className="footer__section-title footer__facebook-title">
-              <Facebook aria-hidden="true" />
-              <span>Derniers posts Facebook</span>
-            </h3>
-
-            <div className="footer__facebook-posts">
-              {loading ? (
-                <div className="footer__facebook-loading" aria-live="polite">
-                  Chargement des dernières actualités...
-                </div>
-              ) : (
-                facebookPosts.map((post) => (
-                  <article
-                    key={post.id}
-                    className={`footer__facebook-post ${
-                      post.isApiWaiting
-                        ? "footer__facebook-post--api-waiting"
-                        : ""
-                    }`}
-                  >
-                    {getPostImage(post) && (
-                      <img
-                        src={getPostImage(post)}
-                        alt="Publication Facebook de Rosi Trattoria"
-                        className="footer__facebook-image"
-                        loading="lazy"
-                      />
-                    )}
-                    <p
-                      className={`footer__facebook-content ${
-                        post.isApiWaiting
-                          ? "footer__facebook-content--loading"
-                          : ""
-                      }`}
-                    >
-                      {getPostContent(post)}
-                    </p>
-                    <div className="footer__facebook-meta">
-                      <time
-                        className={`footer__facebook-date ${
-                          post.isApiWaiting
-                            ? "footer__facebook-date--loading"
-                            : ""
-                        }`}
-                        dateTime={post.created_time}
-                      >
-                        {formatDate(post.created_time)}
-                      </time>
-                      <div
-                        className={`footer__facebook-likes ${
-                          post.isApiWaiting
-                            ? "footer__facebook-likes--loading"
-                            : ""
-                        }`}
-                        aria-label={`${
-                          post.likes?.summary?.total_count || 0
-                        } j'aime`}
-                      >
-                        <Heart aria-hidden="true" />
-                        <span>{post.likes?.summary?.total_count || 0}</span>
-                      </div>
-                    </div>
-                  </article>
-                ))
-              )}
-
-              <a
-                href="https://www.facebook.com/ROSI.TRATTORIA/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="footer__facebook-link"
-                title="Voir toutes nos publications sur Facebook"
-                aria-label="Accéder à la page Facebook complète de Rosi Trattoria"
-              >
-                <span>Voir plus sur Facebook</span>
-                <Facebook aria-hidden="true" />
-              </a>
-            </div>
-          </aside>
         </div>
 
         <div className="footer__bottom">
