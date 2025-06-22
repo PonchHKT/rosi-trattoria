@@ -241,6 +241,30 @@
           font-size: 0.8rem;
         }
       }
+
+      // Styles pour les liens de contact - sans effets
+      a {
+        color: var(--text-primary);
+        text-decoration: none;
+        font-size: 0.75rem;
+        line-height: 1.2;
+        font-weight: 500;
+        cursor: default;
+
+        @media (max-width: 768px) {
+          font-size: 0.8rem;
+        }
+
+        // Suppression de tous les effets de survol
+        &:hover,
+        &:focus,
+        &:active,
+        &:visited {
+          color: var(--text-primary);
+          text-decoration: none;
+          outline: none;
+        }
+      }
     }
   }
 }
