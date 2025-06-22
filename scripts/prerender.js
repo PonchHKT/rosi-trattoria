@@ -12,12 +12,11 @@ const mkdir = promisify(fs.mkdir);
 
 // Configuration
 const CONFIG = {
-  baseUrl: "http://localhost:4173",
-  distDir: path.resolve(__dirname, "../dist"),
-  timeout: 30000,
-  maxConcurrency: 1, // Réduire à 1 pour éviter les conflits sur Windows
-  waitTime: 2000, // Augmenté pour plus de stabilité
-  retries: 3, // Plus de tentatives
+  baseUrl:
+    process.env.NODE_ENV === "production"
+      ? "http://localhost:4173" // Port preview de Vite
+      : "http://localhost:4173",
+  // ... reste de la config
 };
 
 // Routes avec métadonnées pour le SEO
@@ -272,15 +271,14 @@ async function prerender() {
       "--disable-setuid-sandbox",
       "--disable-dev-shm-usage",
       "--disable-gpu",
-      "--disable-web-security",
-      "--disable-features=VizDisplayCompositor",
-      "--no-first-run",
+      "--single-process", // Important pour Vercel
       "--no-zygote",
       "--disable-extensions",
+      "--disable-background-timer-throttling",
+      "--disable-backgrounding-occluded-windows",
+      "--disable-renderer-backgrounding",
     ],
-    // Options spécifiques Windows
-    ignoreDefaultArgs: ["--disable-extensions"],
-    dumpio: false,
+    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH, // Pour Vercel
   });
 
   const results = [];
