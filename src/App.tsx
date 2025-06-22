@@ -16,6 +16,7 @@ import SwiperGallery from "./components/Acceuil/SwiperGallery/swipergallery";
 import ReviewWidget from "./components/Acceuil/ReviewWidget/reviewwidget";
 import { Helmet } from "react-helmet-async";
 import React from "react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const HomePageSEO = () => (
   <Helmet>
@@ -266,6 +267,7 @@ function App(): React.JSX.Element {
           path="/"
           element={
             <>
+              <SpeedInsights />
               <HomePageSEO />
               <HomeSectionVideo />
               <Biographie1 />

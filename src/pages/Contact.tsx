@@ -7,7 +7,7 @@ const ContactPageSEO = () => (
   <Helmet>
     {/* Titre optimisé avec mots-clés locaux et intention */}
     <title>
-      Contact & Réservation - Restaurant Italien Rosi Trattoria
+      Renseignements & Candidatures - Restaurant Italien Rosi Trattoria
       Brive-la-Gaillarde | 05 44 31 44 47
     </title>
 
