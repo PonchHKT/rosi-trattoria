@@ -10,7 +10,7 @@
     "build:local": "npm run build && npm run preview & sleep 5 && npm run prerender && pkill -f 'vite preview'",
     "preview": "vite preview --port 4173 --host",
     "prerender": "node scripts/prerender-simple.js",
-    "prerender:production": "node scripts/prerender-vercel.js",
+    "prerender:production": "node scripts/prerender-ionos.js",
     "postbuild": "node scripts/generate-seo-files.js",
     "lint": "eslint ."
   },
