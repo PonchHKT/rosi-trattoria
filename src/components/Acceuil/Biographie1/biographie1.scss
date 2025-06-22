@@ -548,25 +548,46 @@ body {
   }
 }
 
+// Breakpoint pour tablettes
+@media (max-width: 1024px) and (min-width: 769px) {
+  .biographie__title {
+    font-size: 3rem;
+  }
+}
+
 // Mobile responsiveness
 @media (max-width: 768px) {
   .biographie__hero {
-    padding: 0rem 1rem 1rem;
+    padding: 2rem 1rem 1rem;
   }
 
   .biographie__title {
-    font-size: 2.5rem;
-    margin-top: 3rem;
-    min-height: 160px;
+    font-size: 2rem;
+    margin-top: 1rem;
+    min-height: 120px;
+    gap: 0.4rem;
+    line-height: 1.1;
+    letter-spacing: 0.5px;
   }
 
-  .biographie__title-main,
+  .biographie__title-main {
+    font-size: 1.8rem;
+    min-height: 1em;
+    word-break: break-word;
+    hyphens: auto;
+  }
+
   .biographie__title-accent {
-    min-height: 1.2em;
+    font-size: 1.6rem;
+    min-height: 1em;
+    word-break: break-word;
+    hyphens: auto;
   }
 
   .biographie__intro {
-    font-size: 1.1rem;
+    font-size: 1rem;
+    padding: 0.5rem;
+    margin: 1rem auto 1rem;
   }
 
   .biographie__section {
@@ -617,5 +638,26 @@ body {
     font-size: 1.1rem;
     padding: 1rem;
     margin: 2rem 0 0 0;
+  }
+}
+
+// Pour les très petits écrans
+@media (max-width: 480px) {
+  .biographie__hero {
+    padding: 1.5rem 0.5rem 1rem;
+  }
+
+  .biographie__title {
+    font-size: 1.6rem;
+    min-height: 100px;
+    gap: 0.2rem;
+  }
+
+  .biographie__title-main {
+    font-size: clamp(2.2rem, 4vw, 1.5rem);
+  }
+
+  .biographie__title-accent {
+    font-size: clamp(2rem, 3.5vw, 1.3rem);
   }
 }
