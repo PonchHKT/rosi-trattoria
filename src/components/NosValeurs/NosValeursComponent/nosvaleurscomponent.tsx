@@ -19,61 +19,61 @@ interface FeatureCardData {
   icon: React.ComponentType<{ size?: number; className?: string }>;
 }
 
-// Données des sections
+// Données des sections avec contenu SEO optimisé
 const sectionsData: SectionData[] = [
   {
-    title: "Une Pâte d'Exception",
-    text: "Chaque matin, Pascal pétrit une pâte unique, maturée 48h selon les secrets de John Bergh. Avec la farine BIO Molino Marino Felice et notre levain naturel, elle offre une texture légère et une digestibilité optimale.",
-    note: "Chuttt !!! Elle respire",
-    highlight: false,
+    title: "Pâte au Levain Naturel d'Exception",
+    text: "Chaque matin, Pascal pétrit une pâte unique au levain naturel, maturée 48 heures selon les techniques authentiques de John Bergh, double champion du monde. Avec la farine biologique Molino Marino Felice et notre levain maison, elle offre une texture aérienne et une digestibilité optimale pour des pizzas napolitaines d'exception.",
+    note: "Chuttt !!! Elle respire...",
+    highlight: true,
   },
   {
-    title: "Sauce Tomate Authentique",
-    text: "Nos tomates San Marzano, cultivées dans le sol volcanique entre Naples et Salerne, apportent une saveur juteuse et authentique à chaque pizza.",
+    title: "Tomates San Marzano Authentiques",
+    text: "Nos tomates San Marzano, cultivées exclusivement dans le sol volcanique fertile entre Naples et Salerne, apportent cette saveur sucrée et acidulée caractéristique qui fait la renommée de la pizza napolitaine authentique.",
   },
   {
-    title: "Boissons Artisanales",
-    text: "Naturelles et saines, nos boissons artisanales sont sélectionnées auprès des meilleurs producteurs italiens. À votre santé !",
+    title: "Boissons Artisanales Italiennes Bio",
+    text: "Sélectionnées auprès des meilleurs producteurs artisanaux d'Italie, nos boissons biologiques et naturelles accompagnent parfaitement vos pizzas. Chinotto, limonades siciliennes et vins bio italiens. Salute !",
   },
   {
-    title: "Charcuterie d'Excellence",
-    text: "Tranchée minute sur notre trancheuse traditionnelle, la charcuterie Rovagnati de Milan évoque l'authenticité des osterias italiennes.",
+    title: "Charcuterie Rovagnati de Milan",
+    text: "Tranchée à la minute sur notre trancheuse traditionnelle italienne, la charcuterie premium Rovagnati de Milan évoque l'authenticité des meilleures osterias lombardes. Prosciutto, mortadelle et coppa d'exception.",
   },
   {
-    title: "Accueil Chaleureux",
-    text: "En franchissant notre porte, embarquez pour un voyage en Italie. Votre plaisir est notre priorité.",
+    title: "Accueil Chaleureux à l'Italienne",
+    text: "Dès que vous franchissez notre porte, embarquez pour un véritable voyage culinaire en Italie. Notre équipe passionnée vous accueille comme en famille, car votre plaisir gastronomique est notre priorité absolue.",
   },
   {
-    title: "Fraîcheur Garantie",
-    text: "Nos légumes, livrés quotidiennement par un producteur régional, sont cuisinés frais par notre pizzaïolo pour une qualité optimale.",
+    title: "Légumes Frais de Producteurs Locaux",
+    text: "Nos légumes bio, livrés quotidiennement par des producteurs locaux de Corrèze, sont préparés frais chaque jour par notre pizzaïolo Pascal pour garantir une qualité nutritionnelle et gustative optimale.",
   },
   {
-    title: "Engagement d'Excellence",
-    text: "Gwen et Pascal s'engagent à offrir une qualité constante et une hygiène irréprochable, digne de la réputation de Rosi Trattoria.",
+    title: "Engagement Qualité et Hygiène",
+    text: "Gwen et Pascal s'engagent personnellement à maintenir une qualité constante et une hygiène irréprochable, dignes de la réputation d'excellence de Rosi Trattoria, restaurant italien authentique à Brive-la-Gaillarde.",
   },
 ];
 
-// Données des cartes
+// Données des cartes avec contenu SEO enrichi
 const featureCardsData: FeatureCardData[] = [
   {
     image: "/images/fait-maison.webp",
-    alt: "Fait Maison",
-    title: "Fait Maison",
-    text: "Tout est préparé sur place avec un savoir-faire artisanal, pour des pizzas au goût unique qui font la différence.",
+    alt: "Pizzas artisanales faites maison par Pascal à Rosi Trattoria",
+    title: "100% Fait Maison Artisanal",
+    text: "Tout est préparé quotidiennement sur place avec un savoir-faire artisanal italien authentique. Nos pizzas napolitaines au goût unique sont le fruit d'une passion transmise par les maîtres pizzaïolos italiens.",
     icon: Home,
   },
   {
     image: "/images/levain-naturel.jpg",
-    alt: "Levain Naturel",
-    title: "Levain Naturel",
-    text: "Notre pâte, élaborée avec un levain naturel et une farine biologique, garantit une pizza délicieuse et digeste.",
+    alt: "Pâte à pizza au levain naturel maturée 48h selon John Bergh",
+    title: "Levain Naturel Traditionnel",
+    text: "Notre pâte signature, élaborée avec un levain naturel vivant et de la farine biologique premium, garantit des pizzas napolitaines délicieuses et parfaitement digestes, selon la tradition authentique.",
     icon: Wheat,
   },
   {
     image: "/images/local-biologique.jpg",
-    alt: "Local et Biologique",
-    title: "Local & Biologique",
-    text: "En favorisant le local et le bio, nous offrons une alimentation saine tout en soutenant les producteurs régionaux.",
+    alt: "Ingrédients bio et locaux utilisés chez Rosi Trattoria Brive",
+    title: "Local & Agriculture Biologique",
+    text: "En privilégiant les circuits courts et l'agriculture biologique, nous offrons une cuisine saine et responsable tout en soutenant activement les producteurs locaux de Corrèze et du Limousin.",
     icon: Leaf,
   },
 ];
@@ -82,7 +82,7 @@ const NosValeursComponent: React.FC = () => {
   return (
     <section
       className="nos-valeurs"
-      aria-label="Nos valeurs chez Rosi Trattoria"
+      aria-label="Nos valeurs et savoir-faire chez Rosi Trattoria"
     >
       <div className="nos-valeurs__content">
         {/* Hero Section avec Pascal - MAINTENANT EN PREMIER */}
@@ -90,16 +90,20 @@ const NosValeursComponent: React.FC = () => {
           <div className="nos-valeurs__pascal-showcase">
             <div className="nos-valeurs__pascal-name-container">
               <div className="nos-valeurs__pascal-title">
-                <span>Maître Pizzaïolo</span>
+                <span>Maître Pizzaïolo Certifié</span>
               </div>
-              <h2 className="nos-valeurs__pascal-name">Pascal Bellemain</h2>
+              <h1 id="pascal-title" className="nos-valeurs__pascal-name">
+                Pascal Bellemain
+              </h1>
             </div>
             <div className="nos-valeurs__pascal-image-container">
               <img
                 src="/images/pascal.jpg"
-                alt="Pascal Bellemain, notre pizzaïolo expert formé par John Bergh"
+                alt="Pascal Bellemain, maître pizzaïolo de Rosi Trattoria formé par John Bergh, champion du monde de pizza napolitaine"
                 className="nos-valeurs__pascal-image"
                 loading="eager"
+                width="400"
+                height="300"
               />
               <div className="nos-valeurs__image-overlay"></div>
             </div>
@@ -107,28 +111,36 @@ const NosValeursComponent: React.FC = () => {
 
           <div className="nos-valeurs__intro-text">
             <p className="nos-valeurs__intro-highlight">
-              PASCAL A SUIVI UNE FORMATION À L'ÉCOLE DE JOHN BERGH, DOUBLE
-              CHAMPION DU MONDE, AFIN DE VOUS OFFRIR UNE PIZZA ÉTHIQUE ET
-              GASTRONOMIQUE.
+              <strong>
+                Pascal a suivi une formation d'excellence à l'école de John
+                Bergh, double champion du monde de pizza napolitaine
+              </strong>
+              , afin de vous offrir une expérience gastronomique italienne
+              authentique et éthique à Brive-la-Gaillarde.
             </p>
 
-            <p className="nos-valeurs__intro-body">
-              <strong>"</strong>Chez nous, c'est pâte au levain naturel maison
-              pour une meilleure digestion. Je favorise au maximum les petits
-              producteurs locaux et utilise majoritairement des produits issus
-              de l'agriculture biologique dans la confection de nos pizzas et
-              tout cela pour votre plus grand plaisir.<strong>"</strong>
-            </p>
+            <blockquote className="nos-valeurs__intro-body" cite="Pascal">
+              <p>
+                <strong>"</strong>Chez Rosi Trattoria, c'est pâte au levain
+                naturel maison pour une meilleure digestion. Je favorise au
+                maximum les petits producteurs locaux de Corrèze et utilise
+                majoritairement des produits issus de l'agriculture biologique
+                dans la confection de nos pizzas napolitaines authentiques, et
+                tout cela pour votre plus grand plaisir gastronomique.
+                <strong>"</strong>
+              </p>
+            </blockquote>
           </div>
         </article>
 
-        {/* Feature Cards - MAINTENANT EN DEUXIÈME POSITION */}
-        <div
+        {/* Feature Cards - Nos savoir-faire */}
+        <section
           className="nos-valeurs__feature-cards"
-          role="region"
-          aria-label="Nos valeurs fondamentales"
+          aria-labelledby="savoir-faire-title"
         >
-          <h3 className="nos-valeurs__features-title">Nos Savoir-Faire</h3>
+          <h2 id="savoir-faire-title" className="nos-valeurs__features-title">
+            Nos Savoir-Faire Authentiques
+          </h2>
           <div className="nos-valeurs__cards-grid">
             {featureCardsData.map((card, index) => {
               const IconComponent = card.icon;
@@ -138,34 +150,49 @@ const NosValeursComponent: React.FC = () => {
                     <IconComponent
                       className="nos-valeurs__card-icon"
                       size={32}
+                      aria-hidden="true"
                     />
                     <img
                       src={card.image}
                       alt={card.alt}
                       className="nos-valeurs__feature-image"
                       loading="lazy"
+                      width="300"
+                      height="200"
                     />
                   </div>
                   <div className="nos-valeurs__card-content">
-                    <h4 className="nos-valeurs__feature-title">{card.title}</h4>
+                    <h3 className="nos-valeurs__feature-title">{card.title}</h3>
                     <p className="nos-valeurs__feature-text">{card.text}</p>
                   </div>
                 </article>
               );
             })}
           </div>
-        </div>
+        </section>
 
-        {/* Quote inspirante - MAINTENANT EN TROISIÈME POSITION (après les cartes) */}
-        <blockquote className="nos-valeurs__quote" role="complementary">
-          <Sparkles className="nos-valeurs__quote-icon" size={32} />
-          Chez Rosi Trattoria, chaque pizza raconte une histoire d'amour entre
-          tradition et passion.
-        </blockquote>
+        {/* Quote inspirante */}
+        <aside className="nos-valeurs__quote" role="complementary">
+          <Sparkles
+            className="nos-valeurs__quote-icon"
+            size={32}
+            aria-hidden="true"
+          />
+          <blockquote>
+            Chez Rosi Trattoria, chaque pizza napolitaine raconte une histoire
+            d'amour entre tradition italienne millénaire et passion artisanale
+            contemporaine.
+          </blockquote>
+        </aside>
 
-        {/* Main Sections - MAINTENANT EN DERNIÈRE POSITION */}
-        <div className="nos-valeurs__main-block" role="main">
-          <h3 className="nos-valeurs__main-title">Nos Engagements Qualité</h3>
+        {/* Sections principales - Nos engagements */}
+        <section
+          className="nos-valeurs__main-block"
+          aria-labelledby="engagements-title"
+        >
+          <h2 id="engagements-title" className="nos-valeurs__main-title">
+            Nos Engagements Qualité & Authenticité
+          </h2>
           <div className="nos-valeurs__sections-flex">
             {sectionsData.map((section, index) => (
               <article
@@ -174,16 +201,19 @@ const NosValeursComponent: React.FC = () => {
                   section.highlight ? "nos-valeurs__section--highlight" : ""
                 }`}
               >
-                <h4 className="nos-valeurs__section-title">{section.title}</h4>
+                <h3 className="nos-valeurs__section-title">{section.title}</h3>
                 <p className="nos-valeurs__section-text">{section.text}</p>
                 {section.note && (
-                  <p className="nos-valeurs__section-note">{section.note}</p>
+                  <p className="nos-valeurs__section-note" role="note">
+                    {section.note}
+                  </p>
                 )}
               </article>
             ))}
           </div>
-        </div>
+        </section>
       </div>
+
       <Swipergallery />
     </section>
   );

@@ -5,10 +5,14 @@ import "./recrutementdisplay.scss";
 
 const RecrutementDisplay: React.FC = () => {
   return (
-    <div className="recruitment">
-      <section className="hero">
+    <main
+      className="recruitment"
+      role="main"
+      aria-label="Recrutement et opportunités de carrière chez Rosi Trattoria"
+    >
+      <section className="hero" aria-labelledby="hero-title">
         <div className="hero__content">
-          <h1 className="hero__title">
+          <h1 id="hero-title" className="hero__title">
             L'IMAGE DU ROSI-TRATTORIA
             <span className="hero__highlight">C'EST VOUS !</span>
           </h1>
@@ -21,9 +25,11 @@ const RecrutementDisplay: React.FC = () => {
         </div>
       </section>
 
-      <section className="philosophy">
+      <section className="philosophy" aria-labelledby="philosophy-title">
         <div className="philosophy__content">
-          <h2 className="philosophy__title">UNE ÉQUIPE, UN BUT COMMUN !</h2>
+          <h2 id="philosophy-title" className="philosophy__title">
+            UNE ÉQUIPE, UN BUT COMMUN !
+          </h2>
           <div className="container">
             <p className="philosophy__text">
               Il s'agit de travailler ensemble pour la plus grande satisfaction
@@ -42,8 +48,11 @@ const RecrutementDisplay: React.FC = () => {
               <div className="team-photo-frame__inner">
                 <img
                   src="/images/rosi-team.jpg"
-                  alt="L'équipe Rosi Trattoria"
+                  alt="L'équipe passionnée de Rosi Trattoria restaurant italien à Brive-la-Gaillarde"
                   className="team-photo-frame__image"
+                  loading="eager"
+                  width="600"
+                  height="400"
                 />
                 <div className="team-photo-frame__overlay">
                   <div className="team-photo-frame__gradient"></div>
@@ -54,16 +63,18 @@ const RecrutementDisplay: React.FC = () => {
         </div>
       </section>
 
-      <section className="positions">
+      <section className="positions" aria-labelledby="positions-title">
         <div className="positions__header">
-          <h2 className="section-title">Opportunités de Carrière</h2>
+          <h2 id="positions-title" className="section-title">
+            Opportunités de Carrière
+          </h2>
         </div>
         <div className="container">
           <div className="positions__grid">
-            <div className="position-card">
+            <article className="position-card">
               <div className="position-card__header">
                 <div className="position-card__icon position-card__icon--service">
-                  <Utensils size={24} />
+                  <Utensils size={24} aria-hidden="true" />
                 </div>
                 <h3 className="position-card__title">Service & Accueil</h3>
               </div>
@@ -86,7 +97,7 @@ const RecrutementDisplay: React.FC = () => {
                 <div className="position-card__section">
                   <h4 className="position-card__subtitle">Profil Recherché</h4>
                   <ul className="position-card__skills">
-                    <li>Un excellent relationnelle</li>
+                    <li>Un excellent relationnel</li>
                     <li>Résistance au stress</li>
                     <li>Mémoire et organisation</li>
                     <li>Souriant</li>
@@ -95,12 +106,12 @@ const RecrutementDisplay: React.FC = () => {
                   </ul>
                 </div>
               </div>
-            </div>
+            </article>
 
-            <div className="position-card">
+            <article className="position-card">
               <div className="position-card__header">
                 <div className="position-card__icon position-card__icon--kitchen">
-                  <ChefHat size={24} />
+                  <ChefHat size={24} aria-hidden="true" />
                 </div>
                 <h3 className="position-card__title">Cuisine & Production</h3>
               </div>
@@ -115,7 +126,6 @@ const RecrutementDisplay: React.FC = () => {
                     <li>Second de Cuisine</li>
                     <li>Chef de Partie</li>
                     <li>Commis de Cuisine</li>
-
                     <li>Plongeur</li>
                   </ul>
                 </div>
@@ -132,20 +142,26 @@ const RecrutementDisplay: React.FC = () => {
                   </ul>
                 </div>
               </div>
-            </div>
+            </article>
           </div>
         </div>
       </section>
 
-      <section className="team">
+      <section className="team" aria-labelledby="team-title">
         <div className="container">
+          <h2 id="team-title" className="sr-only">
+            Notre Équipe Dirigeante
+          </h2>
           <div className="team__grid">
-            <div className="team__member">
+            <article className="team__member">
               <div className="team__avatar team__avatar--pascal">
                 <img
                   src="/images/pascal.jpg"
-                  alt="Pascal - Pizzaolo Expert"
+                  alt="Pascal Bellemain, pizzaïolo expert formé par John Bergh chez Rosi Trattoria"
                   className="team__photo"
+                  loading="lazy"
+                  width="300"
+                  height="300"
                 />
               </div>
               <div className="team__info">
@@ -160,9 +176,9 @@ const RecrutementDisplay: React.FC = () => {
                   100% Bio… Une pizza, éthique & gastronomique
                 </p>
               </div>
-            </div>
+            </article>
 
-            <div className="team__member team__member--reverse">
+            <article className="team__member team__member--reverse">
               <div className="team__info">
                 <h3 className="team__name">Gwen</h3>
                 <p className="team__role">Directrice de Salle</p>
@@ -178,30 +194,39 @@ const RecrutementDisplay: React.FC = () => {
               <div className="team__avatar team__avatar--gwen">
                 <img
                   src="/images/gwen.jpg"
-                  alt="Gwen - Directrice de Salle"
+                  alt="Gwen, directrice de salle expérimentée chez Rosi Trattoria Brive-la-Gaillarde"
                   className="team__photo"
+                  loading="lazy"
+                  width="300"
+                  height="300"
                 />
               </div>
-            </div>
+            </article>
           </div>
         </div>
       </section>
 
-      <section className="cta">
+      <section className="cta" aria-labelledby="cta-title">
         <div className="container">
           <div className="cta__content">
-            <h2 className="cta__title">Candidature</h2>
+            <h2 id="cta-title" className="cta__title">
+              Candidature
+            </h2>
             <p className="cta__subtitle">
               Envoyez votre candidature (CV + lettre de motivation) en précisant
               le poste souhaité
             </p>
-            <Link to="/contact" className="cta__button">
+            <Link
+              to="/contact"
+              className="cta__button"
+              aria-label="Postuler maintenant chez Rosi Trattoria - Envoyer votre candidature"
+            >
               Postuler Maintenant
             </Link>
           </div>
         </div>
       </section>
-    </div>
+    </main>
   );
 };
 

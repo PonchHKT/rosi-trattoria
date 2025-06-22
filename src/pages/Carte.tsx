@@ -40,47 +40,54 @@ const CartePageSEO = () => (
     />
     <meta name="twitter:image" content="/images/meta-rosi.png" />
 
-    {/* Schema.org pour menu de restaurant */}
+    {/* Schema.org Menu SEUL - Référence le Restaurant défini dans App.js */}
+
     <script type="application/ld+json">
       {JSON.stringify({
-        "@context": "http://schema.org",
+        "@context": "https://schema.org",
         "@type": "Menu",
+        "@id": "https://www.rosi-trattoria.com/carte#menu",
         name: "Carte Rosi Trattoria",
         description:
           "Menu de pizzas napolitaines artisanales bio avec produits italiens d'exception",
+        url: "https://www.rosi-trattoria.com/carte",
+        inLanguage: "fr-FR",
+        // RÉFÉRENCE SIMPLIFIÉE - supprime les redéfinitions
         provider: {
-          "@type": "Restaurant",
-          name: "Rosi Trattoria",
-          address: {
-            "@type": "PostalAddress",
-            streetAddress: "11 Prom. des Tilleuls",
-            addressLocality: "Brive-la-Gaillarde",
-            postalCode: "19100",
-            addressCountry: "FR",
-          },
-          telephone: "+33544314447",
+          "@id": "https://www.rosi-trattoria.com/#restaurant",
         },
         hasMenuSection: [
           {
             "@type": "MenuSection",
             name: "Pizzas Napolitaines",
             description:
-              "Pizzas authentiques cuites au four en dôme, pâte au levain naturel",
-          },
-          {
-            "@type": "MenuSection",
-            name: "Service sur place",
-            description:
-              "Ambiance conviviale et service à table dans notre cadre Street Art",
-          },
-          {
-            "@type": "MenuSection",
-            name: "Service à emporter",
-            description:
-              "Tarifs réduits pour vos pizzas à savourer où vous voulez",
+              "Pizzas authentiques cuites au four en dôme, pâte au levain naturel 48h, produits bio italiens",
+            hasMenuItem: [
+              {
+                "@type": "MenuItem",
+                name: "Pizza Margherita",
+                description:
+                  "Tomate San Marzano, mozzarella di bufala, basilic frais",
+                offers: {
+                  "@type": "Offer",
+                  price: "14.50",
+                  priceCurrency: "EUR",
+                },
+              },
+              {
+                "@type": "MenuItem",
+                name: "Pizza Marinara",
+                description:
+                  "Tomate San Marzano, ail, origan, huile d'olive extra vierge",
+                offers: {
+                  "@type": "Offer",
+                  price: "12.50",
+                  priceCurrency: "EUR",
+                },
+              },
+            ],
           },
         ],
-        inLanguage: "fr-FR",
       })}
     </script>
 
@@ -94,7 +101,7 @@ const CartePageSEO = () => (
     {/* Breadcrumb Schema */}
     <script type="application/ld+json">
       {JSON.stringify({
-        "@context": "http://schema.org",
+        "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         itemListElement: [
           {
@@ -116,7 +123,7 @@ const CartePageSEO = () => (
     {/* FAQ Schema pour les questions courantes sur la carte */}
     <script type="application/ld+json">
       {JSON.stringify({
-        "@context": "http://schema.org",
+        "@context": "https://schema.org",
         "@type": "FAQPage",
         mainEntity: [
           {
@@ -124,7 +131,7 @@ const CartePageSEO = () => (
             name: "Quels sont les horaires de Rosi Trattoria ?",
             acceptedAnswer: {
               "@type": "Answer",
-              text: "Mardi à jeudi : 12h-14h et 19h-21h30. Vendredi et samedi : 12h-14h et 19h-22h30. Fermé dimanche et lundi (sauf en août où nous sommes ouverts le lundi).",
+              text: "Mardi à jeudi : 12h-14h30 et 19h-22h. Vendredi et samedi : 12h-14h30 et 19h-22h30. Dimanche : 12h-15h. Fermé le lundi.",
             },
           },
           {
@@ -141,6 +148,14 @@ const CartePageSEO = () => (
             acceptedAnswer: {
               "@type": "Answer",
               text: "Oui, nous utilisons uniquement des produits bio provenant directement d'Italie. Notre pâte est faite au levain naturel et nos ingrédients sont de première qualité.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Acceptez-vous les réservations ?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Oui, les réservations sont fortement recommandées, surtout le week-end. Appelez-nous au 05 44 31 44 47 ou utilisez notre formulaire de contact.",
             },
           },
         ],

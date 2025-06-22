@@ -53,9 +53,9 @@ const RecrutementPageSEO = () => (
         title: "Équipe Service & Cuisine - Rosi Trattoria",
         description:
           "Rejoignez l'équipe passionnée de Rosi Trattoria à Brive-la-Gaillarde. Nous recherchons des profils motivés pour nos postes en cuisine et service.",
-        identifier: "ROSI-TEAM-2024",
-        datePosted: "2024-01-01",
-        validThrough: "2024-12-31",
+        identifier: "ROSI-TEAM-2025",
+        datePosted: "2025-06-01",
+        validThrough: "2026-06-01",
         employmentType: ["FULL_TIME", "PART_TIME"],
         hiringOrganization: {
           "@type": "Restaurant",

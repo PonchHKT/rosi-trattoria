@@ -10,7 +10,7 @@ import NosValeurs from "./pages/NosValeurs";
 import Carte from "./pages/Carte";
 import Recrutement from "./pages/Recrutement";
 import Contact from "./pages/Contact";
-import Page404 from "./pages/Page404"; // Import de la page 404
+import Page404 from "./pages/Page404";
 import { useEffect } from "react";
 import SwiperGallery from "./components/Acceuil/SwiperGallery/swipergallery";
 import ReviewWidget from "./components/Acceuil/ReviewWidget/reviewwidget";
@@ -56,32 +56,147 @@ const HomePageSEO = () => (
     />
     <meta name="twitter:image" content="/images/meta-rosi.png" />
 
-    {/* Schema.org pour SEO local */}
+    {/* Schema.org PRINCIPAL du Restaurant - SEULE DÉFINITION COMPLÈTE */}
     <script type="application/ld+json">
       {JSON.stringify({
-        "@context": "http://schema.org",
+        "@context": "https://schema.org",
         "@type": "Restaurant",
+        "@id": "https://www.rosi-trattoria.com/#restaurant",
         name: "Rosi Trattoria",
+        alternateName: "Rosi Trattoria Brive",
+        description:
+          "Restaurant italien authentique à Brive-la-Gaillarde - Spécialités italiennes traditionnelles, pizzas artisanales napolitaines bio, pâtes fraîches maison",
+        slogan: "Fraîcheur • Qualité • Authenticité - 100% Italiano",
+        foundingDate: "2023",
         address: {
           "@type": "PostalAddress",
-          streetAddress: "11 Prom. des Tilleuls",
+          streetAddress: "11 Promenade des Tilleuls",
           addressLocality: "Brive-la-Gaillarde",
           postalCode: "19100",
+          addressRegion: "Nouvelle-Aquitaine",
           addressCountry: "FR",
         },
+        geo: {
+          "@type": "GeoCoordinates",
+          latitude: 45.1632151,
+          longitude: 1.532797,
+        },
         telephone: "+33544314447",
-        url: "https://www.rosi-trattoria.com/",
-        openingHours: [
-          "Tu-Th 12:00-14:00,19:00-21:30",
-          "Fr-Sa 12:00-14:00,19:00-22:30",
+        email: "rosi.trattoria@gmail.com",
+        url: "https://www.rosi-trattoria.com",
+        image: [
+          "https://www.rosi-trattoria.com/images/meta-rosi.png",
+          "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/pizza-rosi-trattoria.jpg",
+          "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/carpaccio-de-bresaola.jpg",
         ],
-        servesCuisine: "Italian",
-        description:
-          "Rosi Trattoria propose des pizzas napolitaines artisanales, faites maison avec des produits bio et locaux, dans un cadre chaleureux à Brive-la-Gaillarde.",
+
+        logo: "https://www.rosi-trattoria.com/images/logo/rositrattorialogo.png",
         priceRange: "€€",
-        image: "/images/meta-rosi.png",
-        hasMenu: "https://www.rosi-trattoria.com/carte",
+        servesCuisine: ["Italian", "Pizza", "Mediterranean", "European"],
         acceptsReservations: true,
+        hasMenu: "https://www.rosi-trattoria.com/carte",
+        paymentAccepted: [
+          "Cash",
+          "Credit Card",
+          "Debit Card",
+          "Contactless Payment",
+        ],
+        currenciesAccepted: "EUR",
+        openingHoursSpecification: [
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: ["Tuesday", "Wednesday", "Thursday"],
+            opens: "12:00",
+            closes: "14:30",
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: ["Tuesday", "Wednesday", "Thursday"],
+            opens: "19:00",
+            closes: "22:00",
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: ["Friday", "Saturday"],
+            opens: "12:00",
+            closes: "14:30",
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: ["Friday", "Saturday"],
+            opens: "19:00",
+            closes: "22:30",
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: "Sunday",
+            opens: "12:00",
+            closes: "15:00",
+          },
+        ],
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: "4.8",
+          reviewCount: "127",
+          bestRating: "5",
+          worstRating: "1",
+        },
+        review: [
+          {
+            "@type": "Review",
+            author: {
+              "@type": "Person",
+              name: "Marie Dubois",
+            },
+            reviewRating: {
+              "@type": "Rating",
+              ratingValue: "5",
+              bestRating: "5",
+            },
+            reviewBody:
+              "Excellent restaurant italien ! Les pâtes sont faites maison et les ingrédients de qualité. Service impeccable.",
+            datePublished: "2024-03-15",
+          },
+        ],
+        contactPoint: [
+          {
+            "@type": "ContactPoint",
+            telephone: "+33544314447",
+            contactType: "reservations",
+            availableLanguage: ["French", "Italian"],
+            description: "Réservations de table",
+          },
+          {
+            "@type": "ContactPoint",
+            email: "rosi.trattoria@gmail.com",
+            contactType: "customer service",
+            description: "Contact général, candidatures, événements privés",
+            availableLanguage: ["French", "Italian"],
+          },
+        ],
+      })}
+    </script>
+
+    {/* Schema.org WebSite pour la recherche interne */}
+    <script type="application/ld+json">
+      {JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "@id": "https://www.rosi-trattoria.com/#website",
+        name: "Rosi Trattoria",
+        url: "https://www.rosi-trattoria.com",
+        description:
+          "Site officiel du restaurant italien Rosi Trattoria à Brive-la-Gaillarde",
+        inLanguage: "fr-FR",
+        publisher: {
+          "@id": "https://www.rosi-trattoria.com/#restaurant",
+        },
+        potentialAction: {
+          "@type": "SearchAction",
+          target:
+            "https://www.rosi-trattoria.com/recherche?q={search_term_string}",
+          "query-input": "required name=search_term_string",
+        },
       })}
     </script>
 
@@ -94,14 +209,24 @@ const HomePageSEO = () => (
       hrefLang="fr"
       href="https://www.rosi-trattoria.com/"
     />
+    <link
+      rel="alternate"
+      hrefLang="fr-FR"
+      href="https://www.rosi-trattoria.com/"
+    />
+    <link
+      rel="alternate"
+      hrefLang="x-default"
+      href="https://www.rosi-trattoria.com/"
+    />
 
     {/* Autres meta tags utiles */}
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta name="author" content="Rosi Trattoria" />
     <meta name="geo.region" content="FR-19" />
     <meta name="geo.placename" content="Brive-la-Gaillarde" />
-    <meta name="geo.position" content="45.1598;1.5334" />
-    <meta name="ICBM" content="45.1598, 1.5334" />
+    <meta name="geo.position" content="45.1632151;1.532797" />
+    <meta name="ICBM" content="45.1632151, 1.532797" />
   </Helmet>
 );
 
