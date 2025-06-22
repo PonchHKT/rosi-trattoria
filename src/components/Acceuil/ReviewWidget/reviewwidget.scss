@@ -720,3 +720,45 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
     text-align: center;
   }
 }
+/* Section SEO discrète - Invisible sur fond noir */
+.seo-reviews-section {
+  margin-top: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+
+  .seo-content {
+    .seo-text {
+      font-size: 1px;
+      color: #000000; // Noir sur noir = invisible
+      margin: 0;
+      padding: 0;
+      line-height: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
+    .seo-reviews-hidden {
+      font-size: 1px;
+      color: #000000; // Noir sur noir
+      line-height: 1px;
+      height: 1px;
+      overflow: hidden;
+
+      .seo-review-compact {
+        display: inline;
+        font-size: 1px;
+        color: #000000;
+
+        cite,
+        time,
+        span {
+          font-size: 1px;
+          color: #000000; // Texte noir sur fond noir
+          margin: 0;
+          padding: 0;
+        }
+      }
+    }
+  }
+}

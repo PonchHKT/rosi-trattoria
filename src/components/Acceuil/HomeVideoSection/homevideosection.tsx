@@ -71,8 +71,7 @@ const HomeVideoSection: React.FC = () => {
         playsInline
         preload="metadata"
         poster="/images/video-poster.jpg"
-        title="Ambiance du restaurant Rosi Trattoria - Cuisine italienne bio"
-        aria-label="Vidéo de présentation de l'ambiance du restaurant Rosi Trattoria"
+        aria-label="Vidéo de présentation du restaurant Rosi Trattoria"
       >
         <source
           src="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/homevideo.mp4"

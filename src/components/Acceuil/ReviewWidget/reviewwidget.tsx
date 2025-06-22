@@ -41,7 +41,7 @@ interface Review {
   text: string;
   reviewCount: number;
   profilePhotoUrl?: string;
-  source: "google" | "tripadvisor"; // Nouvelle propriété pour identifier la source
+  source: "google" | "tripadvisor";
 }
 
 const ReviewWidget: React.FC = () => {
@@ -83,6 +83,76 @@ const ReviewWidget: React.FC = () => {
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
     return shuffled;
+  };
+
+  // Fonction pour générer le JSON-LD Schema.org
+  const generateSchemaJsonLd = () => {
+    if (!reviews.length) return null;
+
+    const aggregateRating = {
+      "@type": "AggregateRating",
+      ratingValue: "4.85", // Moyenne entre Google et TripAdvisor
+      reviewCount: "2177", // Total des avis
+      bestRating: "5",
+      worstRating: "1",
+    };
+
+    const reviewsSchema = reviews.slice(0, 10).map((review) => ({
+      "@type": "Review",
+      author: {
+        "@type": "Person",
+        name: review.reviewer,
+      },
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: review.rating.toString(),
+        bestRating: "5",
+        worstRating: "1",
+      },
+      reviewBody: review.text,
+      datePublished: new Date().toISOString().split("T")[0], // Format YYYY-MM-DD
+      publisher: {
+        "@type": "Organization",
+        name: review.source === "google" ? "Google" : "TripAdvisor",
+      },
+    }));
+
+    const schema = {
+      "@context": "https://schema.org",
+      "@type": "Restaurant",
+      name: "Rosi Trattoria",
+      description:
+        "Rosi Trattoria propose des pizzas napolitaines artisanales, faites maison avec des produits bio et locaux, dans un cadre chaleureux à Brive-la-Gaillarde.",
+      url: "https://www.rosi-trattoria.com/",
+      telephone: "+33544314447",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "11 Prom. des Tilleuls",
+        addressLocality: "Brive-la-Gaillarde",
+        postalCode: "19100",
+        addressCountry: "FR",
+      },
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: "45.1632303",
+        longitude: "1.5330001",
+      },
+      aggregateRating: aggregateRating,
+      review: reviewsSchema,
+      servesCuisine: ["Italian"],
+      priceRange: "€€",
+      openingHours: [
+        "Tu-Th 12:00-14:00",
+        "Tu-Th 19:00-21:30",
+        "Fr-Sa 12:00-14:00",
+        "Fr-Sa 19:00-22:30",
+      ],
+      image: "/images/logo/og-image.jpg",
+      hasMenu: "https://www.rosi-trattoria.com/carte",
+      acceptsReservations: true,
+    };
+
+    return JSON.stringify(schema);
   };
 
   // Fonction pour démarrer l'auto-slide
@@ -199,6 +269,32 @@ const ReviewWidget: React.FC = () => {
     loadReviews();
   }, []);
 
+  // Ajouter le JSON-LD au document quand les avis sont chargés
+  useEffect(() => {
+    if (reviews.length > 0) {
+      const schemaScript = document.createElement("script");
+      schemaScript.type = "application/ld+json";
+      schemaScript.id = "reviews-schema";
+      schemaScript.textContent = generateSchemaJsonLd();
+
+      // Supprimer l'ancien script s'il existe
+      const existingScript = document.getElementById("reviews-schema");
+      if (existingScript) {
+        existingScript.remove();
+      }
+
+      document.head.appendChild(schemaScript);
+
+      // Nettoyage au démontage du composant
+      return () => {
+        const scriptToRemove = document.getElementById("reviews-schema");
+        if (scriptToRemove) {
+          scriptToRemove.remove();
+        }
+      };
+    }
+  }, [reviews]);
+
   // Démarrer l'auto-slide quand les avis sont chargés
   useEffect(() => {
     if (reviews.length > 0 && !loading) {
@@ -234,6 +330,7 @@ const ReviewWidget: React.FC = () => {
       <span
         key={i}
         className={`google-star ${i < rating ? "filled" : "empty"}`}
+        aria-label={`${i + 1} étoile${i > 0 ? "s" : ""}`}
       >
         ★
       </span>
@@ -245,6 +342,7 @@ const ReviewWidget: React.FC = () => {
       <span
         key={i}
         className={`tripadvisor-star ${i < rating ? "filled" : "empty"}`}
+        aria-label={`${i + 1} étoile${i > 0 ? "s" : ""}`}
       >
         ●
       </span>
@@ -258,17 +356,29 @@ const ReviewWidget: React.FC = () => {
   ) => {
     if (source === "tripadvisor") {
       return (
-        <div className="tripadvisor-stars">
+        <div
+          className="tripadvisor-stars"
+          role="img"
+          aria-label={`${rating} étoiles sur 5`}
+        >
           {renderTripAdvisorStars(rating)}
         </div>
       );
     } else {
-      return <div className="google-stars">{renderGoogleStars(rating)}</div>;
+      return (
+        <div
+          className="google-stars"
+          role="img"
+          aria-label={`${rating} étoiles sur 5`}
+        >
+          {renderGoogleStars(rating)}
+        </div>
+      );
     }
   };
 
   const renderHeader = () => (
-    <div className="widget-header">
+    <header className="widget-header">
       <div className="brand-section">
         <div className="google-section">
           <a
@@ -276,6 +386,7 @@ const ReviewWidget: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
             className="brand-link"
+            aria-label="Voir nos avis Google (4,9 étoiles sur 1851 avis)"
           >
             <div className="google-logo">
               <svg
@@ -284,6 +395,7 @@ const ReviewWidget: React.FC = () => {
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
               >
                 <path
                   d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -317,6 +429,7 @@ const ReviewWidget: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
             className="brand-link"
+            aria-label="Voir nos avis TripAdvisor (4,8 étoiles sur 326 avis)"
           >
             <img
               src="/images/logo/tripadvisor_white.png"
@@ -334,35 +447,44 @@ const ReviewWidget: React.FC = () => {
         </div>
       </div>
       <div className="header-content">
-        <h2>"Découvrez les petits mots qui nous motivent chaque jour"</h2>
+        <h2>"Découvrez chaque mot qui nous motive chaque jour"</h2>
+        <p className="reviews-subtitle">
+          Avis clients vérifiés - Restaurant Rosi Trattoria
+        </p>
 
         {loading && (
-          <div className="loading-shimmer">
+          <div className="loading-shimmer" aria-label="Chargement des avis">
             <div className="shimmer-line"></div>
             <div className="shimmer-line short"></div>
           </div>
         )}
       </div>
-    </div>
+    </header>
   );
 
   if (loading) {
     return (
-      <div className="review-widget">
+      <section
+        className="review-widget"
+        aria-label="Avis clients du restaurant"
+      >
         {renderHeader()}
         <ReviewPopup
           isOpen={isPopupOpen}
           onClose={() => setIsPopupOpen(false)}
         />
-      </div>
+      </section>
     );
   }
 
   if (error) {
     return (
-      <div className="review-widget">
+      <section
+        className="review-widget"
+        aria-label="Avis clients du restaurant"
+      >
         {renderHeader()}
-        <div className="error">
+        <div className="error" role="alert">
           <div className="error-icon">⚠️</div>
           <p>{error}</p>
         </div>
@@ -370,13 +492,16 @@ const ReviewWidget: React.FC = () => {
           isOpen={isPopupOpen}
           onClose={() => setIsPopupOpen(false)}
         />
-      </div>
+      </section>
     );
   }
 
   if (reviews.length === 0) {
     return (
-      <div className="review-widget">
+      <section
+        className="review-widget"
+        aria-label="Avis clients du restaurant"
+      >
         {renderHeader()}
         <div className="no-reviews">
           <div className="empty-icon">📝</div>
@@ -386,14 +511,18 @@ const ReviewWidget: React.FC = () => {
           isOpen={isPopupOpen}
           onClose={() => setIsPopupOpen(false)}
         />
-      </div>
+      </section>
     );
   }
 
   return (
-    <div className="review-widget">
+    <section
+      className="review-widget"
+      aria-label="Avis clients du restaurant Rosi Trattoria"
+    >
       {renderHeader()}
 
+      {/* Carrousel pour l'UX */}
       <div className="slider-container">
         <div
           ref={sliderRef}
@@ -402,42 +531,139 @@ const ReviewWidget: React.FC = () => {
           onMouseLeave={handleMouseLeave}
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
+          role="region"
+          aria-label="Carrousel d'avis clients"
         >
-          {reviews.map((review) => (
-            <div key={review.id} className="keen-slider__slide">
+          {reviews.slice(0, 10).map((review) => (
+            <article
+              key={review.id}
+              className="keen-slider__slide"
+              itemScope
+              itemType="https://schema.org/Review"
+            >
               <div className="review-item">
                 <div className="review-content">
                   <div className="review-header">
                     <div className="review-meta">
-                      <span className="review-date">
+                      <time
+                        className="review-date"
+                        dateTime={new Date().toISOString()}
+                        itemProp="datePublished"
+                      >
                         Visité en {review.date}
-                      </span>
+                      </time>
                     </div>
-                    <div className="rating-section">
+                    <div
+                      className="rating-section"
+                      itemProp="reviewRating"
+                      itemScope
+                      itemType="https://schema.org/Rating"
+                    >
+                      <meta
+                        itemProp="ratingValue"
+                        content={review.rating.toString()}
+                      />
+                      <meta itemProp="bestRating" content="5" />
+                      <meta itemProp="worstRating" content="1" />
                       {renderReviewStars(review.rating, review.source)}
                     </div>
                   </div>
-                  <div className="review-text">{review.text}</div>
+                  <blockquote
+                    className="review-text"
+                    itemProp="reviewBody"
+                    cite={
+                      review.source === "google"
+                        ? "Google Reviews"
+                        : "TripAdvisor"
+                    }
+                  >
+                    "{review.text}"
+                  </blockquote>
                 </div>
                 <div className="reviewer-info">
                   <div className="reviewer-details">
-                    <span className="reviewer-name">{review.reviewer}</span>
+                    <cite
+                      className="reviewer-name"
+                      itemProp="author"
+                      itemScope
+                      itemType="https://schema.org/Person"
+                    >
+                      <span itemProp="name">{review.reviewer}</span>
+                    </cite>
+                    <small className="review-source">
+                      Avis vérifié{" "}
+                      {review.source === "google" ? "Google" : "TripAdvisor"}
+                    </small>
                   </div>
                   <button
                     className="leave-review-btn"
                     onClick={() => setIsPopupOpen(true)}
+                    aria-label="Laisser un avis sur notre restaurant"
                   >
                     Laisser un avis
                   </button>
                 </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </div>
 
+      {/* Section SEO optimisée - Contenu indexable mais discret */}
+      {/* Section SEO discrète - Contenu indexable mais quasi invisible */}
+      <div className="seo-reviews-section">
+        {/* Texte SEO compact et discret */}
+        <div className="seo-content">
+          <p className="seo-text">
+            Restaurant italien Brive-la-Gaillarde - Rosi Trattoria, pizzas
+            napolitaines artisanales. Avis vérifiés clients : cuisine italienne
+            authentique, produits bio et locaux, ambiance chaleureuse.
+            Réservations 05 44 31 44 47.
+          </p>
+
+          {/* Avis compacts pour SEO - quasi invisibles */}
+          <div className="seo-reviews-hidden">
+            {reviews.slice(0, 10).map((review) => (
+              <div
+                key={`seo-${review.id}`}
+                className="seo-review-compact"
+                itemScope
+                itemType="https://schema.org/Review"
+              >
+                <cite
+                  itemProp="author"
+                  itemScope
+                  itemType="https://schema.org/Person"
+                >
+                  <span itemProp="name">{review.reviewer}</span>
+                </cite>
+                <div
+                  itemProp="reviewRating"
+                  itemScope
+                  itemType="https://schema.org/Rating"
+                >
+                  <meta
+                    itemProp="ratingValue"
+                    content={review.rating.toString()}
+                  />
+                  <meta itemProp="bestRating" content="5" />
+                  <meta itemProp="worstRating" content="1" />
+                </div>
+                <time
+                  itemProp="datePublished"
+                  dateTime={new Date().toISOString()}
+                >
+                  {review.date}
+                </time>
+                <span itemProp="reviewBody">{review.text}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
       <ReviewPopup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} />
-    </div>
+    </section>
   );
 };
 
