@@ -10,6 +10,24 @@
   align-items: center;
   justify-content: flex-start;
 
+  // Image de fond optimisée pour LCP
+  .hero-background {
+    position: absolute;
+    top: -100px;
+    height: calc(100% + 200px);
+    left: 0;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: brightness(50%) contrast(1.1);
+    z-index: 1;
+    transform: translateZ(0);
+    // Éliminer le saut de contenu
+    content-visibility: auto;
+    contain: layout style paint;
+  }
+
   .background-video {
     position: absolute;
     top: -100px;
@@ -18,22 +36,19 @@
     width: 100%;
     object-fit: cover;
     filter: brightness(50%) contrast(1.1);
-    z-index: 1;
-    -webkit-transform: translateZ(0);
+    z-index: 2;
     transform: translateZ(0);
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-  }
+    // Optimisations de performance
+    will-change: opacity;
 
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url("/images/video-poster.jpg") center/cover;
-    filter: brightness(50%) contrast(1.1);
-    z-index: 0;
+    &.loading {
+      opacity: 0;
+    }
+
+    &.loaded {
+      opacity: 1;
+      transition: opacity 0.8s ease-in-out;
+    }
   }
 
   .logo-container {
@@ -47,6 +62,9 @@
       height: auto;
       filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
       opacity: 0.95;
+      // Optimisation de rendu
+      will-change: transform;
+      backface-visibility: hidden;
     }
   }
 
@@ -54,13 +72,15 @@
     margin-top: 100px;
     padding-left: 10px;
     position: relative;
-    z-index: 2;
+    z-index: 3; // Au-dessus de la vidéo
     max-width: 1400px;
     margin-left: 4rem;
     color: white;
+    // Optimisations de performance
+    contain: layout style;
 
     .slogan {
-      font-family: "Pacifico", "Comic Sans MS", cursive, system-ui; // Fallback plus proche visuellement
+      font-family: "Pacifico", "Comic Sans MS", cursive, system-ui;
       font-size: 4.6rem;
       font-weight: 500;
       line-height: 1.2;
@@ -68,9 +88,12 @@
       letter-spacing: -0.02em;
       text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
       font-display: swap;
-
-      // Assurer une hauteur constante pour éviter les layout shifts
-      min-height: 120px; // Ajustez selon votre design
+      // Éviter les layout shifts
+      min-height: 120px;
+      // Optimiser le rendu du texte
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     .address-container {
@@ -109,7 +132,6 @@
         text-decoration: none;
       }
 
-      /* Styles de base harmonisés pour tous les boutons */
       .primary-button,
       .secondary-button,
       .white-button,
@@ -132,6 +154,9 @@
         min-width: 140px;
         height: 52px;
         box-sizing: border-box;
+        // Optimisations de performance
+        will-change: transform;
+        backface-visibility: hidden;
 
         &:hover {
           transform: translateY(-1px);
@@ -216,6 +241,7 @@
       .slogan {
         font-size: 2.5rem;
         margin-bottom: 1.25rem;
+        min-height: 80px;
       }
 
       .address-container {
@@ -266,6 +292,7 @@
 
       .slogan {
         font-size: 2rem;
+        min-height: 60px;
       }
 
       .address-container {

@@ -7,9 +7,21 @@ const HomeVideoSection: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
   const navigate = useNavigate();
 
+  // Chargement différé de la vidéo après le LCP
   useEffect(() => {
+    const timer = setTimeout(() => {
+      setShouldLoadVideo(true);
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (!shouldLoadVideo) return;
+
     const video = videoRef.current;
     if (!video) return;
 
@@ -47,7 +59,7 @@ const HomeVideoSection: React.FC = () => {
       video.removeEventListener("loadedmetadata", tryPlay);
       video.removeEventListener("canplay", tryPlay);
     };
-  }, []);
+  }, [shouldLoadVideo]);
 
   const handleDistributorClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -68,46 +80,34 @@ const HomeVideoSection: React.FC = () => {
 
   return (
     <section className="home-video-section">
-      {/* Placeholder visible pendant le chargement */}
-      <div
-        className={`video-placeholder ${isVideoLoaded ? "hidden" : "visible"}`}
-        style={{
-          backgroundImage: "url(/images/video-poster.jpg)",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          zIndex: 1,
-        }}
-      />
+      {/* Image de fond optimisée - sera le LCP */}
+      <div className="hero-background" />
 
-      <video
-        ref={videoRef}
-        className={`background-video ${isVideoLoaded ? "loaded" : "loading"}`}
-        src="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/homevideo.mp4"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="none"
-        poster="/images/video-poster.jpg"
-        aria-label="Vidéo de présentation du restaurant Rosi Trattoria"
-        style={{ zIndex: isVideoLoaded ? 2 : 0 }}
-      >
-        <source
-          src="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/homevideo.mp4"
-          type="video/mp4"
-        />
-        <p>
-          Découvrez l'ambiance chaleureuse de Rosi Trattoria, votre restaurant
-          italien bio situé à Brive-la-Gaillarde. Une cuisine authentique dans
-          un cadre convivial.
-        </p>
-      </video>
+      {/* Vidéo chargée en différé */}
+      {shouldLoadVideo && (
+        <video
+          ref={videoRef}
+          className={`background-video ${isVideoLoaded ? "loaded" : "loading"}`}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="none"
+          aria-label="Vidéo de présentation du restaurant Rosi Trattoria"
+        >
+          <source
+            src="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/homevideo.mp4"
+            type="video/mp4"
+          />
+          <p>
+            Découvrez l'ambiance chaleureuse de Rosi Trattoria, votre restaurant
+            italien bio situé à Brive-la-Gaillarde. Une cuisine authentique dans
+            un cadre convivial.
+          </p>
+        </video>
+      )}
 
+      {/* Logo optimisé avec sizes et srcset si possible */}
       <div className="logo-container">
         <img
           src="/images/logo/rositrattorialogo.png"
@@ -117,11 +117,12 @@ const HomeVideoSection: React.FC = () => {
           height="100"
           loading="eager"
           fetchPriority="high"
+          decoding="async"
         />
       </div>
 
       <div className="content">
-        {/* H1 rendu immédiatement avec une police système de fallback */}
+        {/* H1 avec font-display swap déjà en place */}
         <h1 className="slogan">
           Du bon, du bio, de la joie, <br />
           c'est Rosi Trattoria !
@@ -182,6 +183,7 @@ const HomeVideoSection: React.FC = () => {
               }}
               aria-hidden="true"
               loading="lazy"
+              decoding="async"
             />
           </button>
           <button
@@ -213,14 +215,18 @@ const HomeVideoSection: React.FC = () => {
           }
         }
 
-        .video-placeholder.visible {
-          opacity: 1;
-          transition: opacity 0.3s ease-in-out;
-        }
-
-        .video-placeholder.hidden {
-          opacity: 0;
-          transition: opacity 0.3s ease-in-out;
+        .hero-background {
+          position: absolute;
+          top: -100px;
+          height: calc(100% + 200px);
+          left: 0;
+          width: 100%;
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+          filter: brightness(50%) contrast(1.1);
+          z-index: 1;
+          transform: translateZ(0);
         }
 
         .background-video.loading {
@@ -229,7 +235,8 @@ const HomeVideoSection: React.FC = () => {
 
         .background-video.loaded {
           opacity: 1;
-          transition: opacity 0.3s ease-in-out;
+          transition: opacity 0.8s ease-in-out;
+          z-index: 2;
         }
       `}</style>
     </section>
