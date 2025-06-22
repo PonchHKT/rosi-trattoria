@@ -7,14 +7,14 @@ const ContactPageSEO = () => (
   <Helmet>
     {/* Titre optimisé avec mots-clés locaux et intention */}
     <title>
-      Renseignements & Candidatures - Restaurant Italien Rosi Trattoria
-      Brive-la-Gaillarde | 05 44 31 44 47
+      Contact - Restaurant Italien Rosi Trattoria Brive-la-Gaillarde | 05 44 31
+      44 47
     </title>
 
     {/* Meta description enrichie avec call-to-action */}
     <meta
       name="description"
-      content="Contactez Rosi Trattoria à Brive-la-Gaillarde pour vos réservations et renseignements. ☎️ 05 44 31 44 47 📍 11 Promenade des Tilleuls. Restaurant italien authentique - Formulaire contact, candidatures, événements privés."
+      content="Contactez Rosi Trattoria à Brive-la-Gaillarde pour vos réservations et renseignements. ☎️ 05 44 31 44 47 📍 11 Promenade des Tilleuls. Restaurant italien authentique - Formulaire contact, événements privés."
     />
 
     {/* Mots-clés optimisés avec longue traîne */}

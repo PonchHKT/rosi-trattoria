@@ -10,6 +10,11 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  /* Forcer l'activation de la sélection de texte */
+  user-select: text !important;
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
 }
 
 html,
@@ -23,6 +28,18 @@ body {
   color: var(--text-light);
   /* Disable horizontal scrolling */
   overflow-x: hidden;
+}
+
+/* Exceptions pour les éléments interactifs */
+button,
+input,
+select,
+textarea,
+.interactive-element {
+  user-select: auto !important;
+  -webkit-user-select: auto !important;
+  -moz-user-select: auto !important;
+  -ms-user-select: auto !important;
 }
 
 /* Custom scrollbar for WebKit browsers (Chrome, Safari, Edge) */
@@ -74,4 +91,34 @@ body {
   body::-webkit-scrollbar {
     display: none; /* WebKit */
   }
+}
+
+/* Styles additionnels pour assurer la sélection de texte */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span,
+div,
+li,
+td,
+th {
+  user-select: text !important;
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+}
+
+/* Style pour le texte sélectionné */
+::selection {
+  background-color: var(--primary-pink);
+  color: var(--text-light);
+}
+
+::-moz-selection {
+  background-color: var(--primary-pink);
+  color: var(--text-light);
 }

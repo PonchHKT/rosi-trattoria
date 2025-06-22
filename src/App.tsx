@@ -171,7 +171,7 @@ const HomePageSEO = () => (
             "@type": "ContactPoint",
             email: "rosi.trattoria@gmail.com",
             contactType: "customer service",
-            description: "Contact général, candidatures, événements privés",
+            description: "Contact général, événements privés",
             availableLanguage: ["French", "Italian"],
           },
         ],

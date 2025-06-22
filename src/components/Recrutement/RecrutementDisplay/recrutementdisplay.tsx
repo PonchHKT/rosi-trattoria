@@ -1,6 +1,6 @@
 import React from "react";
 import { Utensils, ChefHat } from "lucide-react";
-import { Link } from "react-router-dom";
+
 import "./recrutementdisplay.scss";
 
 const RecrutementDisplay: React.FC = () => {
@@ -216,13 +216,7 @@ const RecrutementDisplay: React.FC = () => {
               Envoyez votre candidature (CV + lettre de motivation) en précisant
               le poste souhaité
             </p>
-            <Link
-              to="/contact"
-              className="cta__button"
-              aria-label="Postuler maintenant chez Rosi Trattoria - Envoyer votre candidature"
-            >
-              Postuler Maintenant
-            </Link>
+            <h3>rosi.trattoria@gmail.com</h3>
           </div>
         </div>
       </section>

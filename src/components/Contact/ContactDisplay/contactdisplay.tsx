@@ -10,7 +10,6 @@ const ContactDisplay: React.FC = () => {
     telephone: "",
     message: "",
   });
-  const [fichier, setFichier] = useState<File | null>(null);
   const [envoiEnCours, setEnvoiEnCours] = useState(false);
   const [messageStatut, setMessageStatut] = useState("");
   const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
@@ -24,12 +23,6 @@ const ContactDisplay: React.FC = () => {
       ...formData,
       [e.target.name]: e.target.value,
     });
-  };
-
-  const gererChangementFichier = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setFichier(e.target.files[0]);
-    }
   };
 
   const gererRecaptcha = (token: string | null) => {
@@ -54,7 +47,6 @@ const ContactDisplay: React.FC = () => {
         from_email: formData.email,
         phone: formData.telephone,
         message: formData.message,
-        attachment: fichier ? fichier.name : "Aucun fichier",
         recaptcha_token: recaptchaToken, // Inclure le token reCAPTCHA
       };
 
@@ -67,7 +59,6 @@ const ContactDisplay: React.FC = () => {
 
       setMessageStatut("Message envoyé avec succès !");
       setFormData({ nom: "", email: "", telephone: "", message: "" });
-      setFichier(null);
       setRecaptchaToken(null);
 
       // Reset du formulaire et du reCAPTCHA
@@ -226,38 +217,19 @@ const ContactDisplay: React.FC = () => {
                 </div>
               </div>
 
-              {/* Section fichier et reCAPTCHA côte à côte */}
-              <div className="file-recaptcha-row">
-                <div className="file-upload">
-                  <input
-                    type="file"
-                    id="fichier"
-                    onChange={gererChangementFichier}
-                    accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                    aria-describedby="file-help"
-                  />
-                  <label htmlFor="fichier" className="file-label">
-                    📎 {fichier ? fichier.name : "Joindre un fichier"}
-                  </label>
-                  <div id="file-help" className="sr-only">
-                    Fichier optionnel : CV, menu événement, etc. (PDF, DOC,
-                    images)
-                  </div>
-                </div>
-
-                <div
-                  className="recaptcha-container"
-                  role="group"
-                  aria-label="Vérification de sécurité"
-                >
-                  <ReCAPTCHA
-                    ref={recaptchaRef}
-                    sitekey="6LdPjGgrAAAAAHrHRpF9Y7p4Yd-pUfbqxqksIZcL"
-                    onChange={gererRecaptcha}
-                    theme="dark"
-                    aria-label="Captcha de vérification anti-spam"
-                  />
-                </div>
+              {/* Section reCAPTCHA */}
+              <div
+                className="recaptcha-container"
+                role="group"
+                aria-label="Vérification de sécurité"
+              >
+                <ReCAPTCHA
+                  ref={recaptchaRef}
+                  sitekey="6LdPjGgrAAAAAHrHRpF9Y7p4Yd-pUfbqxqksIZcL"
+                  onChange={gererRecaptcha}
+                  theme="dark"
+                  aria-label="Captcha de vérification anti-spam"
+                />
               </div>
 
               <button

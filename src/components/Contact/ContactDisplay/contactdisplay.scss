@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Cursive:wght@400..700&family=Edu+QLD+Hand:wght@400..700&display=swap");
 :root {
   --primary-blue: #75b9f9;
   --primary-pink: rgb(236, 0, 140);
@@ -27,14 +26,12 @@
   padding: 40px 20px;
 }
 
-// Content principal - STRUCTURE RÉORGANISÉE
+// Content principal
 .contact-content {
   padding-bottom: 50px;
   padding-top: 90px;
   max-width: 1200px;
   margin: 0 auto;
-
-  // Desktop : 2 colonnes (restaurant-info | form-section)
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-areas:
@@ -43,7 +40,6 @@
   gap: 60px;
   align-items: start;
 
-  // Tablette : restaurant-info et form côte à côte, carte en dessous
   @media (max-width: 1024px) {
     padding-top: 30px;
     grid-template-columns: 1fr 1fr;
@@ -53,7 +49,6 @@
     gap: 40px;
   }
 
-  // Mobile : NOUVEL ORDRE - form en premier, puis restaurant, puis carte
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
     grid-template-areas:
@@ -67,7 +62,6 @@
 // Section informations restaurant
 .restaurant-info {
   grid-area: restaurant;
-
   padding: 40px;
   text-align: center;
 
@@ -89,7 +83,6 @@
         transform: scale(1.05);
       }
 
-      // MODIFICATION : Logo garde sa taille sur mobile !
       @media (max-width: 768px) {
         max-width: 400px;
         max-height: 300px;
@@ -156,7 +149,7 @@
   }
 }
 
-// Section carte - MAINTENANT SÉPARÉE
+// Section carte
 .map-section {
   grid-area: map;
   background: var(--surface);
@@ -170,7 +163,6 @@
     filter: brightness(0.8) contrast(1.1);
     height: 300px;
 
-    // Plus grande sur mobile comme demandé
     @media (max-width: 1024px) {
       height: 400px;
     }
@@ -253,7 +245,7 @@
   }
 }
 
-// Formulaire avec placeholder flottant
+// Formulaire
 .contact-form {
   .form-row {
     display: grid;
@@ -334,80 +326,24 @@
         top: -8px;
       }
     }
-
-    label:after {
-      content: "";
-    }
   }
 
-  // Nouvelle section pour fichier et reCAPTCHA côte à côte
-  .file-recaptcha-row {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 20px;
-    align-items: center;
+  // Section reCAPTCHA avec padding-bottom
+  .recaptcha-container {
+    display: flex;
+    justify-content: center;
     margin-bottom: 25px;
 
     @media (max-width: 768px) {
-      grid-template-columns: 1fr;
-      gap: 15px;
-      text-align: center;
+      justify-content: center;
     }
 
-    .file-upload {
-      margin-bottom: 0; // Reset la marge car elle est maintenant dans le grid
+    .g-recaptcha {
+      transform: scale(0.9);
+      transform-origin: center center;
 
-      input[type="file"] {
-        display: none;
-      }
-
-      .file-label {
-        display: inline-block;
-        padding: 12px 20px;
-        background: rgba(255, 255, 255, 0.05);
-        border: 2px dashed var(--border);
-        border-radius: 8px;
-        color: var(--text-secondary);
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-size: 0.9rem;
-        width: 100%;
-        text-align: center;
-
-        &:hover {
-          border-color: var(--primary-blue);
-          background: rgba(255, 255, 255, 0.08);
-          color: var(--text-primary);
-        }
-
-        @media (max-width: 768px) {
-          padding: 14px 20px;
-        }
-      }
-    }
-
-    .recaptcha-container {
-      display: flex;
-      justify-content: flex-end;
-
-      @media (max-width: 768px) {
-        padding-top: 15px;
-        justify-content: center;
-      }
-
-      // Style pour le reCAPTCHA dans le thème sombre
-      .g-recaptcha {
-        transform: scale(0.9);
-        transform-origin: right center;
-
-        @media (max-width: 768px) {
-          transform: scale(0.85);
-          transform-origin: center center;
-        }
-
-        @media (max-width: 480px) {
-          transform: scale(0.75);
-        }
+      @media (max-width: 480px) {
+        transform: scale(0.75);
       }
     }
   }
@@ -461,15 +397,9 @@
   }
 }
 
-// Responsive final
+// Responsive
 @media (max-width: 768px) {
   .contact-container {
     padding: 60px 15px;
-  }
-}
-
-@media (max-width: 480px) {
-  .restaurant-info .restaurant-name {
-    font-size: 1.5rem;
   }
 }
