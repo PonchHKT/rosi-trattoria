@@ -89,7 +89,7 @@ const SwiperGallery: React.FC = () => {
         },
         {
           filename:
-            "panna-cotta-au-coulis-de-fruits-rouges-facile-et-pas-chere.jpg",
+            "panna-cotta-au-coulis-de-fruits-rouges-facile-et-pas-chere.jpeg",
           alt: "Panna cotta coulis fruits rouges dessert italien traditionnel Rosi Trattoria",
           title: "Panna cotta aux fruits rouges - Dolce italien classique",
         },
@@ -144,7 +144,7 @@ const SwiperGallery: React.FC = () => {
           title: "Pizza signature Rosi Trattoria - Napolitaine d'exception",
         },
         {
-          filename: "planche-de-charcuterie.jpg",
+          filename: "planche-de-chacuterie.jpg",
           alt: "Planche charcuterie italienne antipasti Rosi Trattoria Brive produits authentiques",
           title: "Planche de charcuterie italienne - Antipasti traditionnels",
         },
