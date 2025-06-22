@@ -59,10 +59,10 @@ const ContactDisplay: React.FC = () => {
       };
 
       await emailjs.send(
-        "YOUR_SERVICE_ID",
-        "YOUR_TEMPLATE_ID",
+        "service_ztf35le",
+        "template_4w4gtfs",
         templateParams,
-        "YOUR_PUBLIC_KEY"
+        "r_5JMJ3LhgcI_AKOW"
       );
 
       setMessageStatut("Message envoyé avec succès !");
