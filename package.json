@@ -5,11 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build && npm run prerender-if-preview",
-    "build:prerender": "npm run build && npm run preview & sleep 5 && node scripts/prerender.js && pkill -f 'vite preview'",
+    "build": "tsc -b && vite build",
+    "build:local": "npm run build && npm run preview & sleep 5 && npm run prerender && pkill -f 'vite preview'",
     "preview": "vite preview",
     "prerender": "node scripts/prerender.js",
-    "prerender-if-preview": "npm run preview & sleep 5 && npm run prerender && pkill -f 'vite preview' || true",
     "lint": "eslint ."
   },
   "dependencies": {
