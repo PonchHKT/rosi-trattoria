@@ -60,13 +60,17 @@
     color: white;
 
     .slogan {
-      font-family: "Pacifico", cursive;
+      font-family: "Pacifico", "Comic Sans MS", cursive, system-ui; // Fallback plus proche visuellement
       font-size: 4.6rem;
       font-weight: 500;
       line-height: 1.2;
       margin-bottom: 1.5rem;
       letter-spacing: -0.02em;
       text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+      font-display: swap;
+
+      // Assurer une hauteur constante pour éviter les layout shifts
+      min-height: 120px; // Ajustez selon votre design
     }
 
     .address-container {

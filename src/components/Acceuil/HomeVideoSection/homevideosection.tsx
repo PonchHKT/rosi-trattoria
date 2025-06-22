@@ -6,11 +6,16 @@ import "./homevideosection.scss";
 const HomeVideoSection: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
+
+    const handleLoadedData = () => {
+      setIsVideoLoaded(true);
+    };
 
     const tryPlay = async () => {
       try {
@@ -33,10 +38,12 @@ const HomeVideoSection: React.FC = () => {
       }
     };
 
+    video.addEventListener("loadeddata", handleLoadedData);
     video.addEventListener("loadedmetadata", tryPlay);
     video.addEventListener("canplay", tryPlay);
 
     return () => {
+      video.removeEventListener("loadeddata", handleLoadedData);
       video.removeEventListener("loadedmetadata", tryPlay);
       video.removeEventListener("canplay", tryPlay);
     };
@@ -61,17 +68,34 @@ const HomeVideoSection: React.FC = () => {
 
   return (
     <section className="home-video-section">
+      {/* Placeholder visible pendant le chargement */}
+      <div
+        className={`video-placeholder ${isVideoLoaded ? "hidden" : "visible"}`}
+        style={{
+          backgroundImage: "url(/images/video-poster.jpg)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          zIndex: 1,
+        }}
+      />
+
       <video
         ref={videoRef}
-        className="background-video"
+        className={`background-video ${isVideoLoaded ? "loaded" : "loading"}`}
         src="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/homevideo.mp4"
         autoPlay
         muted
         loop
         playsInline
-        preload="metadata"
+        preload="none"
         poster="/images/video-poster.jpg"
         aria-label="Vidéo de présentation du restaurant Rosi Trattoria"
+        style={{ zIndex: isVideoLoaded ? 2 : 0 }}
       >
         <source
           src="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/homevideo.mp4"
@@ -92,10 +116,12 @@ const HomeVideoSection: React.FC = () => {
           width="200"
           height="100"
           loading="eager"
+          fetchPriority="high"
         />
       </div>
 
       <div className="content">
+        {/* H1 rendu immédiatement avec une police système de fallback */}
         <h1 className="slogan">
           Du bon, du bio, de la joie, <br />
           c'est Rosi Trattoria !
@@ -110,7 +136,7 @@ const HomeVideoSection: React.FC = () => {
             aria-hidden="true"
           >
             <path
-              d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"
+              d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"
               fill="currentColor"
             />
           </svg>
@@ -155,6 +181,7 @@ const HomeVideoSection: React.FC = () => {
                 objectFit: "contain",
               }}
               aria-hidden="true"
+              loading="lazy"
             />
           </button>
           <button
@@ -184,6 +211,25 @@ const HomeVideoSection: React.FC = () => {
           to {
             transform: rotate(360deg);
           }
+        }
+
+        .video-placeholder.visible {
+          opacity: 1;
+          transition: opacity 0.3s ease-in-out;
+        }
+
+        .video-placeholder.hidden {
+          opacity: 0;
+          transition: opacity 0.3s ease-in-out;
+        }
+
+        .background-video.loading {
+          opacity: 0;
+        }
+
+        .background-video.loaded {
+          opacity: 1;
+          transition: opacity 0.3s ease-in-out;
         }
       `}</style>
     </section>
