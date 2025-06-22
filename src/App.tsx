@@ -10,6 +10,7 @@ import NosValeurs from "./pages/NosValeurs";
 import Carte from "./pages/Carte";
 import Recrutement from "./pages/Recrutement";
 import Contact from "./pages/Contact";
+import Page404 from "./pages/Page404"; // Import de la page 404
 import { useEffect } from "react";
 import SwiperGallery from "./components/Acceuil/SwiperGallery/swipergallery";
 import ReviewWidget from "./components/Acceuil/ReviewWidget/reviewwidget";
@@ -154,7 +155,8 @@ function App(): React.JSX.Element {
         <Route path="/carte" element={<Carte />} />
         <Route path="/recrutement" element={<Recrutement />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="*" element={<h1>404 - Page Not Found</h1>} />
+        {/* Route 404 - doit être la dernière */}
+        <Route path="*" element={<Page404 />} />
       </Routes>
       <Footer />
     </div>
