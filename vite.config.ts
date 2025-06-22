@@ -20,6 +20,5 @@ export default defineConfig({
       }
     }
   },
-  // Ensure worker files are served correctly
   assetsInclude: ['**/*.worker.js', '**/*.worker.min.js']
 })

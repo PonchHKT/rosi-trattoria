@@ -5,9 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "build": "tsc -b && vite build && npm run prerender-if-preview",
+    "build:prerender": "npm run build && npm run preview & sleep 5 && node scripts/prerender.js && pkill -f 'vite preview'",
+    "preview": "vite preview",
+    "prerender": "node scripts/prerender.js",
+    "prerender-if-preview": "npm run preview & sleep 5 && npm run prerender && pkill -f 'vite preview' || true",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
@@ -44,6 +47,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
+    "puppeteer": "^24.10.2",
     "sass-embedded": "^1.89.1",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.30.1",
