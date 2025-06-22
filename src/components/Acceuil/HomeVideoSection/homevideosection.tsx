@@ -115,7 +115,17 @@ const HomeVideoSection: React.FC = () => {
       </div>
 
       <div className="content">
-        <h1 className="slogan">Du bon, du bio, de la joie, c'est Rosi !</h1>
+        <h1 className="slogan">
+          {isMobile ? (
+            <>
+              Du bon, du bio, de la joie,
+              <br />
+              c'est Rosi !
+            </>
+          ) : (
+            "Du bon, du bio, de la joie, c'est Rosi !"
+          )}
+        </h1>
 
         <address className="address-container">
           <svg
