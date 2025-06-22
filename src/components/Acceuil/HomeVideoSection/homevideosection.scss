@@ -83,8 +83,6 @@
       font-family: "Pacifico", "Comic Sans MS", cursive, system-ui;
       font-size: 4.6rem;
       font-weight: 500;
-      line-height: 1.2;
-      margin-bottom: 1.5rem;
       letter-spacing: -0.02em;
       text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
       font-display: swap;
@@ -109,7 +107,6 @@
       letter-spacing: 0.01em;
 
       .location-icon {
-        margin-bottom: 1px;
         width: 1.5rem;
         height: 1.5rem;
         color: #ffffff;
@@ -288,7 +285,7 @@
     .content {
       margin-left: 0.5rem;
       margin-right: 1.5rem;
-      margin-top: -80px;
+      margin-top: -50px;
 
       .slogan {
         font-size: 2rem;
@@ -304,7 +301,7 @@
         }
 
         .address-text {
-          font-size: 1rem;
+          font-size: 0.9rem;
         }
       }
 

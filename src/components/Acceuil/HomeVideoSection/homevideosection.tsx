@@ -8,38 +8,36 @@ const HomeVideoSection: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
 
-  // Chargement différé de la vidéo après le LCP
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShouldLoadVideo(true);
-    }, 100);
-
+    const timer = setTimeout(() => setShouldLoadVideo(true), 100);
     return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
-    if (!shouldLoadVideo) return;
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
+  useEffect(() => {
+    if (!shouldLoadVideo) return;
     const video = videoRef.current;
     if (!video) return;
 
-    const handleLoadedData = () => {
-      setIsVideoLoaded(true);
-    };
+    const handleLoadedData = () => setIsVideoLoaded(true);
 
     const tryPlay = async () => {
       try {
         await video.play();
-      } catch (error) {
-        console.error("Autoplay failed:", error);
+      } catch {
         const handleUserInteraction = () => {
-          video
-            .play()
-            .catch((err) =>
-              console.error("User interaction play failed:", err)
-            );
+          video.play().catch(console.error);
         };
         document.addEventListener("touchstart", handleUserInteraction, {
           once: true,
@@ -66,9 +64,7 @@ const HomeVideoSection: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  const handleCarteClick = () => {
-    navigate("/carte");
-  };
+  const handleCarteClick = () => navigate("/carte");
 
   const handleClickCollectClick = () => {
     window.open(
@@ -80,10 +76,8 @@ const HomeVideoSection: React.FC = () => {
 
   return (
     <section className="home-video-section">
-      {/* Image de fond optimisée - sera le LCP */}
       <div className="hero-background" />
 
-      {/* Vidéo chargée en différé */}
       {shouldLoadVideo && (
         <video
           ref={videoRef}
@@ -107,7 +101,6 @@ const HomeVideoSection: React.FC = () => {
         </video>
       )}
 
-      {/* Logo optimisé avec sizes et srcset si possible */}
       <div className="logo-container">
         <img
           src="/images/logo/rositrattorialogo.png"
@@ -122,11 +115,7 @@ const HomeVideoSection: React.FC = () => {
       </div>
 
       <div className="content">
-        {/* H1 avec font-display swap déjà en place */}
-        <h1 className="slogan">
-          Du bon, du bio, de la joie, <br />
-          c'est Rosi Trattoria !
-        </h1>
+        <h1 className="slogan">Du bon, du bio, de la joie, c'est Rosi !</h1>
 
         <address className="address-container">
           <svg
@@ -137,12 +126,13 @@ const HomeVideoSection: React.FC = () => {
             aria-hidden="true"
           >
             <path
-              d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"
+              d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"
               fill="currentColor"
             />
           </svg>
           <span className="address-text">
-            11 Prom. des Tilleuls, 19100 Brive-la-Gaillarde
+            11 Prom. des Tilleuls{isMobile ? <br /> : ","} 19100
+            Brive-la-Gaillarde
           </span>
         </address>
 
@@ -205,16 +195,10 @@ const HomeVideoSection: React.FC = () => {
         .rotating-pizza {
           animation: rotate 10s linear infinite;
         }
-
         @keyframes rotate {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
         }
-
         .hero-background {
           position: absolute;
           top: -100px;
@@ -228,11 +212,9 @@ const HomeVideoSection: React.FC = () => {
           z-index: 1;
           transform: translateZ(0);
         }
-
         .background-video.loading {
           opacity: 0;
         }
-
         .background-video.loaded {
           opacity: 1;
           transition: opacity 0.8s ease-in-out;
