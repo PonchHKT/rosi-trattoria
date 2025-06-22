@@ -99,6 +99,21 @@ const ReviewWidget: React.FC = () => {
 
     const reviewsSchema = reviews.slice(0, 10).map((review) => ({
       "@type": "Review",
+      itemReviewed: {
+        // AJOUT OBLIGATOIRE
+        "@type": "Restaurant",
+        name: "Rosi Trattoria",
+        url: "https://www.rosi-trattoria.com/",
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: "11 Prom. des Tilleuls",
+          addressLocality: "Brive-la-Gaillarde",
+          postalCode: "19100",
+          addressCountry: "FR",
+        },
+        telephone: "+33544314447",
+        servesCuisine: "Italian",
+      },
       author: {
         "@type": "Person",
         name: review.reviewer,
@@ -541,6 +556,38 @@ const ReviewWidget: React.FC = () => {
               itemScope
               itemType="https://schema.org/Review"
             >
+              {/* Ajout de itemReviewed - OBLIGATOIRE */}
+              <div
+                itemProp="itemReviewed"
+                itemScope
+                itemType="https://schema.org/Restaurant"
+                style={{ display: "none" }} // Invisible mais présent pour Schema.org
+              >
+                <meta itemProp="name" content="Rosi Trattoria" />
+                <meta
+                  itemProp="url"
+                  content="https://www.rosi-trattoria.com/"
+                />
+                <div
+                  itemProp="address"
+                  itemScope
+                  itemType="https://schema.org/PostalAddress"
+                >
+                  <meta
+                    itemProp="streetAddress"
+                    content="11 Prom. des Tilleuls"
+                  />
+                  <meta
+                    itemProp="addressLocality"
+                    content="Brive-la-Gaillarde"
+                  />
+                  <meta itemProp="postalCode" content="19100" />
+                  <meta itemProp="addressCountry" content="FR" />
+                </div>
+                <meta itemProp="telephone" content="+33544314447" />
+                <meta itemProp="servesCuisine" content="Italian" />
+              </div>
+
               <div className="review-item">
                 <div className="review-content">
                   <div className="review-header">
@@ -610,7 +657,6 @@ const ReviewWidget: React.FC = () => {
       </div>
 
       {/* Section SEO optimisée - Contenu indexable mais discret */}
-      {/* Section SEO discrète - Contenu indexable mais quasi invisible */}
       <div className="seo-reviews-section">
         {/* Texte SEO compact et discret */}
         <div className="seo-content">
@@ -630,6 +676,15 @@ const ReviewWidget: React.FC = () => {
                 itemScope
                 itemType="https://schema.org/Review"
               >
+                {/* itemReviewed OBLIGATOIRE - Version compacte */}
+                <div
+                  itemProp="itemReviewed"
+                  itemScope
+                  itemType="https://schema.org/Restaurant"
+                >
+                  <span itemProp="name">Rosi Trattoria</span>
+                </div>
+
                 <cite
                   itemProp="author"
                   itemScope
