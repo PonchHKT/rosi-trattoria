@@ -64,27 +64,35 @@ const HomeVideoSection: React.FC = () => {
       <video
         ref={videoRef}
         className="background-video"
-        src="https://cdn.jsdelivr.net/gh/PonchHKT/rosi-assets/homevideo.mp4"
+        src="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/homevideo.mp4"
         autoPlay
         muted
         loop
         playsInline
         preload="metadata"
         poster="/images/video-poster.jpg"
-        aria-hidden="true"
+        title="Ambiance du restaurant Rosi Trattoria - Cuisine italienne bio"
+        aria-label="Vidéo de présentation de l'ambiance du restaurant Rosi Trattoria"
       >
         <source
-          src="https://cdn.jsdelivr.net/gh/PonchHKT/rosi-assets/homevideo.mp4"
+          src="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/homevideo.mp4"
           type="video/mp4"
         />
-        Your browser does not support the video tag.
+        <p>
+          Découvrez l'ambiance chaleureuse de Rosi Trattoria, votre restaurant
+          italien bio situé à Brive-la-Gaillarde. Une cuisine authentique dans
+          un cadre convivial.
+        </p>
       </video>
 
       <div className="logo-container">
         <img
           src="/images/logo/rositrattorialogo.png"
-          alt="Logo Rosi Trattoria"
+          alt="Rosi Trattoria - Restaurant italien bio à Brive-la-Gaillarde"
           className="logo"
+          width="200"
+          height="100"
+          loading="eager"
         />
       </div>
 
@@ -93,12 +101,14 @@ const HomeVideoSection: React.FC = () => {
           Du bon, du bio, de la joie, <br />
           c'est Rosi Trattoria !
         </h1>
-        <div className="address-container">
+
+        <address className="address-container">
           <svg
             className="location-icon"
             viewBox="0 0 24 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
           >
             <path
               d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"
@@ -108,38 +118,54 @@ const HomeVideoSection: React.FC = () => {
           <span className="address-text">
             11 Prom. des Tilleuls, 19100 Brive-la-Gaillarde
           </span>
-        </div>
-        <div className="buttons">
+        </address>
+
+        <nav
+          className="buttons"
+          role="navigation"
+          aria-label="Actions principales du restaurant"
+        >
           <a
             href="https://bookings.zenchef.com/results?rid=356394&fullscreen=1"
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="Réserver une table chez Rosi Trattoria (nouvelle fenêtre)"
           >
             <button className="primary-button">Réserver</button>
           </a>
-          <button className="secondary-button" onClick={handleCarteClick}>
+          <button
+            className="secondary-button"
+            onClick={handleCarteClick}
+            aria-label="Consulter la carte des plats et boissons"
+          >
             Voir la carte
           </button>
           <button
             className="distributor-button"
             onClick={handleDistributorClick}
+            aria-label="Accéder au distributeur automatique de pizzas"
           >
             Distributeur
             <img
               src="/images/logo/pizza.png"
-              alt="Pizza"
+              alt=""
               className="distributor-icon rotating-pizza"
               style={{
                 width: "24px",
                 height: "24px",
                 objectFit: "contain",
               }}
+              aria-hidden="true"
             />
           </button>
-          <button className="white-button" onClick={handleClickCollectClick}>
+          <button
+            className="white-button"
+            onClick={handleClickCollectClick}
+            aria-label="Commander en Click & Collect (nouvelle fenêtre)"
+          >
             Click & Collect
           </button>
-        </div>
+        </nav>
       </div>
 
       <ComingSoonModal

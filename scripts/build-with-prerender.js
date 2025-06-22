@@ -3,7 +3,7 @@
 import { spawn, execSync } from "child_process";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
-import { prerender } from "./prerender.js";
+import { prerender } from "./prerender-vercel.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

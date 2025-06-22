@@ -19,8 +19,7 @@ import React from "react";
 const HomePageSEO = () => (
   <Helmet>
     <title>
-      Rosi Trattoria – Pizzeria Italienne Bio, Locale & Fait Maison à
-      Brive-la-Gaillarde
+      Rosi Trattoria – Pizzeria Italienne Bio, Locale & Fait Maison à Brive
     </title>
     <meta
       name="description"

@@ -174,8 +174,8 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="footer">
-      <div className="footer__top-border"></div>
+    <footer className="footer" role="contentinfo">
+      <div className="footer__top-border" aria-hidden="true"></div>
 
       <div className="footer__container">
         <div className="footer__grid">
@@ -183,19 +183,25 @@ const Footer: React.FC = () => {
             <div className="footer__brand-content">
               <img
                 src="/images/logo/rositrattorialogo.png"
-                alt="Rosi Trattoria"
+                alt="Logo Rosi Trattoria - Restaurant italien authentique à Brive-la-Gaillarde"
                 className="footer__logo"
+                width="120"
+                height="80"
               />
-              <div className="footer__rating">
-                <Star className="footer__star" />
-                <Star className="footer__star" />
-                <Star className="footer__star" />
-                <Star className="footer__star" />
-                <Star className="footer__star" />
+              <div
+                className="footer__rating"
+                role="img"
+                aria-label="5 étoiles sur 5"
+              >
+                <Star className="footer__star" aria-hidden="true" />
+                <Star className="footer__star" aria-hidden="true" />
+                <Star className="footer__star" aria-hidden="true" />
+                <Star className="footer__star" aria-hidden="true" />
+                <Star className="footer__star" aria-hidden="true" />
               </div>
             </div>
 
-            <p className="footer__slogan">Rosi Trattoria</p>
+            <h2 className="footer__slogan">Rosi Trattoria</h2>
 
             <p className="footer__description">
               Une expérience culinaire authentique où chaque plat raconte
@@ -203,62 +209,74 @@ const Footer: React.FC = () => {
             </p>
 
             <div className="footer__social">
-              <h4 className="footer__social-title">Suivez-nous</h4>
+              <h3 className="footer__social-title">Suivez-nous</h3>
               <div className="footer__social-buttons">
                 <a
                   href="https://www.facebook.com/ROSI.TRATTORIA/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="footer__social-btn footer__social-btn--facebook"
-                  aria-label="Facebook"
+                  aria-label="Suivez Rosi Trattoria sur Facebook"
+                  title="Page Facebook du restaurant Rosi Trattoria"
                 >
-                  <Facebook />
+                  <Facebook aria-hidden="true" />
                 </a>
                 <a
                   href="https://www.instagram.com/rosi.trattoria/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="footer__social-btn footer__social-btn--instagram"
-                  aria-label="Instagram"
+                  aria-label="Suivez Rosi Trattoria sur Instagram"
+                  title="Compte Instagram du restaurant Rosi Trattoria"
                 >
-                  <Instagram />
+                  <Instagram aria-hidden="true" />
                 </a>
               </div>
             </div>
           </div>
 
-          <div className="footer__contact">
-            <h4 className="footer__section-title">Contact</h4>
+          <address className="footer__contact">
+            <h3 className="footer__section-title">Contact & Informations</h3>
             <div className="footer__contact-list">
               <div className="footer__contact-item">
                 <div className="footer__contact-icon footer__contact-icon--location">
-                  <MapPin />
+                  <MapPin aria-hidden="true" />
                 </div>
                 <div className="footer__contact-details">
                   <a
                     href="https://maps.google.com/?q=11+Prom.+des+Tilleuls,+19100+Brive-la-Gaillarde"
                     target="_blank"
                     rel="noopener noreferrer"
+                    title="Localiser Rosi Trattoria sur Google Maps"
+                    aria-label="Adresse du restaurant : 11 Promenade des Tilleuls, Brive-la-Gaillarde"
                   >
-                    11 Prom. des Tilleuls
+                    <span itemProp="streetAddress">11 Prom. des Tilleuls</span>
                     <br />
-                    19100 Brive-la-Gaillarde
+                    <span itemProp="postalCode">19100</span>{" "}
+                    <span itemProp="addressLocality">Brive-la-Gaillarde</span>
                   </a>
                 </div>
               </div>
 
               <div className="footer__contact-item">
                 <div className="footer__contact-icon footer__contact-icon--phone">
-                  <Phone />
+                  <Phone aria-hidden="true" />
                 </div>
                 <div className="footer__contact-details">
-                  <a href="tel:0544314447">05 44 31 44 47</a>
+                  <a
+                    href="tel:0544314447"
+                    title="Appeler pour réserver une table au restaurant Rosi Trattoria"
+                    aria-label="Téléphone : 05 44 31 44 47"
+                    itemProp="telephone"
+                  >
+                    05 44 31 44 47
+                  </a>
                 </div>
               </div>
 
               <div className="footer__contact-item">
                 <div className="footer__contact-icon footer__contact-icon--email">
-                  <Mail />
+                  <Mail aria-hidden="true" />
                 </div>
                 <div className="footer__contact-details">
                   <div className="footer__email-container">
@@ -266,12 +284,17 @@ const Footer: React.FC = () => {
                       href="#"
                       onClick={copyEmailToClipboard}
                       className="footer__email-link"
-                      title="Cliquer pour copier l'adresse email"
+                      title="Cliquer pour copier l'adresse email du restaurant"
+                      aria-label="Email : rosi.trattoria@gmail.com - Cliquer pour copier"
                     >
-                      rosi.trattoria@gmail.com
+                      <span itemProp="email">rosi.trattoria@gmail.com</span>
                     </a>
                     {emailCopied && (
-                      <div className="footer__email-notification">
+                      <div
+                        className="footer__email-notification"
+                        role="status"
+                        aria-live="polite"
+                      >
                         <span>Copié dans le presse-papiers</span>
                       </div>
                     )}
@@ -281,10 +304,10 @@ const Footer: React.FC = () => {
 
               <div className="footer__contact-item">
                 <div className="footer__contact-icon footer__contact-icon--hours">
-                  <Clock />
+                  <Clock aria-hidden="true" />
                 </div>
                 <div className="footer__contact-details">
-                  <div className="footer__hours-list">
+                  <div className="footer__hours-list" itemProp="openingHours">
                     <div className="footer__hours-item">
                       <span className="footer__hours-day">
                         {isAugust()
@@ -311,43 +334,66 @@ const Footer: React.FC = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </address>
 
           <div className="footer__navigation">
-            <h4 className="footer__section-title">Navigation</h4>
-            <nav className="footer__nav-links">
-              <a href="/" className="footer__nav-link">
+            <h3 className="footer__section-title">Navigation</h3>
+            <nav
+              className="footer__nav-links"
+              aria-label="Navigation secondaire"
+            >
+              <a
+                href="/"
+                className="footer__nav-link"
+                title="Retour à l'accueil du restaurant Rosi Trattoria"
+              >
                 Accueil
               </a>
-              <a href="/nosvaleurs" className="footer__nav-link">
+              <a
+                href="/nos-valeurs"
+                className="footer__nav-link"
+                title="Découvrez nos valeurs et nos engagements qualité"
+              >
                 Nos valeurs
               </a>
-              <a href="/carte" className="footer__nav-link">
+              <a
+                href="/carte"
+                className="footer__nav-link"
+                title="Consultez notre carte de spécialités italiennes"
+              >
                 Carte
               </a>
-              <a href="/recrutement" className="footer__nav-link">
+              <a
+                href="/recrutement"
+                className="footer__nav-link"
+                title="Rejoignez l'équipe du restaurant Rosi Trattoria"
+              >
                 Recrutement
               </a>
-              <a href="/contact" className="footer__nav-link">
+              <a
+                href="/contact"
+                className="footer__nav-link"
+                title="Contactez-nous pour des renseignements"
+              >
                 Contact
               </a>
             </nav>
           </div>
 
-          <div className="footer__facebook">
-            <h4 className="footer__section-title footer__facebook-title">
-              <Facebook />
-              <span>Derniers posts</span>
-            </h4>
+          <aside className="footer__facebook">
+            <h3 className="footer__section-title footer__facebook-title">
+              <Facebook aria-hidden="true" />
+              <span>Derniers posts Facebook</span>
+            </h3>
 
             <div className="footer__facebook-posts">
               {loading ? (
-                <div className="footer__facebook-loading">
-                  Chargement des posts...
+                <div className="footer__facebook-loading" aria-live="polite">
+                  Chargement des dernières actualités...
                 </div>
               ) : (
                 facebookPosts.map((post) => (
-                  <div
+                  <article
                     key={post.id}
                     className={`footer__facebook-post ${
                       post.isApiWaiting
@@ -358,8 +404,9 @@ const Footer: React.FC = () => {
                     {getPostImage(post) && (
                       <img
                         src={getPostImage(post)}
-                        alt=""
+                        alt="Publication Facebook de Rosi Trattoria"
                         className="footer__facebook-image"
+                        loading="lazy"
                       />
                     )}
                     <p
@@ -372,27 +419,31 @@ const Footer: React.FC = () => {
                       {getPostContent(post)}
                     </p>
                     <div className="footer__facebook-meta">
-                      <span
+                      <time
                         className={`footer__facebook-date ${
                           post.isApiWaiting
                             ? "footer__facebook-date--loading"
                             : ""
                         }`}
+                        dateTime={post.created_time}
                       >
                         {formatDate(post.created_time)}
-                      </span>
+                      </time>
                       <div
                         className={`footer__facebook-likes ${
                           post.isApiWaiting
                             ? "footer__facebook-likes--loading"
                             : ""
                         }`}
+                        aria-label={`${
+                          post.likes?.summary?.total_count || 0
+                        } j'aime`}
                       >
-                        <Heart />
+                        <Heart aria-hidden="true" />
                         <span>{post.likes?.summary?.total_count || 0}</span>
                       </div>
                     </div>
-                  </div>
+                  </article>
                 ))
               )}
 
@@ -401,26 +452,30 @@ const Footer: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="footer__facebook-link"
+                title="Voir toutes nos publications sur Facebook"
+                aria-label="Accéder à la page Facebook complète de Rosi Trattoria"
               >
                 <span>Voir plus sur Facebook</span>
-                <Facebook />
+                <Facebook aria-hidden="true" />
               </a>
             </div>
-          </div>
+          </aside>
         </div>
 
         <div className="footer__bottom">
           <div className="footer__bottom-content">
             <p className="footer__copyright">
-              © {new Date().getFullYear()} Rosi Trattoria. Tous droits réservés.
+              © {new Date().getFullYear()} Rosi Trattoria - Restaurant italien à
+              Brive-la-Gaillarde. Tous droits réservés.
             </p>
 
-            <div className="footer__legal-links">
+            <nav className="footer__legal-links" aria-label="Liens légaux">
               <a
                 href="https://carte.rosi-trattoria.com/info/legal-notice"
                 className="footer__legal-link"
                 target="_blank"
                 rel="noopener noreferrer"
+                title="Consulter les mentions légales"
               >
                 Mentions légales
               </a>
@@ -429,6 +484,7 @@ const Footer: React.FC = () => {
                 className="footer__legal-link"
                 target="_blank"
                 rel="noopener noreferrer"
+                title="Conditions générales de vente"
               >
                 CGV
               </a>
@@ -437,10 +493,11 @@ const Footer: React.FC = () => {
                 className="footer__legal-link"
                 target="_blank"
                 rel="noopener noreferrer"
+                title="Politique de confidentialité et gestion des cookies"
               >
                 Gestion des cookies
               </a>
-            </div>
+            </nav>
           </div>
         </div>
       </div>

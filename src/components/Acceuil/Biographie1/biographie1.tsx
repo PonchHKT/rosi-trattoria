@@ -128,17 +128,22 @@ const Biographie1: React.FC = () => {
   }, [hasBeenTriggered]);
 
   return (
-    <div className="biographie" ref={sectionRef}>
+    <section
+      className="biographie"
+      ref={sectionRef}
+      aria-labelledby="restaurant-experience-title"
+    >
       <AnimatedSection animationType="fade-in-scale" delay={100}>
-        <div className="biographie__hero">
-          <div className={`biographie__title ${isVisible ? "visible" : ""}`}>
-            <span className="biographie__title-main">
+        <header className="biographie__hero">
+          <hgroup className={`biographie__title ${isVisible ? "visible" : ""}`}>
+            <h2
+              id="restaurant-experience-title"
+              className="biographie__title-main"
+            >
               LA PASSION ET L'EXIGENCE
-            </span>
-            <span className="biographie__title-accent">
-              MÈNENT À L'EXCELLENCE
-            </span>
-          </div>
+            </h2>
+            <p className="biographie__title-accent">MÈNENT À L'EXCELLENCE</p>
+          </hgroup>
 
           <AnimatedSection animationType="fade-in-scale" delay={200}>
             <p className="biographie__intro">
@@ -147,29 +152,42 @@ const Biographie1: React.FC = () => {
               contemporaine.
             </p>
           </AnimatedSection>
-        </div>
+        </header>
       </AnimatedSection>
 
       <div className="biographie__content">
-        <section className="biographie__section">
-          <h2 className="biographie__subtitle">
-            Le plaisir de manger Italien dans un cadre atypique
-          </h2>
+        <article className="biographie__section">
+          <header>
+            <h3 className="biographie__subtitle">
+              Le plaisir de manger Italien dans un cadre atypique
+            </h3>
+          </header>
 
-          <p className="biographie__text">
-            Nous vous servons de délicieuses pizzas Napolitaines dans un cadre
-            élégant et chaleureux. <br />
-            La décoration Street Art procure un sentiment de dépaysement total.
-            Spacieux mais intime, le cadre est parfait pour passer des moments
-            de détente et de tranquillité.
-          </p>
+          <div className="biographie__description">
+            <p className="biographie__text">
+              Nous vous servons de délicieuses pizzas Napolitaines dans un cadre
+              élégant et chaleureux. <br />
+              La décoration Street Art procure un sentiment de dépaysement
+              total. Spacieux mais intime, le cadre est parfait pour passer des
+              moments de détente et de tranquillité.
+            </p>
+          </div>
 
-          <div className="biographie__capacity">
-            <h3 className="biographie__capacity-title">Capacité d'accueil</h3>
+          <section
+            className="biographie__capacity"
+            aria-labelledby="capacity-title"
+          >
+            <h4 id="capacity-title" className="biographie__capacity-title">
+              Capacité d'accueil
+            </h4>
 
-            <div className="biographie__capacity-grid">
-              <div className="biographie__capacity-item">
-                <div className="biographie__capacity-icon">
+            <div
+              className="biographie__capacity-grid"
+              role="list"
+              aria-label="Espaces disponibles au restaurant"
+            >
+              <div className="biographie__capacity-item" role="listitem">
+                <div className="biographie__capacity-icon" aria-hidden="true">
                   <Armchair size={32} color="#ff69b4" />
                 </div>
                 <p>
@@ -180,8 +198,8 @@ const Biographie1: React.FC = () => {
                 </p>
               </div>
 
-              <div className="biographie__capacity-item">
-                <div className="biographie__capacity-icon">
+              <div className="biographie__capacity-item" role="listitem">
+                <div className="biographie__capacity-icon" aria-hidden="true">
                   <Armchair size={32} color="#ff69b4" />
                 </div>
                 <p>
@@ -192,20 +210,24 @@ const Biographie1: React.FC = () => {
                 </p>
               </div>
             </div>
+          </section>
+
+          <div className="biographie__additional-info">
+            <p className="biographie__text">
+              Nous proposons des pizzas délicieuses aux saveurs originales. Vous
+              pouvez les apprécier sur place ou les emporter.
+            </p>
+
+            <blockquote className="biographie__quote" cite="">
+              <p>
+                Nous vous accueillons dans un cadre chaleureux pour déguster de
+                délicieuses pizzas Italiennes
+              </p>
+            </blockquote>
           </div>
-
-          <p className="biographie__text">
-            Nous proposons des pizzas délicieuses aux saveurs originales. Vous
-            pouvez les apprécier sur place ou les emporter.
-          </p>
-
-          <blockquote className="biographie__quote">
-            Nous vous accueillons dans un cadre chaleureux pour déguster de
-            délicieuses pizzas Italiennes
-          </blockquote>
-        </section>
+        </article>
       </div>
-    </div>
+    </section>
   );
 };
 
