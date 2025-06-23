@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 // Configuration adaptée pour IONOS
 const CONFIG = {
   distDir: path.join(__dirname, "../dist"),
-  baseUrl: "https://rosi-trattoria.com",
+  baseUrl: "https://www.rosi-trattoria.com",
 };
 
 // Routes avec métadonnées SEO (identiques à votre config Vercel)

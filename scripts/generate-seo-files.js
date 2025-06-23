@@ -13,93 +13,92 @@ const writeFile = promisify(fs.writeFile);
 // Configuration
 const CONFIG = {
   distDir: path.join(__dirname, "../dist"),
-  baseUrl: "https://rosi-trattoria.com",
+  baseUrl: "https://www.rosi-trattoria.com",
 };
 
-// Routes
+// Route type definition (for TypeScript or JSDoc)
 const routes = [
   {
-    path: "/",
+    path: "/", // Root path already has trailing slash
     priority: 1.0,
     changefreq: "daily",
+    lastmod: new Date().toISOString().split("T")[0], // Dynamic date
   },
   {
-    path: "/carte",
+    path: "/carte/",
     priority: 0.9,
     changefreq: "weekly",
+    lastmod: "2025-06-23", // Static date for less frequent updates
   },
   {
-    path: "/nos-valeurs",
+    path: "/nos-valeurs/",
     priority: 0.8,
     changefreq: "monthly",
+    lastmod: "2025-06-23",
   },
   {
-    path: "/recrutement",
+    path: "/recrutement/",
     priority: 0.7,
     changefreq: "weekly",
+    lastmod: new Date().toISOString().split("T")[0],
   },
   {
-    path: "/contact",
+    path: "/contact/",
     priority: 0.6,
     changefreq: "monthly",
+    lastmod: "2025-06-23",
   },
 ];
 
-// Générer un sitemap XML
+// Generate sitemap XML with consistent indentation
 function generateSitemap() {
   const urls = routes
     .map((route) => {
-      return `
-  <url>
-    <loc>${CONFIG.baseUrl}${route.path === "/" ? "" : route.path}</loc>
-    <lastmod>${new Date().toISOString().split("T")[0]}</lastmod>
+      return `  <url>
+    <loc>${CONFIG.baseUrl}${route.path}</loc>
+    <lastmod>${route.lastmod}</lastmod>
     <changefreq>${route.changefreq}</changefreq>
     <priority>${route.priority}</priority>
   </url>`;
     })
-    .join("");
+    .join("\n");
 
-  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+  return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls}
 </urlset>`;
-
-  return sitemap;
 }
 
-// Générer un robots.txt
+// Generate robots.txt
 function generateRobotsTxt() {
   return `User-agent: *
 Allow: /
 
 Sitemap: ${CONFIG.baseUrl}/sitemap.xml
 
-# Allow all search engines to crawl
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /`;
+# Disallow non-critical paths (optional)
+Disallow: /dist/
+Disallow: /assets/`;
 }
 
-// Fonction principale
+// Main function
 async function generateSeoFiles() {
-  console.log("🔧 Génération des fichiers SEO...");
+  console.log("🔧 Generating SEO files...");
 
   try {
-    // Générer le sitemap
+    // Generate sitemap
     const sitemap = generateSitemap();
     await writeFile(path.join(CONFIG.distDir, "sitemap.xml"), sitemap, "utf8");
-    console.log("🗺️  Sitemap généré: sitemap.xml");
+    console.log("🗺️  Sitemap generated: sitemap.xml");
 
-    // Générer robots.txt
+    // Generate robots.txt
     const robotsTxt = generateRobotsTxt();
     await writeFile(path.join(CONFIG.distDir, "robots.txt"), robotsTxt, "utf8");
-    console.log("🤖 Robots.txt généré");
+    console.log("🤖 Robots.txt generated");
 
-    console.log("✅ Fichiers SEO générés avec succès !");
+    console.log("✅ SEO files generated successfully!");
   } catch (error) {
-    console.error("❌ Erreur lors de la génération des fichiers SEO:", error);
+    console.error("❌ Error generating SEO files:", error);
     process.exit(1);
   }
 }
