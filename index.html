@@ -1,70 +1,26 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr-FR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-
-    <!-- Titre & Description SEO -->
-    <title>Rosi Trattoria – Pizzeria Italienne Bio, Locale & Fait Maison à Brive</title>
-    <meta name="description" content="Rosi Trattoria est une pizzeria italienne à Brive-la-Gaillarde. Pizzas napolitaines bio, locales, faites maison au feu de bois. Produits frais, ambiance chaleureuse." />
-    <meta name="keywords" content="pizzeria Brive, pizza napolitaine bio, restaurant italien fait maison, trattoria Brive-la-Gaillarde, pizza locale, pâte levée, cuisine italienne artisanale" />
-    <meta name="author" content="Rosi Trattoria" />
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="48x48" href="/images/logo/favicon.png" />
-    <link rel="shortcut icon" href="/images/logo/favicon.png" type="image/png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/images/logo/apple-touch-icon.png" />
 
     <!-- Couleurs pour PWA -->
     <meta name="theme-color" content="#75b9f9" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Rosi Trattoria" />
     <link rel="manifest" href="/manifest.json" />
 
-    <!-- Open Graph / Réseaux sociaux -->
-    <meta property="og:title" content="Rosi Trattoria – Pizzeria Italienne Bio & Fait Maison à Brive" />
-    <meta property="og:description" content="Pizzas napolitaines faites maison, produits bio et locaux. Rosi Trattoria à Brive-la-Gaillarde vous invite à savourer l'Italie authentique." />
-    <meta property="og:image" content="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.rosi-trattoria.com/" />
-    <meta property="og:site_name" content="Rosi Trattoria" />
-    <meta property="og:locale" content="fr_FR" />
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Rosi Trattoria – Pizzeria Bio & Fait Maison à Brive" />
-    <meta name="twitter:description" content="Découvrez Rosi Trattoria : pizzas artisanales napolitaines, bio, locales et faites maison à Brive-la-Gaillarde." />
-    <meta name="twitter:image" content="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png" />
-
-    <!-- Balises canoniques -->
-    <link rel="canonical" href="https://www.rosi-trattoria.com/" />
-
-    <!-- Hreflang pour le multilangue -->
-    <link rel="alternate" hrefLang="fr" href="https://www.rosi-trattoria.com/" />
-    <link rel="alternate" hrefLang="fr-FR" href="https://www.rosi-trattoria.com/" />
-    <link rel="alternate" hrefLang="x-default" href="https://www.rosi-trattoria.com/" />
-
-    <!-- Meta tags pour le SEO local -->
-    <meta name="geo.region" content="FR-19" />
-    <meta name="geo.placename" content="Brive-la-Gaillarde" />
-    <meta name="geo.position" content="45.1632151;1.532797" />
-    <meta name="ICBM" content="45.1632151, 1.532797" />
-
-    <!-- Schema.org PRINCIPAL du Restaurant -->
+    <!-- Schema.org Restaurant -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Restaurant",
-      "@id": "https://www.rosi-trattoria.com/#restaurant",
+      "@type": ["Restaurant", "WebPage"],
       "name": "Rosi Trattoria",
-      "alternateName": "Rosi Trattoria Brive",
-      "description": "Restaurant italien authentique à Brive-la-Gaillarde - Spécialités italiennes traditionnelles, pizzas artisanales napolitaines bio, pâtes fraîches maison",
-      "slogan": "Fraîcheur • Qualité • Authenticité - 100% Italiano",
-      "foundingDate": "2023",
+      "description": "Restaurant italien authentique à Brive-la-Gaillarde proposant des pizzas napolitaines bio, pâtes fraîches maison et spécialités italiennes traditionnelles.",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "11 Promenade des Tilleuls",
@@ -82,16 +38,14 @@
       "email": "rosi.trattoria@gmail.com",
       "url": "https://www.rosi-trattoria.com",
       "image": [
-        "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png",
-        "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/pizza-rosi-trattoria.jpg",
-        "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/carpaccio-de-bresaola.jpg"
+        "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png"
       ],
       "logo": "https://www.rosi-trattoria.com/images/logo/rositrattorialogo.png",
-      "priceRange": "€€",
-      "servesCuisine": ["Italian", "Pizza", "Mediterranean", "European"],
+      "priceRange": "10-30 EUR",
+      "servesCuisine": ["Italian", "Pizza", "Mediterranean"],
       "acceptsReservations": true,
       "hasMenu": "https://www.rosi-trattoria.com/carte",
-      "paymentAccepted": ["Cash", "Credit Card", "Debit Card", "Contactless Payment"],
+      "paymentAccepted": ["Cash", "Credit Card"],
       "currenciesAccepted": "EUR",
       "openingHoursSpecification": [
         {
@@ -125,114 +79,26 @@
           "closes": "15:00"
         }
       ],
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.8",
-        "reviewCount": "127",
-        "bestRating": "5",
-        "worstRating": "1"
-      },
-      "review": [
-        {
-          "@type": "Review",
-          "author": {
-            "@type": "Person",
-            "name": "Marie Dubois"
-          },
-          "reviewRating": {
-            "@type": "Rating",
-            "ratingValue": "5",
-            "bestRating": "5"
-          },
-          "reviewBody": "Excellent restaurant italien ! Les pâtes sont faites maison et les ingrédients de qualité. Service impeccable.",
-          "datePublished": "2024-03-15"
-        }
+      "sameAs": [
+        "https://www.facebook.com/rositrattoria",
+        "https://www.instagram.com/rositrattoria"
       ],
-      "contactPoint": [
-        {
-          "@type": "ContactPoint",
-          "telephone": "+33544314447",
-          "contactType": "reservations",
-          "availableLanguage": ["French", "Italian"],
-          "description": "Réservations de table"
-        },
-        {
-          "@type": "ContactPoint",
-          "email": "rosi.trattoria@gmail.com",
-          "contactType": "customer service",
-          "description": "Contact général, candidatures, événements privés",
-          "availableLanguage": ["French", "Italian"]
-        }
-      ]
-    }
-    </script>
-
-    <!-- Schema.org WebSite pour la recherche interne -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "@id": "https://www.rosi-trattoria.com/#website",
-      "name": "Rosi Trattoria",
-      "url": "https://www.rosi-trattoria.com",
-      "description": "Site officiel du restaurant italien Rosi Trattoria à Brive-la-Gaillarde",
-      "inLanguage": "fr-FR",
-      "publisher": {
-        "@id": "https://www.rosi-trattoria.com/#restaurant"
-      },
       "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://www.rosi-trattoria.com/recherche?q={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
-    }
-    </script>
-
-    <!-- Schema.org pour Pascal Bellemain -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Pascal Bellemain",
-      "jobTitle": "Maître Pizzaïolo",
-      "worksFor": {
-        "@type": "Restaurant",
-        "name": "Rosi Trattoria"
-      },
-      "description": "Pizzaïolo expert formé par John Bergh, double champion du monde de pizza napolitaine",
-      "knowsAbout": [
-        "Pizza napolitaine authentique",
-        "Pâte au levain naturel",
-        "Produits bio italiens",
-        "Techniques artisanales"
-      ],
-      "image": "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png"
-    }
-    </script>
-
-    <!-- Schema.org Organization pour l'équipe -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Équipe Rosi Trattoria",
-      "description": "Une équipe passionnée menée par Pascal (Pizzaïolo expert) et Gwen (Directrice de Salle avec 20 ans d'expérience)",
-      "member": [
-        {
-          "@type": "Person",
-          "name": "Pascal",
-          "jobTitle": "Pizzaïolo Expert",
-          "description": "30 ans d'expérience en restauration, formé par John Bergh (double champion du monde)",
-          "image": "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png"
+        "@type": "ReserveAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://www.rosi-trattoria.com/contact",
+          "inLanguage": "fr-FR",
+          "actionPlatform": [
+            "http://schema.org/DesktopWebPlatform",
+            "http://schema.org/MobileWebPlatform"
+          ]
         },
-        {
-          "@type": "Person",
-          "name": "Gwen",
-          "jobTitle": "Directrice de Salle",
-          "description": "20 ans d'expérience dans la restauration, passionnée par l'accueil client",
-          "image": "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png"
+        "result": {
+          "@type": "FoodEstablishmentReservation",
+          "name": "Réservation chez Rosi Trattoria"
         }
-      ]
+      }
     }
     </script>
 
@@ -240,20 +106,16 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev" />
+    <link rel="preconnect" href="https://www.google-analytics.com" />
 
-    <!-- DNS Prefetch pour améliorer les performances -->
-    <link rel="dns-prefetch" href="//www.google-analytics.com" />
-    <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+    <!-- Preload pour les ressources critiques -->
+    <link rel="preload" href="/images/logo/rositrattorialogo.png" as="image" type="image/png" />
+    <link rel="preload" href="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png" as="image" type="image/png" />
 
     <!-- Autres meta tags utiles -->
     <meta name="format-detection" content="telephone=yes" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="application-name" content="Rosi Trattoria" />
-    <meta name="msapplication-TileColor" content="#75b9f9" />
-    <meta name="msapplication-config" content="/browserconfig.xml" />
-
-    <!-- Preload only for logo used immediately in header -->
-    <link rel="preload" href="/images/logo/rositrattorialogo.png" as="image" type="image/png" />
   </head>
   <body>
     <div id="root"></div>
