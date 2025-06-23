@@ -5,8 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build && npm run prerender:vercel",
-    "prerender:vercel": "node scripts/prerender-ionos.js",  
+    "build": "tsc -b && vite build && npm run prerender:ionos",
     "prerender:ionos": "node scripts/build-ionos.js",
     "lint": "eslint ."
   },

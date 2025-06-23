@@ -40,7 +40,10 @@ const HomePageSEO = () => (
       property="og:description"
       content="Pizzas napolitaines faites maison, produits bio et locaux. Rosi Trattoria à Brive-la-Gaillarde vous invite à savourer l'Italie authentique."
     />
-    <meta property="og:image" content="/images/meta-rosi.png" />
+    <meta
+      property="og:image"
+      content="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png"
+    />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.rosi-trattoria.com/" />
 
@@ -54,7 +57,10 @@ const HomePageSEO = () => (
       name="twitter:description"
       content="Découvrez Rosi Trattoria : pizzas artisanales napolitaines, bio, locales et faites maison à Brive-la-Gaillarde."
     />
-    <meta name="twitter:image" content="/images/meta-rosi.png" />
+    <meta
+      name="twitter:image"
+      content="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png"
+    />
 
     {/* Schema.org PRINCIPAL du Restaurant - SEULE DÉFINITION COMPLÈTE */}
     <script type="application/ld+json">
@@ -85,7 +91,7 @@ const HomePageSEO = () => (
         email: "rosi.trattoria@gmail.com",
         url: "https://www.rosi-trattoria.com",
         image: [
-          "https://www.rosi-trattoria.com/images/meta-rosi.png",
+          "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png",
           "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/pizza-rosi-trattoria.jpg",
           "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/carpaccio-de-bresaola.jpg",
         ],

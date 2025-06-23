@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 export default defineConfig({
+  base: '/', // IMPORTANT : la base doit être '/' pour que les chemins soient relatifs à la racine du domaine
   plugins: [react()],
   optimizeDeps: {
     include: ['pdfjs-dist']

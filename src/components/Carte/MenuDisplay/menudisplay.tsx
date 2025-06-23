@@ -72,13 +72,20 @@ const MenuDisplay: React.FC = () => {
     setCurrentPage(1);
     setPdfLoaded(false);
     setShowPdf(false);
-    setIsLoading(true);
 
-    const loadingDelay = getLoadingDelay();
-    loadingTimeoutRef.current = setTimeout(() => {
+    // Pas de chargement pour la carte à emporter
+    if (menuType === "a_emporter") {
       setIsLoading(false);
       setShowPdf(true);
-    }, loadingDelay);
+    } else {
+      // Chargement uniquement pour la carte sur place
+      setIsLoading(true);
+      const loadingDelay = getLoadingDelay();
+      loadingTimeoutRef.current = setTimeout(() => {
+        setIsLoading(false);
+        setShowPdf(true);
+      }, loadingDelay);
+    }
   };
 
   useEffect(() => {
@@ -351,7 +358,7 @@ const MenuDisplay: React.FC = () => {
         </div>
       )}
 
-      {numPages && pdfLoaded && (
+      {numPages && pdfLoaded && !isMobile() && (
         <div className="page-indicator">
           Page {currentPage} / {numPages}
         </div>

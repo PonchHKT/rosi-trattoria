@@ -24,12 +24,24 @@ const CartePageSEO = () => (
       property="og:description"
       content="Pizzas napolitaines authentiques, pâte au levain naturel, produits bio italiens. Consultez notre carte complète sur place et à emporter."
     />
-    <meta property="og:image" content="/images/meta-rosi.png" />
+    <meta
+      property="og:image"
+      content="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png"
+    />
+    <meta
+      property="og:image:alt"
+      content="Carte des pizzas napolitaines bio - Rosi Trattoria Brive-la-Gaillarde"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.rosi-trattoria.com/carte" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content="Rosi Trattoria" />
 
     {/* Twitter Card */}
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@RosiTrattoria" />
     <meta
       name="twitter:title"
       content="Carte des Pizzas - Rosi Trattoria Brive"
@@ -38,10 +50,12 @@ const CartePageSEO = () => (
       name="twitter:description"
       content="Découvrez nos pizzas napolitaines bio faites maison. Pâte au levain, produits italiens premium."
     />
-    <meta name="twitter:image" content="/images/meta-rosi.png" />
+    <meta
+      name="twitter:image"
+      content="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png"
+    />
 
     {/* Schema.org Menu SEUL - Référence le Restaurant défini dans App.js */}
-
     <script type="application/ld+json">
       {JSON.stringify({
         "@context": "https://schema.org",
@@ -95,8 +109,25 @@ const CartePageSEO = () => (
     <link rel="canonical" href="https://www.rosi-trattoria.com/carte" />
 
     {/* Autres meta tags */}
-    <meta name="robots" content="index, follow" />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
     <meta name="author" content="Rosi Trattoria" />
+    <meta name="publisher" content="Rosi Trattoria" />
+    <meta name="copyright" content="© 2025 Rosi Trattoria" />
+
+    {/* Meta tags géolocalisés */}
+    <meta name="geo.region" content="FR-19" />
+    <meta name="geo.placename" content="Brive-la-Gaillarde" />
+    <meta name="geo.position" content="45.1632151;1.532797" />
+    <meta name="ICBM" content="45.1632151, 1.532797" />
+
+    {/* Meta tags business pour la carte */}
+    <meta name="business-type" content="Restaurant Italien" />
+    <meta name="cuisine-type" content="Italian, Pizza, Napoletana" />
+    <meta name="price-range" content="€€" />
+    <meta name="menu-type" content="Pizza, Bio, Artisanal" />
 
     {/* Breadcrumb Schema */}
     <script type="application/ld+json">
@@ -158,9 +189,57 @@ const CartePageSEO = () => (
               text: "Oui, les réservations sont fortement recommandées, surtout le week-end. Appelez-nous au 05 44 31 44 47 ou utilisez notre formulaire de contact.",
             },
           },
+          {
+            "@type": "Question",
+            name: "Quels sont vos prix de pizzas ?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Nos pizzas vont de 12,50€ (Marinara) à partir de 14,50€ (Margherita). Des tarifs préférentiels sont appliqués pour les commandes à emporter. Consultez notre carte complète pour tous les prix.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Utilisez-vous des ingrédients authentiques italiens ?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Absolument ! Nous importons nos ingrédients directement d'Italie : tomates San Marzano, mozzarella di bufala, huile d'olive extra vierge. Notre pâte est préparée au levain naturel selon la tradition napolitaine.",
+            },
+          },
         ],
       })}
     </script>
+
+    {/* Liens alternatifs pour le SEO international */}
+    <link
+      rel="alternate"
+      hrefLang="fr"
+      href="https://www.rosi-trattoria.com/carte"
+    />
+    <link
+      rel="alternate"
+      hrefLang="fr-FR"
+      href="https://www.rosi-trattoria.com/carte"
+    />
+    <link
+      rel="alternate"
+      hrefLang="x-default"
+      href="https://www.rosi-trattoria.com/carte"
+    />
+
+    {/* Preconnect et DNS prefetch pour optimiser les performances */}
+    <link
+      rel="preconnect"
+      href="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev"
+    />
+    <link
+      rel="dns-prefetch"
+      href="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev"
+    />
+
+    {/* REMOVED: Preload line that was causing the warning */}
+
+    <meta name="format-detection" content="telephone=yes" />
+    <meta name="theme-color" content="#d4af37" />
   </Helmet>
 );
 

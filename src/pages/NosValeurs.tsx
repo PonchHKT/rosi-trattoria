@@ -17,6 +17,14 @@ const NosValeursPageSEO = () => (
       content="Pascal Bellemain pizzaïolo, John Bergh formation, valeurs restaurant italien Brive, pâte levain naturel, produits bio locaux, authenticité italienne, savoir-faire artisanal"
     />
 
+    {/* Preload the meta image only for social media crawlers */}
+    <link
+      rel="preload"
+      as="image"
+      href="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png"
+      media="(max-width: 0px)"
+    />
+
     {/* Open Graph */}
     <meta
       property="og:title"
@@ -26,7 +34,10 @@ const NosValeursPageSEO = () => (
       property="og:description"
       content="Pascal Bellemain, notre pizzaïolo formé par le champion du monde John Bergh, vous offre une pizza éthique avec pâte au levain naturel et produits bio locaux."
     />
-    <meta property="og:image" content="/images/meta-rosi.png" />
+    <meta
+      property="og:image"
+      content="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png"
+    />
     <meta property="og:type" content="website" />
     <meta
       property="og:url"
@@ -43,7 +54,10 @@ const NosValeursPageSEO = () => (
       name="twitter:description"
       content="Formation John Bergh, pâte au levain naturel, produits bio locaux. Découvrez l'authenticité italienne chez Rosi Trattoria."
     />
-    <meta name="twitter:image" content="/images/meta-rosi.png" />
+    <meta
+      name="twitter:image"
+      content="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png"
+    />
 
     {/* Schema.org pour la page About/Valeurs */}
     <script type="application/ld+json">
@@ -96,7 +110,8 @@ const NosValeursPageSEO = () => (
           "Produits bio italiens",
           "Techniques artisanales",
         ],
-        image: "/images/meta-rosi.png",
+        image:
+          "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png",
       })}
     </script>
 
@@ -182,12 +197,13 @@ const NosValeursPageSEO = () => (
           name: "Rosi Trattoria",
           logo: {
             "@type": "ImageObject",
-            url: "/images/meta-rosi.png",
+            url: "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png",
           },
         },
-        image: "/images/meta-rosi.png",
+        image:
+          "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png",
         datePublished: "2024-01-01",
-        dateModified: "2024-12-01",
+        dateModified: "2025-06-02",
         mainEntityOfPage: "https://www.rosi-trattoria.com/nos-valeurs",
       })}
     </script>

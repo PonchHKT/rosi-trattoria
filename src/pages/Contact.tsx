@@ -34,7 +34,7 @@ const ContactPageSEO = () => (
     />
     <meta
       property="og:image"
-      content="https://www.rosi-trattoria.com/images/meta-rosi.png"
+      content="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png"
     />
     <meta
       property="og:image:alt"
@@ -60,7 +60,7 @@ const ContactPageSEO = () => (
     />
     <meta
       name="twitter:image"
-      content="https://www.rosi-trattoria.com/images/meta-rosi.png"
+      content="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png"
     />
 
     {/* Schema.org ContactPage - RÉFÉRENCE le Restaurant principal */}
@@ -206,7 +206,7 @@ const ContactPageSEO = () => (
     />
     <meta name="author" content="Rosi Trattoria" />
     <meta name="publisher" content="Rosi Trattoria" />
-    <meta name="copyright" content="© 2024 Rosi Trattoria" />
+    <meta name="copyright" content="© 2025 Rosi Trattoria" />
 
     {/* Meta tags géolocalisés optimisés */}
     <meta name="geo.region" content="FR-19" />
@@ -264,10 +264,16 @@ const ContactPageSEO = () => (
       href="https://www.rosi-trattoria.com/contact"
     />
 
-    {/* Preconnect pour optimiser les performances */}
+    {/* Preconnect et DNS prefetch pour optimiser les performances */}
+    <link
+      rel="preconnect"
+      href="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev"
+    />
     <link rel="preconnect" href="https://www.google.com" />
     <link rel="preconnect" href="https://maps.googleapis.com" />
     <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+
+    {/* REMOVED: Preload line that was causing the warning */}
   </Helmet>
 );
 
