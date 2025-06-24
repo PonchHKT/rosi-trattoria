@@ -3,6 +3,7 @@ import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 import "./reviewwidget.scss";
 import ReviewPopup from "../ReviewPopup/reviewpopup";
+import ReactGA from "react-ga4";
 
 // Interface pour le format Google
 interface GoogleReviewJSON {
@@ -64,8 +65,23 @@ const ReviewWidget: React.FC = () => {
     defaultAnimation: {
       duration: 500,
     },
-    created() {},
-    slideChanged() {},
+    created() {
+      // GA4 - Track slider initialization
+      ReactGA.event({
+        category: "ReviewWidget",
+        action: "slider_initialized",
+        label: "keen_slider_created",
+      });
+    },
+    slideChanged(slider) {
+      // GA4 - Track slide changes
+      ReactGA.event({
+        category: "ReviewWidget",
+        action: "slide_changed",
+        label: `slide_${slider.track.details.rel}`,
+        value: slider.track.details.rel,
+      });
+    },
   });
 
   // Fonction pour vérifier si c'est un avis TripAdvisor
@@ -195,6 +211,14 @@ const ReviewWidget: React.FC = () => {
   const loadReviews = async () => {
     try {
       setLoading(true);
+
+      // GA4 - Track début du chargement des avis
+      ReactGA.event({
+        category: "ReviewWidget",
+        action: "reviews_loading_start",
+        label: "fetch_googlereviews_json",
+      });
+
       const response = await fetch("/googlereviews.json");
       if (!response.ok) {
         throw new Error("Failed to load reviews JSON file");
@@ -272,10 +296,40 @@ const ReviewWidget: React.FC = () => {
       const shuffledReviews = shuffleArray(transformedReviews);
       setReviews(shuffledReviews);
       setLoading(false);
+
+      // GA4 - Track succès du chargement des avis
+      ReactGA.event({
+        category: "ReviewWidget",
+        action: "reviews_loaded_success",
+        label: "reviews_count",
+        value: shuffledReviews.length,
+      });
+
+      // GA4 - Track répartition des sources d'avis
+      const googleReviews = shuffledReviews.filter(
+        (r) => r.source === "google"
+      ).length;
+      const tripadvisorReviews = shuffledReviews.filter(
+        (r) => r.source === "tripadvisor"
+      ).length;
+
+      ReactGA.event({
+        category: "ReviewWidget",
+        action: "reviews_source_distribution",
+        label: `google_${googleReviews}_tripadvisor_${tripadvisorReviews}`,
+      });
     } catch (fetchError) {
       console.error("Error loading reviews JSON file:", fetchError);
       setError("Impossible de charger les avis");
       setLoading(false);
+
+      // GA4 - Track erreurs de chargement
+      ReactGA.event({
+        category: "ReviewWidget",
+        action: "reviews_loading_error",
+        label:
+          fetchError instanceof Error ? fetchError.message : "unknown_error",
+      });
     }
   };
 
@@ -299,6 +353,13 @@ const ReviewWidget: React.FC = () => {
 
       document.head.appendChild(schemaScript);
 
+      // GA4 - Track ajout du schema JSON-LD
+      ReactGA.event({
+        category: "ReviewWidget",
+        action: "schema_jsonld_added",
+        label: "structured_data_reviews",
+      });
+
       // Nettoyage au démontage du composant
       return () => {
         const scriptToRemove = document.getElementById("reviews-schema");
@@ -320,23 +381,75 @@ const ReviewWidget: React.FC = () => {
     };
   }, [reviews, loading, isPaused]);
 
-  // Gestionnaires d'événements pour pause/reprise
+  // Gestionnaires d'événements pour pause/reprise avec GA4
   const handleMouseEnter = () => {
     setIsPaused(true);
+    ReactGA.event({
+      category: "ReviewWidget",
+      action: "slider_paused",
+      label: "mouse_enter",
+    });
   };
 
   const handleMouseLeave = () => {
     setIsPaused(false);
+    ReactGA.event({
+      category: "ReviewWidget",
+      action: "slider_resumed",
+      label: "mouse_leave",
+    });
   };
 
   const handleTouchStart = () => {
     setIsPaused(true);
+    ReactGA.event({
+      category: "ReviewWidget",
+      action: "slider_paused",
+      label: "touch_start",
+    });
   };
 
   const handleTouchEnd = () => {
     setTimeout(() => {
       setIsPaused(false);
+      ReactGA.event({
+        category: "ReviewWidget",
+        action: "slider_resumed",
+        label: "touch_end_delayed",
+      });
     }, 2000);
+  };
+
+  // Gestionnaire pour les clics sur les liens externes avec GA4
+  const handleExternalLinkClick = (
+    platform: "google" | "tripadvisor",
+    action: "view_reviews"
+  ) => {
+    ReactGA.event({
+      category: "ReviewWidget",
+      action: "external_link_click",
+      label: `${platform}_${action}`,
+    });
+  };
+
+  // Gestionnaire pour le bouton "Laisser un avis" avec GA4
+  const handleLeaveReviewClick = () => {
+    setIsPopupOpen(true);
+    ReactGA.event({
+      category: "ReviewWidget",
+      action: "leave_review_button_click",
+      label: "popup_opened",
+    });
+  };
+
+  // Gestionnaire pour la fermeture de la popup avec GA4
+  const handlePopupClose = () => {
+    setIsPopupOpen(false);
+    ReactGA.event({
+      category: "ReviewWidget",
+      action: "leave_review_popup_closed",
+      label: "popup_closed",
+    });
   };
 
   const renderGoogleStars = (rating: number) => {
@@ -400,7 +513,8 @@ const ReviewWidget: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
             className="brand-link"
-            aria-label="Voir nos avis Google (4,9 étoiles sur 1851 avis)"
+            aria-label="Voir nos avis Google (4,9 étoiles)"
+            onClick={() => handleExternalLinkClick("google", "view_reviews")}
           >
             <div className="google-logo">
               <svg
@@ -433,7 +547,6 @@ const ReviewWidget: React.FC = () => {
             <div className="rating-display">
               <span className="rating-number">4,9</span>
               <div className="google-stars">{renderGoogleStars(5)}</div>
-              <span className="review-count">(1,851 avis)</span>
             </div>
           </a>
         </div>
@@ -443,7 +556,10 @@ const ReviewWidget: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
             className="brand-link"
-            aria-label="Voir nos avis TripAdvisor (4,8 étoiles sur 326 avis)"
+            aria-label="Voir nos avis TripAdvisor (4,8 étoiles)"
+            onClick={() =>
+              handleExternalLinkClick("tripadvisor", "view_reviews")
+            }
           >
             <img
               src="/images/logo/tripadvisor_white.png"
@@ -455,7 +571,6 @@ const ReviewWidget: React.FC = () => {
               <div className="tripadvisor-stars">
                 {renderTripAdvisorStars(5)}
               </div>
-              <span className="review-count">(326 avis)</span>
             </div>
           </a>
         </div>
@@ -480,10 +595,7 @@ const ReviewWidget: React.FC = () => {
         aria-label="Avis clients du restaurant"
       >
         {renderHeader()}
-        <ReviewPopup
-          isOpen={isPopupOpen}
-          onClose={() => setIsPopupOpen(false)}
-        />
+        <ReviewPopup isOpen={isPopupOpen} onClose={handlePopupClose} />
       </section>
     );
   }
@@ -499,10 +611,7 @@ const ReviewWidget: React.FC = () => {
           <div className="error-icon">⚠️</div>
           <p>{error}</p>
         </div>
-        <ReviewPopup
-          isOpen={isPopupOpen}
-          onClose={() => setIsPopupOpen(false)}
-        />
+        <ReviewPopup isOpen={isPopupOpen} onClose={handlePopupClose} />
       </section>
     );
   }
@@ -518,10 +627,7 @@ const ReviewWidget: React.FC = () => {
           <div className="empty-icon">📝</div>
           <p>Aucun avis disponible</p>
         </div>
-        <ReviewPopup
-          isOpen={isPopupOpen}
-          onClose={() => setIsPopupOpen(false)}
-        />
+        <ReviewPopup isOpen={isPopupOpen} onClose={handlePopupClose} />
       </section>
     );
   }
@@ -546,12 +652,21 @@ const ReviewWidget: React.FC = () => {
           aria-label="Carrousel d'avis clients"
         >
           {/* MODIFICATION PRINCIPALE : utiliser TOUS les avis au lieu de slice(0, 10) */}
-          {reviews.map((review) => (
+          {reviews.map((review, index) => (
             <article
               key={review.id}
               className="keen-slider__slide"
               itemScope
               itemType="https://schema.org/Review"
+              onClick={() => {
+                // GA4 - Track clics sur les avis individuels
+                ReactGA.event({
+                  category: "ReviewWidget",
+                  action: "review_click",
+                  label: `${review.source}_review_${index}`,
+                  value: review.rating,
+                });
+              }}
             >
               {/* itemReviewed avec ADRESSE COMPLÈTE - OBLIGATOIRE pour Google */}
               <div
@@ -652,7 +767,7 @@ const ReviewWidget: React.FC = () => {
                   </div>
                   <button
                     className="leave-review-btn"
-                    onClick={() => setIsPopupOpen(true)}
+                    onClick={handleLeaveReviewClick}
                     aria-label="Laisser un avis sur notre restaurant"
                   >
                     Laisser un avis
@@ -675,7 +790,6 @@ const ReviewWidget: React.FC = () => {
             Réservations 05 44 31 44 47.
           </p>
 
-          {/* Avis compacts pour SEO avec ADRESSE COMPLÈTE - limité à 50 pour les performances */}
           <div className="seo-reviews-hidden">
             {reviews.slice(0, 50).map((review) => (
               <div

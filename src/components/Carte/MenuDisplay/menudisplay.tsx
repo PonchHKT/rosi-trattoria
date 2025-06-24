@@ -9,6 +9,7 @@ import {
   Download,
   Menu,
 } from "lucide-react";
+import ReactGA from "react-ga4";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "./menudisplay.scss";
@@ -28,6 +29,7 @@ const MenuDisplay: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const loadingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const hasTrackedView = useRef(false);
 
   // Fonction pour détecter si on est en août
   const isAugustMonth = () => {
@@ -40,6 +42,96 @@ const MenuDisplay: React.FC = () => {
   const getLoadingDelay = () => {
     return isMobile() ? 7000 : 9000;
   };
+
+  // Track component view - seulement une fois
+  useEffect(() => {
+    if (!hasTrackedView.current) {
+      ReactGA.event({
+        category: "Component View",
+        action: "View",
+        label: "Menu Display Page",
+        value: 1,
+      });
+      hasTrackedView.current = true;
+    }
+  }, []);
+
+  // Track dropdown opening
+  const trackDropdownOpen = () => {
+    ReactGA.event({
+      category: "Menu Interaction",
+      action: "Dropdown Open",
+      label: "Menu Selection Dropdown",
+    });
+  };
+
+  // Track menu selection
+  const trackMenuSelection = (menuType: string) => {
+    ReactGA.event({
+      category: "Menu Selection",
+      action: "Select Menu Type",
+      label: menuType === "sur_place" ? "Carte Sur Place" : "Carte À Emporter",
+    });
+  };
+
+  // Track PDF loading start
+  const trackPdfLoadingStart = (menuType: string) => {
+    ReactGA.event({
+      category: "PDF Loading",
+      action: "Start Loading",
+      label:
+        menuType === "sur_place"
+          ? "Carte Sur Place PDF"
+          : "Carte À Emporter PDF",
+    });
+  };
+
+  // Track PDF loading success
+  const trackPdfLoadingSuccess = (menuType: string, loadTime: number) => {
+    ReactGA.event({
+      category: "PDF Loading",
+      action: "Loading Success",
+      label:
+        menuType === "sur_place"
+          ? "Carte Sur Place PDF"
+          : "Carte À Emporter PDF",
+      value: Math.round(loadTime / 1000), // temps en secondes
+    });
+  };
+
+  // Track PDF download
+  const trackPdfDownload = (menuType: string) => {
+    ReactGA.event({
+      category: "PDF Download",
+      action: "Download PDF",
+      label:
+        menuType === "sur_place"
+          ? "Carte Sur Place PDF"
+          : "Carte À Emporter PDF",
+    });
+  };
+
+  // Track page visibility (scroll into view)
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          ReactGA.event({
+            category: "Component Visibility",
+            action: "Scroll Into View",
+            label: "Menu Display Section",
+          });
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const updateWidth = () => {
@@ -66,6 +158,11 @@ const MenuDisplay: React.FC = () => {
   }, []);
 
   const handleMenuSelect = (menuType: string) => {
+    const startTime = Date.now();
+
+    // Track menu selection
+    trackMenuSelection(menuType);
+
     setSelectedMenu(menuType);
     setDropdownOpen(false);
     setNumPages(null);
@@ -77,11 +174,22 @@ const MenuDisplay: React.FC = () => {
     if (menuType === "a_emporter") {
       setIsLoading(false);
       setShowPdf(true);
+      // Track immediate display
+      ReactGA.event({
+        category: "PDF Display",
+        action: "Immediate Display",
+        label: "Carte À Emporter PDF",
+      });
     } else {
+      // Track loading start
+      trackPdfLoadingStart(menuType);
+
       // Chargement uniquement pour la carte sur place
       setIsLoading(true);
       const loadingDelay = getLoadingDelay();
       loadingTimeoutRef.current = setTimeout(() => {
+        const loadTime = Date.now() - startTime;
+        trackPdfLoadingSuccess(menuType, loadTime);
         setIsLoading(false);
         setShowPdf(true);
       }, loadingDelay);
@@ -103,6 +211,9 @@ const MenuDisplay: React.FC = () => {
   };
 
   const handleDownloadPdf = () => {
+    // Track download
+    trackPdfDownload(selectedMenu);
+
     const pdfFile = getPdfFile();
     if (pdfFile) {
       const link = document.createElement("a");
@@ -140,6 +251,30 @@ const MenuDisplay: React.FC = () => {
   const handleDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
     setPdfLoaded(true);
+
+    // Track PDF render success
+    ReactGA.event({
+      category: "PDF Render",
+      action: "Render Success",
+      label:
+        selectedMenu === "sur_place"
+          ? "Carte Sur Place PDF"
+          : "Carte À Emporter PDF",
+      value: numPages,
+    });
+  };
+
+  const handleDocumentError = (error: Error) => {
+    // Track PDF loading errors
+    ReactGA.event({
+      category: "PDF Loading",
+      action: "Loading Error",
+      label:
+        selectedMenu === "sur_place"
+          ? "Carte Sur Place PDF"
+          : "Carte À Emporter PDF",
+    });
+    console.error("PDF loading error:", error);
   };
 
   const renderPages = () => {
@@ -158,6 +293,20 @@ const MenuDisplay: React.FC = () => {
               renderMode="canvas"
               className="pdf-page"
               loading={<div className="page-loading">Chargement...</div>}
+              onLoadSuccess={() => {
+                // Track individual page render (optionnel)
+                if (i === 0) {
+                  // Seulement pour la première page
+                  ReactGA.event({
+                    category: "PDF Page",
+                    action: "First Page Rendered",
+                    label:
+                      selectedMenu === "sur_place"
+                        ? "Carte Sur Place"
+                        : "Carte À Emporter",
+                  });
+                }
+              }}
             />
           </div>
         ))}
@@ -170,6 +319,13 @@ const MenuDisplay: React.FC = () => {
     const isAugust = isAugustMonth();
 
     if (isAugust) {
+      // Track August hours display
+      ReactGA.event({
+        category: "Hours Display",
+        action: "Display August Hours",
+        label: "Summer Schedule",
+      });
+
       // Horaires d'août avec lundi ouvert
       return [
         {
@@ -276,7 +432,12 @@ const MenuDisplay: React.FC = () => {
           <div className="dropdown-container" ref={dropdownRef}>
             <div
               className={`dropdown-trigger ${selectedMenu ? "selected" : ""}`}
-              onClick={() => setDropdownOpen(!dropdownOpen)}
+              onClick={() => {
+                if (!dropdownOpen) {
+                  trackDropdownOpen();
+                }
+                setDropdownOpen(!dropdownOpen);
+              }}
             >
               <div className="dropdown-trigger-content">
                 {selectedMenu && selectedMenuInfo ? (
@@ -350,6 +511,7 @@ const MenuDisplay: React.FC = () => {
             <Document
               file={getPdfFile()}
               onLoadSuccess={handleDocumentLoadSuccess}
+              onLoadError={handleDocumentError}
               loading={null}
             >
               {renderPages()}

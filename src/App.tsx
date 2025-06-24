@@ -11,11 +11,14 @@ import Carte from "./pages/Carte";
 import Recrutement from "./pages/Recrutement";
 import Contact from "./pages/Contact";
 import Page404 from "./pages/Page404";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import SwiperGallery from "./components/Acceuil/SwiperGallery/swipergallery";
 import ReviewWidget from "./components/Acceuil/ReviewWidget/reviewwidget";
 import { Helmet } from "react-helmet-async";
 import React from "react";
+import ReactGA from "react-ga4";
+import CookieConsent from "react-cookie-consent";
+import "./index.css";
 
 const HomePageSEO = () => (
   <Helmet>
@@ -394,15 +397,28 @@ const ContactSEO = () => (
 
 function App(): React.JSX.Element {
   const location = useLocation();
+  const [cookiesAccepted, setCookiesAccepted] = useState<boolean>(false);
 
-  // Solution robuste pour le scroll au top
+  // Initialisation Google Analytics seulement si les cookies sont acceptés
   useEffect(() => {
-    // Méthode 1: Scroll immédiat sur tous les éléments possibles
+    const cookieConsent = localStorage.getItem("cookieConsent");
+    if (cookieConsent === "true") {
+      setCookiesAccepted(true);
+      // Initialiser Google Analytics si pas déjà fait
+      if (!ReactGA.isInitialized) {
+        ReactGA.initialize("YOUR_GA_MEASUREMENT_ID"); // Remplacez par votre ID GA4
+      }
+    }
+  }, []);
+
+  // Gestion du scroll au top + Google Analytics tracking conditionnel
+  useEffect(() => {
+    // Scroll vers le haut
     window.scrollTo(0, 0);
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
 
-    // Méthode 2: Forcer après le rendu des composants
+    // Forcer après le rendu des composants
     const timer = setTimeout(() => {
       window.scrollTo({
         top: 0,
@@ -417,8 +433,41 @@ function App(): React.JSX.Element {
       }
     }, 100);
 
+    // Google Analytics - Tracking des changements de page seulement si autorisé
+    if (cookiesAccepted && ReactGA.isInitialized) {
+      ReactGA.send({
+        hitType: "pageview",
+        page: location.pathname,
+        title: document.title,
+      });
+    }
+
     return () => clearTimeout(timer);
-  }, [location.pathname]);
+  }, [location.pathname, cookiesAccepted]);
+
+  // Fonction appelée quand l'utilisateur accepte les cookies
+  const handleAcceptCookies = () => {
+    setCookiesAccepted(true);
+    localStorage.setItem("cookieConsent", "true");
+
+    // Initialiser Google Analytics
+    if (!ReactGA.isInitialized) {
+      ReactGA.initialize("YOUR_GA_MEASUREMENT_ID"); // Remplacez par votre ID GA4
+    }
+
+    // Tracker la page actuelle
+    ReactGA.send({
+      hitType: "pageview",
+      page: location.pathname,
+      title: document.title,
+    });
+  };
+
+  // Fonction appelée quand l'utilisateur refuse les cookies
+  const handleDeclineCookies = () => {
+    setCookiesAccepted(false);
+    localStorage.setItem("cookieConsent", "false");
+  };
 
   return (
     <div className="App">
@@ -477,6 +526,33 @@ function App(): React.JSX.Element {
         <Route path="*" element={<Page404 />} />
       </Routes>
       <Footer />
+
+      <CookieConsent
+        location="bottom"
+        buttonText="Accepter"
+        declineButtonText="Refuser"
+        enableDeclineButton
+        onAccept={handleAcceptCookies}
+        onDecline={handleDeclineCookies}
+        buttonWrapperClasses="cookie-buttons-wrapper"
+        expires={365}
+        cookieName="rosi-trattoria-cookie-consent"
+        sameSite="strict"
+        buttonClasses="cookie-accept-button"
+        declineButtonClasses="cookie-decline-button"
+      >
+        <div className="cookie-message-wrapper">
+          <div className="cookie-content-section">
+            <div className="cookie-title">🍕 Gestion des cookies</div>
+            <p className="cookie-description">
+              Ce site utilise des cookies pour améliorer votre navigation et
+              analyser notre audience via Google Analytics. Ces données nous
+              permettent d'optimiser nos services et votre expérience
+              utilisateur.
+            </p>
+          </div>
+        </div>
+      </CookieConsent>
     </div>
   );
 }

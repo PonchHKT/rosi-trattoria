@@ -200,7 +200,7 @@ const Biographie1: React.FC = () => {
 
               <div className="biographie__capacity-item" role="listitem">
                 <div className="biographie__capacity-icon" aria-hidden="true">
-                  <Armchair size={32} color="#ff69b4" />
+                  <Armchair size={32} color="#75b9f9" />
                 </div>
                 <p>
                   <strong>100 places</strong> en terrasse

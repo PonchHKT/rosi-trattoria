@@ -8,6 +8,7 @@ import {
   Clock,
   Star,
 } from "lucide-react";
+import ReactGA from "react-ga4";
 import "./footer.scss";
 
 const Footer: React.FC = () => {
@@ -19,7 +20,17 @@ const Footer: React.FC = () => {
     return currentMonth === 7; // Août = index 7 (0-indexed)
   };
 
-  // Fonction pour copier l'email
+  // Fonction pour tracker les événements GA
+  const trackEvent = (action: string, label?: string, value?: number) => {
+    ReactGA.event({
+      category: "Footer",
+      action: action,
+      label: label,
+      value: value,
+    });
+  };
+
+  // Fonction pour copier l'email avec tracking
   const copyEmailToClipboard = async (e: React.MouseEvent) => {
     e.preventDefault();
     const email = "rosi.trattoria@gmail.com";
@@ -27,6 +38,9 @@ const Footer: React.FC = () => {
     try {
       await navigator.clipboard.writeText(email);
       setEmailCopied(true);
+
+      // Track l'événement de copie d'email
+      trackEvent("Email Copy", "Footer Email Copied");
 
       // Masquer la notification après 3 secondes
       setTimeout(() => {
@@ -43,10 +57,32 @@ const Footer: React.FC = () => {
       document.body.removeChild(textArea);
 
       setEmailCopied(true);
+      trackEvent("Email Copy", "Footer Email Copied (Fallback)");
+
       setTimeout(() => {
         setEmailCopied(false);
       }, 3000);
     }
+  };
+
+  // Handler pour les liens sociaux
+  const handleSocialClick = (platform: string) => {
+    trackEvent("Social Media Click", `Footer ${platform}`);
+  };
+
+  // Handler pour les liens de contact
+  const handleContactClick = (contactType: string) => {
+    trackEvent("Contact Click", `Footer ${contactType}`);
+  };
+
+  // Handler pour les liens de navigation
+  const handleNavClick = (page: string) => {
+    trackEvent("Navigation Click", `Footer Nav - ${page}`);
+  };
+
+  // Handler pour les liens légaux
+  const handleLegalClick = (linkType: string) => {
+    trackEvent("Legal Link Click", `Footer ${linkType}`);
   };
 
   return (
@@ -94,6 +130,7 @@ const Footer: React.FC = () => {
                   className="footer__social-btn footer__social-btn--facebook"
                   aria-label="Suivez Rosi Trattoria sur Facebook"
                   title="Page Facebook du restaurant Rosi Trattoria"
+                  onClick={() => handleSocialClick("Facebook")}
                 >
                   <Facebook aria-hidden="true" />
                 </a>
@@ -104,6 +141,7 @@ const Footer: React.FC = () => {
                   className="footer__social-btn footer__social-btn--instagram"
                   aria-label="Suivez Rosi Trattoria sur Instagram"
                   title="Compte Instagram du restaurant Rosi Trattoria"
+                  onClick={() => handleSocialClick("Instagram")}
                 >
                   <Instagram aria-hidden="true" />
                 </a>
@@ -125,6 +163,7 @@ const Footer: React.FC = () => {
                     rel="noopener noreferrer"
                     title="Localiser Rosi Trattoria sur Google Maps"
                     aria-label="Adresse du restaurant : 11 Promenade des Tilleuls, Brive-la-Gaillarde"
+                    onClick={() => handleContactClick("Address")}
                   >
                     <span itemProp="streetAddress">11 Prom. des Tilleuls</span>
                     <br />
@@ -144,6 +183,7 @@ const Footer: React.FC = () => {
                     title="Appeler pour réserver une table au restaurant Rosi Trattoria"
                     aria-label="Téléphone : 05 44 31 44 47"
                     itemProp="telephone"
+                    onClick={() => handleContactClick("Phone")}
                   >
                     05 44 31 44 47
                   </a>
@@ -222,6 +262,7 @@ const Footer: React.FC = () => {
                 href="/"
                 className="footer__nav-link"
                 title="Retour à l'accueil du restaurant Rosi Trattoria"
+                onClick={() => handleNavClick("Accueil")}
               >
                 Accueil
               </a>
@@ -229,6 +270,7 @@ const Footer: React.FC = () => {
                 href="/nos-valeurs"
                 className="footer__nav-link"
                 title="Découvrez nos valeurs et nos engagements qualité"
+                onClick={() => handleNavClick("Nos valeurs")}
               >
                 Nos valeurs
               </a>
@@ -236,6 +278,7 @@ const Footer: React.FC = () => {
                 href="/carte"
                 className="footer__nav-link"
                 title="Consultez notre carte de spécialités italiennes"
+                onClick={() => handleNavClick("Carte")}
               >
                 Carte
               </a>
@@ -243,6 +286,7 @@ const Footer: React.FC = () => {
                 href="/recrutement"
                 className="footer__nav-link"
                 title="Rejoignez l'équipe du restaurant Rosi Trattoria"
+                onClick={() => handleNavClick("Recrutement")}
               >
                 Recrutement
               </a>
@@ -250,6 +294,7 @@ const Footer: React.FC = () => {
                 href="/contact"
                 className="footer__nav-link"
                 title="Contactez-nous pour des renseignements"
+                onClick={() => handleNavClick("Contact")}
               >
                 Contact
               </a>
@@ -271,6 +316,7 @@ const Footer: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 title="Consulter les mentions légales"
+                onClick={() => handleLegalClick("Mentions légales")}
               >
                 Mentions légales
               </a>
@@ -280,6 +326,7 @@ const Footer: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 title="Conditions générales de vente"
+                onClick={() => handleLegalClick("CGV")}
               >
                 CGV
               </a>
@@ -289,6 +336,7 @@ const Footer: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 title="Politique de confidentialité et gestion des cookies"
+                onClick={() => handleLegalClick("Gestion des cookies")}
               >
                 Gestion des cookies
               </a>

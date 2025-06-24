@@ -445,34 +445,37 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
       padding: 16px 24px;
 
       .brand-section {
-        flex-direction: column;
-        gap: 12px;
-        padding: 10px 16px;
+        // MODIFICATION PRINCIPALE : Garder flex-direction: row sur mobile
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px; // Espacement entre les deux sections
+        padding: 12px 20px;
 
         .tripadvisor-section .tripadvisor-logo {
-          max-width: 110px;
-          max-height: 32px;
+          max-width: 140px; // Agrandi de 110px à 140px
+          max-height: 38px; // Agrandi de 32px à 38px
         }
 
         .google-section .google-logo {
-          font-size: 13px;
-          gap: 5px;
+          font-size: 15px; // Agrandi de 13px à 15px
+          gap: 6px; // Légèrement plus d'espace
 
           .google-svg {
-            width: 20px;
-            height: 20px;
+            width: 24px; // Agrandi de 20px à 24px
+            height: 24px; // Agrandi de 20px à 24px
           }
         }
 
         .rating-display {
-          gap: 8px;
+          gap: 10px; // Agrandi de 8px à 10px
 
           .rating-number {
-            font-size: 24px;
+            font-size: 26px; // Agrandi de 24px à 26px
           }
 
           .review-count {
-            font-size: 11px;
+            font-size: 12px; // Agrandi de 11px à 12px
           }
         }
 
@@ -480,7 +483,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
         .tripadvisor-stars {
           .google-star,
           .tripadvisor-star {
-            font-size: 16px;
+            font-size: 18px; // Agrandi de 16px à 18px
           }
         }
       }
@@ -513,33 +516,37 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
       padding: 12px 20px;
 
       .brand-section {
-        padding: 8px 12px;
-        gap: 10px;
+        // MODIFICATION : Garder aussi flex-direction: row sur très petit mobile
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 16px;
+        gap: 12px; // Espacement un peu réduit
 
         .tripadvisor-section .tripadvisor-logo {
-          max-width: 90px;
-          max-height: 28px;
+          max-width: 120px; // Légèrement réduit pour très petit écran
+          max-height: 34px;
         }
 
         .google-section .google-logo {
-          font-size: 12px;
-          gap: 4px;
+          font-size: 14px; // Légèrement réduit
+          gap: 5px;
 
           .google-svg {
-            width: 18px;
-            height: 18px;
+            width: 22px; // Légèrement réduit
+            height: 22px;
           }
         }
 
         .rating-display {
-          gap: 6px;
+          gap: 8px;
 
           .rating-number {
-            font-size: 20px;
+            font-size: 22px; // Agrandi de 20px à 22px
           }
 
           .review-count {
-            font-size: 10px;
+            font-size: 11px; // Agrandi de 10px à 11px
           }
         }
 
@@ -547,7 +554,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
         .tripadvisor-stars {
           .google-star,
           .tripadvisor-star {
-            font-size: 14px;
+            font-size: 16px; // Agrandi de 14px à 16px
           }
         }
       }

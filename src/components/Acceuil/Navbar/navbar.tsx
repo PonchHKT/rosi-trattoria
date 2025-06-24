@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { X, Menu, Phone } from "lucide-react";
+import ReactGA from "react-ga4";
 import "./navbar.scss";
 
 const Navbar: React.FC = () => {
@@ -9,14 +10,44 @@ const Navbar: React.FC = () => {
 
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
+
+    // Track menu toggle events avec les noms d'événements GA4 recommandés
+    ReactGA.event({
+      action: isOpen ? "menu_close" : "menu_open",
+      category: "engagement",
+      label: "mobile_menu",
+    });
   };
 
-  const handleLinkClick = () => {
+  const handleLinkClick = (linkLabel: string, linkPath: string) => {
     setIsOpen(false);
+
+    // Track navigation clicks
+    ReactGA.event({
+      action: "select_content",
+      category: "navigation",
+      label: `${linkLabel.toLowerCase()}_${linkPath}`,
+    });
   };
 
   const handlePhoneCall = () => {
+    // Track phone call clicks
+    ReactGA.event({
+      action: "generate_lead",
+      category: "contact",
+      label: "phone_call_navbar_0544314447",
+    });
+
     window.location.href = "tel:0544314447";
+  };
+
+  const handleLogoClick = () => {
+    // Track logo clicks
+    ReactGA.event({
+      action: "select_content",
+      category: "navigation",
+      label: "logo_home_click",
+    });
   };
 
   const navItems = [
@@ -49,7 +80,6 @@ const Navbar: React.FC = () => {
 
   // Fonction pour vérifier si le lien est actif (exclut la page d'accueil)
   const isActiveLink = (path: string) => {
-    // Si c'est la page d'accueil, ne jamais l'activer automatiquement
     if (path === "/") {
       return false;
     }
@@ -71,6 +101,7 @@ const Navbar: React.FC = () => {
                 className="navbar__brand-link"
                 title="Rosi Trattoria – Pizzeria Italienne Bio, Locale & Fait Maison"
                 aria-label="Retour à l'accueil du restaurant Rosi Trattoria"
+                onClick={handleLogoClick}
               >
                 <h1 className="navbar__brand">
                   <span className="navbar__brand-rosi">Rosi</span>
@@ -98,7 +129,7 @@ const Navbar: React.FC = () => {
                     className={`navbar__link ${
                       isActiveLink(item.path) ? "navbar__link--active" : ""
                     }`}
-                    onClick={handleLinkClick}
+                    onClick={() => handleLinkClick(item.label, item.path)}
                     title={item.title}
                     role="menuitem"
                     aria-current={isActiveLink(item.path) ? "page" : undefined}

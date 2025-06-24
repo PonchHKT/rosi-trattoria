@@ -1,10 +1,18 @@
-import React, { useRef, useCallback, useMemo } from "react";
+import React, {
+  useRef,
+  useCallback,
+  useMemo,
+  useState,
+  useEffect,
+} from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectCoverflow } from "swiper/modules";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import type { Swiper as SwiperType } from "swiper";
 import "swiper/css";
 import "swiper/css/autoplay";
 import "swiper/css/effect-coverflow";
+import "react-lazy-load-image-component/src/effects/opacity.css";
 import "./swipergallery.scss";
 
 type Slide = {
@@ -25,6 +33,20 @@ const shuffleArray = (array: Slide[]): Slide[] => {
 
 const SwiperGallery: React.FC = () => {
   const swiperRef = useRef<SwiperType | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [, setCurrentSlideIndex] = useState(0);
+
+  // Detect mobile on mount
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 640);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const slides = useMemo(() => {
     const baseUrl =
@@ -185,7 +207,7 @@ const SwiperGallery: React.FC = () => {
         waitForTransition: false,
       },
       navigation: false,
-      effect: "coverflow",
+      effect: "coverflow" as const,
       coverflowEffect: {
         rotate: 50,
         stretch: 0,
@@ -198,15 +220,6 @@ const SwiperGallery: React.FC = () => {
       slidesPerView: 1,
       spaceBetween: 20,
       className: "my-swiper",
-      lazy: {
-        loadPrevNext: true,
-        loadPrevNextAmount: 2,
-        loadOnTransitionStart: true,
-      },
-      preloadImages: false,
-      updateOnImagesReady: false,
-      watchSlidesProgress: true,
-      watchOverflow: true,
       touchRatio: 1,
       simulateTouch: true,
       allowTouchMove: true,
@@ -214,12 +227,13 @@ const SwiperGallery: React.FC = () => {
       resistanceRatio: 0.85,
       roundLengths: true,
       preventInteractionOnTransition: false,
+      // Removed preloadImages and lazy props - these are causing the React warnings
       breakpoints: {
         0: {
           slidesPerView: 1.2,
           spaceBetween: 10,
           centeredSlides: true,
-          effect: "slide",
+          effect: "slide" as const,
           coverflowEffect: {
             rotate: 0,
             stretch: 0,
@@ -233,7 +247,7 @@ const SwiperGallery: React.FC = () => {
           slidesPerView: 1.3,
           spaceBetween: 15,
           centeredSlides: true,
-          effect: "slide",
+          effect: "slide" as const,
           coverflowEffect: {
             rotate: 0,
             stretch: 0,
@@ -252,7 +266,7 @@ const SwiperGallery: React.FC = () => {
           slidesPerView: 1.8,
           spaceBetween: 20,
           centeredSlides: true,
-          effect: "coverflow",
+          effect: "coverflow" as const,
           coverflowEffect: {
             rotate: 40,
             stretch: 0,
@@ -271,7 +285,7 @@ const SwiperGallery: React.FC = () => {
           slidesPerView: 3,
           spaceBetween: 30,
           centeredSlides: true,
-          effect: "coverflow",
+          effect: "coverflow" as const,
           coverflowEffect: {
             rotate: 50,
             stretch: 0,
@@ -287,30 +301,17 @@ const SwiperGallery: React.FC = () => {
           },
         },
       },
+      onSlideChange: (swiper: SwiperType) => {
+        setCurrentSlideIndex(swiper.realIndex);
+      },
     }),
     [randomInitialSlide]
   );
 
   const onSwiper = useCallback((swiper: SwiperType) => {
     swiperRef.current = swiper;
+    setCurrentSlideIndex(swiper.realIndex);
   }, []);
-
-  const handleImageError = useCallback(
-    (e: React.SyntheticEvent<HTMLImageElement>) => {
-      const img = e.currentTarget;
-      img.style.display = "none";
-      console.warn(`Impossible de charger l'image: ${img.src}`);
-    },
-    []
-  );
-
-  const handleImageLoad = useCallback(
-    (e: React.SyntheticEvent<HTMLImageElement>) => {
-      const img = e.currentTarget;
-      img.style.opacity = "1";
-    },
-    []
-  );
 
   const handleSlideClick = useCallback((slideIndex: number) => {
     if (swiperRef.current) {
@@ -322,27 +323,104 @@ const SwiperGallery: React.FC = () => {
     <div className="gallery-container">
       <div className="gallery-wrapper">
         <Swiper {...swiperConfig} onSwiper={onSwiper}>
-          {slides.map((slide) => (
+          {slides.map((slide, index) => (
             <SwiperSlide key={slide.id}>
               <div className="swiper-slide-overlay" />
-              <img
-                src={slide.src}
-                alt={slide.alt}
-                title={slide.title}
-                className="swiper-image"
-                loading="lazy"
-                decoding="async"
-                sizes="(max-width: 640px) 100vw, (max-width: 768px) 80vw, 33vw"
-                style={{
-                  opacity: 0,
-                  transition: "opacity 0.3s ease",
-                  cursor: "pointer",
-                }}
-                onLoad={handleImageLoad}
-                onError={handleImageError}
-                onClick={() => handleSlideClick(slide.id)}
-                {...(slide.id < 3 && { fetchPriority: "high" })}
-              />
+              {isMobile ? (
+                // Regular img tag for mobile (no lazy loading)
+                <img
+                  src={slide.src}
+                  alt={slide.alt}
+                  title={slide.title}
+                  className="swiper-image"
+                  style={{
+                    cursor: "pointer",
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                  }}
+                  onClick={() => handleSlideClick(slide.id)}
+                  onError={(e) => {
+                    console.warn(`Impossible de charger l'image: ${slide.src}`);
+                    const img = e.currentTarget as HTMLImageElement;
+                    const parent = img.parentElement;
+                    if (parent) {
+                      parent.innerHTML = `
+                        <div style="
+                          width: 100%; 
+                          height: 100%; 
+                          background: #f0f0f0; 
+                          display: flex; 
+                          align-items: center; 
+                          justify-content: center;
+                          color: #666;
+                          font-size: 14px;
+                        ">
+                          Image non disponible
+                        </div>
+                      `;
+                    }
+                  }}
+                />
+              ) : (
+                // LazyLoadImage for desktop
+                <LazyLoadImage
+                  src={slide.src}
+                  alt={slide.alt}
+                  title={slide.title}
+                  className="swiper-image"
+                  effect="opacity"
+                  wrapperClassName="lazy-load-image-wrapper"
+                  style={{
+                    cursor: "pointer",
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                  }}
+                  onClick={() => handleSlideClick(slide.id)}
+                  threshold={50}
+                  visibleByDefault={index < 5}
+                  placeholder={
+                    <div
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        backgroundColor: "#f5f5f5",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: "#999",
+                      }}
+                    >
+                      <div>Chargement...</div>
+                    </div>
+                  }
+                  afterLoad={() => {
+                    console.log(`Image loaded: ${slide.title}`);
+                  }}
+                  onError={(e) => {
+                    console.warn(`Impossible de charger l'image: ${slide.src}`);
+                    const img = e.currentTarget as HTMLImageElement;
+                    const parent = img.parentElement;
+                    if (parent) {
+                      parent.innerHTML = `
+                        <div style="
+                          width: 100%; 
+                          height: 100%; 
+                          background: #f0f0f0; 
+                          display: flex; 
+                          align-items: center; 
+                          justify-content: center;
+                          color: #666;
+                          font-size: 14px;
+                        ">
+                          Image non disponible
+                        </div>
+                      `;
+                    }
+                  }}
+                />
+              )}
             </SwiperSlide>
           ))}
         </Swiper>

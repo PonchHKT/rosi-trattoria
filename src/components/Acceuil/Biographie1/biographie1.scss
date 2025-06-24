@@ -188,16 +188,17 @@ body {
 }
 
 .biographie__capacity-item {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(
+    255,
+    255,
+    255,
+    0.15
+  ); // Increased opacity for better contrast
+  border: 1px solid rgba(255, 255, 255, 0.2); // Added border for definition
   border-radius: 8px;
   padding: 1.5rem;
   text-align: center;
-  transition: background 0.3s ease, transform 0.3s ease;
-}
-
-.biographie__capacity-item:hover {
-  background: rgba(255, 255, 255, 0.12);
-  transform: scale(1.03);
+  transition: background 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
 }
 
 .biographie__capacity-icon {
@@ -219,20 +220,23 @@ body {
 
 .biographie__capacity-item p {
   font-size: 1.1rem;
-  color: #d4d4d4;
+  color: #ffffff; // Changed to pure white for better contrast
   margin: 0.5rem 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5); // Added text shadow for better readability
 }
 
 .biographie__capacity-item strong {
   font-size: 1.3rem;
-  color: var(--primary-pink);
+  color: #ffffff; // Changed to pure white instead of pink for better contrast
   font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .biographie__capacity-desc {
   font-size: 0.95rem;
-  color: #b0b0b0;
+  color: #e0e0e0; // Lighter gray for better contrast
   line-height: 1.5;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .biographie__quote {

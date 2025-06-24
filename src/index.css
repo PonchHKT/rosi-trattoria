@@ -1,124 +1,98 @@
 :root {
-  --primary-blue: #75b9f9; /* Bleu principal pour accents ou textes */
-  --primary-pink: rgb(236, 0, 140); /* Rose vif pour éléments dynamiques */
-  --background-dark: #000000; /* Fond noir pour contraste */
-  --text-light: #ffffff; /* Texte blanc pour lisibilité sur fond noir */
+  --primary-blue: #75b9f9;
+  --primary-pink: rgb(236, 0, 140);
+  --background-dark: #000000;
+  --text-light: #ffffff;
+  --text-secondary: #e0e0e0; /* Variable manquante ajoutée */
 }
 
-/* Réinitialisation basique pour cohérence */
-* {
+/* Cookie Consent Styling */
+.CookieConsent {
+  background: var(--background-dark) !important;
+  border-top: 2px solid var(--primary-blue);
+  padding: 1rem;
+  font-family: inherit;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  z-index: 9999;
+  position: fixed !important;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transform: translateY(0);
+  transition: transform 0.3s ease-in-out;
+}
+
+.cookie-message-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.cookie-title {
+  color: var(--text-light);
+  font-size: 1.1rem;
+  font-weight: 600;
   margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  /* Forcer l'activation de la sélection de texte */
-  user-select: text !important;
-  -webkit-user-select: text !important;
-  -moz-user-select: text !important;
-  -ms-user-select: text !important;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-html,
-body {
+.cookie-description {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.4;
   margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-  background: var(--background-dark);
-  scroll-behavior: smooth;
-  color: var(--text-light);
-  /* Disable horizontal scrolling */
-  overflow-x: hidden;
+  opacity: 0.9;
 }
 
-/* Exceptions pour les éléments interactifs */
-button,
-input,
-select,
-textarea,
-.interactive-element {
-  user-select: auto !important;
-  -webkit-user-select: auto !important;
-  -moz-user-select: auto !important;
-  -ms-user-select: auto !important;
+.cookie-buttons-wrapper {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
 }
 
-/* Custom scrollbar for WebKit browsers (Chrome, Safari, Edge) */
-::-webkit-scrollbar {
-  width: 12px; /* Width of the scrollbar */
+/* Accept Button - Correction principale */
+.cookie-accept-button {
+  background: var(--primary-pink) !important;
+  color: var(--text-light) !important;
+  border: none !important;
+  padding: 0.6rem 1.2rem !important;
+  border-radius: 6px !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  min-width: 100px;
 }
 
-::-webkit-scrollbar-track {
-  background: var(--background-dark); /* Background of the scrollbar track */
+.cookie-accept-button:hover {
+  background: var(--primary-blue) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(117, 185, 249, 0.3) !important;
 }
 
-::-webkit-scrollbar-thumb {
-  background: var(--primary-pink); /* Scrollbar thumb color */
-  border-radius: 10px; /* Rounded edges for the thumb */
-  border: 2px solid var(--background-dark); /* Border for contrast */
+/* Decline Button */
+.cookie-decline-button {
+  background: transparent !important;
+  color: var(--text-secondary) !important;
+  border: 1px solid rgba(224, 224, 224, 0.3) !important;
+  padding: 0.6rem 1.2rem !important;
+  border-radius: 6px !important;
+  font-size: 0.9rem !important;
+  font-weight: 400 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  min-width: 100px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(
-    --primary-blue
-  ); /* Change to blue on hover for interactivity */
-}
-
-/* Masquer la scrollbar sur mobile tout en gardant le scroll */
-@media (max-width: 768px) {
-  html,
-  body {
-    /* Pour WebKit (iOS Safari, Chrome mobile) */
-    -webkit-overflow-scrolling: touch;
-  }
-
-  /* Masquer la scrollbar sur WebKit mobile */
-  ::-webkit-scrollbar {
-    width: 0px;
-    background: transparent;
-  }
-
-  /* Masquer la scrollbar sur Firefox mobile */
-  html {
-    scrollbar-width: none;
-  }
-
-  /* Alternative pour tous les navigateurs mobiles */
-  body {
-    -ms-overflow-style: none; /* IE et Edge */
-    scrollbar-width: none; /* Firefox */
-  }
-
-  body::-webkit-scrollbar {
-    display: none; /* WebKit */
-  }
-}
-
-/* Styles additionnels pour assurer la sélection de texte */
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-span,
-div,
-li,
-td,
-th {
-  user-select: text !important;
-  -webkit-user-select: text !important;
-  -moz-user-select: text !important;
-  -ms-user-select: text !important;
-}
-
-/* Style pour le texte sélectionné */
-::selection {
-  background-color: var(--primary-pink);
-  color: var(--text-light);
-}
-
-::-moz-selection {
-  background-color: var(--primary-pink);
-  color: var(--text-light);
+.cookie-decline-button:hover {
+  background: rgba(224, 224, 224, 0.1) !important;
+  border-color: var(--text-secondary) !important;
+  color: var(--text-light) !important;
 }

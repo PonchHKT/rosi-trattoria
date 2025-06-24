@@ -1,4 +1,6 @@
 import { useState, useRef, useEffect } from "react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 import {
   Play,
   Pause,
@@ -36,7 +38,7 @@ const VideoPlayer: React.FC = () => {
   const videos: Video[] = [
     {
       title: "Présentation de Rosi Trattoria",
-      url: "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/rosipresentation2025.mp4",
+      url: "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/rosipresentation.mp4",
       thumbnail: "/images/thumbnails/presentation-rosi-trattoria.png",
     },
     {
@@ -443,6 +445,8 @@ const VideoPlayer: React.FC = () => {
       className={`video-player ${
         isFullscreen ? "video-player--fullscreen" : ""
       }`}
+      role="application"
+      aria-label="Lecteur vidéo Rosi Trattoria"
     >
       <div className="video-player__content">
         <div
@@ -465,6 +469,7 @@ const VideoPlayer: React.FC = () => {
             muted={isMuted}
             webkit-playsinline="true"
             x-webkit-airplay="allow"
+            aria-label={`Vidéo: ${videos[currentVideo].title}`}
           >
             <source src={videos[currentVideo].url} type="video/mp4" />
             Your browser does not support the video tag.
@@ -474,12 +479,26 @@ const VideoPlayer: React.FC = () => {
             className={`video-player__controls ${
               showControls ? "video-player__controls--visible" : ""
             }`}
+            role="toolbar"
+            aria-label="Contrôles de lecture vidéo"
           >
             <h2 className="video-player__current-title">
               {videos[currentVideo].title}
             </h2>
 
-            <div className="video-player__progress" onClick={handleSeek}>
+            <div
+              className="video-player__progress"
+              onClick={handleSeek}
+              role="slider"
+              aria-label="Barre de progression de la vidéo"
+              aria-valuemin={0}
+              aria-valuemax={duration}
+              aria-valuenow={currentTime}
+              aria-valuetext={`${formatTime(currentTime)} sur ${formatTime(
+                duration
+              )}`}
+              tabIndex={0}
+            >
               <div
                 className="video-player__progress-bar"
                 style={{ width: `${(currentTime / duration) * 100}%` }}
@@ -493,6 +512,8 @@ const VideoPlayer: React.FC = () => {
                 <button
                   onClick={prevVideo}
                   className="video-player__btn video-player__btn--icon"
+                  aria-label="Vidéo précédente"
+                  title="Vidéo précédente"
                 >
                   <SkipBack size={24} />
                 </button>
@@ -500,6 +521,8 @@ const VideoPlayer: React.FC = () => {
                 <button
                   onClick={togglePlay}
                   className="video-player__btn video-player__btn--play"
+                  aria-label={isPlaying ? "Mettre en pause" : "Lire la vidéo"}
+                  title={isPlaying ? "Mettre en pause" : "Lire la vidéo"}
                 >
                   {isPlaying ? <Pause size={24} /> : <Play size={24} />}
                 </button>
@@ -507,6 +530,8 @@ const VideoPlayer: React.FC = () => {
                 <button
                   onClick={nextVideo}
                   className="video-player__btn video-player__btn--icon"
+                  aria-label="Vidéo suivante"
+                  title="Vidéo suivante"
                 >
                   <SkipForward size={24} />
                 </button>
@@ -515,10 +540,16 @@ const VideoPlayer: React.FC = () => {
                   <button
                     onClick={toggleMute}
                     className="video-player__btn video-player__btn--small"
+                    aria-label={isMuted ? "Activer le son" : "Couper le son"}
+                    title={isMuted ? "Activer le son" : "Couper le son"}
                   >
                     {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
                   </button>
+                  <label htmlFor="volume-slider" className="sr-only">
+                    Volume
+                  </label>
                   <input
+                    id="volume-slider"
                     type="range"
                     min="0"
                     max="1"
@@ -526,10 +557,12 @@ const VideoPlayer: React.FC = () => {
                     value={volume}
                     onChange={handleVolumeChange}
                     className="video-player__volume-slider"
+                    aria-label={`Volume: ${Math.round(volume * 100)}%`}
+                    title={`Volume: ${Math.round(volume * 100)}%`}
                   />
                 </div>
 
-                <span className="video-player__time">
+                <span className="video-player__time" aria-live="polite">
                   {formatTime(currentTime)} / {formatTime(duration)}
                 </span>
               </div>
@@ -538,7 +571,12 @@ const VideoPlayer: React.FC = () => {
                 <button
                   onClick={toggleFullscreen}
                   className="video-player__btn video-player__btn--small"
-                  title="Plein écran"
+                  aria-label={
+                    isFullscreen ? "Quitter le plein écran" : "Plein écran"
+                  }
+                  title={
+                    isFullscreen ? "Quitter le plein écran" : "Plein écran"
+                  }
                 >
                   <Maximize size={20} />
                 </button>
@@ -551,6 +589,8 @@ const VideoPlayer: React.FC = () => {
           className={`video-player__playlist ${
             showPlaylist ? "video-player__playlist--visible" : ""
           } `}
+          role="region"
+          aria-label="Liste de lecture"
         >
           <div className="video-player__playlist-header">
             <h3 className="video-player__playlist-title">
@@ -558,7 +598,11 @@ const VideoPlayer: React.FC = () => {
             </h3>
           </div>
 
-          <div className="video-player__playlist-content">
+          <div
+            className="video-player__playlist-content"
+            role="list"
+            aria-label="Liste des vidéos disponibles"
+          >
             {videos.map((video, index) => (
               <div
                 key={index}
@@ -570,18 +614,38 @@ const VideoPlayer: React.FC = () => {
                     ? "video-player__playlist-item--active"
                     : ""
                 }`}
+                role="listitem"
+                tabIndex={0}
+                aria-label={`${video.title} - ${
+                  currentVideo === index
+                    ? "En cours de lecture"
+                    : "Cliquer pour lire"
+                }`}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    changeVideo(index, true);
+                  }
+                }}
               >
                 <div className="video-player__thumbnail">
-                  <img
+                  <LazyLoadImage
                     src={video.thumbnail}
-                    alt={video.title}
+                    alt={`Miniature de ${video.title}`}
                     className="video-player__thumbnail-image"
+                    effect="blur"
+                    width="120"
+                    height="68"
+                    threshold={100}
+                    placeholderSrc="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='68' viewBox='0 0 120 68'%3E%3Crect width='120' height='68' fill='%23f0f0f0'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial, sans-serif' font-size='12' fill='%23999'%3EChargement...%3C/text%3E%3C/svg%3E"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.style.display = "none";
-                      target.nextElementSibling?.classList.add(
-                        "video-player__thumbnail-fallback"
-                      );
+                      // Create fallback element if needed
+                      const fallback = document.createElement("div");
+                      fallback.className = "video-player__thumbnail-fallback";
+                      fallback.textContent = "Image non disponible";
+                      target.parentNode?.appendChild(fallback);
                     }}
                   />
                   <div className="video-player__thumbnail-overlay"></div>
@@ -605,6 +669,16 @@ const VideoPlayer: React.FC = () => {
         <button
           onClick={togglePlaylist}
           className="video-player__btn video-player__btn--mobile"
+          aria-label={
+            showPlaylist
+              ? "Masquer la liste de lecture"
+              : "Afficher la liste de lecture"
+          }
+          title={
+            showPlaylist
+              ? "Masquer la liste de lecture"
+              : "Afficher la liste de lecture"
+          }
         >
           {showPlaylist ? "Masquer" : "Voir plus"}
         </button>

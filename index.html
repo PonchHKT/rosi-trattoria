@@ -34,6 +34,7 @@
         "postalCode": "19100",
         "addressRegion": "Nouvelle-Aquitaine",
         "addressCountry": "FR"
+ bandage
       },
       "geo": {
         "@type": "GeoCoordinates",
@@ -120,7 +121,7 @@
 
     <!-- Preload pour les ressources critiques -->
     <link rel="preload" href="/images/logo/rositrattorialogo.png" as="image" type="image/png" />
-    <link rel="preload" href="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png" as="image" type="image/png" />
+    <!-- Removed duplicate preload tags for meta-rosi.png -->
 
     <!-- Autres meta tags utiles -->
     <meta name="format-detection" content="telephone=yes" />
@@ -130,13 +131,15 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <!-- Removed duplicate Ahrefs analytics script -->
     <script src="https://analytics.ahrefs.com/analytics.js" data-key="3JwrDtBTQsmc1bz3M7xRKA" async></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZTDV0576N7"></script>
     <script>
-  var ahrefs_analytics_script = document.createElement('script');
-  ahrefs_analytics_script.async = true;
-  ahrefs_analytics_script.src = 'https://analytics.ahrefs.com/analytics.js';
-  ahrefs_analytics_script.setAttribute('data-key', '3JwrDtBTQsmc1bz3M7xRKA');
-  document.getElementsByTagName('head')[0].appendChild(ahrefs_analytics_script);
-  </script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-ZTDV0576N7');
+    </script>
   </body>
 </html>
