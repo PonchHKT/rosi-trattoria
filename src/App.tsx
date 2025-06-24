@@ -19,9 +19,7 @@ import React from "react";
 
 const HomePageSEO = () => (
   <Helmet>
-    <title>
-      Rosi Trattoria – Pizzeria Italienne Bio, Locale & Fait Maison à Brive
-    </title>
+    <title>Rosi Trattoria | Pizzas Bio & Italien Authentique – Brive</title>
     <meta
       name="description"
       content="Rosi Trattoria est une pizzeria italienne à Brive-la-Gaillarde. Pizzas napolitaines bio, locales, faites maison au feu de bois. Produits frais, ambiance chaleureuse."
@@ -84,9 +82,7 @@ const HomePageSEO = () => (
 
 const NosValeursSEO = () => (
   <Helmet>
-    <title>
-      Rosi Trattoria – Nos Valeurs : Authenticité, Bio & Local à Brive
-    </title>
+    <title>Nos Valeurs | Cuisine Italienne Bio – Rosi Trattoria Corrèze</title>
     <meta
       name="description"
       content="Découvrez les valeurs de Rosi Trattoria à Brive-la-Gaillarde : authenticité italienne, pâte au levain naturel, produits bio et locaux, et savoir-faire artisanal."
@@ -165,7 +161,7 @@ const NosValeursSEO = () => (
 
 const CarteSEO = () => (
   <Helmet>
-    <title>Rosi Trattoria – Carte des Pizzas et Plats Italiens à Brive</title>
+    <title>Menu | Pizzas Napolitaines Bio – Rosi Trattoria Brive</title>
     <meta
       name="description"
       content="Découvrez la carte de Rosi Trattoria à Brive-la-Gaillarde : pizzas napolitaines bio, pâtes fraîches maison et spécialités italiennes authentiques."
@@ -241,7 +237,7 @@ const CarteSEO = () => (
 
 const RecrutementSEO = () => (
   <Helmet>
-    <title>Rosi Trattoria – Rejoignez Notre Équipe à Brive</title>
+    <title>Emplois | Rosi Trattoria – Cuisine Italienne en Corrèze</title>
     <meta
       name="description"
       content="Rejoignez l'équipe passionnée de Rosi Trattoria à Brive-la-Gaillarde ! Postes disponibles : chef de cuisine, serveur, pizzaïolo, barman. Envoyez CV et lettre de motivation."
@@ -320,7 +316,7 @@ const RecrutementSEO = () => (
 
 const ContactSEO = () => (
   <Helmet>
-    <title>Rosi Trattoria – Contactez Votre Restaurant Italien à Brive</title>
+    <title>Contact | Événements & Infos – Rosi Trattoria Brive</title>
     <meta
       name="description"
       content="Contactez Rosi Trattoria à Brive-la-Gaillarde pour réserver une table ou poser vos questions. Restaurant italien bio, local et fait maison."
