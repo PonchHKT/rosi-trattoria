@@ -20,6 +20,7 @@ import ReactGA from "react-ga4";
 import CookieConsent from "react-cookie-consent";
 import "./index.css";
 
+// Vos composants SEO restent identiques...
 const HomePageSEO = () => (
   <Helmet>
     <title>Rosi Trattoria | Pizzas Bio & Italien Authentique – Brive</title>
@@ -83,335 +84,181 @@ const HomePageSEO = () => (
   </Helmet>
 );
 
-const NosValeursSEO = () => (
-  <Helmet>
-    <title>Nos Valeurs | Cuisine Italienne Bio – Rosi Trattoria Corrèze</title>
-    <meta
-      name="description"
-      content="Découvrez les valeurs de Rosi Trattoria à Brive-la-Gaillarde : authenticité italienne, pâte au levain naturel, produits bio et locaux, et savoir-faire artisanal."
-    />
-    <meta name="robots" content="index, follow" />
-    <meta
-      property="og:title"
-      content="Rosi Trattoria – Nos Valeurs : Authenticité & Qualité à Brive"
-    />
-    <meta
-      property="og:description"
-      content="Rosi Trattoria s'engage pour une cuisine italienne authentique avec pâte au levain naturel et produits bio locaux à Brive-la-Gaillarde."
-    />
-    <meta
-      property="og:image"
-      content="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png"
-    />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:type" content="website" />
-    <meta
-      property="og:url"
-      content="https://www.rosi-trattoria.com/nos-valeurs"
-    />
-    <meta property="og:site_name" content="Rosi Trattoria" />
-    <meta property="og:locale" content="fr_FR" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:title"
-      content="Rosi Trattoria – Nos Valeurs : Authenticité & Qualité à Brive"
-    />
-    <meta
-      name="twitter:description"
-      content="Rosi Trattoria s'engage pour une cuisine italienne authentique avec pâte au levain naturel et produits bio locaux à Brive-la-Gaillarde."
-    />
-    <meta
-      name="twitter:image"
-      content="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png"
-    />
-    <link rel="canonical" href="https://www.rosi-trattoria.com/nos-valeurs" />
-    <link
-      rel="alternate"
-      hrefLang="fr"
-      href="https://www.rosi-trattoria.com/nos-valeurs"
-    />
-    <link
-      rel="alternate"
-      hrefLang="fr-FR"
-      href="https://www.rosi-trattoria.com/nos-valeurs"
-    />
-    <link
-      rel="alternate"
-      hrefLang="x-default"
-      href="https://www.rosi-trattoria.com/nos-valeurs"
-    />
-    <meta name="author" content="Rosi Trattoria" />
-    <meta name="geo.region" content="FR-19" />
-    <meta name="geo.placename" content="Brive-la-Gaillarde" />
-    <script type="application/ld+json">
-      {JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        name: "Nos Valeurs - Rosi Trattoria",
-        description:
-          "Découvrez les valeurs de Rosi Trattoria : authenticité italienne, pâte au levain naturel, produits bio et locaux à Brive-la-Gaillarde.",
-        url: "https://www.rosi-trattoria.com/nos-valeurs",
-        isPartOf: {
-          "@type": "WebSite",
-          name: "Rosi Trattoria",
-          url: "https://www.rosi-trattoria.com/",
-        },
-      })}
-    </script>
-  </Helmet>
-);
+// Configuration Google Analytics
+const GA_MEASUREMENT_ID = "G-ZTDV0576N7";
+const COOKIE_CONSENT_KEY = "rosi-trattoria-cookie-consent";
+const COOKIE_PREFERENCES_KEY = "rosi-trattoria-cookie-preferences";
 
-const CarteSEO = () => (
-  <Helmet>
-    <title>Menu | Pizzas Napolitaines Bio – Rosi Trattoria Brive</title>
-    <meta
-      name="description"
-      content="Découvrez la carte de Rosi Trattoria à Brive-la-Gaillarde : pizzas napolitaines bio, pâtes fraîches maison et spécialités italiennes authentiques."
-    />
-    <meta name="robots" content="index, follow" />
-    <meta
-      property="og:title"
-      content="Rosi Trattoria – Carte des Plats Italiens à Brive"
-    />
-    <meta
-      property="og:description"
-      content="Explorez notre carte : pizzas napolitaines bio, pâtes fraîches maison et spécialités italiennes à Brive-la-Gaillarde."
-    />
-    <meta
-      property="og:image"
-      content="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png"
-    />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.rosi-trattoria.com/carte" />
-    <meta property="og:site_name" content="Rosi Trattoria" />
-    <meta property="og:locale" content="fr_FR" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:title"
-      content="Rosi Trattoria – Carte des Plats Italiens à Brive"
-    />
-    <meta
-      name="twitter:description"
-      content="Explorez notre carte : pizzas napolitaines bio, pâtes fraîches maison et spécialités italiennes à Brive-la-Gaillarde."
-    />
-    <meta
-      name="twitter:image"
-      content="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png"
-    />
-    <link rel="canonical" href="https://www.rosi-trattoria.com/carte" />
-    <link
-      rel="alternate"
-      hrefLang="fr"
-      href="https://www.rosi-trattoria.com/carte"
-    />
-    <link
-      rel="alternate"
-      hrefLang="fr-FR"
-      href="https://www.rosi-trattoria.com/carte"
-    />
-    <link
-      rel="alternate"
-      hrefLang="x-default"
-      href="https://www.rosi-trattoria.com/carte"
-    />
-    <meta name="author" content="Rosi Trattoria" />
-    <meta name="geo.region" content="FR-19" />
-    <meta name="geo.placename" content="Brive-la-Gaillarde" />
-    <script type="application/ld+json">
-      {JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        name: "Carte - Rosi Trattoria",
-        description:
-          "Découvrez la carte de Rosi Trattoria : pizzas napolitaines bio, pâtes fraîches maison et spécialités italiennes à Brive-la-Gaillarde.",
-        url: "https://www.rosi-trattoria.com/carte",
-        isPartOf: {
-          "@type": "WebSite",
-          name: "Rosi Trattoria",
-          url: "https://www.rosi-trattoria.com/",
-        },
-      })}
-    </script>
-  </Helmet>
-);
+// Types pour les préférences de cookies
+interface CookiePreferences {
+  essential: boolean;
+  analytics: boolean;
+  performance: boolean;
+  marketing: boolean;
+}
 
-const RecrutementSEO = () => (
-  <Helmet>
-    <title>Emplois | Rosi Trattoria – Cuisine Italienne en Corrèze</title>
-    <meta
-      name="description"
-      content="Rejoignez l'équipe passionnée de Rosi Trattoria à Brive-la-Gaillarde ! Postes disponibles : chef de cuisine, serveur, pizzaïolo, barman. Envoyez CV et lettre de motivation."
-    />
-    <meta name="robots" content="index, follow" />
-    <meta
-      property="og:title"
-      content="Rosi Trattoria – Rejoignez Notre Équipe à Brive"
-    />
-    <meta
-      property="og:description"
-      content="Passionné de cuisine italienne ? Rejoignez Rosi Trattoria à Brive-la-Gaillarde pour une aventure culinaire authentique. Postes en cuisine et service disponibles."
-    />
-    <meta
-      property="og:image"
-      content="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png"
-    />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:type" content="website" />
-    <meta
-      property="og:url"
-      content="https://www.rosi-trattoria.com/recrutement"
-    />
-    <meta property="og:site_name" content="Rosi Trattoria" />
-    <meta property="og:locale" content="fr_FR" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:title"
-      content="Rosi Trattoria – Rejoignez Notre Équipe à Brive"
-    />
-    <meta
-      name="twitter:description"
-      content="Passionné de cuisine italienne ? Rejoignez Rosi Trattoria à Brive-la-Gaillarde pour une aventure culinaire authentique. Postes en cuisine et service disponibles."
-    />
-    <meta
-      name="twitter:image"
-      content="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png"
-    />
-    <link rel="canonical" href="https://www.rosi-trattoria.com/recrutement" />
-    <link
-      rel="alternate"
-      hrefLang="fr"
-      href="https://www.rosi-trattoria.com/recrutement"
-    />
-    <link
-      rel="alternate"
-      hrefLang="fr-FR"
-      href="https://www.rosi-trattoria.com/recrutement"
-    />
-    <link
-      rel="alternate"
-      hrefLang="x-default"
-      href="https://www.rosi-trattoria.com/recrutement"
-    />
-    <meta name="author" content="Rosi Trattoria" />
-    <meta name="geo.region" content="FR-19" />
-    <meta name="geo.placename" content="Brive-la-Gaillarde" />
-    <script type="application/ld+json">
-      {JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        name: "Recrutement - Rosi Trattoria",
-        description:
-          "Rejoignez l'équipe de Rosi Trattoria à Brive-la-Gaillarde. Postes disponibles : chef de cuisine, serveur, pizzaïolo, barman.",
-        url: "https://www.rosi-trattoria.com/recrutement",
-        isPartOf: {
-          "@type": "WebSite",
-          name: "Rosi Trattoria",
-          url: "https://www.rosi-trattoria.com/",
-        },
-      })}
-    </script>
-  </Helmet>
-);
+// Props pour le composant Modal
+interface CookieSettingsModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSave: () => void;
+  preferences: CookiePreferences;
+  setPreferences: React.Dispatch<React.SetStateAction<CookiePreferences>>;
+}
 
-const ContactSEO = () => (
-  <Helmet>
-    <title>Contact | Événements & Infos – Rosi Trattoria Brive</title>
-    <meta
-      name="description"
-      content="Contactez Rosi Trattoria à Brive-la-Gaillarde pour réserver une table ou poser vos questions. Restaurant italien bio, local et fait maison."
-    />
-    <meta name="robots" content="index, follow" />
-    <meta
-      property="og:title"
-      content="Rosi Trattoria – Contactez-Nous à Brive"
-    />
-    <meta
-      property="og:description"
-      content="Réservez votre table ou contactez Rosi Trattoria pour une expérience italienne authentique à Brive-la-Gaillarde."
-    />
-    <meta
-      property="og:image"
-      content="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png"
-    />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.rosi-trattoria.com/contact" />
-    <meta property="og:site_name" content="Rosi Trattoria" />
-    <meta property="og:locale" content="fr_FR" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:title"
-      content="Rosi Trattoria – Contactez-Nous à Brive"
-    />
-    <meta
-      name="twitter:description"
-      content="Réservez votre table ou contactez Rosi Trattoria pour une expérience italienne authentique à Brive-la-Gaillarde."
-    />
-    <meta
-      name="twitter:image"
-      content="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png"
-    />
-    <link rel="canonical" href="https://www.rosi-trattoria.com/contact" />
-    <link
-      rel="alternate"
-      hrefLang="fr"
-      href="https://www.rosi-trattoria.com/contact"
-    />
-    <link
-      rel="alternate"
-      hrefLang="fr-FR"
-      href="https://www.rosi-trattoria.com/contact"
-    />
-    <link
-      rel="alternate"
-      hrefLang="x-default"
-      href="https://www.rosi-trattoria.com/contact"
-    />
-    <meta name="author" content="Rosi Trattoria" />
-    <meta name="geo.region" content="FR-19" />
-    <meta name="geo.placename" content="Brive-la-Gaillarde" />
-    <meta name="geo.position" content="45.1632151;1.532797" />
-    <meta name="ICBM" content="45.1632151, 1.532797" />
-    <script type="application/ld+json">
-      {JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        name: "Contact - Rosi Trattoria",
-        description:
-          "Contactez Rosi Trattoria à Brive-la-Gaillarde pour réserver une table ou poser vos questions.",
-        url: "https://www.rosi-trattoria.com/contact",
-        isPartOf: {
-          "@type": "WebSite",
-          name: "Rosi Trattoria",
-          url: "https://www.rosi-trattoria.com/",
-        },
-      })}
-    </script>
-  </Helmet>
-);
+// Composant Modal pour les paramètres de cookies
+const CookieSettingsModal: React.FC<CookieSettingsModalProps> = ({
+  isOpen,
+  onClose,
+  onSave,
+  preferences,
+  setPreferences,
+}) => {
+  if (!isOpen) return null;
+
+  const handleTogglePreference = (key: keyof CookiePreferences) => {
+    setPreferences((prev: CookiePreferences) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
+  };
+
+  return (
+    <div className="cookie-settings-modal">
+      <div className="cookie-settings-content">
+        <h2 className="cookie-settings-title">🍪 Paramètres des Cookies</h2>
+
+        <div className="cookie-category">
+          <h3>
+            Cookies Essentiels
+            <label className="cookie-toggle">
+              <input type="checkbox" checked={true} disabled />
+              <span className="cookie-slider"></span>
+            </label>
+          </h3>
+          <p>
+            Ces cookies sont nécessaires au bon fonctionnement du site. Ils ne
+            peuvent pas être désactivés.
+          </p>
+        </div>
+
+        <div className="cookie-category">
+          <h3>
+            Cookies Analytiques
+            <label className="cookie-toggle">
+              <input
+                type="checkbox"
+                checked={preferences.analytics}
+                onChange={() => handleTogglePreference("analytics")}
+              />
+              <span className="cookie-slider"></span>
+            </label>
+          </h3>
+          <p>
+            Ces cookies nous aident à comprendre comment vous utilisez notre
+            site pour l'améliorer.
+          </p>
+        </div>
+
+        <div className="cookie-category">
+          <h3>
+            Cookies de Performance
+            <label className="cookie-toggle">
+              <input
+                type="checkbox"
+                checked={preferences.performance}
+                onChange={() => handleTogglePreference("performance")}
+              />
+              <span className="cookie-slider"></span>
+            </label>
+          </h3>
+          <p>
+            Ces cookies nous permettent d'optimiser les performances et la
+            rapidité du site.
+          </p>
+        </div>
+
+        <div className="cookie-category">
+          <h3>
+            Cookies Marketing
+            <label className="cookie-toggle">
+              <input
+                type="checkbox"
+                checked={preferences.marketing}
+                onChange={() => handleTogglePreference("marketing")}
+              />
+              <span className="cookie-slider"></span>
+            </label>
+          </h3>
+          <p>
+            Ces cookies nous aident à vous proposer du contenu publicitaire
+            pertinent.
+          </p>
+        </div>
+
+        <div className="cookie-settings-buttons">
+          <button className="cookie-save-button" onClick={onSave}>
+            Sauvegarder mes préférences
+          </button>
+          <button className="cookie-cancel-button" onClick={onClose}>
+            Annuler
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 function App(): React.JSX.Element {
   const location = useLocation();
-  const [cookiesAccepted, setCookiesAccepted] = useState<boolean>(false);
+  const [cookiesAccepted, setCookiesAccepted] = useState<boolean | null>(null);
+  const [showCookieBanner, setShowCookieBanner] = useState<boolean>(false);
+  const [showCookieSettings, setShowCookieSettings] = useState<boolean>(false);
+  const [cookiePreferences, setCookiePreferences] = useState<CookiePreferences>(
+    {
+      essential: true, // toujours true
+      analytics: false,
+      performance: false,
+      marketing: false,
+    }
+  );
 
-  // Initialisation Google Analytics seulement si les cookies sont acceptés
+  // Vérification du consentement au chargement
   useEffect(() => {
-    const cookieConsent = localStorage.getItem("cookieConsent");
-    if (cookieConsent === "true") {
+    const cookieConsent = localStorage.getItem(COOKIE_CONSENT_KEY);
+    const savedPreferences = localStorage.getItem(COOKIE_PREFERENCES_KEY);
+
+    if (savedPreferences) {
+      setCookiePreferences(JSON.parse(savedPreferences) as CookiePreferences);
+    }
+
+    if (cookieConsent === null) {
+      // Aucun choix fait, afficher la bannière
+      setShowCookieBanner(true);
+      setCookiesAccepted(null);
+    } else if (cookieConsent === "true") {
       setCookiesAccepted(true);
-      // Initialiser Google Analytics si pas déjà fait
-      if (!ReactGA.isInitialized) {
-        ReactGA.initialize("YOUR_GA_MEASUREMENT_ID"); // Remplacez par votre ID GA4
-      }
+      setShowCookieBanner(false);
+      initializeGoogleAnalytics();
+    } else {
+      setCookiesAccepted(false);
+      setShowCookieBanner(false);
     }
   }, []);
 
-  // Gestion du scroll au top + Google Analytics tracking conditionnel
+  // Fonction d'initialisation Google Analytics
+  const initializeGoogleAnalytics = () => {
+    if (!ReactGA.isInitialized && cookiePreferences.analytics) {
+      ReactGA.initialize(GA_MEASUREMENT_ID, {
+        gtagOptions: {
+          anonymize_ip: true,
+          allow_google_signals: false,
+        },
+      });
+    }
+  };
+
+  // Gestion du scroll et tracking des pages
   useEffect(() => {
     // Scroll vers le haut
     window.scrollTo(0, 0);
@@ -426,15 +273,18 @@ function App(): React.JSX.Element {
         behavior: "auto" as ScrollBehavior,
       });
 
-      // Au cas où il y aurait un container avec overflow
       const appElement = document.querySelector(".App") as HTMLElement;
       if (appElement) {
         appElement.scrollTop = 0;
       }
     }, 100);
 
-    // Google Analytics - Tracking des changements de page seulement si autorisé
-    if (cookiesAccepted && ReactGA.isInitialized) {
+    // Google Analytics - Tracking des changements de page
+    if (
+      cookiesAccepted === true &&
+      ReactGA.isInitialized &&
+      cookiePreferences.analytics
+    ) {
       ReactGA.send({
         hitType: "pageview",
         page: location.pathname,
@@ -443,30 +293,74 @@ function App(): React.JSX.Element {
     }
 
     return () => clearTimeout(timer);
-  }, [location.pathname, cookiesAccepted]);
+  }, [location.pathname, cookiesAccepted, cookiePreferences.analytics]);
 
-  // Fonction appelée quand l'utilisateur accepte les cookies
-  const handleAcceptCookies = () => {
+  // Fonction d'acceptation de tous les cookies
+  const handleAcceptAllCookies = () => {
+    const allAcceptedPreferences: CookiePreferences = {
+      essential: true,
+      analytics: true,
+      performance: true,
+      marketing: true,
+    };
+
     setCookiesAccepted(true);
-    localStorage.setItem("cookieConsent", "true");
+    setShowCookieBanner(false);
+    setCookiePreferences(allAcceptedPreferences);
+    localStorage.setItem(COOKIE_CONSENT_KEY, "true");
+    localStorage.setItem(
+      COOKIE_PREFERENCES_KEY,
+      JSON.stringify(allAcceptedPreferences)
+    );
 
     // Initialiser Google Analytics
-    if (!ReactGA.isInitialized) {
-      ReactGA.initialize("YOUR_GA_MEASUREMENT_ID"); // Remplacez par votre ID GA4
-    }
+    initializeGoogleAnalytics();
 
     // Tracker la page actuelle
-    ReactGA.send({
-      hitType: "pageview",
-      page: location.pathname,
-      title: document.title,
-    });
+    setTimeout(() => {
+      if (ReactGA.isInitialized) {
+        ReactGA.send({
+          hitType: "pageview",
+          page: location.pathname,
+          title: document.title,
+        });
+      }
+    }, 100);
   };
 
-  // Fonction appelée quand l'utilisateur refuse les cookies
-  const handleDeclineCookies = () => {
-    setCookiesAccepted(false);
-    localStorage.setItem("cookieConsent", "false");
+  // Fonction d'ouverture des paramètres
+  const handleOpenSettings = () => {
+    setShowCookieSettings(true);
+  };
+
+  // Fonction de sauvegarde des préférences
+  const handleSavePreferences = () => {
+    setCookiesAccepted(true);
+    setShowCookieBanner(false);
+    setShowCookieSettings(false);
+    localStorage.setItem(COOKIE_CONSENT_KEY, "true");
+    localStorage.setItem(
+      COOKIE_PREFERENCES_KEY,
+      JSON.stringify(cookiePreferences)
+    );
+
+    // Initialiser Google Analytics si activé
+    if (cookiePreferences.analytics) {
+      initializeGoogleAnalytics();
+    } else {
+      // Nettoyer les cookies GA si désactivés
+      cleanupGoogleAnalyticsCookies();
+    }
+  };
+
+  // Fonction de nettoyage des cookies Google Analytics
+  const cleanupGoogleAnalyticsCookies = () => {
+    document.cookie = "_ga=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie =
+      "_ga_" +
+      GA_MEASUREMENT_ID.slice(2) +
+      "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "_gid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
   };
 
   return (
@@ -491,7 +385,6 @@ function App(): React.JSX.Element {
           path="/nos-valeurs"
           element={
             <>
-              <NosValeursSEO />
               <NosValeurs />
             </>
           }
@@ -500,7 +393,6 @@ function App(): React.JSX.Element {
           path="/carte"
           element={
             <>
-              <CarteSEO />
               <Carte />
             </>
           }
@@ -509,7 +401,6 @@ function App(): React.JSX.Element {
           path="/recrutement"
           element={
             <>
-              <RecrutementSEO />
               <Recrutement />
             </>
           }
@@ -518,7 +409,6 @@ function App(): React.JSX.Element {
           path="/contact"
           element={
             <>
-              <ContactSEO />
               <Contact />
             </>
           }
@@ -527,32 +417,71 @@ function App(): React.JSX.Element {
       </Routes>
       <Footer />
 
-      <CookieConsent
-        location="bottom"
-        buttonText="Accepter"
-        declineButtonText="Refuser"
-        enableDeclineButton
-        onAccept={handleAcceptCookies}
-        onDecline={handleDeclineCookies}
-        buttonWrapperClasses="cookie-buttons-wrapper"
-        expires={365}
-        cookieName="rosi-trattoria-cookie-consent"
-        sameSite="strict"
-        buttonClasses="cookie-accept-button"
-        declineButtonClasses="cookie-decline-button"
-      >
-        <div className="cookie-message-wrapper">
-          <div className="cookie-content-section">
-            <div className="cookie-title">🍕 Gestion des cookies</div>
-            <p className="cookie-description">
-              Ce site utilise des cookies pour améliorer votre navigation et
-              analyser notre audience via Google Analytics. Ces données nous
-              permettent d'optimiser nos services et votre expérience
-              utilisateur.
-            </p>
+      {/* Bannière de consentement aux cookies */}
+      {showCookieBanner && (
+        <CookieConsent
+          location="bottom"
+          buttonText="ACCEPTER"
+          declineButtonText="Paramètres"
+          enableDeclineButton
+          onAccept={handleAcceptAllCookies}
+          onDecline={handleOpenSettings}
+          cookieName={COOKIE_CONSENT_KEY}
+          expires={365}
+          sameSite="strict"
+          buttonClasses="cookie-accept-button"
+          declineButtonClasses="cookie-decline-button"
+          buttonWrapperClasses="cookie-buttons-wrapper"
+          flipButtons={true} // Inverse l'ordre des boutons : Accepter à droite
+          style={{
+            background: "rgba(0, 0, 0, 0.95)",
+            color: "white",
+            fontSize: "14px",
+            padding: "20px",
+          }}
+          buttonStyle={{
+            background: "#28a745",
+            color: "white",
+            fontSize: "16px",
+            borderRadius: "8px",
+            border: "none",
+            padding: "12px 24px",
+            cursor: "pointer",
+            fontWeight: "600",
+          }}
+          declineButtonStyle={{
+            background: "linear-gradient(45deg, #75b9f9, rgb(236, 0, 140))",
+            color: "white",
+            fontSize: "14px",
+            borderRadius: "8px",
+            border: "none",
+            padding: "10px 20px",
+            cursor: "pointer",
+            marginLeft: "10px",
+          }}
+        >
+          <div className="cookie-message-wrapper">
+            <div className="cookie-content-section">
+              <div className="cookie-title">
+                🍕 Une meilleure expérience vous attend !
+              </div>
+              <p className="cookie-description">
+                Nous utilisons des cookies, notamment avec Google Analytics,
+                pour améliorer votre expérience sur notre site.
+              </p>
+            </div>
           </div>
-        </div>
-      </CookieConsent>
+        </CookieConsent>
+      )}
+
+      {/* Modal des paramètres de cookies */}
+      <CookieSettingsModal
+        isOpen={showCookieSettings}
+        onClose={() => setShowCookieSettings(false)}
+        onSave={handleSavePreferences}
+        preferences={cookiePreferences}
+        setPreferences={setCookiePreferences}
+      />
     </div>
   );
 }

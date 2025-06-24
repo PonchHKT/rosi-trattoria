@@ -45,6 +45,17 @@ interface Review {
   source: "google" | "tripadvisor";
 }
 
+// Configuration des événements GA4 pour ReviewWidget
+const GA4_EVENTS = {
+  WIDGET_INITIALIZED: "review_widget_initialized",
+  REVIEWS_LOADED: "reviews_loaded",
+  SLIDER_INTERACTION: "slider_interaction",
+  REVIEW_ENGAGEMENT: "review_engagement",
+  EXTERNAL_LINK_CLICK: "external_platform_click",
+  LEAVE_REVIEW_ACTION: "leave_review_action",
+  ERROR_OCCURRED: "review_widget_error",
+};
+
 const ReviewWidget: React.FC = () => {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
@@ -52,6 +63,12 @@ const ReviewWidget: React.FC = () => {
   const [isPaused, setIsPaused] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const autoSlideInterval = useRef<NodeJS.Timeout | null>(null);
+
+  // États pour le tracking GA4
+  const [sessionStartTime] = useState(Date.now());
+  const [reviewsViewed, setReviewsViewed] = useState(new Set<string>());
+  const [totalSlideChanges, setTotalSlideChanges] = useState(0);
+  const [userEngagementScore, setUserEngagementScore] = useState(0);
 
   const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
     initial: 0,
@@ -65,24 +82,72 @@ const ReviewWidget: React.FC = () => {
     defaultAnimation: {
       duration: 500,
     },
-    created() {
-      // GA4 - Track slider initialization
-      ReactGA.event({
-        category: "ReviewWidget",
-        action: "slider_initialized",
-        label: "keen_slider_created",
+    created(slider) {
+      // GA4 - Initialisation du widget avec métadonnées
+      ReactGA.event(GA4_EVENTS.WIDGET_INITIALIZED, {
+        widget_type: "review_carousel",
+        slider_library: "keen_slider",
+        initial_slide: slider.track.details.abs,
+        total_slides: slider.track.details.slides.length,
+        session_id: sessionStartTime.toString(),
+        custom_parameters: {
+          auto_play: true,
+          loop_enabled: true,
+          touch_enabled: true,
+        },
       });
     },
     slideChanged(slider) {
-      // GA4 - Track slide changes
-      ReactGA.event({
-        category: "ReviewWidget",
-        action: "slide_changed",
-        label: `slide_${slider.track.details.rel}`,
-        value: slider.track.details.rel,
+      const currentSlide = slider.track.details.rel;
+      const totalSlides = slider.track.details.slides.length;
+
+      setTotalSlideChanges((prev) => prev + 1);
+
+      // Marquer cet avis comme vu
+      if (reviews[currentSlide]) {
+        setReviewsViewed(
+          (prev) => new Set([...prev, reviews[currentSlide].id])
+        );
+      }
+
+      // GA4 - Changement de slide avec contexte enrichi
+      ReactGA.event(GA4_EVENTS.SLIDER_INTERACTION, {
+        interaction_type: "slide_change",
+        slide_index: currentSlide,
+        slide_direction: "next", // Peut être amélioré pour détecter la direction
+        total_slides: totalSlides,
+        slide_progress: (((currentSlide + 1) / totalSlides) * 100).toFixed(1),
+        review_source: reviews[currentSlide]?.source || "unknown",
+        review_rating: reviews[currentSlide]?.rating || 0,
+        session_slides_viewed: totalSlideChanges + 1,
+        engagement_score: userEngagementScore,
       });
     },
   });
+
+  // Fonction pour calculer le score d'engagement
+  const calculateEngagementScore = () => {
+    const timeSpent = (Date.now() - sessionStartTime) / 1000; // en secondes
+    const reviewsViewedCount = reviewsViewed.size;
+    const slideInteractions = totalSlideChanges;
+
+    // Score basé sur différents facteurs (0-100)
+    const timeScore = Math.min((timeSpent / 60) * 20, 40); // Max 40 points pour 2 minutes
+    const viewsScore = Math.min(reviewsViewedCount * 5, 30); // Max 30 points pour 6 avis vus
+    const interactionScore = Math.min(slideInteractions * 2, 30); // Max 30 points pour 15 interactions
+
+    return Math.round(timeScore + viewsScore + interactionScore);
+  };
+
+  // Update engagement score périodiquement
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const newScore = calculateEngagementScore();
+      setUserEngagementScore(newScore);
+    }, 5000); // Recalculer toutes les 5 secondes
+
+    return () => clearInterval(interval);
+  }, [reviewsViewed.size, totalSlideChanges, sessionStartTime]);
 
   // Fonction pour vérifier si c'est un avis TripAdvisor
   const isTripAdvisorReview = (
@@ -107,17 +172,15 @@ const ReviewWidget: React.FC = () => {
 
     const aggregateRating = {
       "@type": "AggregateRating",
-      ratingValue: "4.85", // Moyenne entre Google et TripAdvisor
-      reviewCount: "2177", // Total des avis
+      ratingValue: "4.85",
+      reviewCount: "2177",
       bestRating: "5",
       worstRating: "1",
     };
 
-    // Utiliser tous les avis pour le schema (limité à 20 pour les performances)
     const reviewsSchema = reviews.slice(0, 20).map((review) => ({
       "@type": "Review",
       itemReviewed: {
-        // AJOUT OBLIGATOIRE
         "@type": "Restaurant",
         name: "Rosi Trattoria",
         url: "https://www.rosi-trattoria.com/",
@@ -142,7 +205,7 @@ const ReviewWidget: React.FC = () => {
         worstRating: "1",
       },
       reviewBody: review.text,
-      datePublished: new Date().toISOString().split("T")[0], // Format YYYY-MM-DD
+      datePublished: new Date().toISOString().split("T")[0],
       publisher: {
         "@type": "Organization",
         name: review.source === "google" ? "Google" : "TripAdvisor",
@@ -209,19 +272,23 @@ const ReviewWidget: React.FC = () => {
   };
 
   const loadReviews = async () => {
+    const loadStartTime = Date.now();
+
     try {
       setLoading(true);
 
-      // GA4 - Track début du chargement des avis
-      ReactGA.event({
-        category: "ReviewWidget",
-        action: "reviews_loading_start",
-        label: "fetch_googlereviews_json",
+      // GA4 - Début du chargement des avis
+      ReactGA.event(GA4_EVENTS.REVIEWS_LOADED, {
+        loading_status: "started",
+        data_source: "googlereviews_json",
+        timestamp: loadStartTime,
       });
 
       const response = await fetch("/googlereviews.json");
       if (!response.ok) {
-        throw new Error("Failed to load reviews JSON file");
+        throw new Error(
+          `HTTP ${response.status}: Failed to load reviews JSON file`
+        );
       }
       const jsonData: ReviewJSON[] = await response.json();
 
@@ -297,38 +364,55 @@ const ReviewWidget: React.FC = () => {
       setReviews(shuffledReviews);
       setLoading(false);
 
-      // GA4 - Track succès du chargement des avis
-      ReactGA.event({
-        category: "ReviewWidget",
-        action: "reviews_loaded_success",
-        label: "reviews_count",
-        value: shuffledReviews.length,
+      const loadEndTime = Date.now();
+      const loadDuration = loadEndTime - loadStartTime;
+
+      // GA4 - Succès du chargement avec métriques détaillées
+      ReactGA.event(GA4_EVENTS.REVIEWS_LOADED, {
+        loading_status: "success",
+        total_reviews: shuffledReviews.length,
+        google_reviews: shuffledReviews.filter((r) => r.source === "google")
+          .length,
+        tripadvisor_reviews: shuffledReviews.filter(
+          (r) => r.source === "tripadvisor"
+        ).length,
+        load_duration_ms: loadDuration,
+        average_rating: (
+          shuffledReviews.reduce((sum, r) => sum + r.rating, 0) /
+          shuffledReviews.length
+        ).toFixed(2),
+        rating_distribution: {
+          "5_star": shuffledReviews.filter((r) => r.rating === 5).length,
+          "4_star": shuffledReviews.filter((r) => r.rating === 4).length,
+          "3_star": shuffledReviews.filter((r) => r.rating === 3).length,
+          "2_star": shuffledReviews.filter((r) => r.rating === 2).length,
+          "1_star": shuffledReviews.filter((r) => r.rating === 1).length,
+        },
       });
 
-      // GA4 - Track répartition des sources d'avis
-      const googleReviews = shuffledReviews.filter(
-        (r) => r.source === "google"
-      ).length;
-      const tripadvisorReviews = shuffledReviews.filter(
-        (r) => r.source === "tripadvisor"
-      ).length;
-
-      ReactGA.event({
-        category: "ReviewWidget",
-        action: "reviews_source_distribution",
-        label: `google_${googleReviews}_tripadvisor_${tripadvisorReviews}`,
+      // Track Schema.org implementation
+      ReactGA.event("schema_structured_data", {
+        schema_type: "Restaurant_Reviews",
+        reviews_count: Math.min(shuffledReviews.length, 20),
+        has_aggregate_rating: true,
+        has_geo_coordinates: true,
       });
     } catch (fetchError) {
       console.error("Error loading reviews JSON file:", fetchError);
       setError("Impossible de charger les avis");
       setLoading(false);
 
-      // GA4 - Track erreurs de chargement
-      ReactGA.event({
-        category: "ReviewWidget",
-        action: "reviews_loading_error",
-        label:
+      const loadEndTime = Date.now();
+      const loadDuration = loadEndTime - loadStartTime;
+
+      // GA4 - Erreur de chargement avec détails
+      ReactGA.event(GA4_EVENTS.ERROR_OCCURRED, {
+        error_type: "reviews_loading_failed",
+        error_message:
           fetchError instanceof Error ? fetchError.message : "unknown_error",
+        load_duration_ms: loadDuration,
+        fetch_url: "/googlereviews.json",
+        error_context: "initial_load",
       });
     }
   };
@@ -353,11 +437,12 @@ const ReviewWidget: React.FC = () => {
 
       document.head.appendChild(schemaScript);
 
-      // GA4 - Track ajout du schema JSON-LD
-      ReactGA.event({
-        category: "ReviewWidget",
-        action: "schema_jsonld_added",
-        label: "structured_data_reviews",
+      // GA4 - Schema JSON-LD ajouté
+      ReactGA.event("seo_enhancement", {
+        enhancement_type: "schema_jsonld_added",
+        schema_type: "Restaurant",
+        reviews_included: Math.min(reviews.length, 20),
+        has_aggregate_rating: true,
       });
 
       // Nettoyage au démontage du composant
@@ -381,76 +466,160 @@ const ReviewWidget: React.FC = () => {
     };
   }, [reviews, loading, isPaused]);
 
-  // Gestionnaires d'événements pour pause/reprise avec GA4
+  // Gestionnaires d'événements pour pause/reprise avec GA4 enrichi
   const handleMouseEnter = () => {
     setIsPaused(true);
-    ReactGA.event({
-      category: "ReviewWidget",
-      action: "slider_paused",
-      label: "mouse_enter",
+    ReactGA.event(GA4_EVENTS.SLIDER_INTERACTION, {
+      interaction_type: "auto_play_paused",
+      trigger: "mouse_enter",
+      current_slide: instanceRef.current?.track.details.rel || 0,
+      engagement_score: userEngagementScore,
     });
   };
 
   const handleMouseLeave = () => {
     setIsPaused(false);
-    ReactGA.event({
-      category: "ReviewWidget",
-      action: "slider_resumed",
-      label: "mouse_leave",
+    ReactGA.event(GA4_EVENTS.SLIDER_INTERACTION, {
+      interaction_type: "auto_play_resumed",
+      trigger: "mouse_leave",
+      current_slide: instanceRef.current?.track.details.rel || 0,
+      engagement_score: userEngagementScore,
     });
   };
 
   const handleTouchStart = () => {
     setIsPaused(true);
-    ReactGA.event({
-      category: "ReviewWidget",
-      action: "slider_paused",
-      label: "touch_start",
+    ReactGA.event(GA4_EVENTS.SLIDER_INTERACTION, {
+      interaction_type: "auto_play_paused",
+      trigger: "touch_start",
+      device_type: "mobile",
+      current_slide: instanceRef.current?.track.details.rel || 0,
+      engagement_score: userEngagementScore,
     });
   };
 
   const handleTouchEnd = () => {
     setTimeout(() => {
       setIsPaused(false);
-      ReactGA.event({
-        category: "ReviewWidget",
-        action: "slider_resumed",
-        label: "touch_end_delayed",
+      ReactGA.event(GA4_EVENTS.SLIDER_INTERACTION, {
+        interaction_type: "auto_play_resumed",
+        trigger: "touch_end_delayed",
+        device_type: "mobile",
+        current_slide: instanceRef.current?.track.details.rel || 0,
+        engagement_score: userEngagementScore,
       });
     }, 2000);
   };
 
-  // Gestionnaire pour les clics sur les liens externes avec GA4
+  // Gestionnaire pour les clics sur les liens externes avec GA4 enrichi
   const handleExternalLinkClick = (
     platform: "google" | "tripadvisor",
     action: "view_reviews"
   ) => {
-    ReactGA.event({
-      category: "ReviewWidget",
-      action: "external_link_click",
-      label: `${platform}_${action}`,
+    ReactGA.event(GA4_EVENTS.EXTERNAL_LINK_CLICK, {
+      platform: platform,
+      action: action,
+      link_type: "review_platform",
+      current_slide: instanceRef.current?.track.details.rel || 0,
+      session_engagement_score: userEngagementScore,
+      reviews_viewed_count: reviewsViewed.size,
+      time_on_widget: Math.round((Date.now() - sessionStartTime) / 1000),
+    });
+
+    // Conversion tracking pour les clics externes
+    ReactGA.event("conversion", {
+      conversion_type: "external_review_platform_visit",
+      platform: platform,
+      value: platform === "google" ? 10 : 8, // Valeur différente selon la plateforme
     });
   };
 
-  // Gestionnaire pour le bouton "Laisser un avis" avec GA4
+  // Gestionnaire pour le bouton "Laisser un avis" avec GA4 enrichi
   const handleLeaveReviewClick = () => {
     setIsPopupOpen(true);
-    ReactGA.event({
-      category: "ReviewWidget",
-      action: "leave_review_button_click",
-      label: "popup_opened",
+
+    ReactGA.event(GA4_EVENTS.LEAVE_REVIEW_ACTION, {
+      action: "popup_opened",
+      trigger_location: "individual_review_card",
+      current_slide: instanceRef.current?.track.details.rel || 0,
+      session_engagement_score: userEngagementScore,
+      reviews_viewed_before_action: reviewsViewed.size,
+      time_before_action: Math.round((Date.now() - sessionStartTime) / 1000),
+    });
+
+    // Funnel tracking pour les actions de review
+    ReactGA.event("review_funnel", {
+      funnel_step: "popup_opened",
+      funnel_position: 1,
+      session_id: sessionStartTime.toString(),
     });
   };
 
   // Gestionnaire pour la fermeture de la popup avec GA4
   const handlePopupClose = () => {
     setIsPopupOpen(false);
-    ReactGA.event({
-      category: "ReviewWidget",
-      action: "leave_review_popup_closed",
-      label: "popup_closed",
+
+    ReactGA.event(GA4_EVENTS.LEAVE_REVIEW_ACTION, {
+      action: "popup_closed",
+      session_engagement_score: userEngagementScore,
+      popup_interaction_completed: false,
     });
   };
+
+  // Tracking de l'engagement sur les avis individuels
+  const handleReviewClick = (review: Review, index: number) => {
+    ReactGA.event(GA4_EVENTS.REVIEW_ENGAGEMENT, {
+      engagement_type: "review_clicked",
+      review_source: review.source,
+      review_rating: review.rating,
+      review_index: index,
+      reviewer_name: review.reviewer.slice(0, 10) + "...", // Nom tronqué pour la confidentialité
+      session_engagement_score: userEngagementScore,
+      time_on_slide: "unknown", // Pourrait être calculé avec un timer
+    });
+  };
+
+  useEffect(() => {
+    // Performance tracking
+    const performanceObserver = new PerformanceObserver((list) => {
+      const entries = list.getEntries();
+      entries.forEach((entry) => {
+        if (entry.name.includes("googlereviews.json")) {
+          const resourceEntry = entry as PerformanceResourceTiming;
+          ReactGA.event("performance_metric", {
+            metric_type: "resource_load_time",
+            resource_name: "googlereviews_json",
+            load_time: entry.duration,
+            transfer_size: resourceEntry.transferSize || 0,
+            encoded_body_size: resourceEntry.encodedBodySize || 0,
+          });
+        }
+      });
+    });
+
+    performanceObserver.observe({ entryTypes: ["resource"] });
+
+    // Cleanup
+    return () => {
+      performanceObserver.disconnect();
+    };
+  }, []);
+
+  // Send session summary before component unmounts
+  useEffect(() => {
+    return () => {
+      // Envoyer un résumé de session avant la fermeture
+      ReactGA.event("session_summary", {
+        widget_type: "review_widget",
+        session_duration: Math.round((Date.now() - sessionStartTime) / 1000),
+        total_reviews_viewed: reviewsViewed.size,
+        total_slide_changes: totalSlideChanges,
+        final_engagement_score: calculateEngagementScore(),
+        reviews_available: reviews.length,
+        session_completed: true,
+      });
+    };
+  }, []);
 
   const renderGoogleStars = (rating: number) => {
     return Array.from({ length: 5 }).map((_, i) => (
@@ -476,7 +645,6 @@ const ReviewWidget: React.FC = () => {
     ));
   };
 
-  // Nouvelle fonction pour rendre les étoiles selon la source
   const renderReviewStars = (
     rating: number,
     source: "google" | "tripadvisor"
@@ -577,7 +745,6 @@ const ReviewWidget: React.FC = () => {
       </div>
       <div className="header-content">
         <h2>"Découvrez les mots qui nous motivent chaque jour"</h2>
-
         {loading && (
           <div className="loading-shimmer" aria-label="Chargement des avis">
             <div className="shimmer-line"></div>
@@ -592,9 +759,22 @@ const ReviewWidget: React.FC = () => {
     return (
       <section
         className="review-widget"
-        aria-label="Avis clients du restaurant"
+        aria-label="Avis clients du restaurant Rosi Trattoria"
       >
         {renderHeader()}
+        <div className="loading-container" role="status" aria-live="polite">
+          <div
+            className="loading-shimmer"
+            aria-label="Chargement des avis clients"
+          >
+            <div className="shimmer-card">
+              <div className="shimmer-line shimmer-rating"></div>
+              <div className="shimmer-line shimmer-text long"></div>
+              <div className="shimmer-line shimmer-text medium"></div>
+              <div className="shimmer-line shimmer-author"></div>
+            </div>
+          </div>
+        </div>
         <ReviewPopup isOpen={isPopupOpen} onClose={handlePopupClose} />
       </section>
     );
@@ -604,7 +784,7 @@ const ReviewWidget: React.FC = () => {
     return (
       <section
         className="review-widget"
-        aria-label="Avis clients du restaurant"
+        aria-label="Avis clients du restaurant Rosi Trattoria"
       >
         {renderHeader()}
         <div className="error" role="alert">
@@ -620,7 +800,7 @@ const ReviewWidget: React.FC = () => {
     return (
       <section
         className="review-widget"
-        aria-label="Avis clients du restaurant"
+        aria-label="Avis clients du restaurant Rosi Trattoria"
       >
         {renderHeader()}
         <div className="no-reviews">
@@ -638,8 +818,6 @@ const ReviewWidget: React.FC = () => {
       aria-label="Avis clients du restaurant Rosi Trattoria"
     >
       {renderHeader()}
-
-      {/* Carrousel pour l'UX - AFFICHE TOUS LES AVIS */}
       <div className="slider-container">
         <div
           ref={sliderRef}
@@ -651,36 +829,25 @@ const ReviewWidget: React.FC = () => {
           role="region"
           aria-label="Carrousel d'avis clients"
         >
-          {/* MODIFICATION PRINCIPALE : utiliser TOUS les avis au lieu de slice(0, 10) */}
           {reviews.map((review, index) => (
             <article
               key={review.id}
               className="keen-slider__slide"
               itemScope
               itemType="https://schema.org/Review"
-              onClick={() => {
-                // GA4 - Track clics sur les avis individuels
-                ReactGA.event({
-                  category: "ReviewWidget",
-                  action: "review_click",
-                  label: `${review.source}_review_${index}`,
-                  value: review.rating,
-                });
-              }}
+              onClick={() => handleReviewClick(review, index)}
             >
-              {/* itemReviewed avec ADRESSE COMPLÈTE - OBLIGATOIRE pour Google */}
               <div
                 itemProp="itemReviewed"
                 itemScope
                 itemType="https://schema.org/Restaurant"
-                style={{ display: "none" }} // Invisible mais présent pour Schema.org
+                style={{ display: "none" }}
               >
                 <meta itemProp="name" content="Rosi Trattoria" />
                 <meta
                   itemProp="url"
                   content="https://www.rosi-trattoria.com/"
                 />
-                {/* ADRESSE COMPLÈTE - FIX POUR GOOGLE SEO */}
                 <div
                   itemProp="address"
                   itemScope
@@ -700,7 +867,6 @@ const ReviewWidget: React.FC = () => {
                 </div>
                 <meta itemProp="telephone" content="+33544314447" />
                 <meta itemProp="servesCuisine" content="Italian" />
-                {/* Coordonnées géographiques pour plus de précision */}
                 <div
                   itemProp="geo"
                   itemScope
@@ -710,7 +876,6 @@ const ReviewWidget: React.FC = () => {
                   <meta itemProp="longitude" content="1.5330001" />
                 </div>
               </div>
-
               <div className="review-item">
                 <div className="review-content">
                   <div className="review-header">
@@ -778,10 +943,7 @@ const ReviewWidget: React.FC = () => {
           ))}
         </div>
       </div>
-
-      {/* Section SEO optimisée - Utilise également tous les avis mais limité pour les performances */}
       <div className="seo-reviews-section">
-        {/* Texte SEO compact et discret */}
         <div className="seo-content">
           <p className="seo-text">
             Restaurant italien Brive-la-Gaillarde - Rosi Trattoria, pizzas
@@ -789,7 +951,6 @@ const ReviewWidget: React.FC = () => {
             authentique, produits bio et locaux, ambiance chaleureuse.
             Réservations 05 44 31 44 47.
           </p>
-
           <div className="seo-reviews-hidden">
             {reviews.slice(0, 50).map((review) => (
               <div
@@ -798,7 +959,6 @@ const ReviewWidget: React.FC = () => {
                 itemScope
                 itemType="https://schema.org/Review"
               >
-                {/* itemReviewed OBLIGATOIRE avec ADRESSE COMPLÈTE */}
                 <div
                   itemProp="itemReviewed"
                   itemScope
@@ -809,7 +969,6 @@ const ReviewWidget: React.FC = () => {
                     itemProp="url"
                     content="https://www.rosi-trattoria.com/"
                   />
-                  {/* ADRESSE COMPLÈTE OBLIGATOIRE pour Google */}
                   <div
                     itemProp="address"
                     itemScope
@@ -833,7 +992,6 @@ const ReviewWidget: React.FC = () => {
                   <meta itemProp="telephone" content="+33544314447" />
                   <meta itemProp="servesCuisine" content="Italian" />
                 </div>
-
                 <cite
                   itemProp="author"
                   itemScope
@@ -865,8 +1023,7 @@ const ReviewWidget: React.FC = () => {
           </div>
         </div>
       </div>
-
-      <ReviewPopup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} />
+      <ReviewPopup isOpen={isPopupOpen} onClose={handlePopupClose} />
     </section>
   );
 };
