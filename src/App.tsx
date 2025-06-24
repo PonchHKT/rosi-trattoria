@@ -126,11 +126,9 @@ const CookieSettingsModal: React.FC<CookieSettingsModalProps> = ({
   return (
     <div className="cookie-settings-modal">
       <div className="cookie-settings-content">
-        <h2 className="cookie-settings-title">🍪 Paramètres des Cookies</h2>
-
         <div className="cookie-category">
           <h3>
-            Cookies Essentiels
+            🍪 Cookies Essentiels
             <label className="cookie-toggle">
               <input type="checkbox" checked={true} disabled />
               <span className="cookie-slider"></span>
@@ -144,7 +142,7 @@ const CookieSettingsModal: React.FC<CookieSettingsModalProps> = ({
 
         <div className="cookie-category">
           <h3>
-            Cookies Analytiques
+            🍪 Cookies Analytiques
             <label className="cookie-toggle">
               <input
                 type="checkbox"
@@ -162,7 +160,7 @@ const CookieSettingsModal: React.FC<CookieSettingsModalProps> = ({
 
         <div className="cookie-category">
           <h3>
-            Cookies de Performance
+            🍪 Cookies de Performance
             <label className="cookie-toggle">
               <input
                 type="checkbox"
@@ -175,24 +173,6 @@ const CookieSettingsModal: React.FC<CookieSettingsModalProps> = ({
           <p>
             Ces cookies nous permettent d'optimiser les performances et la
             rapidité du site.
-          </p>
-        </div>
-
-        <div className="cookie-category">
-          <h3>
-            Cookies Marketing
-            <label className="cookie-toggle">
-              <input
-                type="checkbox"
-                checked={preferences.marketing}
-                onChange={() => handleTogglePreference("marketing")}
-              />
-              <span className="cookie-slider"></span>
-            </label>
-          </h3>
-          <p>
-            Ces cookies nous aident à vous proposer du contenu publicitaire
-            pertinent.
           </p>
         </div>
 
@@ -463,11 +443,20 @@ function App(): React.JSX.Element {
           <div className="cookie-message-wrapper">
             <div className="cookie-content-section">
               <div className="cookie-title">
-                🍕 Une meilleure expérience vous attend !
+                🍕 Votre expérience, notre priorité !
               </div>
               <p className="cookie-description">
-                Nous utilisons des cookies, notamment avec Google Analytics,
-                pour améliorer votre expérience sur notre site.
+                Nos cookies, via Google Analytics, rendent votre visite plus
+                fluide et sympa. Zéro pub agaçante, zéro suivi indésirable.
+                <br />
+                <a
+                  href="https://carte.rosi-trattoria.com/info/privacy-policy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="cookie-link"
+                >
+                  <strong>En savoir plus</strong>
+                </a>
               </p>
             </div>
           </div>
