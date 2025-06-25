@@ -25,10 +25,13 @@
   padding-top: 110px;
   padding-bottom: 60px;
 
-  // Assurer que l'élément est bien positionné
-  transform: translateZ(0); // Force hardware acceleration
+  // OPTIMISATIONS GPU CRITIQUES
+  will-change: auto; // Évite les optimisations GPU inutiles
+  transform: translate3d(0, 0, 0); // Force hardware acceleration une seule fois
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 
-  // Background placeholder pendant le chargement - AMÉLIORÉ
+  // Background placeholder pendant le chargement - OPTIMISÉ
   &::before {
     content: "";
     position: absolute;
@@ -36,24 +39,23 @@
     left: 0;
     right: 0;
     bottom: 0;
-    // Dégradé de placeholder qui simule l'image
+    // Dégradé simplifié pour performance
     background: linear-gradient(
       135deg,
-      rgba(30, 30, 30, 0.95) 0%,
-      rgba(50, 50, 50, 0.9) 25%,
-      rgba(40, 40, 40, 0.92) 50%,
-      rgba(35, 35, 35, 0.94) 75%,
-      rgba(25, 25, 25, 0.96) 100%
+      rgba(25, 25, 25, 0.96) 0%,
+      rgba(35, 35, 35, 0.94) 100%
     );
     opacity: 1;
     pointer-events: none;
     z-index: 1;
-    transition: opacity 0.6s ease-in-out;
+    transition: opacity 0.4s ease-out; // Transition plus rapide
+    // Optimisations GPU
     will-change: opacity;
-    transform: translateZ(0);
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
   }
 
-  // Image de fond optimisée - CORRIGÉE
+  // Image de fond - SOLUTION ANTI-LAG
   &::after {
     content: "";
     position: absolute;
@@ -61,61 +63,90 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiBmaWxsPSIjMTkxOTE5Ii8+CjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEiIGZpbGw9IiMzMzMzMzMiLz4KPHN2Zz4K");
-    background-size: 40px 40px;
-    background-repeat: repeat;
+    // Pattern léger par défaut
+    background: radial-gradient(
+        circle at 25% 25%,
+        rgba(255, 255, 255, 0.02) 1px,
+        transparent 1px
+      ),
+      radial-gradient(
+        circle at 75% 75%,
+        rgba(255, 255, 255, 0.01) 1px,
+        transparent 1px
+      );
+    background-size: 50px 50px;
     opacity: 0;
     pointer-events: none;
     z-index: 1;
-    transition: opacity 0.6s ease-in-out;
-    // Optimisations GPU
+    transition: opacity 0.4s ease-out;
+    // OPTIMISATIONS CRITIQUES POUR PERFORMANCE
     will-change: opacity;
-    transform: translateZ(0);
+    transform: translate3d(0, 0, 0);
     backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    // Force composite layer
+    contain: layout style paint;
   }
 
-  // État quand l'image est chargée - Desktop
+  // État chargé - Desktop - SOLUTION ANTI-LAG
   &.biographie--loaded:not(.biographie--mobile) {
     &::before {
-      opacity: 0.05; // Garde un peu du placeholder pour l'effet
+      opacity: 0.03;
     }
 
     &::after {
-      background-image: url("https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/marble-background-optimized.webp"),
-        url("https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/marble-background.jpg");
+      // CHANGEMENT MAJEUR : Suppression du background-attachment: fixed
+      background-image: url("https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/marble-background.jpg");
       background-size: cover;
-      background-position: center;
+      background-position: center center;
       background-repeat: no-repeat;
-      background-attachment: fixed;
-      opacity: 0.15;
+      background-attachment: scroll; // CRUCIAL : scroll au lieu de fixed
+      opacity: 0.12; // Légèrement réduit pour compenser
+      // Optimisations additionnelles
+      image-rendering: auto;
+      image-rendering: -webkit-optimize-contrast;
     }
   }
 
-  // État quand l'image est chargée - Mobile - CORRIGÉ
+  // État chargé - Mobile - ULTRA OPTIMISÉ
   &.biographie--loaded.biographie--mobile {
     &::before {
-      opacity: 0.03; // Moins visible sur mobile
+      opacity: 0.02;
     }
 
     &::after {
+      // Image encore plus optimisée pour mobile
       background-image: url("https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/marble-background-mobile.jpg");
       background-size: cover;
       background-position: center center;
       background-repeat: no-repeat;
-      background-attachment: scroll; // Important sur mobile
-      opacity: 0.2; // Plus visible sur mobile
-      transition: opacity 0.3s ease-in-out; // Transition plus rapide sur mobile
+      background-attachment: scroll;
+      opacity: 0.15;
+      transition: opacity 0.2s ease-out; // Transition plus rapide sur mobile
+      // Optimisations mobiles spécifiques
+      image-rendering: auto;
+      -webkit-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
     }
   }
 
-  // Support pour les connexions lentes
+  // Pour les connexions très lentes - FALLBACK PERFORMANT
   @media (prefers-reduced-data: reduce) {
     &::after {
-      background-image: none;
+      background-image: none !important;
+      // Pattern léger de remplacement
+      background: repeating-linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.005) 0px,
+        rgba(255, 255, 255, 0.005) 1px,
+        transparent 1px,
+        transparent 20px
+      );
+      opacity: 0.3;
     }
 
     &::before {
-      opacity: 0.2;
+      opacity: 0.1;
     }
   }
 }
@@ -126,6 +157,8 @@
   padding: 0 20px;
   position: relative;
   z-index: 2;
+  // Optimisation pour éviter les repaints
+  contain: layout;
 }
 
 .biographie__header {
@@ -144,7 +177,7 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   text-align: center;
   min-height: 200px;
   justify-content: center;
@@ -152,11 +185,13 @@
   transform: translateY(-30px);
   width: 100%;
   max-width: 1000px;
+  // Optimisation de rendu
+  contain: layout style;
 
   &.visible {
     opacity: 1;
     transform: translateY(0);
-    animation: titleEntrance 1s ease-out;
+    animation: titleEntrance 0.8s ease-out; // Légèrement plus rapide
   }
 }
 
@@ -176,13 +211,15 @@
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: gradientShift 3s ease-in-out infinite;
+  animation: gradientShift 4s ease-in-out infinite; // Ralenti pour réduire le CPU
   display: block;
   min-height: 1.2em;
   margin: 0;
   font-size: inherit;
   font-weight: inherit;
   width: 100%;
+  // Optimisation pour l'animation
+  will-change: background;
 }
 
 .biographie__section-header {
@@ -260,6 +297,9 @@
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  // Optimisation pour le backdrop-filter
+  will-change: transform;
+  contain: layout style;
 
   &--indoor {
     .biographie__capacity-icon {
@@ -309,22 +349,26 @@
   margin-bottom: 60px;
 }
 
-// CORRECTION MAJEURE pour les images - FIXÉ POUR MOBILE
+// Images - OPTIMISATIONS MAJEURES POUR PERFORMANCE
 .biographie__image-container {
   position: relative;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
   transition: transform 0.3s ease;
-  height: 300px; // Hauteur fixe pour éviter le layout shift
+  height: 300px;
   background: linear-gradient(
     45deg,
     rgba(40, 40, 40, 0.8),
     rgba(60, 60, 60, 0.6)
   );
+  // OPTIMISATIONS GPU POUR IMAGES
+  will-change: transform;
+  contain: layout style;
+  transform: translate3d(0, 0, 0);
 
   &:hover {
-    transform: scale(1.02);
+    transform: scale(1.02) translate3d(0, 0, 0);
   }
 
   &.loaded {
@@ -339,33 +383,32 @@
   }
 }
 
-// CORRECTION MAJEURE pour les images - FIXÉ POUR MOBILE
 .biographie__image {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
   display: block;
-  transition: all 0.5s ease;
-  opacity: 0; // Commence invisible
+  transition: opacity 0.4s ease; // Transition simplifiée
+  opacity: 0;
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 2; // AJOUTÉ - Assure que l'image est au-dessus du placeholder
-  border-radius: 20px; // AJOUTÉ - Assure l'arrondi sur l'image
-
-  // Optimisations de performance pour les images
+  z-index: 2;
+  border-radius: 20px;
+  // OPTIMISATIONS CRITIQUES POUR IMAGES
+  image-rendering: auto;
   image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
-  transform: translateZ(0);
+  transform: translate3d(0, 0, 0);
   will-change: opacity;
+  contain: layout;
+  backface-visibility: hidden;
 
   &:hover {
-    transform: scale(1.05) translateZ(0);
+    transform: scale(1.05) translate3d(0, 0, 0);
   }
 }
 
-// Placeholder skeleton pour les images - CORRIGÉ
 .biographie__image-placeholder {
   position: absolute;
   top: 0;
@@ -380,9 +423,11 @@
     rgba(40, 40, 40, 0.8),
     rgba(60, 60, 60, 0.6)
   );
-  transition: opacity 0.5s ease;
-  z-index: 1; // AJOUTÉ - En dessous de l'image
-  border-radius: 20px; // AJOUTÉ - Même arrondi que le conteneur
+  transition: opacity 0.4s ease;
+  z-index: 1;
+  border-radius: 20px;
+  // Optimisation placeholder
+  contain: layout style;
 }
 
 .biographie__image-skeleton {
@@ -391,7 +436,9 @@
   border: 3px solid rgba(255, 255, 255, 0.1);
   border-top: 3px solid var(--primary-blue);
   border-radius: 50%;
-  animation: skeletonSpin 1s linear infinite;
+  animation: skeletonSpin 1.2s linear infinite; // Légèrement ralenti
+  // Optimisation animation
+  will-change: transform;
 }
 
 @keyframes skeletonSpin {
@@ -454,6 +501,9 @@
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  // Optimisation bouton
+  will-change: transform;
+  contain: layout style;
 
   &:hover {
     transform: translateY(-2px);
@@ -468,7 +518,7 @@
   }
 }
 
-// Animation pour l'entrée du titre
+// Animations optimisées
 @keyframes titleEntrance {
   0% {
     opacity: 0;
@@ -484,7 +534,6 @@
   }
 }
 
-// Animation pour le gradient du titre
 @keyframes gradientShift {
   0%,
   100% {
@@ -509,7 +558,6 @@
   }
 }
 
-// Animations
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -521,21 +569,23 @@
   }
 }
 
-// Responsive Design
+// Responsive Design avec optimisations mobiles
 @media (max-width: 768px) {
   .biographie {
-    // Fix pour cacher la barre noire sur mobile
-    margin-top: -80px; // Plus important sur mobile
-    padding-top: 120px; // Compenser le margin négatif
+    margin-top: -80px;
+    padding-top: 120px;
     padding-bottom: 40px;
-
-    // Assurer la priorité d'affichage
-    z-index: 1001; // Légèrement plus élevé sur mobile
+    z-index: 1001;
     position: relative;
+    // OPTIMISATIONS MOBILES CRITIQUES
+    transform: translate3d(0, 0, 0);
+    will-change: auto; // Évite les optimisations GPU inutiles sur mobile
 
-    // Force le repositionnement
-    transform: translateZ(0);
-    will-change: transform;
+    // Réduction des effets coûteux sur mobile
+    &::before,
+    &::after {
+      transition: opacity 0.2s ease-out; // Transitions plus rapides
+    }
   }
 
   .biographie__container {
@@ -550,6 +600,13 @@
     line-height: 1.1;
     letter-spacing: 0.5px;
     margin-bottom: 1.5rem;
+    // Simplification des animations sur mobile
+    animation-duration: 0.6s;
+  }
+
+  .biographie__title-accent {
+    // Animation réduite sur mobile pour économiser la batterie
+    animation-duration: 6s;
   }
 
   .biographie__subtitle-container {
@@ -579,6 +636,8 @@
 
   .biographie__capacity-card {
     padding: 30px 20px;
+    // Réduction du blur sur mobile pour performance
+    backdrop-filter: blur(5px);
   }
 
   .biographie__images {
@@ -586,25 +645,31 @@
     gap: 20px;
   }
 
-  // CORRECTION CRITIQUE pour mobile - images
   .biographie__image-container {
-    height: 250px; // Hauteur réduite sur mobile
-    margin: 0; // Supprime les marges parasites
-    border-radius: 15px; // Arrondi légèrement réduit
-    overflow: hidden; // Force le respect des limites
+    height: 250px;
+    margin: 0;
+    border-radius: 15px;
+    overflow: hidden;
+    // Optimisations spécifiques mobile
+    will-change: auto; // Évite les optimisations GPU inutiles
   }
 
   .biographie__image {
-    border-radius: 15px; // Cohérent avec le conteneur
-    // Force le respect des dimensions du conteneur
+    border-radius: 15px;
     max-width: 100%;
     max-height: 100%;
     min-width: 100%;
     min-height: 100%;
+    // Simplification des transitions sur mobile
+    transition: opacity 0.3s ease;
+
+    &:hover {
+      transform: none; // Supprime l'effet hover sur mobile
+    }
   }
 
   .biographie__image-placeholder {
-    border-radius: 15px; // Cohérent avec le conteneur
+    border-radius: 15px;
   }
 
   .biographie__quote {
@@ -620,14 +685,12 @@
 
 @media (max-width: 480px) {
   .biographie {
-    // Encore plus agressif sur très petit écran
     margin-top: -100px;
     padding-top: 140px;
     z-index: 200;
 
-    // Alternative : utiliser un pseudo-élément pour créer un overlay supplémentaire
     &::before {
-      top: -50px; // Étendre encore plus haut pour être sûr
+      top: -50px;
     }
   }
 
@@ -653,11 +716,13 @@
 
   .biographie__capacity-card {
     padding: 25px 15px;
+    // Suppression complète du backdrop-filter sur très petits écrans
+    backdrop-filter: none;
+    background: rgba(0, 0, 0, 0.8);
   }
 
-  // CORRECTION CRITIQUE pour très petits écrans
   .biographie__image-container {
-    height: 200px; // Encore plus petit sur très petits écrans
+    height: 200px;
     border-radius: 10px;
   }
 
@@ -675,25 +740,45 @@
   }
 }
 
-// Optimisations pour les appareils avec peu de ressources
+// Optimisations pour appareils peu puissants
 @media (max-resolution: 1dppx) {
   .biographie {
     &::after {
       background-size: 80px 80px;
     }
   }
+
+  // Suppression des effets coûteux sur écrans basse résolution
+  .biographie__capacity-card {
+    backdrop-filter: none;
+    background: rgba(0, 0, 0, 0.8);
+  }
 }
 
-// Optimisations pour mode sombre du système
+// Mode sombre système
 @media (prefers-color-scheme: dark) {
   .biographie {
     &::before {
       background: linear-gradient(
         135deg,
-        rgba(15, 15, 15, 0.98) 0%,
-        rgba(25, 25, 25, 0.95) 50%,
-        rgba(10, 10, 10, 0.99) 100%
+        rgba(10, 10, 10, 0.99) 0%,
+        rgba(20, 20, 20, 0.97) 100%
       );
     }
+  }
+}
+
+// Optimisations pour les appareils avec peu de mémoire
+@media (max-device-memory: 2) {
+  .biographie {
+    &::after {
+      background-image: none !important;
+      background: rgba(255, 255, 255, 0.02);
+    }
+  }
+
+  .biographie__capacity-card {
+    backdrop-filter: none;
+    background: rgba(0, 0, 0, 0.8);
   }
 }
