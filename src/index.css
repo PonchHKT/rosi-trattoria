@@ -8,6 +8,68 @@
   --accent-blue: #75b9f9;
 }
 
+/* Fond noir pour toute la page */
+html,
+body {
+  background-color: #000000 !important;
+  margin: 0;
+  padding: 0;
+}
+
+/* Custom Scrollbar - WebKit (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000000;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-pink);
+  border-radius: 10px;
+  border: 2px solid #000000;
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ff0a96;
+  box-shadow: 0 0 10px rgba(236, 0, 140, 0.5);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: #cc0078;
+}
+
+::-webkit-scrollbar-corner {
+  background: #000000;
+}
+
+/* Scrollbar pour Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-pink) #000000;
+}
+
+/* Animation de glow sur la scrollbar */
+@keyframes scrollbarGlow {
+  0% {
+    box-shadow: 0 0 5px rgba(236, 0, 140, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(236, 0, 140, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(236, 0, 140, 0.3);
+  }
+}
+
+::-webkit-scrollbar-thumb:hover {
+  animation: scrollbarGlow 2s infinite;
+}
+
 /* Cookie Consent Styling - Version optimisée */
 .CookieConsent {
   background: linear-gradient(
@@ -322,6 +384,17 @@ input:checked + .cookie-slider:before {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  /* Scrollbar mobile plus fine */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border: 1px solid #000000;
+    border-radius: 6px;
+  }
+
   .CookieConsent {
     padding: 1rem;
   }

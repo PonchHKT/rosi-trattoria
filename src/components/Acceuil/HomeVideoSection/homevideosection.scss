@@ -51,6 +51,26 @@
     }
   }
 
+  // Effet fade vers le noir en bas
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 1) 0%,
+      rgba(0, 0, 0, 0.8) 20%,
+      rgba(0, 0, 0, 0.4) 50%,
+      rgba(0, 0, 0, 0.1) 80%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    z-index: 2;
+    pointer-events: none;
+  }
+
   .logo-container {
     position: absolute;
     top: 6rem;
@@ -72,7 +92,7 @@
     margin-top: 100px;
     padding-left: 10px;
     position: relative;
-    z-index: 3; // Au-dessus de la vidéo
+    z-index: 3; // Au-dessus de la vidéo et du fade
     max-width: 1400px;
     margin-left: 4rem;
     color: white;
@@ -220,6 +240,11 @@
   }
 
   @media (max-width: 768px) {
+    // Réduction de la hauteur du fade sur mobile
+    &::after {
+      height: 150px;
+    }
+
     .logo-container {
       top: 6rem;
       right: 1.5rem;
@@ -282,6 +307,11 @@
   }
 
   @media (max-width: 480px) {
+    // Fade plus léger sur très petits écrans
+    &::after {
+      height: 120px;
+    }
+
     .content {
       margin-left: 0.5rem;
       margin-right: 1.5rem;

@@ -1,275 +1,471 @@
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap");
 
 :root {
-  --primary-blue: #1e90ff;
-  --primary-pink: #ff69b4;
+  --primary-blue: #4a90e2;
+  --primary-pink: #ff1493;
+  --dark-bg: #000000;
+  --text-light: #ffffff;
+  --text-gray: #cccccc;
 }
 
-// Correction pour éviter la barre de défilement horizontale
 * {
   box-sizing: border-box;
 }
 
-html,
-body {
-  overflow-x: hidden !important;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
-
 .biographie {
   font-family: "Open Sans", sans-serif;
+  background: var(--dark-bg);
   min-height: 100vh;
   position: relative;
-  overflow-x: hidden !important;
-  background: #000000;
-  width: 100vw;
-  max-width: 100vw;
+  overflow: hidden;
+
+  // Extension vers le haut pour cacher la barre noire
+  margin-top: -65px;
+  z-index: 200;
+  padding-top: 110px;
+  padding-bottom: 60px;
+
+  // Assurer que l'élément est bien positionné
+  transform: translateZ(0); // Force hardware acceleration
+
+  // Background placeholder pendant le chargement - AMÉLIORÉ
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    // Dégradé de placeholder qui simule l'image
+    background: linear-gradient(
+      135deg,
+      rgba(30, 30, 30, 0.95) 0%,
+      rgba(50, 50, 50, 0.9) 25%,
+      rgba(40, 40, 40, 0.92) 50%,
+      rgba(35, 35, 35, 0.94) 75%,
+      rgba(25, 25, 25, 0.96) 100%
+    );
+    opacity: 1;
+    pointer-events: none;
+    z-index: 1;
+    transition: opacity 0.6s ease-in-out;
+    will-change: opacity;
+    transform: translateZ(0);
+  }
+
+  // Image de fond optimisée - CORRIGÉE
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiBmaWxsPSIjMTkxOTE5Ii8+CjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEiIGZpbGw9IiMzMzMzMzMiLz4KPHN2Zz4K");
+    background-size: 40px 40px;
+    background-repeat: repeat;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+    transition: opacity 0.6s ease-in-out;
+    // Optimisations GPU
+    will-change: opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+  // État quand l'image est chargée - Desktop
+  &.biographie--loaded:not(.biographie--mobile) {
+    &::before {
+      opacity: 0.05; // Garde un peu du placeholder pour l'effet
+    }
+
+    &::after {
+      background-image: url("https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/marble-background-optimized.webp"),
+        url("https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/marble-background.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      opacity: 0.15;
+    }
+  }
+
+  // État quand l'image est chargée - Mobile - CORRIGÉ
+  &.biographie--loaded.biographie--mobile {
+    &::before {
+      opacity: 0.03; // Moins visible sur mobile
+    }
+
+    &::after {
+      background-image: url("https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/marble-background-mobile.jpg");
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-attachment: scroll; // Important sur mobile
+      opacity: 0.2; // Plus visible sur mobile
+      transition: opacity 0.3s ease-in-out; // Transition plus rapide sur mobile
+    }
+  }
+
+  // Support pour les connexions lentes
+  @media (prefers-reduced-data: reduce) {
+    &::after {
+      background-image: none;
+    }
+
+    &::before {
+      opacity: 0.2;
+    }
+  }
 }
 
-.biographie__hero {
-  text-align: center;
-  padding: 5rem 2rem 3rem;
+.biographie__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
   position: relative;
-  z-index: 1;
+  z-index: 2;
+}
+
+.biographie__header {
+  text-align: center;
+  margin-bottom: 60px;
 }
 
 .biographie__title {
   font-family: "Playfair Display", serif;
-  font-size: 3.8rem;
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
   font-weight: 700;
-  color: #fff;
+  color: var(--text-light);
   letter-spacing: 1.5px;
-  line-height: 1.3;
-  margin: 0 auto 1rem;
+  line-height: 1.2;
+  margin: 0 auto 2rem;
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 1rem;
   transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   text-align: center;
   min-height: 200px;
   justify-content: center;
   opacity: 0;
   transform: translateY(-30px);
-}
+  width: 100%;
+  max-width: 1000px;
 
-.biographie__title.visible {
-  opacity: 1;
-  transform: translateY(0);
-  animation: titleEntrance 1s ease-out;
+  &.visible {
+    opacity: 1;
+    transform: translateY(0);
+    animation: titleEntrance 1s ease-out;
+  }
 }
 
 .biographie__title-main {
   display: block;
-  min-height: 1.3em;
+  min-height: 1.2em;
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  width: 100%;
 }
 
 .biographie__title-accent {
-  color: #fff;
+  color: var(--text-light);
   background: linear-gradient(45deg, var(--primary-pink), var(--primary-blue));
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: gradientShift 3s ease-in-out infinite;
   display: block;
-  min-height: 1.3em;
+  min-height: 1.2em;
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  width: 100%;
 }
 
-.biographie__intro {
-  font-size: 1.3rem;
-  color: #d4d4d4;
-  max-width: 800px;
-  margin: 0 auto 2rem;
-  line-height: 1.6;
-  font-weight: 300;
-  padding: 1rem;
-  border-radius: 8px;
-  transition: font-size 0.3s ease;
+.biographie__section-header {
+  text-align: center;
+  margin-bottom: 40px;
 }
 
-.biographie__content {
-  margin: 0 auto;
+.biographie__subtitle-container {
   display: flex;
-  flex-direction: column;
-  gap: 3rem;
   align-items: center;
-  position: relative;
-  padding-bottom: 0;
-  width: 100%;
-  max-width: 100vw;
-  overflow: hidden;
+  justify-content: center;
+  margin-bottom: 20px;
+  gap: 15px;
 }
 
-.biographie__section {
-  padding: 2rem;
-  max-width: 90vw;
-  width: 100%;
-  transition: padding 0.3s ease, border-radius 0.3s ease;
-  box-sizing: border-box;
-  padding-bottom: 0;
+.biographie__decorative-line {
+  height: 2px;
+  width: 80px;
+  background: var(--primary-pink);
+  border-radius: 1px;
+}
+
+.biographie__pizza-icon {
+  font-size: 2rem;
+  color: var(--primary-blue);
+  filter: hue-rotate(1deg) saturate(10);
 }
 
 .biographie__subtitle {
   font-family: "Playfair Display", serif;
   font-size: 2rem;
   font-weight: 700;
-  color: var(--primary-blue);
+  color: white;
   margin-bottom: 1.5rem;
-  text-align: left;
+  text-align: center;
   position: relative;
   transition: font-size 0.3s ease;
+
+  .text-blue {
+    color: var(--primary-blue);
+  }
+
+  .text-pink {
+    color: var(--primary-pink);
+  }
 }
 
-.biographie__subtitle::after {
-  content: "";
-  position: absolute;
-  bottom: -8px;
-  left: 0;
-  width: 50px;
-  height: 2px;
-  background: var(--primary-pink);
+.biographie__description {
+  text-align: center;
+  margin-bottom: 60px;
 }
 
 .biographie__text {
   font-size: 1.1rem;
   line-height: 1.8;
-  margin-bottom: 1.5rem;
-  color: #d4d4d4;
-  text-align: left;
-  transition: font-size 0.3s ease;
+  color: var(--text-gray);
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-.biographie__text strong {
-  background: linear-gradient(45deg, var(--primary-pink), var(--primary-blue));
-  background-clip: text;
-  color: transparent;
-  font-weight: 600;
-}
-
-.biographie__capacity {
-  border-radius: 12px;
-  padding: 2rem;
-  margin: 2rem 0;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.biographie__capacity:hover {
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-}
-
-.biographie__capacity-title {
-  font-family: "Playfair Display", serif;
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #fff;
-  margin-bottom: 1.5rem;
-  text-align: center;
-  position: relative;
-}
-
-.biographie__capacity-title::after {
-  content: "";
-  position: absolute;
-  bottom: -8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 3px;
-  background: linear-gradient(45deg, var(--primary-pink), var(--primary-blue));
-}
-
-.biographie__capacity-grid {
+.biographie__capacity-section {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin-top: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 40px;
+  margin-bottom: 60px;
 }
 
-.biographie__capacity-item {
-  background: rgba(
-    255,
-    255,
-    255,
-    0.15
-  ); // Increased opacity for better contrast
-  border: 1px solid rgba(255, 255, 255, 0.2); // Added border for definition
-  border-radius: 8px;
-  padding: 1.5rem;
+.biographie__capacity-card {
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 20px;
+  padding: 40px 30px;
   text-align: center;
-  transition: background 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  &--indoor {
+    .biographie__capacity-icon {
+      color: var(--primary-blue);
+    }
+  }
+
+  &--outdoor {
+    .biographie__capacity-icon {
+      color: var(--primary-pink);
+    }
+  }
 }
 
 .biographie__capacity-icon {
-  display: block;
-  width: 40px;
-  height: 40px;
-  margin: 0 auto 1rem;
-  background-size: cover;
-  background-position: center;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  backdrop-filter: blur(5px);
 }
 
-.biographie__capacity-icon.indoor {
-  background: url("/path/to/indoor-icon.png") no-repeat center;
-}
-
-.biographie__capacity-icon.outdoor {
-  background: url("/path/to/outdoor-icon.png") no-repeat center;
-}
-
-.biographie__capacity-item p {
-  font-size: 1.1rem;
-  color: #ffffff; // Changed to pure white for better contrast
-  margin: 0.5rem 0;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5); // Added text shadow for better readability
-}
-
-.biographie__capacity-item strong {
-  font-size: 1.3rem;
-  color: #ffffff; // Changed to pure white instead of pink for better contrast
-  font-weight: 600;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+.biographie__capacity-number {
+  font-family: "Playfair Display", serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-light);
+  margin: 0 0 15px 0;
 }
 
 .biographie__capacity-desc {
-  font-size: 0.95rem;
-  color: #e0e0e0; // Lighter gray for better contrast
-  line-height: 1.5;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  font-size: 1rem;
+  color: var(--text-gray);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.biographie__images {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 30px;
+  margin-bottom: 60px;
+}
+
+// CORRECTION MAJEURE pour les images - FIXÉ POUR MOBILE
+.biographie__image-container {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease;
+  height: 300px; // Hauteur fixe pour éviter le layout shift
+  background: linear-gradient(
+    45deg,
+    rgba(40, 40, 40, 0.8),
+    rgba(60, 60, 60, 0.6)
+  );
+
+  &:hover {
+    transform: scale(1.02);
+  }
+
+  &.loaded {
+    .biographie__image-placeholder {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .biographie__image {
+      opacity: 1;
+    }
+  }
+}
+
+// CORRECTION MAJEURE pour les images - FIXÉ POUR MOBILE
+.biographie__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: all 0.5s ease;
+  opacity: 0; // Commence invisible
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2; // AJOUTÉ - Assure que l'image est au-dessus du placeholder
+  border-radius: 20px; // AJOUTÉ - Assure l'arrondi sur l'image
+
+  // Optimisations de performance pour les images
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  transform: translateZ(0);
+  will-change: opacity;
+
+  &:hover {
+    transform: scale(1.05) translateZ(0);
+  }
+}
+
+// Placeholder skeleton pour les images - CORRIGÉ
+.biographie__image-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    45deg,
+    rgba(40, 40, 40, 0.8),
+    rgba(60, 60, 60, 0.6)
+  );
+  transition: opacity 0.5s ease;
+  z-index: 1; // AJOUTÉ - En dessous de l'image
+  border-radius: 20px; // AJOUTÉ - Même arrondi que le conteneur
+}
+
+.biographie__image-skeleton {
+  width: 60px;
+  height: 60px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top: 3px solid var(--primary-blue);
+  border-radius: 50%;
+  animation: skeletonSpin 1s linear infinite;
+}
+
+@keyframes skeletonSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.biographie__quote-section {
+  text-align: center;
+  margin-bottom: 50px;
 }
 
 .biographie__quote {
   font-family: "Playfair Display", serif;
   font-style: italic;
-  font-size: 1.2rem;
-  text-align: center;
-  margin: 2rem 0 0 0;
-  padding: 1.5rem;
-  color: #d4d4d4;
+  font-size: 1.3rem;
+  color: var(--text-gray);
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
   position: relative;
-  background: rgba(30, 144, 255, 0.1);
-  transition: font-size 0.3s ease, padding 0.3s ease;
+
+  &::before,
+  &::after {
+    content: '"';
+    font-size: 3rem;
+    color: var(--primary-pink);
+    position: absolute;
+    opacity: 0.3;
+  }
+
+  &::before {
+    left: -30px;
+    top: -10px;
+  }
+
+  &::after {
+    right: -30px;
+    bottom: -30px;
+  }
 }
 
-.biographie__quote::before {
-  content: "\201C";
-  font-size: 3rem;
-  position: absolute;
-  top: -10px;
-  left: 10px;
-  color: var(--primary-pink);
-  opacity: 0.5;
+.biographie__cta {
+  text-align: center;
 }
 
-.biographie__quote::after {
-  content: "\201D";
-  font-size: 3rem;
-  position: absolute;
-  bottom: -20px;
-  right: 10px;
-  color: var(--primary-pink);
-  opacity: 0.5;
+.biographie__cta-button {
+  background: #ffd506;
+  color: black;
+  border: none;
+  padding: 15px 40px;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-2px);
+
+    &::before {
+      left: 100%;
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
 }
 
 // Animation pour l'entrée du titre
@@ -313,292 +509,59 @@ body {
   }
 }
 
-// Base animation classes
-.scroll-animate,
-.fade-in-left,
-.fade-in-right,
-.fade-in-scale,
-.fade-in-rotate,
-.title-animate,
-.card-animate,
-.bio-slide-left,
-.bio-slide-right,
-.bio-wave-left,
-.bio-wave-right,
-.bio-flip-left,
-.bio-flip-right,
-.bio-morph-left,
-.bio-morph-right,
-.bio-particle-left,
-.bio-particle-right {
-  opacity: 0;
-  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-// Fade in from left
-.fade-in-left {
-  transform: translateX(-50px);
-}
-
-.fade-in-left.visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-// Fade in from right
-.fade-in-right {
-  transform: translateX(50px);
-}
-
-.fade-in-right.visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-// Fade in with scale
-.fade-in-scale {
-  transform: scale(0.8);
-}
-
-.fade-in-scale.visible {
-  opacity: 1;
-  transform: scale(1);
-}
-
-// Title animate
-.title-animate {
-  transform: translateY(-30px);
-  transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.title-animate.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-// Card animate with bounce
-.card-animate {
-  transform: translateY(50px) scale(0.95);
-  transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.card-animate.visible {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-
-// Bio slide animations
-.bio-slide-left {
-  transform: translateX(-100px) rotate(-5deg);
-  transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.bio-slide-left.visible {
-  opacity: 1;
-  transform: translateX(0) rotate(0deg);
-}
-
-.bio-slide-right {
-  transform: translateX(100px) rotate(5deg);
-  transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.bio-slide-right.visible {
-  opacity: 1;
-  transform: translateX(0) rotate(0deg);
-}
-
-// Bio wave animations
-.bio-wave-left {
-  transform: translateX(-80px) translateY(20px);
-  transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.bio-wave-left.visible {
-  opacity: 1;
-  transform: translateX(0) translateY(0);
-  animation: waveEffect 2s ease-in-out;
-}
-
-.bio-wave-right {
-  transform: translateX(80px) translateY(-20px);
-  transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.bio-wave-right.visible {
-  opacity: 1;
-  transform: translateX(0) translateY(0);
-  animation: waveEffect 2s ease-in-out;
-}
-
-@keyframes waveEffect {
-  0%,
-  100% {
-    transform: translateX(0) translateY(0);
-  }
-  25% {
-    transform: translateX(5px) translateY(-3px);
-  }
-  50% {
-    transform: translateX(0) translateY(0);
-  }
-  75% {
-    transform: translateX(-5px) translateY(3px);
-  }
-}
-
-// Bio flip animations
-.bio-flip-left {
-  transform: perspective(1000px) rotateY(-90deg) translateX(-50px);
-  transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.bio-flip-left.visible {
-  opacity: 1;
-  transform: perspective(1000px) rotateY(0deg) translateX(0);
-}
-
-.bio-flip-right {
-  transform: perspective(1000px) rotateY(90deg) translateX(50px);
-  transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.bio-flip-right.visible {
-  opacity: 1;
-  transform: perspective(1000px) rotateY(0deg) translateX(0);
-}
-
-// Bio morph animations
-.bio-morph-left {
-  transform: translateX(-100px) scaleX(0.5) skewX(-15deg);
-  transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.bio-morph-left.visible {
-  opacity: 1;
-  transform: translateX(0) scaleX(1) skewX(0deg);
-}
-
-.bio-morph-right {
-  transform: translateX(100px) scaleX(0.5) skewX(15deg);
-  transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.bio-morph-right.visible {
-  opacity: 1;
-  transform: translateX(0) scaleX(1) skewX(0deg);
-}
-
-// Stagger delays
-.stagger-delay-1.visible {
-  animation-delay: 0.1s;
-}
-
-.stagger-delay-2.visible {
-  animation-delay: 0.2s;
-}
-
-.stagger-delay-3.visible {
-  animation-delay: 0.3s;
-}
-
-.stagger-delay-4.visible {
-  animation-delay: 0.4s;
-}
-
-// Enhanced hover effects for animated elements
-.biographie__capacity-item.visible {
-  transition: all 0.3s ease, background 0.3s ease, transform 0.3s ease;
-}
-
-.biographie__capacity-item.visible:hover {
-  transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 10px 25px rgba(30, 144, 255, 0.2);
-}
-
-// Special animation for quote
-.biographie__quote.visible {
-  animation: quoteReveal 1.5s ease-in-out;
-}
-
-@keyframes quoteReveal {
-  0% {
+// Animations
+@keyframes fadeInUp {
+  from {
     opacity: 0;
-    transform: translateY(30px) scale(0.9);
+    transform: translateY(30px);
   }
-  50% {
-    opacity: 0.7;
-    transform: translateY(-5px) scale(1.02);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-// Smooth entrance for the entire section
-.biographie__section.visible {
-  animation: sectionEntrance 1s ease-out;
-}
-
-@keyframes sectionEntrance {
-  0% {
-    opacity: 0;
-    transform: translateY(50px);
-  }
-  100% {
+  to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-// Breakpoint pour tablettes
-@media (max-width: 1024px) and (min-width: 769px) {
-  .biographie__title {
-    font-size: 3rem;
-  }
-}
-
-// Mobile responsiveness
+// Responsive Design
 @media (max-width: 768px) {
-  .biographie__hero {
-    padding: 2rem 1rem 1rem;
+  .biographie {
+    // Fix pour cacher la barre noire sur mobile
+    margin-top: -80px; // Plus important sur mobile
+    padding-top: 120px; // Compenser le margin négatif
+    padding-bottom: 40px;
+
+    // Assurer la priorité d'affichage
+    z-index: 1001; // Légèrement plus élevé sur mobile
+    position: relative;
+
+    // Force le repositionnement
+    transform: translateZ(0);
+    will-change: transform;
+  }
+
+  .biographie__container {
+    padding: 0 15px;
+    position: relative;
+    z-index: 2;
   }
 
   .biographie__title {
-    font-size: 2rem;
-    margin-top: 1rem;
-    min-height: 120px;
-    gap: 0.4rem;
+    min-height: 160px;
+    gap: 0.8rem;
     line-height: 1.1;
     letter-spacing: 0.5px;
+    margin-bottom: 1.5rem;
   }
 
-  .biographie__title-main {
-    font-size: 1.8rem;
-    min-height: 1em;
-    word-break: break-word;
-    hyphens: auto;
+  .biographie__subtitle-container {
+    gap: 10px;
   }
 
-  .biographie__title-accent {
-    font-size: 1.6rem;
-    min-height: 1em;
-    word-break: break-word;
-    hyphens: auto;
+  .biographie__decorative-line {
+    width: 60px;
   }
 
-  .biographie__intro {
-    font-size: 1rem;
-    padding: 0.5rem;
-    margin: 1rem auto 1rem;
-  }
-
-  .biographie__section {
-    padding: 2rem;
-    border-radius: 8px;
-    border-left: 4px solid var(--primary-blue);
-    padding-bottom: 0;
+  .biographie__pizza-icon {
+    font-size: 1.5rem;
   }
 
   .biographie__subtitle {
@@ -609,59 +572,128 @@ body {
     font-size: 1rem;
   }
 
-  .biographie__capacity {
-    padding: 1.5rem;
-  }
-
-  .biographie__capacity-title {
-    font-size: 1.5rem;
-  }
-
-  .biographie__capacity-grid {
+  .biographie__capacity-section {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 30px;
   }
 
-  .biographie__capacity-item {
-    padding: 1.2rem;
+  .biographie__capacity-card {
+    padding: 30px 20px;
   }
 
-  .biographie__capacity-item p {
-    font-size: 1rem;
+  .biographie__images {
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
 
-  .biographie__capacity-item strong {
-    font-size: 1.2rem;
+  // CORRECTION CRITIQUE pour mobile - images
+  .biographie__image-container {
+    height: 250px; // Hauteur réduite sur mobile
+    margin: 0; // Supprime les marges parasites
+    border-radius: 15px; // Arrondi légèrement réduit
+    overflow: hidden; // Force le respect des limites
   }
 
-  .biographie__capacity-desc {
-    font-size: 0.9rem;
+  .biographie__image {
+    border-radius: 15px; // Cohérent avec le conteneur
+    // Force le respect des dimensions du conteneur
+    max-width: 100%;
+    max-height: 100%;
+    min-width: 100%;
+    min-height: 100%;
+  }
+
+  .biographie__image-placeholder {
+    border-radius: 15px; // Cohérent avec le conteneur
   }
 
   .biographie__quote {
     font-size: 1.1rem;
-    padding: 1rem;
-    margin: 2rem 0 0 0;
+    padding: 0 20px;
+
+    &::before,
+    &::after {
+      display: none;
+    }
   }
 }
 
-// Pour les très petits écrans
 @media (max-width: 480px) {
-  .biographie__hero {
-    padding: 1.5rem 0.5rem 1rem;
+  .biographie {
+    // Encore plus agressif sur très petit écran
+    margin-top: -100px;
+    padding-top: 140px;
+    z-index: 200;
+
+    // Alternative : utiliser un pseudo-élément pour créer un overlay supplémentaire
+    &::before {
+      top: -50px; // Étendre encore plus haut pour être sûr
+    }
   }
 
   .biographie__title {
-    font-size: 1.6rem;
-    min-height: 100px;
-    gap: 0.2rem;
+    min-height: 140px;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
   }
 
-  .biographie__title-main {
-    font-size: clamp(2.2rem, 4vw, 1.5rem);
+  .biographie__subtitle-container {
+    gap: 8px;
+    flex-wrap: wrap;
   }
 
-  .biographie__title-accent {
-    font-size: clamp(2rem, 3.5vw, 1.3rem);
+  .biographie__decorative-line {
+    width: 40px;
+    height: 1px;
+  }
+
+  .biographie__pizza-icon {
+    font-size: 1.2rem;
+  }
+
+  .biographie__capacity-card {
+    padding: 25px 15px;
+  }
+
+  // CORRECTION CRITIQUE pour très petits écrans
+  .biographie__image-container {
+    height: 200px; // Encore plus petit sur très petits écrans
+    border-radius: 10px;
+  }
+
+  .biographie__image {
+    border-radius: 10px;
+  }
+
+  .biographie__image-placeholder {
+    border-radius: 10px;
+  }
+
+  .biographie__cta-button {
+    padding: 12px 30px;
+    font-size: 1rem;
+  }
+}
+
+// Optimisations pour les appareils avec peu de ressources
+@media (max-resolution: 1dppx) {
+  .biographie {
+    &::after {
+      background-size: 80px 80px;
+    }
+  }
+}
+
+// Optimisations pour mode sombre du système
+@media (prefers-color-scheme: dark) {
+  .biographie {
+    &::before {
+      background: linear-gradient(
+        135deg,
+        rgba(15, 15, 15, 0.98) 0%,
+        rgba(25, 25, 25, 0.95) 50%,
+        rgba(10, 10, 10, 0.99) 100%
+      );
+    }
   }
 }
