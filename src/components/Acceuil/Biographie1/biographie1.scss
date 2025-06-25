@@ -18,20 +18,14 @@
   min-height: 100vh;
   position: relative;
   overflow: hidden;
-
-  // Extension vers le haut pour cacher la barre noire
   margin-top: -65px;
   z-index: 200;
   padding-top: 110px;
   padding-bottom: 60px;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
 
-  // OPTIMISATIONS GPU CRITIQUES
-  will-change: auto; // Évite les optimisations GPU inutiles
-  transform: translate3d(0, 0, 0); // Force hardware acceleration une seule fois
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-
-  // Background placeholder pendant le chargement - OPTIMISÉ
+  // Background marble avec opacité
   &::before {
     content: "";
     position: absolute;
@@ -39,23 +33,15 @@
     left: 0;
     right: 0;
     bottom: 0;
-    // Dégradé simplifié pour performance
-    background: linear-gradient(
-      135deg,
-      rgba(25, 25, 25, 0.96) 0%,
-      rgba(35, 35, 35, 0.94) 100%
-    );
-    opacity: 1;
-    pointer-events: none;
+    background: url("https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/marble-background.jpg")
+      no-repeat center center fixed;
+    background-size: cover;
+    opacity: 0.7;
     z-index: 1;
-    transition: opacity 0.4s ease-out; // Transition plus rapide
-    // Optimisations GPU
-    will-change: opacity;
-    transform: translate3d(0, 0, 0);
-    backface-visibility: hidden;
+    pointer-events: none;
   }
 
-  // Image de fond - SOLUTION ANTI-LAG
+  // Overlay pour améliorer le contraste
   &::after {
     content: "";
     position: absolute;
@@ -63,90 +49,36 @@
     left: 0;
     right: 0;
     bottom: 0;
-    // Pattern léger par défaut
-    background: radial-gradient(
-        circle at 25% 25%,
-        rgba(255, 255, 255, 0.02) 1px,
-        transparent 1px
-      ),
-      radial-gradient(
-        circle at 75% 75%,
-        rgba(255, 255, 255, 0.01) 1px,
-        transparent 1px
-      );
-    background-size: 50px 50px;
-    opacity: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.6) 0%,
+      rgba(0, 0, 0, 0.4) 100%
+    );
+    z-index: 2;
     pointer-events: none;
-    z-index: 1;
-    transition: opacity 0.4s ease-out;
-    // OPTIMISATIONS CRITIQUES POUR PERFORMANCE
-    will-change: opacity;
-    transform: translate3d(0, 0, 0);
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    // Force composite layer
-    contain: layout style paint;
   }
+}
 
-  // État chargé - Desktop - SOLUTION ANTI-LAG
-  &.biographie--loaded:not(.biographie--mobile) {
+@media (max-width: 768px) {
+  .biographie {
+    margin-top: -80px;
+    padding-top: 120px;
+    padding-bottom: 40px;
+    z-index: 1001;
+
     &::before {
-      opacity: 0.03;
-    }
-
-    &::after {
-      // CHANGEMENT MAJEUR : Suppression du background-attachment: fixed
-      background-image: url("https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/marble-background.jpg");
+      background: url("https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/marble-background-mobile.jpg")
+        no-repeat center center fixed;
       background-size: cover;
-      background-position: center center;
-      background-repeat: no-repeat;
-      background-attachment: scroll; // CRUCIAL : scroll au lieu de fixed
-      opacity: 0.12; // Légèrement réduit pour compenser
-      // Optimisations additionnelles
-      image-rendering: auto;
-      image-rendering: -webkit-optimize-contrast;
-    }
-  }
-
-  // État chargé - Mobile - ULTRA OPTIMISÉ
-  &.biographie--loaded.biographie--mobile {
-    &::before {
-      opacity: 0.02;
+      opacity: 0.7;
     }
 
     &::after {
-      // Image encore plus optimisée pour mobile
-      background-image: url("https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/marble-background-mobile.jpg");
-      background-size: cover;
-      background-position: center center;
-      background-repeat: no-repeat;
-      background-attachment: scroll;
-      opacity: 0.15;
-      transition: opacity 0.2s ease-out; // Transition plus rapide sur mobile
-      // Optimisations mobiles spécifiques
-      image-rendering: auto;
-      -webkit-transform: translate3d(0, 0, 0);
-      transform: translate3d(0, 0, 0);
-    }
-  }
-
-  // Pour les connexions très lentes - FALLBACK PERFORMANT
-  @media (prefers-reduced-data: reduce) {
-    &::after {
-      background-image: none !important;
-      // Pattern léger de remplacement
-      background: repeating-linear-gradient(
-        45deg,
-        rgba(255, 255, 255, 0.005) 0px,
-        rgba(255, 255, 255, 0.005) 1px,
-        transparent 1px,
-        transparent 20px
+      background: linear-gradient(
+        135deg,
+        rgba(0, 0, 0, 0.7) 0%,
+        rgba(0, 0, 0, 0.5) 100%
       );
-      opacity: 0.3;
-    }
-
-    &::before {
-      opacity: 0.1;
     }
   }
 }
@@ -156,9 +88,25 @@
   margin: 0 auto;
   padding: 0 20px;
   position: relative;
-  z-index: 2;
-  // Optimisation pour éviter les repaints
+  z-index: 4;
   contain: layout;
+}
+
+.biographie__bottom-fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 150px;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.8) 30%,
+    rgba(0, 0, 0, 0.4) 70%,
+    transparent 100%
+  );
+  z-index: 3;
+  pointer-events: none;
 }
 
 .biographie__header {
@@ -185,13 +133,11 @@
   transform: translateY(-30px);
   width: 100%;
   max-width: 1000px;
-  // Optimisation de rendu
-  contain: layout style;
 
   &.visible {
     opacity: 1;
     transform: translateY(0);
-    animation: titleEntrance 0.8s ease-out; // Légèrement plus rapide
+    animation: titleEntrance 0.8s ease-out;
   }
 }
 
@@ -202,7 +148,6 @@
   font-size: inherit;
   font-weight: inherit;
   color: inherit;
-  width: 100%;
 }
 
 .biographie__title-accent {
@@ -211,15 +156,12 @@
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: gradientShift 4s ease-in-out infinite; // Ralenti pour réduire le CPU
+  animation: gradientShift 4s ease-in-out infinite;
   display: block;
   min-height: 1.2em;
   margin: 0;
   font-size: inherit;
   font-weight: inherit;
-  width: 100%;
-  // Optimisation pour l'animation
-  will-change: background;
 }
 
 .biographie__section-header {
@@ -245,7 +187,6 @@
 .biographie__pizza-icon {
   font-size: 2rem;
   color: var(--primary-blue);
-  filter: hue-rotate(1deg) saturate(10);
 }
 
 .biographie__subtitle {
@@ -255,8 +196,6 @@
   color: white;
   margin-bottom: 1.5rem;
   text-align: center;
-  position: relative;
-  transition: font-size 0.3s ease;
 
   .text-blue {
     color: var(--primary-blue);
@@ -292,14 +231,8 @@
   border-radius: 20px;
   padding: 40px 30px;
   text-align: center;
-  backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  // Optimisation pour le backdrop-filter
-  will-change: transform;
-  contain: layout style;
 
   &--indoor {
     .biographie__capacity-icon {
@@ -324,7 +257,6 @@
   margin: 0 auto 20px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 50%;
-  backdrop-filter: blur(5px);
 }
 
 .biographie__capacity-number {
@@ -349,7 +281,6 @@
   margin-bottom: 60px;
 }
 
-// Images - OPTIMISATIONS MAJEURES POUR PERFORMANCE
 .biographie__image-container {
   position: relative;
   border-radius: 20px;
@@ -357,18 +288,10 @@
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
   transition: transform 0.3s ease;
   height: 300px;
-  background: linear-gradient(
-    45deg,
-    rgba(40, 40, 40, 0.8),
-    rgba(60, 60, 60, 0.6)
-  );
-  // OPTIMISATIONS GPU POUR IMAGES
-  will-change: transform;
-  contain: layout style;
-  transform: translate3d(0, 0, 0);
+  background: rgba(40, 40, 40, 0.8);
 
   &:hover {
-    transform: scale(1.02) translate3d(0, 0, 0);
+    transform: scale(1.02);
   }
 
   &.loaded {
@@ -389,24 +312,14 @@
   object-fit: cover;
   object-position: center;
   display: block;
-  transition: opacity 0.4s ease; // Transition simplifiée
+  transition: opacity 0.2s ease;
   opacity: 0;
   position: absolute;
   top: 0;
   left: 0;
   z-index: 2;
   border-radius: 20px;
-  // OPTIMISATIONS CRITIQUES POUR IMAGES
-  image-rendering: auto;
-  image-rendering: -webkit-optimize-contrast;
-  transform: translate3d(0, 0, 0);
-  will-change: opacity;
-  contain: layout;
-  backface-visibility: hidden;
-
-  &:hover {
-    transform: scale(1.05) translate3d(0, 0, 0);
-  }
+  image-rendering: optimizeSpeed;
 }
 
 .biographie__image-placeholder {
@@ -418,16 +331,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(
-    45deg,
-    rgba(40, 40, 40, 0.8),
-    rgba(60, 60, 60, 0.6)
-  );
-  transition: opacity 0.4s ease;
+  background: rgba(40, 40, 40, 0.8);
+  transition: opacity 0.2s ease;
   z-index: 1;
   border-radius: 20px;
-  // Optimisation placeholder
-  contain: layout style;
 }
 
 .biographie__image-skeleton {
@@ -436,9 +343,7 @@
   border: 3px solid rgba(255, 255, 255, 0.1);
   border-top: 3px solid var(--primary-blue);
   border-radius: 50%;
-  animation: skeletonSpin 1.2s linear infinite; // Légèrement ralenti
-  // Optimisation animation
-  will-change: transform;
+  animation: skeletonSpin 1.2s linear infinite;
 }
 
 @keyframes skeletonSpin {
@@ -499,18 +404,9 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  // Optimisation bouton
-  will-change: transform;
-  contain: layout style;
 
   &:hover {
     transform: translateY(-2px);
-
-    &::before {
-      left: 100%;
-    }
   }
 
   &:active {
@@ -518,7 +414,6 @@
   }
 }
 
-// Animations optimisées
 @keyframes titleEntrance {
   0% {
     opacity: 0;
@@ -558,40 +453,13 @@
   }
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-// Responsive Design avec optimisations mobiles
 @media (max-width: 768px) {
-  .biographie {
-    margin-top: -80px;
-    padding-top: 120px;
-    padding-bottom: 40px;
-    z-index: 1001;
-    position: relative;
-    // OPTIMISATIONS MOBILES CRITIQUES
-    transform: translate3d(0, 0, 0);
-    will-change: auto; // Évite les optimisations GPU inutiles sur mobile
-
-    // Réduction des effets coûteux sur mobile
-    &::before,
-    &::after {
-      transition: opacity 0.2s ease-out; // Transitions plus rapides
-    }
+  .biographie__bottom-fade {
+    height: 120px;
   }
 
   .biographie__container {
     padding: 0 15px;
-    position: relative;
-    z-index: 2;
   }
 
   .biographie__title {
@@ -600,12 +468,10 @@
     line-height: 1.1;
     letter-spacing: 0.5px;
     margin-bottom: 1.5rem;
-    // Simplification des animations sur mobile
     animation-duration: 0.6s;
   }
 
   .biographie__title-accent {
-    // Animation réduite sur mobile pour économiser la batterie
     animation-duration: 6s;
   }
 
@@ -636,8 +502,6 @@
 
   .biographie__capacity-card {
     padding: 30px 20px;
-    // Réduction du blur sur mobile pour performance
-    backdrop-filter: blur(5px);
   }
 
   .biographie__images {
@@ -647,25 +511,11 @@
 
   .biographie__image-container {
     height: 250px;
-    margin: 0;
     border-radius: 15px;
-    overflow: hidden;
-    // Optimisations spécifiques mobile
-    will-change: auto; // Évite les optimisations GPU inutiles
   }
 
   .biographie__image {
     border-radius: 15px;
-    max-width: 100%;
-    max-height: 100%;
-    min-width: 100%;
-    min-height: 100%;
-    // Simplification des transitions sur mobile
-    transition: opacity 0.3s ease;
-
-    &:hover {
-      transform: none; // Supprime l'effet hover sur mobile
-    }
   }
 
   .biographie__image-placeholder {
@@ -681,6 +531,11 @@
       display: none;
     }
   }
+
+  .biographie__cta-button {
+    padding: 12px 30px;
+    font-size: 1rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -690,8 +545,20 @@
     z-index: 200;
 
     &::before {
-      top: -50px;
+      opacity: 0.7;
     }
+
+    &::after {
+      background: linear-gradient(
+        135deg,
+        rgba(0, 0, 0, 0.8) 0%,
+        rgba(0, 0, 0, 0.6) 100%
+      );
+    }
+  }
+
+  .biographie__bottom-fade {
+    height: 100px;
   }
 
   .biographie__title {
@@ -716,8 +583,6 @@
 
   .biographie__capacity-card {
     padding: 25px 15px;
-    // Suppression complète du backdrop-filter sur très petits écrans
-    backdrop-filter: none;
     background: rgba(0, 0, 0, 0.8);
   }
 
@@ -734,51 +599,65 @@
     border-radius: 10px;
   }
 
+  .biographie__quote {
+    font-size: 1.1rem;
+    padding: 0 20px;
+
+    &::before,
+    &::after {
+      display: none;
+    }
+  }
+
   .biographie__cta-button {
     padding: 12px 30px;
     font-size: 1rem;
   }
 }
 
-// Optimisations pour appareils peu puissants
 @media (max-resolution: 1dppx) {
-  .biographie {
-    &::after {
-      background-size: 80px 80px;
-    }
-  }
-
-  // Suppression des effets coûteux sur écrans basse résolution
   .biographie__capacity-card {
-    backdrop-filter: none;
     background: rgba(0, 0, 0, 0.8);
   }
 }
 
-// Mode sombre système
 @media (prefers-color-scheme: dark) {
   .biographie {
-    &::before {
+    &::after {
       background: linear-gradient(
         135deg,
-        rgba(10, 10, 10, 0.99) 0%,
-        rgba(20, 20, 20, 0.97) 100%
+        rgba(0, 0, 0, 0.8) 0%,
+        rgba(0, 0, 0, 0.6) 100%
       );
     }
   }
 }
 
-// Optimisations pour les appareils avec peu de mémoire
 @media (max-device-memory: 2) {
-  .biographie {
-    &::after {
-      background-image: none !important;
-      background: rgba(255, 255, 255, 0.02);
-    }
+  .biographie__capacity-card {
+    background: rgba(0, 0, 0, 0.8);
+  }
+}
+
+// Classes modificatrices pour différents niveaux d'opacité
+.biographie {
+  // Très discret
+  &.biographie--subtle::before {
+    opacity: 0.15;
   }
 
-  .biographie__capacity-card {
-    backdrop-filter: none;
-    background: rgba(0, 0, 0, 0.8);
+  // Discret (recommandé)
+  &.biographie--gentle::before {
+    opacity: 0.3;
+  }
+
+  // Modéré
+  &.biographie--moderate::before {
+    opacity: 0.5;
+  }
+
+  // Visible
+  &.biographie--visible::before {
+    opacity: 0.7;
   }
 }

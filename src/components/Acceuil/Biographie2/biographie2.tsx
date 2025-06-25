@@ -1,131 +1,218 @@
-import React from "react";
-import AnimatedSection from "../AnimatedSection/AnimatedSection";
+import React, { useEffect, useRef } from "react";
+import { Helmet } from "react-helmet-async";
 import "./biographie2.scss";
+
+// Composant AnimatedSection intégré
+interface AnimatedSectionProps {
+  children: React.ReactNode;
+  animationType: string;
+  delay?: number;
+  threshold?: number;
+  className?: string;
+}
+
+const AnimatedSection: React.FC<AnimatedSectionProps> = ({
+  children,
+  animationType,
+  delay = 0,
+  threshold = 0.1,
+  className = "",
+}) => {
+  const elementRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              entry.target.classList.add("visible");
+            }, delay);
+          }
+        });
+      },
+      { threshold }
+    );
+
+    if (elementRef.current) {
+      observer.observe(elementRef.current);
+    }
+
+    return () => {
+      if (elementRef.current) {
+        observer.unobserve(elementRef.current);
+      }
+    };
+  }, [delay, threshold]);
+
+  return (
+    <div ref={elementRef} className={`${animationType} ${className}`}>
+      {children}
+    </div>
+  );
+};
 
 const Biographie2: React.FC = () => {
   return (
-    <section
-      className="bio2-biographie"
-      aria-labelledby="restaurant-reasons-title"
-    >
-      <div className="bio2-biographie__content">
-        {/* Section principale avec animation de conteneur */}
-        <AnimatedSection
-          animationType="fade-in-scale"
-          delay={100}
-          threshold={0.05}
-          className="bio2-biographie__section"
-          rootMargin="0px 0px -100px 0px"
-        >
-          {/* Titre avec animation depuis la gauche */}
-          <AnimatedSection
-            animationType="fade-in-left"
-            delay={300}
-            threshold={0.1}
-          >
-            <header>
-              <h2
-                id="restaurant-reasons-title"
-                className="bio2-biographie__subtitle"
-              >
+    <>
+      <Helmet>
+        <title>
+          Pizza Napolitaine Authentique | Four à Dôme & Charcuterie Rovagnati |
+          Rosi Trattoria Brive
+        </title>
+        <meta
+          name="description"
+          content="Découvrez notre pizza napolitaine traditionnelle cuite au four à dôme de Gênes. Charcuterie Rovagnati tranchée minute et pâte au levain naturel par Pascal, notre pizzaïolo passionné."
+        />
+        <meta
+          name="keywords"
+          content="pizza napolitaine, four à dôme, charcuterie Rovagnati, pizzaïolo Pascal, levain naturel, produits bio italiens, Brive-la-Gaillarde"
+        />
+        <meta
+          property="og:title"
+          content="Pizza Napolitaine & Charcuterie Rovagnati | Rosi Trattoria"
+        />
+        <meta
+          property="og:description"
+          content="Pizza napolitaine authentique au four à dôme de Gênes et charcuterie Rovagnati tranchée minute. Découvrez l'expertise de Pascal, notre pizzaïolo."
+        />
+        <link
+          rel="canonical"
+          href="https://www.rosi-trattoria.com/#notre-savoir-faire"
+        />
+      </Helmet>
+
+      <section className="restaurant-bio" aria-labelledby="bio-main-title">
+        {/* Header en pleine largeur avec background du four à dôme */}
+        <AnimatedSection animationType="fade-in-up" delay={0}>
+          <header className="bio-header" role="banner">
+            {/* Fade noir du bas */}
+            <div className="bio-header-fade-bottom" aria-hidden="true"></div>
+
+            <div className="bio-header-content">
+              <h2 id="bio-main-title" className="bio-title" itemProp="name">
                 Les raisons pour venir dans notre restaurant
               </h2>
-            </header>
+              <p className="bio-subtitle" itemProp="description">
+                Découvrez l'authenticité italienne au cœur de notre
+                établissement
+              </p>
+            </div>
+          </header>
+        </AnimatedSection>
+
+        <div className="bio-content" role="main">
+          {/* Section principale avec texte et image charcuterie */}
+          <AnimatedSection
+            animationType="fade-in-left"
+            delay={200}
+            className="bio-section"
+          >
+            <article
+              className="bio-text"
+              itemScope
+              itemType="https://schema.org/Article"
+            >
+              <h3 className="sr-only">
+                Notre Pizza Napolitaine et Charcuterie
+              </h3>
+              <p itemProp="articleBody">
+                Notre restaurant propose de la{" "}
+                <strong>pizza napolitaine traditionnelle et authentique</strong>{" "}
+                avec des produits de grande qualité. Nos pizzas sont cuites dans
+                un <strong>four en dôme importé de Gênes</strong>, et la
+                charcuterie finement découpée avec une{" "}
+                <strong>trancheuse professionnelle à jambon manuelle</strong>.
+              </p>
+
+              <div
+                className="bio-highlight"
+                itemScope
+                itemType="https://schema.org/Organization"
+                role="complementary"
+                aria-label="Information sur notre charcuterie Rovagnati"
+              >
+                <p>
+                  Notre charcuterie <strong itemProp="name">Rovagnati</strong>{" "}
+                  située à <span itemProp="address">Milan</span> est l'une des
+                  plus prestigieuses d'Italie depuis{" "}
+                  <time dateTime="1943" itemProp="foundingDate">
+                    1943
+                  </time>{" "}
+                  et <strong>tranchée à la minute</strong>.
+                </p>
+              </div>
+            </article>
+
+            <figure className="bio-image-container">
+              <img
+                src="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/nouveaute-la-famille-des-jambons-crus-rovagnati-selargie.jpg"
+                alt="Charcuterie italienne Rovagnati tranchée finement, jambon cru de Milan depuis 1943"
+                className="bio-image"
+                loading="lazy"
+                width="600"
+                height="400"
+                itemProp="image"
+              />
+              <figcaption className="sr-only">
+                Charcuterie Rovagnati de Milan, tranchée à la minute dans notre
+                restaurant
+              </figcaption>
+            </figure>
           </AnimatedSection>
 
-          <article className="bio2-biographie__content-article">
-            {/* Premier paragraphe depuis la droite */}
-            <AnimatedSection
-              animationType="fade-in-right"
-              delay={500}
-              threshold={0.1}
+          {/* Section Pascal avec image pizza - Pascal à gauche, image à droite */}
+          <AnimatedSection
+            animationType="fade-in-right"
+            delay={400}
+            className="bio-section bio-section--pascal"
+          >
+            <article
+              className="bio-text"
+              itemScope
+              itemType="https://schema.org/Person"
+              role="article"
+              aria-labelledby="pascal-title"
             >
-              <section
-                className="bio2-biographie__pizza-section"
-                aria-labelledby="pizza-quality"
-              >
-                <h3 className="sr-only" id="pizza-quality">
-                  Qualité de nos pizzas
-                </h3>
-                <p className="bio2-biographie__text">
-                  Notre restaurant propose de la pizza napolitaine
-                  traditionnelle et authentique avec des produits de grande
-                  qualité.
-                  <br /> Nos pizzas sont cuites dans un four en dôme importé de
-                  Gênes, et la charcuterie finement découpée avec une trancheuse
-                  professionnelle à jambon manuelle.
-                </p>
-              </section>
-            </AnimatedSection>
-
-            {/* Highlight avec animation de scale */}
-            <section
-              className="bio2-biographie__charcuterie-section"
-              aria-labelledby="charcuterie-quality"
-            >
-              <h3 className="sr-only" id="charcuterie-quality">
-                Notre charcuterie premium
+              <h3 id="pascal-title" className="sr-only">
+                Pascal, Notre Pizzaïolo Expert
               </h3>
-              <div className="bio2-biographie__highlight">
-                Notre charcuterie{" "}
-                <span
-                  className="bio2-biographie__rovagnati"
-                  aria-label="Rovagnati, charcuterie milanaise"
-                >
-                  <span className="rov">Rov</span>
-                  <span className="agn">agn</span>
-                  <span className="ati">ati</span>
-                </span>{" "}
-                située à Milan est l'une des plus prestigieuses d'Italie depuis
-                1943 et tranchée à la minute.
-              </div>
-            </section>
-
-            {/* Deuxième paragraphe avec Pascal depuis la gauche */}
-            <section
-              className="bio2-biographie__chef-section"
-              aria-labelledby="chef-expertise"
-            >
-              <h3 className="sr-only" id="chef-expertise">
-                Expertise de notre pizzaïolo
-              </h3>
-              <p className="bio2-biographie__text">
-                Notre pizzaïolo <strong>Pascal</strong> passionné de pizza,
-                maîtrise toutes les techniques de préparation de pâtes faites
-                maison au levain naturel.
-                <br /> De plus, nous utilisons uniquement des produits bio
-                provenant directement d'Italie.
+              <p>
+                Notre pizzaïolo{" "}
+                <strong className="bio-pascal" itemProp="name">
+                  Pascal
+                </strong>
+                ,{" "}
+                <span itemProp="description">
+                  passionné de pizza, maîtrise toutes les techniques de
+                  préparation de pâtes faites maison au levain naturel
+                </span>
+                . De plus, nous utilisons uniquement des{" "}
+                <strong>produits bio provenant directement d'Italie</strong>.
               </p>
-            </section>
+              <meta itemProp="jobTitle" content="Pizzaïolo expert" />
+              <meta itemProp="worksFor" content="Rosi Trattoria" />
+            </article>
 
-            {/* Citation finale avec animation de scale */}
-            <footer className="bio2-biographie__footer">
-              <blockquote className="bio2-biographie__quote" cite="">
-                <p>
-                  Nous utilisons les meilleurs produits bio d'Italie pour vous
-                  satisfaire
-                </p>
-              </blockquote>
-            </footer>
-          </article>
-        </AnimatedSection>
-      </div>
-
-      {/* Styles pour masquer visuellement mais garder pour lecteurs d'écran */}
-      <style>{`
-        .sr-only {
-          position: absolute;
-          width: 1px;
-          height: 1px;
-          padding: 0;
-          margin: -1px;
-          overflow: hidden;
-          clip: rect(0, 0, 0, 0);
-          white-space: nowrap;
-          border: 0;
-        }
-      `}</style>
-    </section>
+            <figure className="bio-image-container">
+              <img
+                src="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/pascal_bio.jpg"
+                alt="Pascal, pizzaïolo expert de Rosi Trattoria, préparant une pizza napolitaine au levain naturel"
+                className="bio-image bio-image--pascal"
+                loading="lazy"
+                width="600"
+                height="400"
+                itemProp="image"
+              />
+              <figcaption className="sr-only">
+                Pascal, notre pizzaïolo passionné, préparant une pizza avec sa
+                pâte au levain naturel
+              </figcaption>
+            </figure>
+          </AnimatedSection>
+        </div>
+      </section>
+    </>
   );
 };
 

@@ -1,318 +1,392 @@
-@import url("https://fonts.googleapis.com/css2?family=Italiana&family=Italianno&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&display=swap");
 
-.bio2-biographie {
+.restaurant-bio {
+  padding-bottom: 50px;
+  padding-top: 50px;
   font-family: "Open Sans", sans-serif;
-  position: relative;
-  overflow-x: hidden;
-}
-
-.bio2-biographie__content {
-  padding-bottom: 100px;
-  margin: 0 auto;
-  padding: 3rem 1.5rem 45px 1.5rem;
-  /*       top   right   bottom left */
-
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
-  align-items: center;
-}
-
-.bio2-biographie__section {
-  padding: 2.5rem;
-  max-width: 90vw;
-  width: 100%;
-  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.bio2-biographie__subtitle {
-  font-family: "Playfair Display", serif;
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--primary-pink);
-  margin-bottom: 1.5rem;
-  text-align: left;
-  position: relative;
-  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.bio2-biographie__subtitle::after {
-  content: "";
-  position: absolute;
-  bottom: -8px;
-  left: 0;
-  width: 50px;
-  height: 2px;
-  background: var(--primary-blue);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s;
-}
-
-.bio2-biographie__text {
-  font-size: 1.1rem;
-  line-height: 1.8;
-  margin-bottom: 1.5rem;
-  color: #d4d4d4;
-  text-align: left;
-  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.bio2-biographie__text strong {
-  background: white;
-  background-clip: text;
-  color: transparent;
-  font-weight: 800;
-}
-
-.bio2-biographie__highlight {
-  background: rgba(255, 255, 255, 0.08);
-  border-right: 4px solid var(--primary-pink);
-  padding: 1.2rem;
-  margin: 1.5rem 0;
-  border-radius: 4px;
-  font-size: 1.1rem;
+  background: #000;
   color: #fff;
-  line-height: 1.6;
-  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  backdrop-filter: blur(10px);
-}
 
-.bio2-biographie__highlight strong {
-  color: var(--primary-blue);
-  font-weight: 600;
-}
+  // Header en pleine largeur avec background du four à dôme
+  .bio-header {
+    position: relative;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url("https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/brique-background.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 
-.bio2-biographie__rovagnati {
-  font-size: 1.2rem;
-  font-weight: bold;
-  display: inline;
-}
+    // Overlay sombre avec opacité
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(2px);
+      z-index: 1;
+    }
 
-.bio2-biographie__rovagnati .rov {
-  color: #009246; /* Italian flag green */
-}
+    // Fade noir vers l'intérieur en haut
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: linear-gradient(
+        to bottom,
+        #000 0%,
+        rgba(0, 0, 0, 0.8) 30%,
+        rgba(0, 0, 0, 0.4) 60%,
+        transparent 100%
+      );
+      z-index: 2;
+      pointer-events: none;
+    }
 
-.bio2-biographie__rovagnati .agn {
-  color: #ffffff; /* Italian flag white */
-}
+    // Fade noir vers l'intérieur en bas (élément séparé)
+    .bio-header-fade-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: linear-gradient(
+        to top,
+        #000 0%,
+        rgba(0, 0, 0, 0.8) 30%,
+        rgba(0, 0, 0, 0.4) 60%,
+        transparent 100%
+      );
+      z-index: 2;
+      pointer-events: none;
+    }
 
-.bio2-biographie__rovagnati .ati {
-  color: #ce2b37; /* Italian flag red */
-}
-
-// Pascal's special styling - Owner designation
-.bio2-biographie__pascal-text {
-  font-family: "Cinzel", serif;
-  font-size: 1.4em;
-  font-weight: 700;
-  color: #ffd700;
-  letter-spacing: 2px;
-  display: inline-block;
-  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-  transition: all 0.3s ease;
-}
-
-.bio2-biographie__quote {
-  font-weight: bold;
-  font-family: "Playfair Display", serif;
-  font-style: italic;
-  font-size: 1.2rem;
-  text-align: center;
-  margin: 2rem 0 0;
-  padding: 1.5rem;
-  color: #d4d4d4;
-  position: relative;
-  background: rgba(30, 144, 255, 0.1);
-  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  backdrop-filter: blur(5px);
-  border-radius: 8px;
-}
-
-.bio2-biographie__quote::before {
-  content: "\201C";
-  font-size: 3rem;
-  position: absolute;
-  top: -10px;
-  left: 10px;
-  color: var(--primary-blue);
-  opacity: 0.5;
-  transition: opacity 0.3s ease;
-}
-
-.bio2-biographie__quote::after {
-  content: "\201D";
-  font-size: 3rem;
-  position: absolute;
-  bottom: -20px;
-  right: 10px;
-  color: var(--primary-blue);
-  opacity: 0.5;
-  transition: opacity 0.3s ease;
-}
-
-/* ANIMATIONS AVEC useScrollAnimation */
-
-/* Fade In Scale Animation */
-.fade-in-scale {
-  opacity: 0;
-  transform: scale(0.8);
-  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.fade-in-scale.visible {
-  opacity: 1;
-  transform: scale(1);
-}
-
-/* Fade In Left Animation */
-.fade-in-left {
-  opacity: 0;
-  transform: translateX(-50px);
-  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.fade-in-left.visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.fade-in-left.visible .bio2-biographie__subtitle::after {
-  transform: scaleX(1);
-}
-
-/* Fade In Right Animation */
-.fade-in-right {
-  opacity: 0;
-  transform: translateX(50px);
-  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.fade-in-right.visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-/* Hover Effects */
-.bio2-biographie__highlight:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.1);
-  border-right-width: 6px;
-}
-
-.bio2-biographie__quote:hover::before,
-.bio2-biographie__quote:hover::after {
-  opacity: 0.8;
-}
-
-.bio2-biographie__pascal-text:hover {
-  transform: scale(1.05);
-  text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
-}
-
-/* Media Queries */
-@media (max-width: 768px) {
-  .bio2-biographie {
-    padding-top: 0px;
+    // Contenu centré au-dessus de l'overlay
+    .bio-header-content {
+      position: relative;
+      z-index: 3;
+      text-align: center;
+      max-width: 800px;
+      padding: 2rem;
+    }
   }
 
-  .bio2-biographie__section {
-    padding: 2rem;
-    border-radius: 8px;
-    border-right: 4px solid var(--primary-pink);
+  .bio-title {
+    font-family: "Playfair Display", serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9);
+    letter-spacing: -0.02em;
+
+    // Animation de fade-in
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 1s ease-out;
+
+    &.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
-  .bio2-biographie__subtitle {
-    font-size: 1.6rem;
+  .bio-subtitle {
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    color: #e0e0e0;
+    font-weight: 300;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    letter-spacing: 0.02em;
+
+    // Animation de fade-in avec délai
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 1s ease-out 0.3s;
+
+    &.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
-  .bio2-biographie__text {
-    font-size: 1rem;
+  // Contenu principal avec padding sur les côtés
+  .bio-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
   }
 
-  .bio2-biographie__highlight {
-    font-size: 1rem;
-    padding: 1rem;
+  .bio-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: flex-start;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease;
+
+    // Section Pascal - centrer le texte verticalement par rapport à l'image
+    &--pascal {
+      align-items: center;
+    }
+
+    &.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    // Section Pascal - texte à gauche, image à droite (ordre normal)
+    &--pascal {
+      .bio-text {
+        order: 1;
+      }
+
+      .bio-image {
+        order: 2;
+      }
+    }
+
+    // Section charcuterie garde l'ordre inverse
+    &:not(.bio-section--pascal) {
+      .bio-text {
+        order: 2;
+      }
+
+      .bio-image {
+        order: 1;
+      }
+    }
   }
 
-  .bio2-biographie__quote {
+  .bio-text {
     font-size: 1.1rem;
-    padding: 1rem;
+    line-height: 1.8;
+    color: #d4d4d4;
+
+    p {
+      margin: 0 0 1.5rem 0;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    strong {
+      color: #fff;
+      font-weight: 600;
+    }
   }
 
-  .bio2-biographie__rovagnati {
-    font-size: 1rem;
+  .bio-highlight {
+    background: rgba(255, 255, 255, 0.05);
+    border-left: 4px solid #e91e63;
+    padding: 1.5rem;
+    border-radius: 0 8px 8px 0;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    margin-top: 1.5rem;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateX(5px);
+    }
+
+    p {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+
+    strong {
+      color: #fff;
+      font-weight: 700;
+    }
   }
 
-  .bio2-biographie__pascal-text {
-    font-size: 1.2em;
-    letter-spacing: 1px;
+  .bio-pascal {
+    color: #ffd700 !important;
+    font-family: "Playfair Display", serif;
+    font-size: 1.3em;
+    font-weight: 700 !important;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+    transition: all 0.3s ease;
+
+    &:hover {
+      text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+    }
   }
 
-  /* Mobile animations - réduire les translations */
+  .bio-image {
+    width: 100%;
+    height: 300px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 2px solid #333;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+
+    // Classe spécifique pour la photo de Pascal
+    &--pascal {
+      object-position: center 30%; // Ajuste la position verticale (20% du haut)
+      // Ou essayez d'autres valeurs comme :
+      // object-position: center 30%;
+      // object-position: center top;
+    }
+
+    &:hover {
+      transform: scale(1.02);
+      border-color: #555;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+    }
+  }
+
+  // Animations
+  .fade-in-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease;
+
+    &.visible {
+      opacity: 1;
+      transform: translateY(0);
+
+      .bio-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .bio-subtitle {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+
   .fade-in-left {
-    transform: translateX(-20px);
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: all 0.8s ease;
+
+    &.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }
 
   .fade-in-right {
-    transform: translateX(20px);
-  }
-}
-
-/* Animations séquentielles pour les éléments */
-.bio2-biographie__section.visible {
-  .bio2-biographie__subtitle {
-    animation: slideInLeft 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s both;
-  }
-
-  .bio2-biographie__text:nth-of-type(1) {
-    animation: slideInRight 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.4s both;
-  }
-
-  .bio2-biographie__highlight {
-    animation: scaleIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.6s both;
-  }
-
-  .bio2-biographie__text:nth-of-type(2) {
-    animation: slideInLeft 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.8s both;
-  }
-
-  .bio2-biographie__quote {
-    animation: scaleIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1s both;
-  }
-}
-
-@keyframes slideInLeft {
-  from {
     opacity: 0;
-    transform: translateX(-50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
+    transform: translateX(30px);
+    transition: all 0.8s ease;
 
-@keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(50px);
+    &.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
 
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.8);
+  // Media Queries
+  @media (max-width: 768px) {
+    .bio-header {
+      min-height: 60vh;
+      background-attachment: scroll;
+
+      .bio-header-content {
+        padding: 1.5rem;
+      }
+
+      // Ajuster la hauteur des fades sur mobile
+      &::after {
+        height: 60px;
+      }
+
+      .bio-header-fade-bottom {
+        height: 60px;
+      }
+    }
+
+    .bio-content {
+      padding: 3rem 1rem;
+      gap: 2.5rem;
+    }
+
+    .bio-section {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+
+      // Sur mobile, tout revient à l'ordre normal
+      &--pascal,
+      &:not(.bio-section--pascal) {
+        .bio-text {
+          order: 1;
+        }
+
+        .bio-image {
+          order: 2;
+        }
+      }
+    }
+
+    .bio-text {
+      font-size: 1rem;
+    }
+
+    .bio-image {
+      height: 250px;
+    }
+
+    .bio-pascal {
+      font-size: 1.2em;
+    }
+
+    .bio-highlight {
+      padding: 1rem;
+
+      p {
+        font-size: 1rem;
+      }
+    }
   }
-  to {
-    opacity: 1;
-    transform: scale(1);
+
+  @media (max-width: 480px) {
+    .bio-header {
+      min-height: 50vh;
+
+      .bio-header-content {
+        padding: 1rem;
+      }
+
+      // Réduire encore plus la hauteur des fades sur très petits écrans
+      &::after {
+        height: 40px;
+      }
+
+      .bio-header-fade-bottom {
+        height: 40px;
+      }
+    }
+
+    .bio-content {
+      padding: 2rem 1rem;
+      gap: 2rem;
+    }
+
+    .bio-image {
+      height: 200px;
+    }
   }
 }
