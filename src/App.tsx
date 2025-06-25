@@ -20,7 +20,7 @@ import ReactGA from "react-ga4";
 import CookieConsent from "react-cookie-consent";
 import "./index.css";
 
-// Vos composants SEO restent identiques...
+// Composant SEO pour la page d'accueil
 const HomePageSEO = () => (
   <Helmet>
     <title>Rosi Trattoria | Pizzas Bio & Italien Authentique – Brive</title>
@@ -75,6 +75,323 @@ const HomePageSEO = () => (
       rel="alternate"
       hrefLang="x-default"
       href="https://www.rosi-trattoria.com/"
+    />
+    <meta name="author" content="Rosi Trattoria" />
+    <meta name="geo.region" content="FR-19" />
+    <meta name="geo.placename" content="Brive-la-Gaillarde" />
+    <meta name="geo.position" content="45.1632151;1.532797" />
+    <meta name="ICBM" content="45.1632151, 1.532797" />
+  </Helmet>
+);
+
+// Composant SEO pour la page Nos Valeurs
+const NosValeursSEO = () => (
+  <Helmet>
+    <title>
+      Nos Valeurs | Rosi Trattoria – Authenticité & Tradition Italienne
+    </title>
+    <meta
+      name="description"
+      content="Découvrez les valeurs de Rosi Trattoria : authenticité italienne, produits bio locaux, savoir-faire traditionnel et passion culinaire à Brive-la-Gaillarde."
+    />
+    <meta name="robots" content="index, follow" />
+    <meta
+      property="og:title"
+      content="Nos Valeurs | Rosi Trattoria – Authenticité & Tradition Italienne"
+    />
+    <meta
+      property="og:description"
+      content="Authenticité italienne, produits bio locaux, savoir-faire traditionnel : découvrez l'âme de Rosi Trattoria à Brive-la-Gaillarde."
+    />
+    <meta
+      property="og:image"
+      content="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://www.rosi-trattoria.com/nos-valeurs"
+    />
+    <meta property="og:site_name" content="Rosi Trattoria" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Nos Valeurs | Rosi Trattoria – Authenticité & Tradition Italienne"
+    />
+    <meta
+      name="twitter:description"
+      content="Authenticité italienne, produits bio locaux, savoir-faire traditionnel : découvrez l'âme de Rosi Trattoria à Brive-la-Gaillarde."
+    />
+    <meta
+      name="twitter:image"
+      content="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png"
+    />
+    <link rel="canonical" href="https://www.rosi-trattoria.com/nos-valeurs" />
+    <link
+      rel="alternate"
+      hrefLang="fr"
+      href="https://www.rosi-trattoria.com/nos-valeurs"
+    />
+    <link
+      rel="alternate"
+      hrefLang="fr-FR"
+      href="https://www.rosi-trattoria.com/nos-valeurs"
+    />
+    <link
+      rel="alternate"
+      hrefLang="x-default"
+      href="https://www.rosi-trattoria.com/nos-valeurs"
+    />
+    <meta name="author" content="Rosi Trattoria" />
+    <meta name="geo.region" content="FR-19" />
+    <meta name="geo.placename" content="Brive-la-Gaillarde" />
+    <meta name="geo.position" content="45.1632151;1.532797" />
+    <meta name="ICBM" content="45.1632151, 1.532797" />
+  </Helmet>
+);
+
+// Composant SEO pour la page Carte
+const CarteSEO = () => (
+  <Helmet>
+    <title>
+      Notre Carte | Rosi Trattoria – Pizzas Bio & Spécialités Italiennes
+    </title>
+    <meta
+      name="description"
+      content="Découvrez notre carte : pizzas napolitaines bio au feu de bois, pâtes fraîches maison, antipasti et spécialités italiennes authentiques à Brive-la-Gaillarde."
+    />
+    <meta name="robots" content="index, follow" />
+    <meta
+      property="og:title"
+      content="Notre Carte | Rosi Trattoria – Pizzas Bio & Spécialités Italiennes"
+    />
+    <meta
+      property="og:description"
+      content="Pizzas napolitaines bio au feu de bois, pâtes fraîches maison, antipasti : découvrez toutes nos spécialités italiennes authentiques."
+    />
+    <meta
+      property="og:image"
+      content="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.rosi-trattoria.com/carte" />
+    <meta property="og:site_name" content="Rosi Trattoria" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Notre Carte | Rosi Trattoria – Pizzas Bio & Spécialités Italiennes"
+    />
+    <meta
+      name="twitter:description"
+      content="Pizzas napolitaines bio au feu de bois, pâtes fraîches maison, antipasti : découvrez toutes nos spécialités italiennes authentiques."
+    />
+    <meta
+      name="twitter:image"
+      content="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png"
+    />
+    <link rel="canonical" href="https://www.rosi-trattoria.com/carte" />
+    <link
+      rel="alternate"
+      hrefLang="fr"
+      href="https://www.rosi-trattoria.com/carte"
+    />
+    <link
+      rel="alternate"
+      hrefLang="fr-FR"
+      href="https://www.rosi-trattoria.com/carte"
+    />
+    <link
+      rel="alternate"
+      hrefLang="x-default"
+      href="https://www.rosi-trattoria.com/carte"
+    />
+    <meta name="author" content="Rosi Trattoria" />
+    <meta name="geo.region" content="FR-19" />
+    <meta name="geo.placename" content="Brive-la-Gaillarde" />
+    <meta name="geo.position" content="45.1632151;1.532797" />
+    <meta name="ICBM" content="45.1632151, 1.532797" />
+  </Helmet>
+);
+
+// Composant SEO pour la page Recrutement
+const RecrutementSEO = () => (
+  <Helmet>
+    <title>
+      Recrutement & Carrières | Rosi Trattoria – Rejoignez Notre Équipe
+    </title>
+    <meta
+      name="description"
+      content="Rejoignez l'équipe Rosi Trattoria ! Nous recrutons des passionnés de cuisine italienne à Brive-la-Gaillarde. Découvrez nos offres d'emploi et postulez."
+    />
+    <meta name="robots" content="index, follow" />
+    <meta
+      property="og:title"
+      content="Recrutement & Carrières | Rosi Trattoria – Rejoignez Notre Équipe"
+    />
+    <meta
+      property="og:description"
+      content="Rejoignez l'équipe Rosi Trattoria ! Nous recrutons des passionnés de cuisine italienne à Brive-la-Gaillarde. Découvrez nos offres d'emploi."
+    />
+    <meta
+      property="og:image"
+      content="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://www.rosi-trattoria.com/recrutement"
+    />
+    <meta property="og:site_name" content="Rosi Trattoria" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Recrutement & Carrières | Rosi Trattoria – Rejoignez Notre Équipe"
+    />
+    <meta
+      name="twitter:description"
+      content="Rejoignez l'équipe Rosi Trattoria ! Nous recrutons des passionnés de cuisine italienne à Brive-la-Gaillarde. Découvrez nos offres d'emploi."
+    />
+    <meta
+      name="twitter:image"
+      content="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png"
+    />
+    <link rel="canonical" href="https://www.rosi-trattoria.com/recrutement" />
+    <link
+      rel="alternate"
+      hrefLang="fr"
+      href="https://www.rosi-trattoria.com/recrutement"
+    />
+    <link
+      rel="alternate"
+      hrefLang="fr-FR"
+      href="https://www.rosi-trattoria.com/recrutement"
+    />
+    <link
+      rel="alternate"
+      hrefLang="x-default"
+      href="https://www.rosi-trattoria.com/recrutement"
+    />
+    <meta name="author" content="Rosi Trattoria" />
+    <meta name="geo.region" content="FR-19" />
+    <meta name="geo.placename" content="Brive-la-Gaillarde" />
+    <meta name="geo.position" content="45.1632151;1.532797" />
+    <meta name="ICBM" content="45.1632151, 1.532797" />
+  </Helmet>
+);
+
+// Composant SEO pour la page Contact
+const ContactSEO = () => (
+  <Helmet>
+    <title>
+      Contact & Réservation | Rosi Trattoria – Restaurant Italien Brive
+    </title>
+    <meta
+      name="description"
+      content="Contactez Rosi Trattoria pour réserver votre table ! Restaurant italien à Brive-la-Gaillarde. Téléphone, adresse, horaires et formulaire de contact."
+    />
+    <meta name="robots" content="index, follow" />
+    <meta
+      property="og:title"
+      content="Contact & Réservation | Rosi Trattoria – Restaurant Italien Brive"
+    />
+    <meta
+      property="og:description"
+      content="Contactez Rosi Trattoria pour réserver votre table ! Restaurant italien à Brive-la-Gaillarde. Téléphone, adresse, horaires et formulaire de contact."
+    />
+    <meta
+      property="og:image"
+      content="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.rosi-trattoria.com/contact" />
+    <meta property="og:site_name" content="Rosi Trattoria" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Contact & Réservation | Rosi Trattoria – Restaurant Italien Brive"
+    />
+    <meta
+      name="twitter:description"
+      content="Contactez Rosi Trattoria pour réserver votre table ! Restaurant italien à Brive-la-Gaillarde. Téléphone, adresse, horaires et formulaire de contact."
+    />
+    <meta
+      name="twitter:image"
+      content="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png"
+    />
+    <link rel="canonical" href="https://www.rosi-trattoria.com/contact" />
+    <link
+      rel="alternate"
+      hrefLang="fr"
+      href="https://www.rosi-trattoria.com/contact"
+    />
+    <link
+      rel="alternate"
+      hrefLang="fr-FR"
+      href="https://www.rosi-trattoria.com/contact"
+    />
+    <link
+      rel="alternate"
+      hrefLang="x-default"
+      href="https://www.rosi-trattoria.com/contact"
+    />
+    <meta name="author" content="Rosi Trattoria" />
+    <meta name="geo.region" content="FR-19" />
+    <meta name="geo.placename" content="Brive-la-Gaillarde" />
+    <meta name="geo.position" content="45.1632151;1.532797" />
+    <meta name="ICBM" content="45.1632151, 1.532797" />
+  </Helmet>
+);
+
+// Composant SEO pour la page 404
+const Page404SEO = () => (
+  <Helmet>
+    <title>Page Non Trouvée | Rosi Trattoria – Erreur 404</title>
+    <meta
+      name="description"
+      content="Cette page n'existe pas ou a été déplacée. Retournez à l'accueil de Rosi Trattoria, votre pizzeria italienne à Brive-la-Gaillarde."
+    />
+    <meta name="robots" content="noindex, follow" />
+    <meta
+      property="og:title"
+      content="Page Non Trouvée | Rosi Trattoria – Erreur 404"
+    />
+    <meta
+      property="og:description"
+      content="Cette page n'existe pas ou a été déplacée. Retournez à l'accueil de Rosi Trattoria, votre pizzeria italienne à Brive-la-Gaillarde."
+    />
+    <meta
+      property="og:image"
+      content="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Rosi Trattoria" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Page Non Trouvée | Rosi Trattoria – Erreur 404"
+    />
+    <meta
+      name="twitter:description"
+      content="Cette page n'existe pas ou a été déplacée. Retournez à l'accueil de Rosi Trattoria, votre pizzeria italienne à Brive-la-Gaillarde."
+    />
+    <meta
+      name="twitter:image"
+      content="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png"
     />
     <meta name="author" content="Rosi Trattoria" />
     <meta name="geo.region" content="FR-19" />
@@ -250,7 +567,7 @@ function App(): React.JSX.Element {
       window.scrollTo({
         top: 0,
         left: 0,
-        behavior: "auto" as ScrollBehavior,
+        behavior: "auto",
       });
 
       const appElement = document.querySelector(".App") as HTMLElement;
@@ -365,6 +682,7 @@ function App(): React.JSX.Element {
           path="/nos-valeurs"
           element={
             <>
+              <NosValeursSEO />
               <NosValeurs />
             </>
           }
@@ -373,6 +691,7 @@ function App(): React.JSX.Element {
           path="/carte"
           element={
             <>
+              <CarteSEO />
               <Carte />
             </>
           }
@@ -381,6 +700,7 @@ function App(): React.JSX.Element {
           path="/recrutement"
           element={
             <>
+              <RecrutementSEO />
               <Recrutement />
             </>
           }
@@ -389,11 +709,20 @@ function App(): React.JSX.Element {
           path="/contact"
           element={
             <>
+              <ContactSEO />
               <Contact />
             </>
           }
         />
-        <Route path="*" element={<Page404 />} />
+        <Route
+          path="*"
+          element={
+            <>
+              <Page404SEO />
+              <Page404 />
+            </>
+          }
+        />
       </Routes>
       <Footer />
 
@@ -412,7 +741,7 @@ function App(): React.JSX.Element {
           buttonClasses="cookie-accept-button"
           declineButtonClasses="cookie-decline-button"
           buttonWrapperClasses="cookie-buttons-wrapper"
-          flipButtons={true} // Inverse l'ordre des boutons : Accepter à droite
+          flipButtons={true}
           style={{
             background: "rgba(0, 0, 0, 0.95)",
             color: "white",
