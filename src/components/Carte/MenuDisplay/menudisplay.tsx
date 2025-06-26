@@ -1,49 +1,172 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Document, Page, pdfjs } from "react-pdf";
-import {
-  Clock,
-  Calendar,
-  UtensilsCrossed,
-  ShoppingBag,
-  ChevronDown,
-  Download,
-  Menu,
-} from "lucide-react";
+import React, { useRef, useEffect, useState } from "react";
+import { Calendar, Clock, X } from "lucide-react";
 import ReactGA from "react-ga4";
-import "react-pdf/dist/esm/Page/AnnotationLayer.css";
-import "react-pdf/dist/esm/Page/TextLayer.css";
 import "./menudisplay.scss";
+import Selector from "../Selector/selector";
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+interface MenuDisplayProps {
+  onMenuSelect?: (menuType: string) => void;
+  showHours?: boolean;
+  onToggleHours?: (show: boolean) => void;
+}
 
-const MenuDisplay: React.FC = () => {
-  const [numPages, setNumPages] = useState<number | null>(null);
-  const [pageWidth, setPageWidth] = useState(800);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [selectedMenu, setSelectedMenu] = useState<string>("");
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [pdfLoaded, setPdfLoaded] = useState(false);
-  const [showPdf, setShowPdf] = useState(false);
-
+const MenuDisplay: React.FC<MenuDisplayProps> = ({
+  onMenuSelect,
+  showHours = true,
+  onToggleHours,
+}) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const loadingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const hasTrackedView = useRef(false);
+  const [currentStatus, setCurrentStatus] = useState<{
+    isOpen: boolean;
+    nextChange: string;
+  }>({ isOpen: false, nextChange: "" });
+  const [menuSelected, setMenuSelected] = useState<string>("");
+  const [internalShowHours, setInternalShowHours] = useState(showHours);
 
-  // Fonction pour détecter si on est en août
   const isAugustMonth = () => {
-    const currentMonth = new Date().getMonth(); // 0 = janvier, 7 = août
+    const currentMonth = new Date().getMonth();
     return currentMonth === 7;
   };
 
-  const isMobile = () => window.innerWidth < 768;
-
-  const getLoadingDelay = () => {
-    return isMobile() ? 7000 : 9000;
+  const getFrenchTime = () => {
+    return new Date().toLocaleString("fr-FR", {
+      timeZone: "Europe/Paris",
+      hour12: false,
+    });
   };
 
-  // Track component view - seulement une fois
+  const checkOpenStatus = () => {
+    const now = new Date();
+    const frenchTime = new Date(
+      now.toLocaleString("en-US", { timeZone: "Europe/Paris" })
+    );
+    const currentDay = frenchTime.getDay();
+    const currentHour = frenchTime.getHours();
+    const currentMinute = frenchTime.getMinutes();
+    const currentTimeInMinutes = currentHour * 60 + currentMinute;
+
+    const isAugust = isAugustMonth();
+
+    let schedule: {
+      [key: number]: {
+        lunch: [number, number];
+        dinner: [number, number];
+      } | null;
+    } = {};
+
+    if (isAugust) {
+      schedule = {
+        0: null,
+        1: { lunch: [12 * 60, 14 * 60], dinner: [19 * 60, 21 * 60 + 30] },
+        2: { lunch: [12 * 60, 14 * 60], dinner: [19 * 60, 21 * 60 + 30] },
+        3: { lunch: [12 * 60, 14 * 60], dinner: [19 * 60, 21 * 60 + 30] },
+        4: { lunch: [12 * 60, 14 * 60], dinner: [19 * 60, 21 * 60 + 30] },
+        5: { lunch: [12 * 60, 14 * 60], dinner: [19 * 60, 22 * 60 + 30] },
+        6: { lunch: [12 * 60, 14 * 60], dinner: [19 * 60, 22 * 60 + 30] },
+      };
+    } else {
+      schedule = {
+        0: null,
+        1: null,
+        2: { lunch: [12 * 60, 14 * 60], dinner: [19 * 60, 21 * 60 + 30] },
+        3: { lunch: [12 * 60, 14 * 60], dinner: [19 * 60, 21 * 60 + 30] },
+        4: { lunch: [12 * 60, 14 * 60], dinner: [19 * 60, 21 * 60 + 30] },
+        5: { lunch: [12 * 60, 14 * 60], dinner: [19 * 60, 22 * 60 + 30] },
+        6: { lunch: [12 * 60, 14 * 60], dinner: [19 * 60, 22 * 60 + 30] },
+      };
+    }
+
+    const todaySchedule = schedule[currentDay];
+
+    if (!todaySchedule) {
+      return { isOpen: false, nextChange: "Fermé aujourd'hui" };
+    }
+
+    const { lunch, dinner } = todaySchedule;
+
+    if (currentTimeInMinutes >= lunch[0] && currentTimeInMinutes < lunch[1]) {
+      const closingTime = `${Math.floor(lunch[1] / 60)}h${
+        lunch[1] % 60 === 0 ? "00" : lunch[1] % 60
+      }`;
+      return { isOpen: true, nextChange: `Ferme à ${closingTime}` };
+    }
+
+    if (currentTimeInMinutes >= dinner[0] && currentTimeInMinutes < dinner[1]) {
+      const closingTime = `${Math.floor(dinner[1] / 60)}h${
+        dinner[1] % 60 === 0 ? "00" : dinner[1] % 60
+      }`;
+      return { isOpen: true, nextChange: `Ferme à ${closingTime}` };
+    }
+
+    if (currentTimeInMinutes < lunch[0]) {
+      const openingTime = `${Math.floor(lunch[0] / 60)}h${
+        lunch[0] % 60 === 0 ? "00" : lunch[0] % 60
+      }`;
+      return { isOpen: false, nextChange: `Ouvre à ${openingTime}` };
+    } else if (
+      currentTimeInMinutes >= lunch[1] &&
+      currentTimeInMinutes < dinner[0]
+    ) {
+      const openingTime = `${Math.floor(dinner[0] / 60)}h${
+        dinner[0] % 60 === 0 ? "00" : dinner[0] % 60
+      }`;
+      return { isOpen: false, nextChange: `Ouvre à ${openingTime}` };
+    } else {
+      return { isOpen: false, nextChange: "Fermé aujourd'hui" };
+    }
+  };
+
+  const handleMenuSelect = (menuType: string) => {
+    setMenuSelected(menuType);
+    setInternalShowHours(false);
+
+    if (onToggleHours) {
+      onToggleHours(false);
+    }
+    if (onMenuSelect) {
+      onMenuSelect(menuType);
+    }
+
+    ReactGA.event({
+      category: "Menu Interaction",
+      action: "Hide Hours on Menu Select",
+      label: menuType,
+    });
+  };
+
+  const handleToggleHours = () => {
+    const newShowHours = !internalShowHours;
+    setInternalShowHours(newShowHours);
+    // Do not clear menuSelected here to allow re-displaying the PDF
+    // setMenuSelected("");
+
+    if (onToggleHours) {
+      onToggleHours(newShowHours);
+    }
+
+    ReactGA.event({
+      category: "Hours Toggle",
+      action: newShowHours ? "Show Hours" : "Hide Hours",
+      label: "Manual Toggle",
+    });
+  };
+
+  useEffect(() => {
+    const updateStatus = () => {
+      setCurrentStatus(checkOpenStatus());
+    };
+
+    updateStatus();
+    const interval = setInterval(updateStatus, 60000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    setInternalShowHours(showHours);
+  }, [showHours]);
+
   useEffect(() => {
     if (!hasTrackedView.current) {
       ReactGA.event({
@@ -56,62 +179,6 @@ const MenuDisplay: React.FC = () => {
     }
   }, []);
 
-  // Track dropdown opening
-  const trackDropdownOpen = () => {
-    ReactGA.event({
-      category: "Menu Interaction",
-      action: "Dropdown Open",
-      label: "Menu Selection Dropdown",
-    });
-  };
-
-  // Track menu selection
-  const trackMenuSelection = (menuType: string) => {
-    ReactGA.event({
-      category: "Menu Selection",
-      action: "Select Menu Type",
-      label: menuType === "sur_place" ? "Carte Sur Place" : "Carte À Emporter",
-    });
-  };
-
-  // Track PDF loading start
-  const trackPdfLoadingStart = (menuType: string) => {
-    ReactGA.event({
-      category: "PDF Loading",
-      action: "Start Loading",
-      label:
-        menuType === "sur_place"
-          ? "Carte Sur Place PDF"
-          : "Carte À Emporter PDF",
-    });
-  };
-
-  // Track PDF loading success
-  const trackPdfLoadingSuccess = (menuType: string, loadTime: number) => {
-    ReactGA.event({
-      category: "PDF Loading",
-      action: "Loading Success",
-      label:
-        menuType === "sur_place"
-          ? "Carte Sur Place PDF"
-          : "Carte À Emporter PDF",
-      value: Math.round(loadTime / 1000), // temps en secondes
-    });
-  };
-
-  // Track PDF download
-  const trackPdfDownload = (menuType: string) => {
-    ReactGA.event({
-      category: "PDF Download",
-      action: "Download PDF",
-      label:
-        menuType === "sur_place"
-          ? "Carte Sur Place PDF"
-          : "Carte À Emporter PDF",
-    });
-  };
-
-  // Track page visibility (scroll into view)
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -133,398 +200,133 @@ const MenuDisplay: React.FC = () => {
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    const updateWidth = () => {
-      if (containerRef.current) {
-        setPageWidth(containerRef.current.offsetWidth - 40);
-      }
-    };
-    updateWidth();
-    window.addEventListener("resize", updateWidth, { passive: true });
-    return () => window.removeEventListener("resize", updateWidth);
-  }, []);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setDropdownOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  const handleMenuSelect = (menuType: string) => {
-    const startTime = Date.now();
-
-    // Track menu selection
-    trackMenuSelection(menuType);
-
-    setSelectedMenu(menuType);
-    setDropdownOpen(false);
-    setNumPages(null);
-    setCurrentPage(1);
-    setPdfLoaded(false);
-    setShowPdf(false);
-
-    // Pas de chargement pour la carte à emporter
-    if (menuType === "a_emporter") {
-      setIsLoading(false);
-      setShowPdf(true);
-      // Track immediate display
-      ReactGA.event({
-        category: "PDF Display",
-        action: "Immediate Display",
-        label: "Carte À Emporter PDF",
-      });
-    } else {
-      // Track loading start
-      trackPdfLoadingStart(menuType);
-
-      // Chargement uniquement pour la carte sur place
-      setIsLoading(true);
-      const loadingDelay = getLoadingDelay();
-      loadingTimeoutRef.current = setTimeout(() => {
-        const loadTime = Date.now() - startTime;
-        trackPdfLoadingSuccess(menuType, loadTime);
-        setIsLoading(false);
-        setShowPdf(true);
-      }, loadingDelay);
-    }
-  };
-
-  useEffect(() => {
-    return () => {
-      if (loadingTimeoutRef.current) {
-        clearTimeout(loadingTimeoutRef.current);
-      }
-    };
-  }, []);
-
-  const getPdfFile = () => {
-    if (selectedMenu === "sur_place") return "/carterositrattoria.pdf";
-    if (selectedMenu === "a_emporter") return "/carterositrattoriaemporter.pdf";
-    return null;
-  };
-
-  const handleDownloadPdf = () => {
-    // Track download
-    trackPdfDownload(selectedMenu);
-
-    const pdfFile = getPdfFile();
-    if (pdfFile) {
-      const link = document.createElement("a");
-      link.href = pdfFile;
-      link.download =
-        selectedMenu === "sur_place"
-          ? "Carte-Restaurant-Sur-Place.pdf"
-          : "Carte-Restaurant-A-Emporter.pdf";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-  };
-
-  const getMenuOptions = () => [
-    {
-      value: "sur_place",
-      label: "Carte sur place",
-      description: "Ambiance conviviale et service à table",
-      icon: UtensilsCrossed,
-    },
-    {
-      value: "a_emporter",
-      label: "Carte à emporter",
-      description: "À savourer où vous voulez",
-      icon: ShoppingBag,
-      hasDiscount: true,
-    },
-  ];
-
-  const getSelectedMenuInfo = () => {
-    return getMenuOptions().find((option) => option.value === selectedMenu);
-  };
-
-  const handleDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
-    setNumPages(numPages);
-    setPdfLoaded(true);
-
-    // Track PDF render success
-    ReactGA.event({
-      category: "PDF Render",
-      action: "Render Success",
-      label:
-        selectedMenu === "sur_place"
-          ? "Carte Sur Place PDF"
-          : "Carte À Emporter PDF",
-      value: numPages,
-    });
-  };
-
-  const handleDocumentError = (error: Error) => {
-    // Track PDF loading errors
-    ReactGA.event({
-      category: "PDF Loading",
-      action: "Loading Error",
-      label:
-        selectedMenu === "sur_place"
-          ? "Carte Sur Place PDF"
-          : "Carte À Emporter PDF",
-    });
-    console.error("PDF loading error:", error);
-  };
-
-  const renderPages = () => {
-    if (!numPages) return null;
-    const mobile = isMobile();
-
-    return (
-      <div className="pdf-page-grid">
-        {Array.from({ length: numPages }, (_, i) => (
-          <div key={i + 1} className="pdf-page-container" data-page={i + 1}>
-            <Page
-              pageNumber={i + 1}
-              width={pageWidth}
-              renderTextLayer={!mobile}
-              renderAnnotationLayer={false}
-              renderMode="canvas"
-              className="pdf-page"
-              loading={<div className="page-loading">Chargement...</div>}
-              onLoadSuccess={() => {
-                // Track individual page render (optionnel)
-                if (i === 0) {
-                  // Seulement pour la première page
-                  ReactGA.event({
-                    category: "PDF Page",
-                    action: "First Page Rendered",
-                    label:
-                      selectedMenu === "sur_place"
-                        ? "Carte Sur Place"
-                        : "Carte À Emporter",
-                  });
-                }
-              }}
-            />
-          </div>
-        ))}
-      </div>
-    );
-  };
-
-  // Fonction pour obtenir les horaires selon le mois
   const getHoursItems = () => {
     const isAugust = isAugustMonth();
 
     if (isAugust) {
-      // Track August hours display
       ReactGA.event({
         category: "Hours Display",
         action: "Display August Hours",
         label: "Summer Schedule",
       });
 
-      // Horaires d'août avec lundi ouvert
       return [
+        { day: "Lundi", hours: "12h00 - 14h00 / 19h00 - 21h30", closed: false },
+        { day: "Mardi", hours: "12h00 - 14h00 / 19h00 - 21h30", closed: false },
         {
-          days: "Lun - Mar - Mer - Jeu",
-          hours: "12h-14h / 19h-21h30",
+          day: "Mercredi",
+          hours: "12h00 - 14h00 / 19h00 - 21h30",
+          closed: false,
+        },
+        { day: "Jeudi", hours: "12h00 - 14h00 / 19h00 - 21h30", closed: false },
+        {
+          day: "Vendredi",
+          hours: "12h00 - 14h00 / 19h00 - 22h30",
           closed: false,
         },
         {
-          days: "Ven - Sam",
-          hours: "12h-14h / 19h-22h30",
+          day: "Samedi",
+          hours: "12h00 - 14h00 / 19h00 - 22h30",
           closed: false,
         },
-        {
-          days: "Dim",
-          hours: "Fermé",
-          closed: true,
-        },
+        { day: "Dimanche", hours: "Fermé", closed: true },
       ];
     } else {
-      // Horaires normaux
       return [
+        { day: "Lundi", hours: "Fermé", closed: true },
+        { day: "Mardi", hours: "12h00 - 14h00 / 19h00 - 21h30", closed: false },
         {
-          days: "Mar - Mer - Jeu",
-          hours: "12h-14h / 19h-21h30",
+          day: "Mercredi",
+          hours: "12h00 - 14h00 / 19h00 - 21h30",
+          closed: false,
+        },
+        { day: "Jeudi", hours: "12h00 - 14h00 / 19h00 - 21h30", closed: false },
+        {
+          day: "Vendredi",
+          hours: "12h00 - 14h00 / 19h00 - 22h30",
           closed: false,
         },
         {
-          days: "Ven - Sam",
-          hours: "12h-14h / 19h-22h30",
+          day: "Samedi",
+          hours: "12h00 - 14h00 / 19h00 - 22h30",
           closed: false,
         },
-        {
-          days: "Lun - Dim",
-          hours: "Fermé",
-          closed: true,
-        },
+        { day: "Dimanche", hours: "Fermé", closed: true },
       ];
     }
   };
 
-  const selectedMenuInfo = getSelectedMenuInfo();
-
   return (
     <div className="menu-container" ref={containerRef}>
-      <div className="hours-section">
-        <div className="hours-header">
-          <Calendar className="calendar-icon" size={20} />
-          <Clock className="clock-icon" size={20} />
-          <h2>Nos horaires</h2>
-          {isAugustMonth() && (
-            <span className="august-notice">🌞 Horaires d'été</span>
-          )}
+      <Selector
+        onMenuSelect={handleMenuSelect}
+        showPdf={!internalShowHours}
+        selectedMenu={menuSelected} // Pass the selected menu to Selector
+      />
+
+      {menuSelected && (
+        <div className="hours-toggle-button" onClick={handleToggleHours}>
+          <Calendar size={18} />
+          <span>Voir les horaires</span>
         </div>
+      )}
+
+      <div
+        className={`hours-section ${internalShowHours ? "visible" : "hidden"}`}
+      >
+        <div className="hours-header">
+          <div className="header-left">
+            <Calendar className="calendar-icon" size={20} />
+            <Clock className="clock-icon" size={20} />
+            <h2>Nos Horaires</h2>
+            {isAugustMonth() && (
+              <span className="august-notice">🌞 Horaires d'été</span>
+            )}
+          </div>
+
+          <div className="header-right">
+            {menuSelected && (
+              <button
+                className="close-hours-button"
+                onClick={handleToggleHours}
+                aria-label="Fermer les horaires"
+              >
+                <X size={20} />
+              </button>
+            )}
+
+            <div
+              className={`status-indicator ${
+                currentStatus.isOpen ? "open" : "closed"
+              }`}
+            >
+              <div className="status-dot"></div>
+              <div className="status-text">
+                {currentStatus.isOpen
+                  ? "Actuellement Ouvert"
+                  : "Actuellement Fermé"}
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="hours-list">
           {getHoursItems().map((item, index) => (
             <div
               key={index}
               className={`hours-item ${item.closed ? "closed" : ""}`}
             >
-              <span>{item.days}</span>
+              <span>{item.day}</span>
               <span>{item.hours}</span>
             </div>
           ))}
         </div>
 
-        {selectedMenu && isLoading && (
-          <div className="document-loading">
-            <div className="loading-content">
-              <div className="loading-spinner"></div>
-              <span className="loading-announcement">
-                Chargement en cours...
-                <br />
-                <small>
-                  Nous optimisons la qualité du fichier, merci de patienter un
-                  instant
-                </small>
-              </span>
-            </div>
-          </div>
-        )}
-
-        <div className="menu-selection">
-          <h3 className="service-title"></h3>
-
-          {selectedMenu && (
-            <div className="download-section">
-              <span className="download-link" onClick={handleDownloadPdf}>
-                <Download className="download-icon" size={18} />
-                <span>Télécharger la carte</span>
-              </span>
-            </div>
-          )}
-
-          {/* Image des méthodes de paiement */}
-          <div
-            className={`payment-methods-image ${selectedMenu ? "hidden" : ""}`}
-          >
-            <img
-              src="/images/logo/methode-paiement.png"
-              alt="Méthodes de paiement acceptées"
-            />
-          </div>
-
-          <div className="dropdown-container" ref={dropdownRef}>
-            <div
-              className={`dropdown-trigger ${selectedMenu ? "selected" : ""}`}
-              onClick={() => {
-                if (!dropdownOpen) {
-                  trackDropdownOpen();
-                }
-                setDropdownOpen(!dropdownOpen);
-              }}
-            >
-              <div className="dropdown-trigger-content">
-                {selectedMenu && selectedMenuInfo ? (
-                  <>
-                    <selectedMenuInfo.icon className="service-icon" size={20} />
-                    <div className="service-info">
-                      <span className="service-label">
-                        {selectedMenuInfo.label}
-                      </span>
-                      <span className="service-description">
-                        {selectedMenuInfo.description}
-                      </span>
-                    </div>
-                    {selectedMenuInfo.hasDiscount && (
-                      <span className="discount-badge">Tarifs réduits</span>
-                    )}
-                  </>
-                ) : (
-                  <>
-                    <Menu className="service-icon" size={20} />
-                    <div className="service-info">
-                      <span className="service-label">
-                        Sélectionner une carte
-                      </span>
-                      <span className="service-description">
-                        Choisir le type de service
-                      </span>
-                    </div>
-                  </>
-                )}
-              </div>
-              <ChevronDown
-                className={`dropdown-arrow ${dropdownOpen ? "open" : ""}`}
-                size={20}
-              />
-            </div>
-
-            <div className={`dropdown-menu ${dropdownOpen ? "open" : ""}`}>
-              {getMenuOptions().map((option) => (
-                <div
-                  key={option.value}
-                  className="dropdown-option"
-                  onClick={() => handleMenuSelect(option.value)}
-                >
-                  <option.icon className="service-icon" size={20} />
-                  <div className="service-info">
-                    <span className="service-label">{option.label}</span>
-                    <span className="service-description">
-                      {option.description}
-                    </span>
-                  </div>
-                  {option.hasDiscount && (
-                    <span className="discount-badge">Tarifs réduits</span>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
+        <div className="hours-notice">
+          ⚠️ Attention : ces horaires peuvent varier selon les jours fériés et
+          événements spéciaux
         </div>
       </div>
-
-      {selectedMenu && (
-        <div className="pdf-section">
-          <div
-            style={{
-              position: "relative",
-              transform: showPdf ? "translateY(0)" : "translateY(100vh)",
-              transition: "transform 0.5s ease-in-out",
-            }}
-          >
-            <Document
-              file={getPdfFile()}
-              onLoadSuccess={handleDocumentLoadSuccess}
-              onLoadError={handleDocumentError}
-              loading={null}
-            >
-              {renderPages()}
-            </Document>
-          </div>
-        </div>
-      )}
-
-      {numPages && pdfLoaded && !isMobile() && (
-        <div className="page-indicator">
-          Page {currentPage} / {numPages}
-        </div>
-      )}
     </div>
   );
 };

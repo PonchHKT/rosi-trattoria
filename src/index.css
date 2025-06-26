@@ -17,10 +17,10 @@
   --accent-blue: #75b9f9;
   /* Scrollbar specific variables */
   --scrollbar-width: 12px;
-  --scrollbar-track: #1a1a1a;
+  --scrollbar-track: black;
   --scrollbar-thumb: var(--primary-pink);
   --scrollbar-thumb-hover: #ff1e8b;
-  --scrollbar-thumb-active: #cc0066;
+  --scrollbar-thumb-active: black;
 }
 
 /* Global styles */

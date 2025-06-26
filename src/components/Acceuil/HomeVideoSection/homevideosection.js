@@ -30,7 +30,7 @@ const HomeVideoSection = () => {
             `h_${height}`,
             "c_fill",
             "g_center",
-            "e_brightness:30",
+            "e_brightness:15",
             "fl_immutable_cache",
         ];
         return `https://res.cloudinary.com/${CLOUDINARY_CONFIG.cloudName}/video/upload/${transformations.join(",")}/${CLOUDINARY_CONFIG.publicId}.${format}`;

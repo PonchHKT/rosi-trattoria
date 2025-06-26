@@ -34,7 +34,7 @@ const HomeVideoSection: React.FC = () => {
         `h_${height}`,
         "c_fill",
         "g_center",
-        "e_brightness:30",
+        "e_brightness:15",
         "fl_immutable_cache",
       ];
 

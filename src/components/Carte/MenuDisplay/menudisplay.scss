@@ -6,22 +6,16 @@
   --text-muted: #64748b;
   --border-color: #000000;
   --accent-color: #75b9f9;
-  --accent-hover: #75b9f9;
-  --glass-bg: black;
   --glass-border: rgba(148, 163, 184, 0.1);
-  --green-primary: #10b981;
-  --green-secondary: #059669;
-  --green-glow: rgba(16, 185, 129, 0.2);
   --red-primary: #ef4444;
   --primary-blue: #75b9f9;
   --primary-pink: #ec4899;
+  --green-primary: #22c55e;
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 * {
@@ -34,23 +28,26 @@
 }
 
 html {
-  scroll-behavior: auto;
+  scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   height: 100%;
   overflow-x: hidden;
 }
 
 body {
-  overscroll-behavior: none;
-  -webkit-overscroll-behavior: none;
+  overscroll-behavior-y: none;
+  -webkit-overscroll-behavior-y: none;
   touch-action: pan-y pinch-zoom;
   height: 100%;
   overflow-x: hidden;
   position: relative;
+  margin: 0;
 }
 
 .menu-container {
-  margin-bottom: 200px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -60,87 +57,197 @@ body {
     var(--secondary-bg) 100%
   );
   min-height: 100vh;
-  padding: 2rem 1rem;
   padding-top: 120px;
   position: relative;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  overflow: visible;
 }
 
-.dropdown-trigger {
-  z-index: 1000;
-  width: 100%;
+.hours-toggle-button {
+  position: absolute;
+  top: 140px;
+  right: 40px;
+  background: #2f2f30;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 1.25rem 1.5rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  backdrop-filter: blur(10px);
-  position: relative;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  box-shadow: var(--shadow-md);
+  transition: all 0.3s ease;
+  z-index: 200;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.15);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-
-    .dropdown-arrow {
-      color: var(--text-primary);
-    }
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
   }
 
   &:active {
     transform: translateY(0);
   }
 
-  &.selected {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-
-    .dropdown-trigger-content .service-icon {
-      color: var(--primary-blue);
-    }
-
-    .dropdown-arrow {
-      color: var(--text-primary);
-    }
+  svg {
+    stroke: white;
   }
 }
 
 .hours-section {
-  z-index: 100;
-  margin: 2rem 0;
-  padding: 2rem;
+  z-index: 1;
+  padding: 1rem;
   border-radius: 16px;
-  max-width: 480px;
   width: 100%;
+  max-width: 600px;
   background: black;
+  transition: all 0.5s ease-in-out;
+  box-sizing: border-box;
+
+  &.hidden {
+    opacity: 0;
+    transform: translateY(-30px);
+    visibility: hidden;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  &.visible {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+    height: auto;
+  }
 
   .hours-header {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    justify-content: space-between;
+    gap: 1rem;
     margin-bottom: 1.5rem;
     padding-bottom: 1rem;
     border-bottom: 1px solid var(--glass-border);
+    flex-wrap: wrap;
 
-    .calendar-icon {
-      color: var(--accent-color);
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex: 1;
+      min-width: 0;
+
+      .calendar-icon {
+        color: var(--accent-color);
+        flex-shrink: 0;
+      }
+
+      .clock-icon {
+        color: var(--primary-pink);
+        flex-shrink: 0;
+      }
+
+      h2 {
+        font-size: clamp(1rem, 2.5vw, 1.25rem);
+        font-weight: 700;
+        color: var(--text-primary);
+        margin: 0;
+        letter-spacing: -0.025em;
+        white-space: nowrap;
+      }
+
+      .august-notice {
+        font-size: clamp(0.7rem, 1.8vw, 0.8rem);
+        background: black;
+        border: 1px solid white;
+        color: white;
+        font-weight: 750;
+        padding: 2px 8px;
+        border-radius: 12px;
+        margin-left: 10px;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
     }
 
-    .clock-icon {
-      color: #ec4899;
-    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-shrink: 0;
 
-    h2 {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      margin: 0;
-      letter-spacing: -0.025em;
+      .close-hours-button {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 6px;
+        padding: 0.5rem;
+        cursor: pointer;
+        color: white;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 36px;
+        min-height: 36px;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.2);
+          transform: scale(1.05);
+        }
+
+        &:active {
+          transform: scale(0.95);
+        }
+      }
+
+      .status-indicator {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: clamp(0.75rem, 2vw, 0.85rem);
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+
+        .status-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          animation: pulse 2s infinite;
+          flex-shrink: 0;
+        }
+
+        &.open {
+          background: rgba(34, 197, 94, 0.15);
+          color: var(--green-primary);
+          border: 1px solid rgba(34, 197, 94, 0.3);
+
+          .status-dot {
+            background: var(--green-primary);
+          }
+        }
+
+        &.closed {
+          background: rgba(148, 163, 184, 0.15);
+          color: var(--text-secondary);
+          border: 1px solid rgba(148, 163, 184, 0.3);
+
+          .status-dot {
+            background: var(--text-secondary);
+          }
+        }
+
+        .status-text {
+          font-weight: 600;
+        }
+      }
     }
   }
 
@@ -155,16 +262,24 @@ body {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.95rem;
+      font-size: clamp(0.85rem, 2.2vw, 0.95rem);
       color: var(--text-secondary);
       padding: 0.75rem 1rem;
       background: rgba(255, 255, 255, 0.02);
       border-radius: 8px;
       border: 1px solid rgba(255, 255, 255, 0.05);
+      gap: 1rem;
 
       span:first-child {
         font-weight: 600;
         color: white;
+        flex-shrink: 0;
+        min-width: fit-content;
+      }
+
+      span:last-child {
+        text-align: right;
+        word-break: break-word;
       }
 
       &.closed {
@@ -176,561 +291,89 @@ body {
     }
   }
 
-  .menu-selection {
-    border-top: 1px solid var(--glass-border);
-
-    .service-title {
-      color: var(--text-primary);
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin: 0 0 1.5rem 0;
-      text-align: center;
-      letter-spacing: -0.025em;
-    }
-
-    .download-section {
-      margin-bottom: 1.5rem;
-      display: flex;
-      justify-content: center;
-    }
-
-    .download-link {
-      display: inline-flex;
-      align-items: center;
-      text-decoration: underline;
-      color: var(--primary-blue);
-      cursor: pointer;
-      transition: all 0.2s ease;
-
-      &:hover {
-        transform: translateY(-1px);
-      }
-    }
-
-    .download-icon {
-      flex-shrink: 0;
-      margin-right: 0.5rem;
-    }
-
-    .payment-methods-image {
-      padding-bottom: 25px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 1.5rem 0;
-      opacity: 1;
-      transform: translateY(0);
-      transition: all 0.3s ease-in-out;
-
-      &.hidden {
-        opacity: 0;
-        transform: translateY(-20px);
-        visibility: hidden;
-        height: 0;
-        margin: 0;
-      }
-
-      img {
-        max-width: 100%;
-        height: auto;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      }
-    }
-
-    .dropdown-container {
-      z-index: 1000;
-      position: relative;
-      width: 100%;
-
-      .dropdown-trigger {
-        z-index: 1000;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 1.5rem;
-        background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
-        border: 2px solid transparent;
-        border-radius: 16px;
-        cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-          0 2px 4px -1px rgba(0, 0, 0, 0.06),
-          inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        position: relative;
-        overflow: hidden;
-
-        &::before {
-          content: "";
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(
-            90deg,
-            transparent,
-            rgba(255, 255, 255, 0.1),
-            transparent
-          );
-          transition: left 0.6s ease;
-        }
-
-        &:hover {
-          transform: translateY(-2px);
-          border-color: var(--primary-pink);
-
-          &::before {
-            left: 100%;
-          }
-
-          .dropdown-arrow {
-            color: var(--primary-blue);
-            transform: scale(1.1);
-          }
-
-          .service-icon {
-            transform: scale(1.1);
-            color: var(--primary-pink);
-          }
-        }
-
-        &:active {
-          transform: translateY(-1px);
-        }
-
-        &.selected {
-          background: linear-gradient(135deg, #1f1f23 0%, #16161a 100%);
-          border-color: var(--primary-pink);
-          box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.3),
-            0 0 0 1px var(--primary-pink), 0 0 25px rgba(236, 72, 153, 0.4);
-
-          .dropdown-trigger-content .service-icon {
-            color: var(--primary-pink) !important;
-          }
-
-          .dropdown-arrow {
-            color: var(--primary-pink) !important;
-          }
-        }
-
-        .dropdown-trigger-content {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          flex: 1;
-          position: relative;
-          z-index: 2;
-
-          .service-icon {
-            color: var(--primary-blue);
-            flex-shrink: 0;
-            transition: all 0.3s ease;
-          }
-
-          .service-info {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 0.25rem;
-            flex: 1;
-
-            .service-label {
-              color: var(--text-primary);
-              font-weight: 600;
-              font-size: 1.1rem;
-              line-height: 1.2;
-              transition: color 0.2s ease;
-            }
-
-            .service-description {
-              color: var(--text-muted);
-              font-size: 0.9rem;
-              font-weight: 500;
-              transition: color 0.2s ease;
-            }
-          }
-
-          .discount-badge {
-            background: linear-gradient(
-              135deg,
-              var(--green-primary) 0%,
-              var(--green-secondary) 100%
-            );
-            color: white;
-            font-size: 0.75rem;
-            font-weight: 800;
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            flex-shrink: 0;
-            box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
-            animation: pulse-glow 2s infinite;
-          }
-        }
-
-        .dropdown-arrow {
-          color: var(--text-secondary);
-          flex-shrink: 0;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          position: relative;
-          z-index: 2;
-
-          &.open {
-            transform: rotate(180deg) scale(1.1);
-            color: var(--primary-blue);
-          }
-        }
-      }
-
-      .dropdown-menu {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: black;
-        border: 1px solid var(--glass-border);
-        border-radius: 16px;
-        z-index: 100;
-        visibility: hidden;
-        opacity: 0;
-        transform: translateY(-10px) scale(0.95);
-        margin-top: 0.5rem;
-        overflow: hidden;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-        &::before {
-          content: "";
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: black;
-          z-index: -1;
-        }
-
-        &.open {
-          visibility: visible;
-          opacity: 1;
-          transform: translateY(0) scale(1);
-          color: var(--primary-pink);
-        }
-      }
-
-      .dropdown-option {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        padding: 1.5rem;
-        cursor: pointer;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        transition: all 0.2s ease;
-        position: relative;
-        overflow: hidden;
-
-        &::before {
-          content: "";
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: black;
-          transition: left 0.4s ease;
-        }
-
-        &:hover {
-          background: rgba(117, 185, 249, 0.1);
-          transform: translateX(4px);
-
-          &::before {
-            left: 100%;
-          }
-
-          .service-icon {
-            color: var(--primary-pink);
-            transform: scale(1.1);
-          }
-        }
-
-        &:last-child {
-          border-bottom: none;
-        }
-
-        .service-icon {
-          color: var(--primary-blue);
-          flex-shrink: 0;
-          transition: all 0.2s ease;
-        }
-
-        .service-info {
-          display: flex;
-          flex-direction: column;
-          gap: 0.25rem;
-          flex: 1;
-
-          .service-label {
-            color: var(--text-primary);
-            font-weight: 600;
-            font-size: 1rem;
-            transition: color 0.2s ease;
-          }
-
-          .service-description {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            font-weight: 500;
-          }
-        }
-
-        .discount-badge {
-          background: linear-gradient(
-            135deg,
-            var(--green-primary) 0%,
-            var(--green-secondary) 100%
-          );
-          color: white;
-          font-size: 0.75rem;
-          font-weight: 800;
-          padding: 0.4rem 0.8rem;
-          border-radius: 20px;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-          flex-shrink: 0;
-          box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
-        }
-      }
-    }
+  .hours-notice {
+    font-size: clamp(0.7rem, 1.8vw, 0.8rem);
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    line-height: 1.4;
   }
 }
 
-.pdf-section {
-  width: 100%;
-  max-width: 900px;
-  display: flex;
-  justify-content: center;
-  position: relative;
-}
-
-.pdf-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: var(--primary-bg);
-  z-index: 140;
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
-
-  &.visible {
+@keyframes pulse {
+  0%,
+  100% {
     opacity: 1;
   }
-}
-
-.document-loading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 150px;
-  position: relative;
-  padding: 20px 0;
-
-  .loading-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
-    text-align: center;
-
-    .loading-spinner {
-      width: 48px;
-      height: 48px;
-      border: 3px solid rgba(255, 255, 255, 0.1);
-      border-top-color: var(--primary-blue);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      will-change: transform;
-      transform-origin: center;
-    }
-
-    .loading-announcement {
-      color: var(--text-primary);
-      font-size: 1.1rem;
-      font-weight: 600;
-      line-height: 1.5;
-
-      small {
-        display: block;
-        margin-top: 0.5rem;
-        color: var(--text-secondary);
-        font-size: 0.9rem;
-        font-weight: 400;
-        opacity: 0.8;
-      }
-    }
-  }
-}
-
-.pdf-page-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 60px;
-  width: 100%;
-  align-items: center;
-}
-
-.pdf-page-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-
-  &.mobile-optimized {
-    min-height: 600px;
-    position: relative;
-    touch-action: pan-y pinch-zoom;
-  }
-
-  &.landscape {
-    min-height: 400px;
-    max-height: 600px;
-    overflow: visible;
-
-    .pdf-page {
-      transform: scale(1);
-      transform-origin: center;
-    }
-
-    canvas {
-      width: 100% !important;
-      height: auto !important;
-      max-width: none;
-    }
-  }
-}
-
-.page-placeholder,
-.page-loading {
-  min-height: 500px;
-  width: 100%;
-  background: var(--glass-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-secondary);
-  font-weight: 500;
-  opacity: 1;
-  transition: opacity 0.2s ease;
-}
-
-.pdf-page {
-  border-radius: 16px;
-  background: #fff;
-  touch-action: pan-y pinch-zoom;
-
-  canvas {
-    width: 100% !important;
-    height: auto !important;
-    border-radius: 16px;
-    display: block;
-    touch-action: pan-y pinch-zoom;
-    image-rendering: optimizeQuality;
-  }
-}
-
-.page-indicator {
-  position: fixed;
-  bottom: 2rem;
-  left: 2rem;
-  padding: 0.75rem 1.25rem;
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: 12px;
-  color: var(--text-primary);
-  font-size: 0.9rem;
-  font-weight: 600;
-  z-index: 100;
-}
-
-// Animations
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes pulse-glow {
-  0%,
-  100% {
-    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
-  }
   50% {
-    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3),
-      0 0 15px rgba(16, 185, 129, 0.4);
+    opacity: 0.5;
   }
 }
 
-@keyframes bounce-hint {
-  0%,
-  20%,
-  50%,
-  80%,
-  100% {
-    transform: translateY(0);
-  }
-  40% {
-    transform: translateY(-4px);
-  }
-  60% {
-    transform: translateY(-2px);
-  }
-}
-
-@media (max-width: 768px) {
-  html {
-    scroll-behavior: auto !important;
-    -webkit-overflow-scrolling: touch;
-    height: 100%;
-    overflow-x: hidden;
-  }
-
-  body {
-    overscroll-behavior-y: none;
-    -webkit-overscroll-behavior-y: none;
-    touch-action: pan-y pinch-zoom;
-    position: relative;
-    height: 100%;
-    overflow-x: hidden;
-  }
-
+/* Tablettes et écrans moyens */
+@media (max-width: 1024px) {
   .menu-container {
-    --glass-bg: rgba(15, 23, 42, 0.6);
-    scroll-behavior: auto !important;
-    padding: 1rem 0.75rem;
+    padding-left: 15px;
+    padding-right: 15px;
     padding-top: 100px;
   }
 
   .hours-section {
-    margin: 1.5rem 0;
-    padding: 1.5rem;
+    max-width: 600px;
+    padding: 1rem;
+  }
+}
+
+/* Tablettes portrait et petits écrans */
+@media (max-width: 768px) {
+  .menu-container {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 100px;
+    padding-top: 110px;
+  }
+
+  .hours-toggle-button {
+    top: 130px;
+    right: 20px;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.85rem;
+  }
+
+  .hours-section {
+    padding: 1rem;
     max-width: 100%;
     border-radius: 12px;
 
     .hours-header {
       margin-bottom: 1rem;
       padding-bottom: 0.75rem;
+      gap: 0.75rem;
 
-      h2 {
-        font-size: 1.1rem;
+      .header-left {
+        .august-notice {
+          margin-left: 8px;
+        }
+      }
+
+      .header-right {
+        .close-hours-button {
+          padding: 0.4rem;
+          min-width: 32px;
+          min-height: 32px;
+        }
+
+        .status-indicator {
+          padding: 0.4rem 0.8rem;
+
+          .status-dot {
+            width: 6px;
+            height: 6px;
+          }
+        }
       }
     }
 
@@ -738,272 +381,219 @@ body {
       margin-bottom: 1.5rem;
 
       .hours-item {
-        font-size: 0.9rem;
         padding: 0.6rem 0.8rem;
+        gap: 0.75rem;
       }
     }
 
-    .menu-selection {
-      .service-title {
-        font-size: 1rem;
-        margin-bottom: 1rem;
-      }
-
-      .download-section {
-        margin-bottom: 1.25rem;
-      }
-
-      .payment-methods-image {
-        margin: 1rem 0;
-
-        img {
-          max-width: 90%;
-        }
-      }
-
-      .dropdown-container {
-        .dropdown-trigger {
-          padding: 1.25rem;
-
-          &:not(.selected)::after {
-            font-size: 0.65rem;
-            padding: 0.25rem 0.5rem;
-            top: -6px;
-            right: 8px;
-          }
-
-          .dropdown-trigger-content {
-            gap: 0.75rem;
-
-            .service-info {
-              .service-label {
-                font-size: 1rem;
-              }
-
-              .service-description {
-                font-size: 0.85rem;
-              }
-            }
-
-            .discount-badge {
-              font-size: 0.7rem;
-              padding: 0.4rem 0.7rem;
-            }
-          }
-        }
-
-        .dropdown-menu {
-          .dropdown-option {
-            padding: 1.25rem;
-            gap: 0.75rem;
-
-            .service-info {
-              .service-label {
-                font-size: 0.95rem;
-              }
-
-              .service-description {
-                font-size: 0.8rem;
-              }
-            }
-
-            .discount-badge {
-              font-size: 0.7rem;
-              padding: 0.3rem 0.6rem;
-            }
-          }
-        }
-      }
+    .hours-notice {
+      padding: 0.8rem;
     }
-  }
-
-  .document-loading {
-    min-height: 150px;
-
-    .loading-content {
-      gap: 1.25rem;
-
-      .loading-spinner {
-        width: 40px;
-        height: 40px;
-        border-width: 2.5px;
-        animation: spin 1s linear infinite;
-        will-change: transform;
-      }
-
-      .loading-announcement {
-        font-size: 1rem;
-
-        small {
-          font-size: 0.85rem;
-        }
-      }
-    }
-  }
-
-  .pdf-page-grid {
-    gap: 30px;
-  }
-
-  .pdf-page-container {
-    &.mobile-optimized {
-      min-height: 500px;
-      height: auto;
-      margin: 0;
-      margin-bottom: 0;
-    }
-  }
-
-  .pdf-page {
-    canvas {
-      image-rendering: optimizeQuality !important;
-    }
-  }
-
-  .page-indicator {
-    bottom: 1.5rem;
-    left: 1.5rem;
-    padding: 0.6rem 1rem;
-    font-size: 0.85rem;
-  }
-
-  .pdf-page {
-    box-shadow: var(--shadow-md);
-  }
-
-  .pdf-overlay {
-    z-index: 140;
   }
 }
 
+/* Petits téléphones */
 @media (max-width: 480px) {
   .menu-container {
-    padding: 1rem 0.5rem;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 100px;
+
     padding-top: 90px;
   }
 
+  .hours-toggle-button {
+    top: 100px;
+    right: 15px;
+    padding: 0.5rem 0.6rem;
+    font-size: 0.8rem;
+
+    span {
+      display: none;
+    }
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
   .hours-section {
-    padding: 1.25rem;
-    margin: 1rem 0;
+    margin-top: 5px;
+    padding: 0.5rem;
+    border-radius: 10px;
 
     .hours-header {
       gap: 0.5rem;
+      margin-bottom: 0.75rem;
 
-      h2 {
-        font-size: 1rem;
+      .header-left {
+        gap: 0.4rem;
+
+        .calendar-icon,
+        .clock-icon {
+          width: 18px;
+          height: 18px;
+        }
+
+        .august-notice {
+          margin-left: 6px;
+          padding: 1px 6px;
+        }
+      }
+
+      .header-right {
+        gap: 0.5rem;
+
+        .close-hours-button {
+          padding: 0.3rem;
+          min-width: 28px;
+          min-height: 28px;
+
+          svg {
+            width: 16px;
+            height: 16px;
+          }
+        }
+
+        .status-indicator {
+          padding: 0.3rem 0.6rem;
+
+          .status-dot {
+            width: 5px;
+            height: 5px;
+          }
+        }
+      }
+    }
+
+    .hours-list {
+      gap: 0.6rem;
+      margin-bottom: 1.25rem;
+
+      .hours-item {
+        padding: 0.5rem 0.6rem;
+        gap: 0.5rem;
+        border-radius: 6px;
+      }
+    }
+
+    .hours-notice {
+      padding: 0.6rem;
+      border-radius: 6px;
+    }
+  }
+}
+
+/* Très petits écrans */
+@media (max-width: 360px) {
+  .menu-container {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 100px;
+
+    padding-top: 80px;
+  }
+
+  .hours-toggle-button {
+    top: 90px;
+    right: 10px;
+    padding: 0.4rem 0.5rem;
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  .hours-section {
+    padding: 1rem;
+    margin: 0.75rem 0;
+
+    .hours-header {
+      .header-left {
+        gap: 0.3rem;
+
+        .calendar-icon,
+        .clock-icon {
+          width: 16px;
+          height: 16px;
+        }
+
+        .august-notice {
+          margin-left: 4px;
+          padding: 1px 4px;
+        }
+      }
+
+      .header-right {
+        gap: 0.4rem;
+
+        .close-hours-button {
+          padding: 0.25rem;
+          min-width: 26px;
+          min-height: 26px;
+
+          svg {
+            width: 14px;
+            height: 14px;
+          }
+        }
+
+        .status-indicator {
+          padding: 0.25rem 0.5rem;
+        }
       }
     }
 
     .hours-list .hours-item {
+      padding: 0.4rem 0.5rem;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.25rem;
+
+      span:last-child {
+        text-align: left;
+        width: 100%;
+      }
+    }
+
+    .hours-notice {
+      padding: 0.5rem;
+    }
+  }
+}
+
+/* Écrans très larges */
+@media (min-width: 1200px) {
+  .hours-section {
+    max-width: 600px;
+    padding: 1rem;
+
+    .hours-header {
+      .header-left h2 {
+        font-size: 1.375rem;
+      }
+
+      .header-right .status-indicator {
+        font-size: 0.9rem;
+        padding: 0.6rem 1.2rem;
+      }
+    }
+
+    .hours-list .hours-item {
+      font-size: 1rem;
+      padding: 0.875rem 1.25rem;
+    }
+
+    .hours-notice {
       font-size: 0.85rem;
-      padding: 0.5rem 0.6rem;
+      padding: 1.25rem;
     }
-
-    .menu-selection {
-      .payment-methods-image {
-        margin: 0.75rem 0;
-
-        img {
-          max-width: 85%;
-        }
-      }
-
-      .dropdown-container {
-        .dropdown-trigger {
-          padding: 1rem;
-
-          &:not(.selected)::after {
-            font-size: 0.6rem;
-            padding: 0.2rem 0.4rem;
-            top: -5px;
-            right: 6px;
-          }
-
-          .dropdown-trigger-content {
-            .service-info {
-              .service-label {
-                font-size: 0.95rem;
-              }
-
-              .service-description {
-                font-size: 0.8rem;
-              }
-            }
-
-            .discount-badge {
-              font-size: 0.65rem;
-              padding: 0.3rem 0.6rem;
-            }
-          }
-        }
-
-        .dropdown-menu {
-          .dropdown-option {
-            padding: 1rem;
-
-            .service-info {
-              .service-label {
-                font-size: 0.9rem;
-              }
-
-              .service-description {
-                font-size: 0.75rem;
-              }
-            }
-
-            .discount-badge {
-              font-size: 0.65rem;
-              padding: 0.25rem 0.5rem;
-            }
-          }
-        }
-      }
-    }
-  }
-
-  .page-indicator {
-    bottom: 1rem;
-    left: 1rem;
-    padding: 0.5rem 0.8rem;
-    font-size: 0.8rem;
-  }
-
-  .pdf-page-grid {
-    gap: 6px;
-  }
-
-  .pdf-page-container.mobile-optimized {
-    min-height: 400px;
-    margin: 0;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .loading-spinner {
-    animation: spin 1s linear infinite !important;
-  }
-
-  .dropdown-trigger,
-  .dropdown-menu,
-  .dropdown-arrow,
-  .pdf-overlay,
-  .payment-methods-image {
-    transition: none !important;
-  }
-
-  .menu-container {
-    scroll-behavior: auto !important;
-  }
-
-  .dropdown-trigger:not(.selected)::after {
-    animation: none !important;
-  }
-
-  .discount-badge {
-    animation: none !important;
-  }
-}
-
+/* Support pour les anciens navigateurs mobiles */
 @supports (-webkit-touch-callout: none) {
   body {
     -webkit-overflow-scrolling: touch;
@@ -1011,41 +601,30 @@ body {
     -webkit-overscroll-behavior: none;
     touch-action: pan-y pinch-zoom;
   }
-
-  .pdf-page-container.mobile-optimized {
-    -webkit-overflow-scrolling: touch;
-    touch-action: pan-y pinch-zoom;
-    position: relative;
-    overflow: visible;
-  }
-
-  .pdf-page canvas {
-    touch-action: pan-y pinch-zoom !important;
-    position: relative !important;
-  }
 }
 
-@media (max-width: 768px) {
-  .pdf-page-container.mobile-optimized {
-    &::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: -1;
+/* Mode paysage sur mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .menu-container {
+    padding-bottom: 100px;
+    padding-top: 60px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .hours-toggle-button {
+    top: 80px;
+  }
+
+  .hours-section {
+    .hours-header {
+      .header-left h2 {
+        font-size: 1rem;
+      }
+    }
+
+    .hours-list .hours-item {
+      padding: 0.5rem 0.75rem;
     }
   }
-}
-.august-notice {
-  font-size: 0.8rem;
-  background: black;
-  border: 1px solid white;
-  color: white;
-  font-weight: 750;
-  padding: 2px 8px;
-  border-radius: 12px;
-  margin-left: 10px;
 }
