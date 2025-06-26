@@ -25,7 +25,7 @@ const Page404: React.FC = () => {
           name="description"
           content="Page introuvable sur le site de Rosi Trattoria. Retournez à notre pizzeria italienne bio à Brive-la-Gaillarde."
         />
-        <meta name="robots" content="noindex" />
+        <meta name="robots" content="noindex, follow" />
         <meta property="og:title" content="Rosi Trattoria – Page Non Trouvée" />
         <meta
           property="og:description"
@@ -38,7 +38,7 @@ const Page404: React.FC = () => {
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.rosi-trattoria.com/404" />
+        {/* Removed problematic og:url for 404 pages */}
         <meta property="og:site_name" content="Rosi Trattoria" />
         <meta property="og:locale" content="fr_FR" />
         <meta name="twitter:card" content="summary_large_image" />
@@ -54,7 +54,7 @@ const Page404: React.FC = () => {
           name="twitter:image"
           content="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/meta-rosi.png"
         />
-        <link rel="canonical" href="https://www.rosi-trattoria.com/404" />
+        {/* No canonical URL for 404 pages - this is correct SEO practice */}
       </Helmet>
 
       <main className="error-container" role="main">

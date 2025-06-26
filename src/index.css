@@ -1,451 +1,191 @@
+/* Reset and base styles */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Define custom properties (your variables) */
 :root {
   --primary-blue: #75b9f9;
   --primary-pink: rgb(236, 0, 140);
   --background-dark: #000000;
   --text-light: #ffffff;
   --text-secondary: #e0e0e0;
-
   --accent-blue: #75b9f9;
+  /* Scrollbar specific variables */
+  --scrollbar-width: 12px;
+  --scrollbar-track: #1a1a1a;
+  --scrollbar-thumb: var(--primary-pink);
+  --scrollbar-thumb-hover: #ff1e8b;
+  --scrollbar-thumb-active: #cc0066;
 }
 
-/* Fond noir pour toute la page */
-html,
+/* Global styles */
+html {
+  font-size: 16px; /* Base font size for rem units */
+  scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+}
+
 body {
-  background-color: #000000 !important;
-  margin: 0;
-  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  background-color: var(--background-dark);
+  color: var(--text-light);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom Scrollbar - WebKit (Chrome, Safari, Edge) */
+/* Custom Scrollbar Styles */
+/* Pour les navigateurs WebKit (Chrome, Safari, Edge) */
 ::-webkit-scrollbar {
-  width: 12px;
-  height: 12px;
+  width: var(--scrollbar-width);
+  height: var(--scrollbar-width);
 }
 
 ::-webkit-scrollbar-track {
-  background: #000000;
+  background: var(--scrollbar-track);
   border-radius: 10px;
+  margin: 2px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--primary-pink);
+  background: linear-gradient(
+    45deg,
+    var(--scrollbar-thumb),
+    var(--scrollbar-thumb-hover)
+  );
   border-radius: 10px;
-  border: 2px solid #000000;
+  border: 2px solid var(--scrollbar-track);
   transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(236, 0, 140, 0.3);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #ff0a96;
-  box-shadow: 0 0 10px rgba(236, 0, 140, 0.5);
+  background: linear-gradient(45deg, var(--scrollbar-thumb-hover), #ff3d9a);
+  box-shadow: 0 4px 12px rgba(236, 0, 140, 0.5);
+  transform: scale(1.1);
 }
 
 ::-webkit-scrollbar-thumb:active {
-  background: #cc0078;
+  background: var(--scrollbar-thumb-active);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 ::-webkit-scrollbar-corner {
-  background: #000000;
+  background: var(--scrollbar-track);
 }
 
-/* Scrollbar pour Firefox */
-* {
+/* Pour Firefox */
+html {
   scrollbar-width: thin;
-  scrollbar-color: var(--primary-pink) #000000;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }
 
-/* Animation de glow sur la scrollbar */
-@keyframes scrollbarGlow {
+/* Styles personnalisés pour les éléments avec overflow */
+.scrollable-content {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Animation de glow pour la scrollbar */
+@keyframes scrollbar-glow {
   0% {
-    box-shadow: 0 0 5px rgba(236, 0, 140, 0.3);
+    box-shadow: 0 2px 6px rgba(236, 0, 140, 0.3);
   }
   50% {
-    box-shadow: 0 0 15px rgba(236, 0, 140, 0.6);
+    box-shadow: 0 4px 12px rgba(236, 0, 140, 0.6);
   }
   100% {
-    box-shadow: 0 0 5px rgba(236, 0, 140, 0.3);
+    box-shadow: 0 2px 6px rgba(236, 0, 140, 0.3);
   }
 }
 
-::-webkit-scrollbar-thumb:hover {
-  animation: scrollbarGlow 2s infinite;
+/* Scrollbar avec effet de pulsation */
+.animated-scrollbar::-webkit-scrollbar-thumb {
+  animation: scrollbar-glow 2s ease-in-out infinite;
 }
 
-/* Cookie Consent Styling - Version optimisée */
-.CookieConsent {
+/* Style alternatif pour scrollbar plus fine */
+.thin-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.thin-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--primary-pink);
+  border-radius: 3px;
+  border: none;
+}
+
+/* Style alternatif pour scrollbar épaisse avec gradient */
+.thick-scrollbar::-webkit-scrollbar {
+  width: 16px;
+}
+
+.thick-scrollbar::-webkit-scrollbar-thumb {
   background: linear-gradient(
-    135deg,
-    var(--background-dark) 0%,
-    #1a1a1a 100%
-  ) !important;
-  border-top: 3px solid var(--primary-blue) !important;
-  padding: 1.5rem;
-  font-family: inherit;
-  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(15px);
-  z-index: 9999;
-  position: fixed !important;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  animation: slideUp 0.4s ease-out;
+    180deg,
+    var(--primary-pink) 0%,
+    #ff1e8b 50%,
+    var(--primary-blue) 100%
+  );
+  border-radius: 8px;
+  border: 2px solid var(--background-dark);
 }
 
-@keyframes slideUp {
-  from {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+/* Remove default list styles */
+ul,
+ol {
+  list-style: none;
 }
 
-.cookie-message-wrapper {
+/* Remove default anchor styles */
+a {
+  text-decoration: none;
+  color: var(--primary-blue);
+}
+
+a:hover {
+  color: var(--primary-pink);
+  transition: color 0.3s ease;
+}
+
+/* Ensure images are responsive */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Container for consistent layout */
+.container {
   max-width: 1200px;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  padding: 0 1rem;
 }
 
-.cookie-title {
-  color: var(--text-light);
-  font-size: 1.3rem;
-  font-weight: 700;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.cookie-description {
-  color: var(--text-secondary);
-  font-size: 1rem;
-  line-height: 1.5;
-  margin: 0.5rem 0;
-  opacity: 0.95;
-}
-
-/* Style discret pour le lien "En savoir plus" */
-.cookie-link {
-  padding-top: 20px;
-  text-decoration: underline;
-  color: var(--text-secondary);
-
-  opacity: 0.8;
-  transition: all 0.3s ease;
-  font-weight: 400;
-  border-bottom: 1px solid transparent;
-  display: inline-block;
-}
-
-.cookie-link:hover {
-  color: var(--primary-blue);
-  opacity: 1;
-  border-bottom: 1px solid var(--primary-blue);
-  text-decoration: none;
-  transform: translateY(-1px);
-}
-
-.cookie-link:active {
-  transform: translateY(0);
-  opacity: 0.9;
-}
-
-.cookie-benefits {
-  display: flex;
-  gap: 1rem;
-  margin: 0.75rem 0;
-  flex-wrap: wrap;
-}
-
-.benefit-item {
-  color: var(--primary-blue);
-  font-size: 0.85rem;
-  font-weight: 500;
-  padding: 0.25rem 0.5rem;
-  background: rgba(117, 185, 249, 0.1);
-  border-radius: 15px;
-  border: 1px solid rgba(117, 185, 249, 0.2);
-}
-
-.cookie-buttons-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-
-  flex-wrap: nowrap;
-}
-
-/* Boutons avec styles différenciés - MÊME TAILLE */
-.cookie-accept-button,
-.cookie-decline-button {
-  padding: 0.7rem 1rem !important;
-  font-size: 0.85rem !important;
-  font-weight: 600 !important;
-  cursor: pointer !important;
-  transition: all 0.3s ease !important;
-  min-width: 100px;
-  border: none !important;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  position: relative;
-  overflow: hidden;
-}
-
-/* Accept Button - Style attractif */
-.cookie-accept-button {
-  background: var(--primary-pink) !important;
-  color: var(--text-light) !important;
-}
-
-.cookie-accept-button::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-
-  transition: left 0.5s;
-}
-
-.cookie-accept-button:hover::before {
-  left: 100%;
-}
-
-.cookie-accept-button:hover {
-  transform: translateY(-2px) scale(1.05) !important;
-}
-
-.cookie-accept-button:active {
-  transform: translateY(0) scale(1.02) !important;
-}
-
-/* Decline Button - Style discret MAIS MÊME TAILLE */
-.cookie-decline-button {
-  background: transparent !important;
-  color: var(--text-secondary) !important;
-  border: 1px solid rgba(224, 224, 224, 0.2) !important;
-  box-shadow: none !important;
-  opacity: 0.7;
-}
-
-.cookie-decline-button:hover {
-  transform: translateY(-1px) scale(1.02) !important;
-  opacity: 0.9;
-  border-color: rgba(224, 224, 224, 0.4) !important;
-  color: var(--text-light) !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
-}
-
-.cookie-decline-button:active {
-  transform: translateY(0) scale(1) !important;
-  opacity: 0.8;
-}
-
-/* Modal pour les paramètres de cookies */
-.cookie-settings-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10000;
-}
-
-.cookie-settings-content {
-  background: linear-gradient(135deg, var(--background-dark), #1a1a1a);
-  border-radius: 20px;
+/* Demo content pour tester la scrollbar */
+.demo-content {
+  height: 200vh; /* Force le scroll */
+  background: linear-gradient(
+    45deg,
+    var(--background-dark) 0%,
+    #1a1a1a 50%,
+    var(--background-dark) 100%
+  );
   padding: 2rem;
-  max-width: 600px;
-  width: 100%;
-  max-height: 100vh;
-  overflow-y: auto;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
 }
 
-.cookie-category {
-  margin-bottom: 1.5rem;
-  padding: 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 10px;
-  border-left: 4px solid var(--primary-blue);
-}
-
-.cookie-category h3 {
-  color: var(--text-light);
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.cookie-category p {
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-  margin: 0;
-  line-height: 1.4;
-}
-
-.cookie-toggle {
-  position: relative;
-  display: inline-block;
-  width: 50px;
-  height: 24px;
-}
-
-.cookie-toggle input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.cookie-slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #333;
-  transition: 0.4s;
-  border-radius: 24px;
-}
-
-.cookie-slider:before {
-  position: absolute;
-  content: "";
-  height: 18px;
-  width: 18px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: 0.4s;
-  border-radius: 50%;
-}
-
-input:checked + .cookie-slider {
-  background: var(--primary-pink);
-}
-
-input:checked + .cookie-slider:before {
-  transform: translateX(26px);
-}
-
-.cookie-settings-buttons {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  margin-top: 2rem;
-  flex-wrap: wrap;
-}
-
-.cookie-save-button {
-  background: linear-gradient(45deg, var(--primary-pink)) !important;
-  color: white !important;
-  border: none !important;
-  padding: 0.8rem 2rem !important;
-  border-radius: 25px !important;
-  font-weight: 600 !important;
-  cursor: pointer !important;
-  transition: all 0.3s ease !important;
-}
-
-.cookie-save-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
-}
-
-.cookie-cancel-button {
-  background: transparent !important;
-  color: var(--text-secondary) !important;
-  border: 1px solid rgba(224, 224, 224, 0.3) !important;
-  padding: 0.8rem 2rem !important;
-  border-radius: 25px !important;
-  cursor: pointer !important;
-  transition: all 0.3s ease !important;
-}
-
-.cookie-cancel-button:hover {
-  border-color: var(--primary-blue);
-  color: var(--primary-blue);
-}
-
-/* Animation d'attention pour le bouton accepter */
-
-/* Responsive Design */
+/* Responsive design pour la scrollbar */
 @media (max-width: 768px) {
-  /* Scrollbar mobile plus fine */
   ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 8px;
   }
 
-  ::-webkit-scrollbar-thumb {
-    border: 1px solid #000000;
-    border-radius: 6px;
-  }
-
-  .CookieConsent {
-    padding: 1rem;
-  }
-
-  .cookie-title {
-    font-size: 1rem;
-  }
-
-  .cookie-description {
-    font-size: 0.9rem;
-  }
-
-  .cookie-benefits {
-    gap: 0.5rem;
-  }
-
-  .benefit-item {
-    font-size: 0.75rem;
-  }
-
-  /* Sur mobile: decline à gauche, accept à droite - MÊME TAILLE */
-  .cookie-buttons-wrapper {
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    width: 100%;
-  }
-
-  .cookie-decline-button {
-    order: 1; /* Bouton decline en premier (gauche) */
-    flex: 1;
-    max-width: 120px;
-    padding: 0.7rem 0.8rem !important;
-    font-size: 0.8rem !important;
-    min-width: 100px;
-  }
-
-  .cookie-accept-button {
-    order: 2; /* Bouton accept en second (droite) */
-    flex: 1;
-    max-width: 120px;
-    padding: 0.7rem 0.8rem !important;
-    font-size: 0.8rem !important;
-    min-width: 100px;
-  }
-
-  .cookie-settings-content {
-    padding: 1.5rem;
-  }
-
-  .cookie-settings-buttons {
-    flex-direction: column;
+  .thick-scrollbar::-webkit-scrollbar {
+    width: 12px;
   }
 }

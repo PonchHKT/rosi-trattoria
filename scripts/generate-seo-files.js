@@ -19,10 +19,11 @@ const CONFIG = {
 // Route type definition (for TypeScript or JSDoc)
 const routes = [
   {
-    path: "/", // Root path already has trailing slash
+    path: "/",
     priority: 1.0,
     changefreq: "daily",
-    lastmod: new Date().toISOString().split("T")[0], // Dynamic date
+    lastmod: new Date().toISOString().split("T")[0],
+    alternates: ["fr", "fr-FR"], // Pour hreflang
   },
   {
     path: "/carte/",
