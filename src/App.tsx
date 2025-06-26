@@ -50,6 +50,8 @@ function App(): React.JSX.Element {
           }
         />
 
+        {/* Redirections pour les anciennes URLs HTML (QR codes) */}
+
         {/* Routes principales avec et sans slash final */}
         <Route path="/nos-valeurs/" element={<NosValeurs />} />
         <Route

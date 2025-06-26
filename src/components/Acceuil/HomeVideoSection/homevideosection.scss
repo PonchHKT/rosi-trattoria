@@ -11,8 +11,8 @@
   justify-content: flex-start;
   background: black;
 
-  // Image de fond optimisée pour LCP
-  .hero-background {
+  // Placeholder pour éviter l'écran noir
+  .video-placeholder {
     position: absolute;
     top: -100px;
     height: calc(100% + 200px);
@@ -24,9 +24,9 @@
     filter: brightness(50%) contrast(1.1);
     z-index: 1;
     transform: translateZ(0);
-    // Éliminer le saut de contenu
-    content-visibility: auto;
-    contain: layout style paint;
+    opacity: 1;
+    transition: opacity 0.5s ease-out; // Smoother transition for fade-out
+    will-change: opacity; // Optimize transition performance
   }
 
   .background-video {
@@ -37,9 +37,8 @@
     width: 100%;
     object-fit: cover;
     filter: brightness(50%) contrast(1.1);
-    z-index: 2;
+    z-index: 2; // Ensure video is above placeholder when loaded
     transform: translateZ(0);
-    // Optimisations de performance
     will-change: opacity;
 
     &.loading {
@@ -48,7 +47,7 @@
 
     &.loaded {
       opacity: 1;
-      transition: opacity 0.8s ease-in-out;
+      transition: opacity 0.5s ease-in-out; // Match placeholder transition
     }
   }
 
@@ -68,7 +67,7 @@
       rgba(0, 0, 0, 0.1) 80%,
       rgba(0, 0, 0, 0) 100%
     );
-    z-index: 2;
+    z-index: 3;
     pointer-events: none;
   }
 
@@ -76,14 +75,13 @@
     position: absolute;
     top: 6rem;
     right: 2rem;
-    z-index: 3;
+    z-index: 4;
 
     .logo {
       width: 200px;
       height: auto;
       filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
       opacity: 0.95;
-      // Optimisation de rendu
       will-change: transform;
       backface-visibility: hidden;
     }
@@ -93,11 +91,10 @@
     margin-top: 100px;
     padding-left: 10px;
     position: relative;
-    z-index: 3; // Au-dessus de la vidéo et du fade
+    z-index: 4;
     max-width: 1400px;
     margin-left: 4rem;
     color: white;
-    // Optimisations de performance
     contain: layout style;
 
     .slogan {
@@ -107,9 +104,7 @@
       letter-spacing: -0.02em;
       text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
       font-display: swap;
-      // Éviter les layout shifts
       min-height: 120px;
-      // Optimiser le rendu du texte
       text-rendering: optimizeLegibility;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
@@ -172,7 +167,6 @@
         min-width: 140px;
         height: 52px;
         box-sizing: border-box;
-        // Optimisations de performance
         will-change: transform;
         backface-visibility: hidden;
 
@@ -241,7 +235,6 @@
   }
 
   @media (max-width: 768px) {
-    // Réduction de la hauteur du fade sur mobile
     &::after {
       height: 150px;
     }
@@ -308,7 +301,6 @@
   }
 
   @media (max-width: 480px) {
-    // Fade plus léger sur très petits écrans
     &::after {
       height: 120px;
     }

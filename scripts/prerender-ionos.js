@@ -4,6 +4,7 @@ import { JSDOM } from "jsdom";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { generateRedirectHTML, REDIRECTS } from "./generate-seo-files.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -444,7 +445,8 @@ function injectSEOMeta(html, route) {
 
 // Génération du sitemap
 function generateSitemap() {
-  const urls = routes
+  // URLs principales
+  const mainUrls = routes
     .map((route) => {
       return `  <url>
     <loc>${CONFIG.baseUrl}${route.canonical}</loc>
@@ -455,9 +457,22 @@ function generateSitemap() {
     })
     .join("\n");
 
+  // URLs de redirection (pour les QR codes)
+  const redirectUrls = Object.keys(REDIRECTS)
+    .map((oldFile) => {
+      return `  <url>
+    <loc>${CONFIG.baseUrl}/${oldFile}</loc>
+    <lastmod>${new Date().toISOString().split("T")[0]}</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.1</priority>
+  </url>`;
+    })
+    .join("\n");
+
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls}
+${mainUrls}
+${redirectUrls}
 </urlset>`;
 }
 
@@ -487,41 +502,44 @@ Disallow: /*.json$`;
 // Génération du .htaccess# Génération du .htaccess corrigé
 function generateHtaccess() {
   return `<IfModule mod_rewrite.c>
-  RewriteEngine On
+ RewriteEngine On
 
-  # Force HTTPS
-  RewriteCond %{HTTPS} !=on
-  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+ # Force HTTPS
+ RewriteCond %{HTTPS} !=on
+ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-  # Force www
-  RewriteCond %{HTTP_HOST} ^rosi-trattoria\.com$ [NC]
-  RewriteRule ^(.*)$ https://www.rosi-trattoria.com/$1 [R=301,L]
+ # Force www
+ RewriteCond %{HTTP_HOST} ^rosi-trattoria\.com$ [NC]
+ RewriteRule ^(.*)$ https://www.rosi-trattoria.com/$1 [R=301,L]
 
-  # Handle old .html files (QR codes redirections)
-  RewriteRule ^index\.html$ / [R=301,L]
-  RewriteRule ^carte\.html$ /carte/ [R=301,L]
-  RewriteRule ^nosvaleurs\.html$ /nos-valeurs/ [R=301,L]
-  RewriteRule ^recrutement\.html$ /recrutement/ [R=301,L]
-  RewriteRule ^contact\.html$ /contact/ [R=301,L]
+ # Add trailing slash for main pages (seulement si pas de fichier)
+ RewriteCond %{REQUEST_FILENAME} !-f
+ RewriteCond %{REQUEST_FILENAME} !-d
+ RewriteRule ^(nos-valeurs|carte|recrutement|contact)$ /$1/ [R=301,L]
 
-  # Add trailing slash for main pages
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule ^(nos-valeurs|carte|recrutement|contact)$ /$1/ [R=301,L]
+ # Fallback pour SPA - permettre les fichiers .html physiques
+ RewriteCond %{REQUEST_FILENAME} !-f
+ RewriteCond %{REQUEST_FILENAME} !-d
+ RewriteCond %{REQUEST_URI} !\.(css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|pdf|xml|json|txt)$ [NC]
+ RewriteRule . /index.html [L]
+</IfModule>
 
-  # Enforce trailing slash for all URLs
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule ^(.+[^/])$ /$1/ [R=301,L]
+# Configuration des headers pour SEO et performances
+<IfModule mod_headers.c>
+ # Cache control
+ Header always set Cache-Control "public, max-age=31536000" "expr=%{REQUEST_URI} =~ /\.(css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2)$/"
+ Header always set Cache-Control "public, max-age=3600" "expr=%{REQUEST_URI} =~ /\.(html|xml|txt)$/"
+ 
+ # Security headers
+ Header always set X-Content-Type-Options nosniff
+ Header always set X-Frame-Options DENY
+ Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
 
-  # Fallback for prerendered pages and SPA
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteCond %{REQUEST_URI} !\.(css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|pdf|xml|json)$ [NC]
-  RewriteRule ^(.+)/$ $1/index.html [L]
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . /index.html [L]
+# Configuration MIME types
+<IfModule mod_mime.c>
+ AddType application/javascript .js
+ AddType text/css .css
 </IfModule>`;
 }
 
@@ -591,6 +609,14 @@ async function prerenderForIONOS() {
     const htaccess = generateHtaccess();
     fs.writeFileSync(path.join(CONFIG.distDir, ".htaccess"), htaccess, "utf8");
     console.log("⚙️ .htaccess généré");
+
+    console.log("🔄 Génération des fichiers de redirection HTML...");
+    for (const [oldFile, newPath] of Object.entries(REDIRECTS)) {
+      const htmlContent = generateRedirectHTML(oldFile, newPath);
+      const filePath = path.join(CONFIG.distDir, oldFile);
+      fs.writeFileSync(filePath, htmlContent, "utf8");
+      console.log(`✅ Redirection créée: ${oldFile} → ${newPath}`);
+    }
 
     console.log("🎉 Prerender terminé avec succès !");
   } catch (error) {

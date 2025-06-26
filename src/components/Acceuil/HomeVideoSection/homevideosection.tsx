@@ -15,7 +15,62 @@ const HomeVideoSection: React.FC = () => {
   const [hasTrackedVideoView, setHasTrackedVideoView] = useState(false);
   const navigate = useNavigate();
 
-  // Optimisation : Vérification mobile plus efficace
+  // Configuration Cloudinary
+  const CLOUDINARY_CONFIG = {
+    cloudName: "dc5jx2yo7",
+    publicId: "nlqz6yqlcffaf4h5mudk",
+  };
+
+  // Génération des URLs Cloudinary optimisées
+  const getCloudinaryVideoUrl = useCallback(
+    (format: string = "mp4", quality: string = "auto") => {
+      const width = isMobile ? "1080" : "1920";
+      const height = isMobile ? "607" : "1080";
+
+      const transformations = [
+        "f_" + format,
+        "q_" + quality,
+        `w_${width}`,
+        `h_${height}`,
+        "c_fill",
+        "g_center",
+        "e_brightness:30",
+        "fl_immutable_cache",
+      ];
+
+      return `https://res.cloudinary.com/${
+        CLOUDINARY_CONFIG.cloudName
+      }/video/upload/${transformations.join(",")}/${
+        CLOUDINARY_CONFIG.publicId
+      }.${format}`;
+    },
+    [isMobile]
+  );
+
+  const getCloudinaryPosterUrl = useCallback(() => {
+    const width = isMobile ? "1080" : "1920";
+    const height = isMobile ? "607" : "1080";
+
+    const transformations = [
+      "f_jpg",
+      "q_auto:good",
+      `w_${width}`,
+      `h_${height}`,
+      "c_fill",
+      "g_center",
+      "e_brightness:30",
+      "fl_immutable_cache",
+      "so_0", // Extract frame at 0 seconds
+    ];
+
+    return `https://res.cloudinary.com/${
+      CLOUDINARY_CONFIG.cloudName
+    }/video/upload/${transformations.join(",")}/${
+      CLOUDINARY_CONFIG.publicId
+    }.jpg`;
+  }, [isMobile]);
+
+  // Optimisation : Vérification mobile
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -23,7 +78,6 @@ const HomeVideoSection: React.FC = () => {
 
     checkMobile();
 
-    // Utilisation de ResizeObserver si disponible, sinon fallback sur resize
     if (window.ResizeObserver) {
       const resizeObserver = new ResizeObserver(checkMobile);
       resizeObserver.observe(document.body);
@@ -41,7 +95,6 @@ const HomeVideoSection: React.FC = () => {
         if (entry.isIntersecting) {
           setIsIntersecting(true);
 
-          // Track hero section view
           if (!hasTrackedVideoView) {
             ReactGA.event({
               action: "view_hero_section",
@@ -71,17 +124,16 @@ const HomeVideoSection: React.FC = () => {
   // Optimisation : Chargement conditionnel de la vidéo
   useEffect(() => {
     if (isIntersecting) {
-      // Délai plus long pour éviter le chargement immédiat
-      const timer = setTimeout(() => setShouldLoadVideo(true), 500);
+      const delay = isMobile ? 0 : 200;
+      const timer = setTimeout(() => setShouldLoadVideo(true), delay);
       return () => clearTimeout(timer);
     }
-  }, [isIntersecting]);
+  }, [isIntersecting, isMobile]);
 
-  // Optimisation : Gestion de la vidéo avec memoization et tracking
+  // Optimisation : Gestion de la vidéo
   const handleVideoLoad = useCallback(() => {
     setIsVideoLoaded(true);
 
-    // Track video load
     ReactGA.event({
       action: "video_loaded",
       category: "media",
@@ -92,7 +144,6 @@ const HomeVideoSection: React.FC = () => {
   const handleVideoError = useCallback(() => {
     console.warn("Erreur de chargement vidéo");
 
-    // Track video error
     ReactGA.event({
       action: "video_error",
       category: "media",
@@ -119,7 +170,6 @@ const HomeVideoSection: React.FC = () => {
 
     const tryPlay = async () => {
       try {
-        // Vérifier si l'utilisateur préfère les animations réduites
         const prefersReducedMotion = window.matchMedia(
           "(prefers-reduced-motion: reduce)"
         ).matches;
@@ -127,7 +177,6 @@ const HomeVideoSection: React.FC = () => {
 
         await video.play();
       } catch (error) {
-        // Fallback silencieux pour l'autoplay
         const handleUserClick = () => {
           video.play().catch(() => {});
         };
@@ -148,20 +197,21 @@ const HomeVideoSection: React.FC = () => {
     };
   }, [shouldLoadVideo, handleVideoLoad, handleVideoError, handleVideoPlay]);
 
-  const handleDistributorClick = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    setIsModalOpen(true);
+  const handleDistributorClick = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      setIsModalOpen(true);
 
-    // Track distributor button click
-    ReactGA.event({
-      action: "click_distributor_button",
-      category: "engagement",
-      label: "distributor_modal_opened",
-    });
-  }, []);
+      ReactGA.event({
+        action: "click_distributor_button",
+        category: "engagement",
+        label: "distributor_modal_opened",
+      });
+    },
+    []
+  );
 
   const handleCarteClick = useCallback(() => {
-    // Track carte button click
     ReactGA.event({
       action: "click_carte_button",
       category: "navigation",
@@ -172,7 +222,6 @@ const HomeVideoSection: React.FC = () => {
   }, [navigate]);
 
   const handleReservationClick = useCallback(() => {
-    // Track reservation button click
     ReactGA.event({
       action: "click_reservation_button",
       category: "conversion",
@@ -181,7 +230,6 @@ const HomeVideoSection: React.FC = () => {
   }, []);
 
   const handleClickCollectClick = useCallback(() => {
-    // Track click & collect button click
     ReactGA.event({
       action: "click_collect_button",
       category: "conversion",
@@ -198,7 +246,6 @@ const HomeVideoSection: React.FC = () => {
   const closeModal = useCallback(() => {
     setIsModalOpen(false);
 
-    // Track modal close
     ReactGA.event({
       action: "close_distributor_modal",
       category: "engagement",
@@ -206,7 +253,7 @@ const HomeVideoSection: React.FC = () => {
     });
   }, []);
 
-  // Track when user scrolls past hero section
+  // Track scroll past hero section
   useEffect(() => {
     const handleScroll = () => {
       const heroSection = document.querySelector(".home-video-section");
@@ -221,7 +268,6 @@ const HomeVideoSection: React.FC = () => {
             label: "user_scrolled_past_hero_section",
           });
 
-          // Remove listener after first trigger
           window.removeEventListener("scroll", handleScroll);
         }
       }
@@ -233,13 +279,12 @@ const HomeVideoSection: React.FC = () => {
 
   return (
     <section className="home-video-section">
-      {/* Image de fallback pour un meilleur LCP */}
+      {/* Arrière-plan temporaire pendant le chargement vidéo */}
       <div
-        className="hero-background"
+        className="video-placeholder"
         style={{
-          backgroundImage: !shouldLoadVideo
-            ? "url(/images/hero-fallback.jpg)"
-            : "none",
+          backgroundImage: `url(${getCloudinaryPosterUrl()})`,
+          opacity: isVideoLoaded ? 0 : 1,
         }}
       />
 
@@ -251,13 +296,23 @@ const HomeVideoSection: React.FC = () => {
           muted
           loop
           playsInline
-          preload="metadata"
-          poster="/images/hero-fallback.jpg"
+          preload={isMobile ? "metadata" : "none"}
+          poster={getCloudinaryPosterUrl()}
           aria-label="Vidéo de présentation du restaurant Rosi Trattoria"
         >
           <source
-            src="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/rosi.mp4"
+            src={getCloudinaryVideoUrl(
+              "mp4",
+              isMobile ? "auto:low" : "auto:good"
+            )}
             type="video/mp4"
+          />
+          <source
+            src={getCloudinaryVideoUrl(
+              "webm",
+              isMobile ? "auto:low" : "auto:good"
+            )}
+            type="video/webm"
           />
           <p>
             Découvrez l'ambiance chaleureuse de Rosi Trattoria, votre restaurant
@@ -373,50 +428,15 @@ const HomeVideoSection: React.FC = () => {
           from { transform: rotate(0deg); }
           to { transform: rotate(360deg); }
         }
-        
-        .hero-background {
-          position: absolute;
-          top: -100px;
-          height: calc(100% + 200px);
-          left: 0;
-          width: 100%;
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
-          filter: brightness(50%) contrast(1.1);
-          z-index: 1;
-          transform: translateZ(0);
-          will-change: background-image;
-        }
-        
-        .background-video {
-          position: absolute;
-          top: -100px;
-          height: calc(100% + 200px);
-          left: 0;
-          width: 100%;
-          object-fit: cover;
-          filter: brightness(50%) contrast(1.1);
-          transform: translateZ(0);
-          will-change: opacity;
-        }
-        
-        .background-video.loading {
-          opacity: 0;
-        }
-        
-        .background-video.loaded {
-          opacity: 1;
-          transition: opacity 0.8s ease-in-out;
-          z-index: 2;
-        }
-        
-        /* Optimisation pour les animations réduites */
+
         @media (prefers-reduced-motion: reduce) {
           .rotating-pizza {
             animation: none;
           }
           .background-video.loaded {
+            transition: none;
+          }
+          .video-placeholder {
             transition: none;
           }
         }
