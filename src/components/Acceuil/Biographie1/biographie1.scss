@@ -139,6 +139,11 @@
     transform: translateY(0);
     animation: titleEntrance 0.8s ease-out;
   }
+  &.permanent {
+    opacity: 1;
+    transform: translateY(0);
+    animation: none; // Désactive l'animation pour éviter la répétition
+  }
 }
 
 .biographie__title-main {

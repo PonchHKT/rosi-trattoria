@@ -16,6 +16,10 @@ const Footer: React.FC = () => {
 
   // Détection du mois d'août
   const isAugust = () => {
+    const forceAugustSchedule = false; // Temporary flag to force August schedule
+    if (forceAugustSchedule) {
+      return true; // Force August schedule
+    }
     const currentMonth = new Date().getMonth();
     return currentMonth === 7; // Août = index 7 (0-indexed)
   };
@@ -158,7 +162,7 @@ const Footer: React.FC = () => {
                 </div>
                 <div className="footer__contact-details">
                   <a
-                    href="https://maps.google.com/?q=11+Prom.+des+Tilleuls,+19100+Brive-la-Gaillarde"
+                    href="https://maps.google.com/?q=11asteroid:11+Prom.+des+Tilleuls,+19100+Brive-la-Gaillarde"
                     target="_blank"
                     rel="noopener noreferrer"
                     title="Localiser Rosi Trattoria sur Google Maps"
@@ -224,28 +228,51 @@ const Footer: React.FC = () => {
                 </div>
                 <div className="footer__contact-details">
                   <div className="footer__hours-list" itemProp="openingHours">
-                    <div className="footer__hours-item">
-                      <span className="footer__hours-day">
-                        {isAugust()
-                          ? "Lun-Mar-Mer-Jeu"
-                          : "Mardi-Mercredi-Jeudi"}
-                      </span>
-                      <span className="footer__hours-time">
-                        12h-14h / 19h-21h30
-                      </span>
-                    </div>
-                    <div className="footer__hours-item">
-                      <span className="footer__hours-day">Vendredi-Samedi</span>
-                      <span className="footer__hours-time">
-                        12h-14h / 19h-22h30
-                      </span>
-                    </div>
-                    <div className="footer__hours-item">
-                      <span className="footer__hours-day">
-                        {isAugust() ? "Dimanche" : "Lundi, Dimanche"}
-                      </span>
-                      <span className="footer__hours-closed">Fermé</span>
-                    </div>
+                    {isAugust() ? (
+                      <>
+                        <div className="footer__hours-item">
+                          <span className="footer__hours-day">Lundi-Jeudi</span>
+                          <span className="footer__hours-time">
+                            12h00-13h30 / 18h30-21h30
+                          </span>
+                        </div>
+                        <div className="footer__hours-item">
+                          <span className="footer__hours-day">
+                            Vendredi-Samedi
+                          </span>
+                          <span className="footer__hours-time">
+                            12h00-13h30 / 18h30-22h00
+                          </span>
+                        </div>
+                        <div className="footer__hours-item">
+                          <span className="footer__hours-day">Dimanche</span>
+                          <span className="footer__hours-closed">Fermé</span>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="footer__hours-item">
+                          <span className="footer__hours-day">Mardi-Jeudi</span>
+                          <span className="footer__hours-time">
+                            12h00-14h00 / 18h30-21h30
+                          </span>
+                        </div>
+                        <div className="footer__hours-item">
+                          <span className="footer__hours-day">
+                            Vendredi-Samedi
+                          </span>
+                          <span className="footer__hours-time">
+                            12h00-14h00 / 18h30-22h30
+                          </span>
+                        </div>
+                        <div className="footer__hours-item">
+                          <span className="footer__hours-day">
+                            Lundi, Dimanche
+                          </span>
+                          <span className="footer__hours-closed">Fermé</span>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>

@@ -3,11 +3,17 @@ import React, { useRef, useCallback, useMemo, useState, useEffect, } from "react
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectCoverflow } from "swiper/modules";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import ReactGA from "react-ga4";
 import "swiper/css";
 import "swiper/css/autoplay";
 import "swiper/css/effect-coverflow";
 import "react-lazy-load-image-component/src/effects/opacity.css";
 import "./swipergallery.scss";
+const GA4_EVENTS = {
+    GALLERY_NAVIGATION: "gallery_navigation",
+    GALLERY_ENGAGEMENT: "gallery_engagement",
+    IMAGE_ERROR: "gallery_image_load_error",
+};
 const shuffleArray = (array) => {
     const newArray = [...array];
     for (let i = newArray.length - 1; i > 0; i--) {
@@ -16,11 +22,14 @@ const shuffleArray = (array) => {
     }
     return newArray;
 };
-const SwiperGallery = () => {
+const SwiperGallery = ({ pageName = "Accueil", }) => {
     const swiperRef = useRef(null);
     const [isMobile, setIsMobile] = useState(false);
     const [, setCurrentSlideIndex] = useState(0);
-    // Detect mobile on mount
+    const hasTrackedEngagement = useRef(false);
+    const [totalSlideChanges, setTotalSlideChanges] = useState(0);
+    const [photosViewed, setPhotosViewed] = useState(new Set());
+    const engagementTimer = useRef(null);
     useEffect(() => {
         const checkMobile = () => {
             setIsMobile(window.innerWidth <= 640);
@@ -166,6 +175,27 @@ const SwiperGallery = () => {
         }));
         return shuffleArray(slidesArray);
     }, []);
+    useEffect(() => {
+        if (totalSlideChanges > 0 && !hasTrackedEngagement.current) {
+            if (engagementTimer.current) {
+                clearTimeout(engagementTimer.current);
+            }
+            engagementTimer.current = setTimeout(() => {
+                ReactGA.event({
+                    action: GA4_EVENTS.GALLERY_ENGAGEMENT,
+                    category: "Photo Gallery",
+                    label: `${pageName} - Engagement prolongé - ${photosViewed.size}/${slides.length} photos vues`,
+                    value: Math.round((photosViewed.size / slides.length) * 100),
+                });
+                hasTrackedEngagement.current = true;
+            }, 10000);
+            return () => {
+                if (engagementTimer.current) {
+                    clearTimeout(engagementTimer.current);
+                }
+            };
+        }
+    }, [totalSlideChanges, photosViewed.size, slides.length, pageName]);
     const randomInitialSlide = useMemo(() => {
         return Math.floor(Math.random() * slides.length);
     }, [slides.length]);
@@ -199,7 +229,6 @@ const SwiperGallery = () => {
         resistanceRatio: 0.85,
         roundLengths: true,
         preventInteractionOnTransition: false,
-        // Removed preloadImages and lazy props - these are causing the React warnings
         breakpoints: {
             0: {
                 slidesPerView: 1.2,
@@ -274,9 +303,22 @@ const SwiperGallery = () => {
             },
         },
         onSlideChange: (swiper) => {
+            const currentSlide = slides[swiper.realIndex];
             setCurrentSlideIndex(swiper.realIndex);
+            setTotalSlideChanges((prev) => prev + 1);
+            if (currentSlide) {
+                setPhotosViewed((prev) => new Set([...prev, currentSlide.id]));
+                if (totalSlideChanges % 3 === 0) {
+                    ReactGA.event({
+                        action: GA4_EVENTS.GALLERY_NAVIGATION,
+                        category: "Photo Gallery",
+                        label: `${pageName} - Navigation galerie - Slide ${swiper.realIndex + 1}/${slides.length}`,
+                        value: Math.round((photosViewed.size / slides.length) * 100),
+                    });
+                }
+            }
         },
-    }), [randomInitialSlide]);
+    }), [randomInitialSlide, slides, pageName, totalSlideChanges, photosViewed.size]);
     const onSwiper = useCallback((swiper) => {
         swiperRef.current = swiper;
         setCurrentSlideIndex(swiper.realIndex);
@@ -286,36 +328,38 @@ const SwiperGallery = () => {
             swiperRef.current.slideTo(slideIndex);
         }
     }, []);
-    return (_jsx("div", { className: "gallery-container", children: _jsx("div", { className: "gallery-wrapper", children: _jsx(Swiper, { ...swiperConfig, onSwiper: onSwiper, children: slides.map((slide, index) => (_jsxs(SwiperSlide, { children: [_jsx("div", { className: "swiper-slide-overlay" }), isMobile ? (
-                        // Regular img tag for mobile (no lazy loading)
-                        _jsx("img", { src: slide.src, alt: slide.alt, title: slide.title, className: "swiper-image", style: {
+    const handleImageError = useCallback((slide, e) => {
+        console.warn(`Impossible de charger l'image: ${slide.src}`);
+        ReactGA.event({
+            action: GA4_EVENTS.IMAGE_ERROR,
+            category: "Photo Gallery",
+            label: `${pageName} - Erreur: ${slide.title}`,
+        });
+        const img = e.currentTarget;
+        const parent = img.parentElement;
+        if (parent) {
+            parent.innerHTML = `
+          <div style="
+            width: 100%; 
+            height: 100%; 
+            background: #f0f0f0; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            color: #666;
+            font-size: 14px;
+          ">
+            Image non disponible
+          </div>
+        `;
+        }
+    }, [pageName]);
+    return (_jsx("div", { className: "gallery-container", children: _jsx("div", { className: "gallery-wrapper", children: _jsx(Swiper, { ...swiperConfig, onSwiper: onSwiper, children: slides.map((slide, index) => (_jsxs(SwiperSlide, { children: [_jsx("div", { className: "swiper-slide-overlay" }), isMobile ? (_jsx("img", { src: slide.src, alt: slide.alt, title: slide.title, className: "swiper-image", style: {
                                 cursor: "pointer",
                                 width: "100%",
                                 height: "100%",
                                 objectFit: "cover",
-                            }, onClick: () => handleSlideClick(slide.id), onError: (e) => {
-                                console.warn(`Impossible de charger l'image: ${slide.src}`);
-                                const img = e.currentTarget;
-                                const parent = img.parentElement;
-                                if (parent) {
-                                    parent.innerHTML = `
-                        <div style="
-                          width: 100%; 
-                          height: 100%; 
-                          background: #f0f0f0; 
-                          display: flex; 
-                          align-items: center; 
-                          justify-content: center;
-                          color: #666;
-                          font-size: 14px;
-                        ">
-                          Image non disponible
-                        </div>
-                      `;
-                                }
-                            } })) : (
-                        // LazyLoadImage for desktop
-                        _jsx(LazyLoadImage, { src: slide.src, alt: slide.alt, title: slide.title, className: "swiper-image", effect: "opacity", wrapperClassName: "lazy-load-image-wrapper", style: {
+                            }, onClick: () => handleSlideClick(slide.id), onError: (e) => handleImageError(slide, e) })) : (_jsx(LazyLoadImage, { src: slide.src, alt: slide.alt, title: slide.title, className: "swiper-image", effect: "opacity", wrapperClassName: "lazy-load-image-wrapper", style: {
                                 cursor: "pointer",
                                 width: "100%",
                                 height: "100%",
@@ -328,28 +372,6 @@ const SwiperGallery = () => {
                                     alignItems: "center",
                                     justifyContent: "center",
                                     color: "#999",
-                                }, children: _jsx("div", { children: "Chargement..." }) }), afterLoad: () => {
-                                console.log(`Image loaded: ${slide.title}`);
-                            }, onError: (e) => {
-                                console.warn(`Impossible de charger l'image: ${slide.src}`);
-                                const img = e.currentTarget;
-                                const parent = img.parentElement;
-                                if (parent) {
-                                    parent.innerHTML = `
-                        <div style="
-                          width: 100%; 
-                          height: 100%; 
-                          background: #f0f0f0; 
-                          display: flex; 
-                          align-items: center; 
-                          justify-content: center;
-                          color: #666;
-                          font-size: 14px;
-                        ">
-                          Image non disponible
-                        </div>
-                      `;
-                                }
-                            } }))] }, slide.id))) }) }) }));
+                                }, children: _jsx("div", { children: "Chargement..." }) }), onError: (e) => handleImageError(slide, e) }))] }, slide.id))) }) }) }));
 };
 export default React.memo(SwiperGallery);

@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import {
@@ -10,6 +10,7 @@ import {
   SkipBack,
   SkipForward,
 } from "lucide-react";
+import ReactGA from "react-ga4";
 import "./videoplayer.scss";
 
 interface Video {
@@ -17,6 +18,22 @@ interface Video {
   url: string;
   thumbnail: string;
 }
+
+// Optimized GA4 events with snake_case convention
+const GA4_EVENTS = {
+  // User engagement events
+  VIDEO_PLAY_START: "videoplayer_play_start",
+  VIDEO_COMPLETION: "videoplayer_completion",
+  VIDEO_ENGAGEMENT: "videoplayer_engagement",
+
+  // Significant user actions
+  VIDEO_SWITCH: "videoplayer_switch",
+  PLAYLIST_TOGGLE: "videoplayer_playlist_toggle",
+  FULLSCREEN_TOGGLE: "videoplayer_fullscreen_toggle",
+
+  // Critical technical errors
+  VIDEO_LOAD_ERROR: "videoplayer_load_error",
+};
 
 const VideoPlayer: React.FC = () => {
   const [currentVideo, setCurrentVideo] = useState<number>(0);
@@ -30,10 +47,13 @@ const VideoPlayer: React.FC = () => {
   const [isInitialized, setIsInitialized] = useState<boolean>(false);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
   const [shouldAutoPlay, setShouldAutoPlay] = useState<boolean>(false);
+  const [hasTrackedEngagement, setHasTrackedEngagement] =
+    useState<boolean>(false);
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const playerRef = useRef<HTMLDivElement>(null);
-  const controlsTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const engagementTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const videos: Video[] = [
     {
@@ -78,16 +98,16 @@ const VideoPlayer: React.FC = () => {
     },
   ];
 
-  const isMobile = () => {
+  const isMobile = useCallback(() => {
     return (
       window.innerWidth <= 768 ||
       /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
         navigator.userAgent
       )
     );
-  };
+  }, []);
 
-  const togglePlay = () => {
+  const togglePlay = useCallback(() => {
     if (videoRef.current) {
       if (isPlaying) {
         videoRef.current.pause();
@@ -97,62 +117,111 @@ const VideoPlayer: React.FC = () => {
           .play()
           .then(() => {
             setIsPlaying(true);
-            // Activer le plein écran sur mobile quand l'utilisateur démarre manuellement la vidéo
+            ReactGA.event(GA4_EVENTS.VIDEO_PLAY_START, {
+              video_title: videos[currentVideo].title,
+              video_index: currentVideo,
+              device_type: isMobile() ? "mobile" : "desktop",
+              page_name: "video_player",
+            });
+            if (!hasTrackedEngagement) {
+              engagementTimerRef.current = setTimeout(() => {
+                ReactGA.event(GA4_EVENTS.VIDEO_ENGAGEMENT, {
+                  video_title: videos[currentVideo].title,
+                  video_index: currentVideo,
+                  engagement_duration: 10000,
+                  device_type: isMobile() ? "mobile" : "desktop",
+                  page_name: "video_player",
+                });
+                setHasTrackedEngagement(true);
+              }, 10000);
+            }
             activateFullscreenOnMobile();
           })
           .catch((error) => {
             console.error("Play failed:", error);
+            ReactGA.event(GA4_EVENTS.VIDEO_LOAD_ERROR, {
+              video_title: videos[currentVideo].title,
+              video_index: currentVideo,
+              device_type: isMobile() ? "mobile" : "desktop",
+              error_type: "play_failed",
+              page_name: "video_player",
+            });
           });
       }
     }
-  };
+  }, [isPlaying, currentVideo, hasTrackedEngagement, videos, isMobile]);
 
-  const toggleMute = () => {
+  const toggleMute = useCallback(() => {
     if (videoRef.current) {
       videoRef.current.muted = !isMuted;
       setIsMuted(!isMuted);
     }
-  };
+  }, [isMuted]);
 
-  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newVolume = parseFloat(e.target.value);
-    setVolume(newVolume);
-    if (videoRef.current) {
-      videoRef.current.volume = newVolume;
-      videoRef.current.muted = newVolume === 0;
-      setIsMuted(newVolume === 0);
-    }
-  };
+  const handleVolumeChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newVolume = parseFloat(e.target.value);
+      setVolume(newVolume);
+      if (videoRef.current) {
+        videoRef.current.volume = newVolume;
+        videoRef.current.muted = newVolume === 0;
+        setIsMuted(newVolume === 0);
+      }
+    },
+    []
+  );
 
-  const handleTimeUpdate = () => {
+  const handleTimeUpdate = useCallback(() => {
     if (videoRef.current) {
       setCurrentTime(videoRef.current.currentTime);
     }
-  };
+  }, []);
 
-  const handleLoadedMetadata = () => {
+  const handleLoadedMetadata = useCallback(() => {
     if (videoRef.current) {
       setDuration(videoRef.current.duration);
     }
-  };
+  }, []);
 
-  const setStartTime = () => {
+  const handleVideoError = useCallback(() => {
+    ReactGA.event(GA4_EVENTS.VIDEO_LOAD_ERROR, {
+      video_title: videos[currentVideo].title,
+      video_index: currentVideo,
+      device_type: isMobile() ? "mobile" : "desktop",
+      error_type: "video_load_failed",
+      page_name: "video_player",
+    });
+  }, [currentVideo, videos, isMobile]);
+
+  const setStartTime = useCallback(() => {
     if (videoRef.current && videoRef.current.readyState >= 2) {
       try {
         videoRef.current.currentTime = 0.01;
         setCurrentTime(0.01);
         setIsInitialized(true);
 
-        // Si on doit jouer automatiquement après le chargement
         if (shouldAutoPlay) {
           videoRef.current
             .play()
             .then(() => {
               setIsPlaying(true);
+              ReactGA.event(GA4_EVENTS.VIDEO_PLAY_START, {
+                video_title: videos[currentVideo].title,
+                video_index: currentVideo,
+                device_type: isMobile() ? "mobile" : "desktop",
+                page_name: "video_player",
+              });
               activateFullscreenOnMobile();
             })
             .catch((error) => {
               console.error("Autoplay failed:", error);
+              ReactGA.event(GA4_EVENTS.VIDEO_LOAD_ERROR, {
+                video_title: videos[currentVideo].title,
+                video_index: currentVideo,
+                device_type: isMobile() ? "mobile" : "desktop",
+                error_type: "autoplay_failed",
+                page_name: "video_player",
+              });
             })
             .finally(() => {
               setShouldAutoPlay(false);
@@ -164,16 +233,28 @@ const VideoPlayer: React.FC = () => {
         setCurrentTime(0);
         setIsInitialized(true);
 
-        // Si on doit jouer automatiquement après le chargement
         if (shouldAutoPlay) {
           videoRef.current
             .play()
             .then(() => {
               setIsPlaying(true);
+              ReactGA.event(GA4_EVENTS.VIDEO_PLAY_START, {
+                video_title: videos[currentVideo].title,
+                video_index: currentVideo,
+                device_type: isMobile() ? "mobile" : "desktop",
+                page_name: "video_player",
+              });
               activateFullscreenOnMobile();
             })
             .catch((error) => {
               console.error("Autoplay failed:", error);
+              ReactGA.event(GA4_EVENTS.VIDEO_LOAD_ERROR, {
+                video_title: videos[currentVideo].title,
+                video_index: currentVideo,
+                device_type: isMobile() ? "mobile" : "desktop",
+                error_type: "autoplay_failed",
+                page_name: "video_player",
+              });
             })
             .finally(() => {
               setShouldAutoPlay(false);
@@ -181,17 +262,20 @@ const VideoPlayer: React.FC = () => {
         }
       }
     }
-  };
+  }, [shouldAutoPlay, currentVideo, videos, isMobile]);
 
-  const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const newTime = (clickX / rect.width) * duration;
-    if (videoRef.current) {
-      videoRef.current.currentTime = newTime;
-      setCurrentTime(newTime);
-    }
-  };
+  const handleSeek = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const newTime = (clickX / rect.width) * duration;
+      if (videoRef.current) {
+        videoRef.current.currentTime = newTime;
+        setCurrentTime(newTime);
+      }
+    },
+    [duration]
+  );
 
   const formatTime = (time: number): string => {
     const minutes = Math.floor(time / 60);
@@ -199,7 +283,7 @@ const VideoPlayer: React.FC = () => {
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
-  const activateFullscreenOnMobile = async () => {
+  const activateFullscreenOnMobile = useCallback(async () => {
     if (!isMobile()) return;
 
     try {
@@ -220,46 +304,61 @@ const VideoPlayer: React.FC = () => {
     } catch (error) {
       console.warn("Mobile fullscreen failed:", error);
     }
-  };
+  }, [isMobile]);
 
-  const changeVideo = (index: number, autoPlay: boolean = false) => {
-    setCurrentVideo(index);
-    setCurrentTime(0);
-    setIsInitialized(false);
-    setIsPlaying(false);
-    setShouldAutoPlay(autoPlay);
+  const changeVideo = useCallback(
+    (index: number, autoPlay: boolean = false) => {
+      setCurrentVideo(index);
+      setCurrentTime(0);
+      setIsInitialized(false);
+      setIsPlaying(false);
+      setShouldAutoPlay(autoPlay);
+      setHasTrackedEngagement(false);
 
-    if (videoRef.current) {
-      videoRef.current.load();
+      ReactGA.event(GA4_EVENTS.VIDEO_SWITCH, {
+        video_title: videos[index].title,
+        video_index: index,
+        device_type: isMobile() ? "mobile" : "desktop",
+        page_name: "video_player",
+        switch_trigger: autoPlay ? "auto" : "user",
+      });
 
-      const handleCanPlay = () => {
-        if (videoRef.current) {
-          setStartTime();
-          videoRef.current.removeEventListener("canplay", handleCanPlay);
-        }
-      };
+      if (videoRef.current) {
+        videoRef.current.load();
+        const handleCanPlay = () => {
+          if (videoRef.current) {
+            setStartTime();
+            videoRef.current.removeEventListener("canplay", handleCanPlay);
+          }
+        };
+        videoRef.current.addEventListener("canplay", handleCanPlay);
+      }
+    },
+    [videos, isMobile, setStartTime]
+  );
 
-      videoRef.current.addEventListener("canplay", handleCanPlay);
-    }
-  };
-
-  const nextVideo = () => {
+  const nextVideo = useCallback(() => {
     const next = (currentVideo + 1) % videos.length;
     changeVideo(next);
-  };
+  }, [currentVideo, videos.length, changeVideo]);
 
-  const prevVideo = () => {
+  const prevVideo = useCallback(() => {
     const prev = (currentVideo - 1 + videos.length) % videos.length;
     changeVideo(prev);
-  };
+  }, [currentVideo, videos.length, changeVideo]);
 
-  // Gestionnaire pour la fin de vidéo - ne fait plus rien automatiquement
-  const handleVideoEnded = () => {
+  const handleVideoEnded = useCallback(() => {
     setIsPlaying(false);
-    // La vidéo s'arrête simplement, pas de passage automatique à la suivante
-  };
+    ReactGA.event(GA4_EVENTS.VIDEO_COMPLETION, {
+      video_title: videos[currentVideo].title,
+      video_index: currentVideo,
+      device_type: isMobile() ? "mobile" : "desktop",
+      page_name: "video_player",
+      duration: duration,
+    });
+  }, [currentVideo, videos, duration, isMobile]);
 
-  const toggleFullscreen = async () => {
+  const toggleFullscreen = useCallback(async () => {
     try {
       const video = videoRef.current;
       const player = playerRef.current;
@@ -271,6 +370,14 @@ const VideoPlayer: React.FC = () => {
         (document as any).webkitFullscreenElement ||
         (document as any).mozFullScreenElement ||
         (document as any).msFullscreenElement;
+
+      ReactGA.event(GA4_EVENTS.FULLSCREEN_TOGGLE, {
+        video_title: videos[currentVideo].title,
+        video_index: currentVideo,
+        device_type: isMobile() ? "mobile" : "desktop",
+        page_name: "video_player",
+        fullscreen_state: isCurrentlyFullscreen ? "exit" : "enter",
+      });
 
       if (isCurrentlyFullscreen) {
         if (document.exitFullscreen) {
@@ -313,13 +420,20 @@ const VideoPlayer: React.FC = () => {
       console.warn("Fullscreen not supported or failed:", error);
       setIsFullscreen(!isFullscreen);
     }
-  };
+  }, [currentVideo, videos, isMobile, isFullscreen]);
 
-  const togglePlaylist = () => {
+  const togglePlaylist = useCallback(() => {
     setShowPlaylist(!showPlaylist);
-  };
+    ReactGA.event(GA4_EVENTS.PLAYLIST_TOGGLE, {
+      video_title: videos[currentVideo].title,
+      video_index: currentVideo,
+      device_type: isMobile() ? "mobile" : "desktop",
+      page_name: "video_player",
+      playlist_state: !showPlaylist ? "open" : "close",
+    });
+  }, [showPlaylist, currentVideo, videos, isMobile]);
 
-  const handleMouseMove = () => {
+  const handleMouseMove = useCallback(() => {
     setShowControls(true);
     if (controlsTimeoutRef.current) {
       clearTimeout(controlsTimeoutRef.current);
@@ -329,7 +443,7 @@ const VideoPlayer: React.FC = () => {
         setShowControls(false);
       }
     }, 3000);
-  };
+  }, [isPlaying]);
 
   useEffect(() => {
     const handleFullscreenChange = () => {
@@ -370,13 +484,11 @@ const VideoPlayer: React.FC = () => {
 
     const handlePlay = () => setIsPlaying(true);
     const handlePause = () => setIsPlaying(false);
-
     const handleLoadedData = () => {
       if (!isInitialized && video.readyState >= 2) {
         setStartTime();
       }
     };
-
     const handleLoadedMetadataEvent = () => {
       if (!isInitialized) {
         setTimeout(() => {
@@ -389,19 +501,20 @@ const VideoPlayer: React.FC = () => {
     video.addEventListener("pause", handlePause);
     video.addEventListener("loadeddata", handleLoadedData);
     video.addEventListener("loadedmetadata", handleLoadedMetadataEvent);
+    video.addEventListener("error", handleVideoError);
 
     return () => {
       video.removeEventListener("play", handlePlay);
       video.removeEventListener("pause", handlePause);
       video.removeEventListener("loadeddata", handleLoadedData);
       video.removeEventListener("loadedmetadata", handleLoadedMetadataEvent);
+      video.removeEventListener("error", handleVideoError);
     };
-  }, [currentVideo, isInitialized]);
+  }, [isInitialized, handleVideoError, setStartTime]);
 
   useEffect(() => {
     if (videoRef.current && !isInitialized) {
       const video = videoRef.current;
-
       if (video.readyState >= 2) {
         setStartTime();
       } else {
@@ -410,14 +523,18 @@ const VideoPlayer: React.FC = () => {
           video.removeEventListener("loadeddata", handleInitialLoad);
         };
         video.addEventListener("loadeddata", handleInitialLoad);
+        return () => video.removeEventListener("loadeddata", handleInitialLoad);
       }
     }
-  }, [isInitialized]);
+  }, [isInitialized, setStartTime]);
 
   useEffect(() => {
     return () => {
       if (controlsTimeoutRef.current) {
         clearTimeout(controlsTimeoutRef.current);
+      }
+      if (engagementTimerRef.current) {
+        clearTimeout(engagementTimerRef.current);
       }
     };
   }, []);
@@ -437,7 +554,7 @@ const VideoPlayer: React.FC = () => {
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [showPlaylist]);
 
   return (
     <div
@@ -588,7 +705,7 @@ const VideoPlayer: React.FC = () => {
         <div
           className={`video-player__playlist ${
             showPlaylist ? "video-player__playlist--visible" : ""
-          } `}
+          }`}
           role="region"
           aria-label="Liste de lecture"
         >
@@ -606,9 +723,7 @@ const VideoPlayer: React.FC = () => {
             {videos.map((video, index) => (
               <div
                 key={index}
-                onClick={() => {
-                  changeVideo(index, true); // autoPlay = true
-                }}
+                onClick={() => changeVideo(index, true)}
                 className={`video-player__playlist-item ${
                   currentVideo === index
                     ? "video-player__playlist-item--active"
@@ -641,7 +756,6 @@ const VideoPlayer: React.FC = () => {
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.style.display = "none";
-                      // Create fallback element if needed
                       const fallback = document.createElement("div");
                       fallback.className = "video-player__thumbnail-fallback";
                       fallback.textContent = "Image non disponible";
@@ -680,7 +794,7 @@ const VideoPlayer: React.FC = () => {
               : "Afficher la liste de lecture"
           }
         >
-          {showPlaylist ? "Masquer" : "Voir plus"}
+          {showPlaylist ? "Masåquer" : "Voir plus"}
         </button>
       </div>
     </div>

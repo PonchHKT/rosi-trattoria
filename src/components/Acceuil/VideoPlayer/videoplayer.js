@@ -1,9 +1,23 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { Play, Pause, Volume2, VolumeX, Maximize, SkipBack, SkipForward, } from "lucide-react";
+import ReactGA from "react-ga4";
 import "./videoplayer.scss";
+// Optimized GA4 events with snake_case convention
+const GA4_EVENTS = {
+    // User engagement events
+    VIDEO_PLAY_START: "videoplayer_play_start",
+    VIDEO_COMPLETION: "videoplayer_completion",
+    VIDEO_ENGAGEMENT: "videoplayer_engagement",
+    // Significant user actions
+    VIDEO_SWITCH: "videoplayer_switch",
+    PLAYLIST_TOGGLE: "videoplayer_playlist_toggle",
+    FULLSCREEN_TOGGLE: "videoplayer_fullscreen_toggle",
+    // Critical technical errors
+    VIDEO_LOAD_ERROR: "videoplayer_load_error",
+};
 const VideoPlayer = () => {
     const [currentVideo, setCurrentVideo] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
@@ -16,9 +30,11 @@ const VideoPlayer = () => {
     const [isInitialized, setIsInitialized] = useState(false);
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [shouldAutoPlay, setShouldAutoPlay] = useState(false);
+    const [hasTrackedEngagement, setHasTrackedEngagement] = useState(false);
     const videoRef = useRef(null);
     const playerRef = useRef(null);
     const controlsTimeoutRef = useRef(null);
+    const engagementTimerRef = useRef(null);
     const videos = [
         {
             title: "Présentation de Rosi Trattoria",
@@ -61,11 +77,11 @@ const VideoPlayer = () => {
             thumbnail: "/images/thumbnails/les-cocktails-rosi.png",
         },
     ];
-    const isMobile = () => {
+    const isMobile = useCallback(() => {
         return (window.innerWidth <= 768 ||
             /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
-    };
-    const togglePlay = () => {
+    }, []);
+    const togglePlay = useCallback(() => {
         if (videoRef.current) {
             if (isPlaying) {
                 videoRef.current.pause();
@@ -76,22 +92,46 @@ const VideoPlayer = () => {
                     .play()
                     .then(() => {
                     setIsPlaying(true);
-                    // Activer le plein écran sur mobile quand l'utilisateur démarre manuellement la vidéo
+                    ReactGA.event(GA4_EVENTS.VIDEO_PLAY_START, {
+                        video_title: videos[currentVideo].title,
+                        video_index: currentVideo,
+                        device_type: isMobile() ? "mobile" : "desktop",
+                        page_name: "video_player",
+                    });
+                    if (!hasTrackedEngagement) {
+                        engagementTimerRef.current = setTimeout(() => {
+                            ReactGA.event(GA4_EVENTS.VIDEO_ENGAGEMENT, {
+                                video_title: videos[currentVideo].title,
+                                video_index: currentVideo,
+                                engagement_duration: 10000,
+                                device_type: isMobile() ? "mobile" : "desktop",
+                                page_name: "video_player",
+                            });
+                            setHasTrackedEngagement(true);
+                        }, 10000);
+                    }
                     activateFullscreenOnMobile();
                 })
                     .catch((error) => {
                     console.error("Play failed:", error);
+                    ReactGA.event(GA4_EVENTS.VIDEO_LOAD_ERROR, {
+                        video_title: videos[currentVideo].title,
+                        video_index: currentVideo,
+                        device_type: isMobile() ? "mobile" : "desktop",
+                        error_type: "play_failed",
+                        page_name: "video_player",
+                    });
                 });
             }
         }
-    };
-    const toggleMute = () => {
+    }, [isPlaying, currentVideo, hasTrackedEngagement, videos, isMobile]);
+    const toggleMute = useCallback(() => {
         if (videoRef.current) {
             videoRef.current.muted = !isMuted;
             setIsMuted(!isMuted);
         }
-    };
-    const handleVolumeChange = (e) => {
+    }, [isMuted]);
+    const handleVolumeChange = useCallback((e) => {
         const newVolume = parseFloat(e.target.value);
         setVolume(newVolume);
         if (videoRef.current) {
@@ -99,33 +139,54 @@ const VideoPlayer = () => {
             videoRef.current.muted = newVolume === 0;
             setIsMuted(newVolume === 0);
         }
-    };
-    const handleTimeUpdate = () => {
+    }, []);
+    const handleTimeUpdate = useCallback(() => {
         if (videoRef.current) {
             setCurrentTime(videoRef.current.currentTime);
         }
-    };
-    const handleLoadedMetadata = () => {
+    }, []);
+    const handleLoadedMetadata = useCallback(() => {
         if (videoRef.current) {
             setDuration(videoRef.current.duration);
         }
-    };
-    const setStartTime = () => {
+    }, []);
+    const handleVideoError = useCallback(() => {
+        ReactGA.event(GA4_EVENTS.VIDEO_LOAD_ERROR, {
+            video_title: videos[currentVideo].title,
+            video_index: currentVideo,
+            device_type: isMobile() ? "mobile" : "desktop",
+            error_type: "video_load_failed",
+            page_name: "video_player",
+        });
+    }, [currentVideo, videos, isMobile]);
+    const setStartTime = useCallback(() => {
         if (videoRef.current && videoRef.current.readyState >= 2) {
             try {
                 videoRef.current.currentTime = 0.01;
                 setCurrentTime(0.01);
                 setIsInitialized(true);
-                // Si on doit jouer automatiquement après le chargement
                 if (shouldAutoPlay) {
                     videoRef.current
                         .play()
                         .then(() => {
                         setIsPlaying(true);
+                        ReactGA.event(GA4_EVENTS.VIDEO_PLAY_START, {
+                            video_title: videos[currentVideo].title,
+                            video_index: currentVideo,
+                            device_type: isMobile() ? "mobile" : "desktop",
+                            page_name: "video_player",
+                        });
                         activateFullscreenOnMobile();
                     })
                         .catch((error) => {
                         console.error("Autoplay failed:", error);
+                        ReactGA.event(GA4_EVENTS.VIDEO_LOAD_ERROR, {
+                            video_title: videos[currentVideo].title,
+                            video_index: currentVideo,
+                            device_type: isMobile() ? "mobile" : "desktop",
+                            error_type: "autoplay_failed",
+                            page_name: "video_player",
+                        });
                     })
                         .finally(() => {
                         setShouldAutoPlay(false);
@@ -137,16 +198,28 @@ const VideoPlayer = () => {
                 videoRef.current.currentTime = 0;
                 setCurrentTime(0);
                 setIsInitialized(true);
-                // Si on doit jouer automatiquement après le chargement
                 if (shouldAutoPlay) {
                     videoRef.current
                         .play()
                         .then(() => {
                         setIsPlaying(true);
+                        ReactGA.event(GA4_EVENTS.VIDEO_PLAY_START, {
+                            video_title: videos[currentVideo].title,
+                            video_index: currentVideo,
+                            device_type: isMobile() ? "mobile" : "desktop",
+                            page_name: "video_player",
+                        });
                         activateFullscreenOnMobile();
                     })
                         .catch((error) => {
                         console.error("Autoplay failed:", error);
+                        ReactGA.event(GA4_EVENTS.VIDEO_LOAD_ERROR, {
+                            video_title: videos[currentVideo].title,
+                            video_index: currentVideo,
+                            device_type: isMobile() ? "mobile" : "desktop",
+                            error_type: "autoplay_failed",
+                            page_name: "video_player",
+                        });
                     })
                         .finally(() => {
                         setShouldAutoPlay(false);
@@ -154,8 +227,8 @@ const VideoPlayer = () => {
                 }
             }
         }
-    };
-    const handleSeek = (e) => {
+    }, [shouldAutoPlay, currentVideo, videos, isMobile]);
+    const handleSeek = useCallback((e) => {
         const rect = e.currentTarget.getBoundingClientRect();
         const clickX = e.clientX - rect.left;
         const newTime = (clickX / rect.width) * duration;
@@ -163,13 +236,13 @@ const VideoPlayer = () => {
             videoRef.current.currentTime = newTime;
             setCurrentTime(newTime);
         }
-    };
+    }, [duration]);
     const formatTime = (time) => {
         const minutes = Math.floor(time / 60);
         const seconds = Math.floor(time % 60);
         return `${minutes}:${seconds.toString().padStart(2, "0")}`;
     };
-    const activateFullscreenOnMobile = async () => {
+    const activateFullscreenOnMobile = useCallback(async () => {
         if (!isMobile())
             return;
         try {
@@ -195,13 +268,21 @@ const VideoPlayer = () => {
         catch (error) {
             console.warn("Mobile fullscreen failed:", error);
         }
-    };
-    const changeVideo = (index, autoPlay = false) => {
+    }, [isMobile]);
+    const changeVideo = useCallback((index, autoPlay = false) => {
         setCurrentVideo(index);
         setCurrentTime(0);
         setIsInitialized(false);
         setIsPlaying(false);
         setShouldAutoPlay(autoPlay);
+        setHasTrackedEngagement(false);
+        ReactGA.event(GA4_EVENTS.VIDEO_SWITCH, {
+            video_title: videos[index].title,
+            video_index: index,
+            device_type: isMobile() ? "mobile" : "desktop",
+            page_name: "video_player",
+            switch_trigger: autoPlay ? "auto" : "user",
+        });
         if (videoRef.current) {
             videoRef.current.load();
             const handleCanPlay = () => {
@@ -212,21 +293,26 @@ const VideoPlayer = () => {
             };
             videoRef.current.addEventListener("canplay", handleCanPlay);
         }
-    };
-    const nextVideo = () => {
+    }, [videos, isMobile, setStartTime]);
+    const nextVideo = useCallback(() => {
         const next = (currentVideo + 1) % videos.length;
         changeVideo(next);
-    };
-    const prevVideo = () => {
+    }, [currentVideo, videos.length, changeVideo]);
+    const prevVideo = useCallback(() => {
         const prev = (currentVideo - 1 + videos.length) % videos.length;
         changeVideo(prev);
-    };
-    // Gestionnaire pour la fin de vidéo - ne fait plus rien automatiquement
-    const handleVideoEnded = () => {
+    }, [currentVideo, videos.length, changeVideo]);
+    const handleVideoEnded = useCallback(() => {
         setIsPlaying(false);
-        // La vidéo s'arrête simplement, pas de passage automatique à la suivante
-    };
-    const toggleFullscreen = async () => {
+        ReactGA.event(GA4_EVENTS.VIDEO_COMPLETION, {
+            video_title: videos[currentVideo].title,
+            video_index: currentVideo,
+            device_type: isMobile() ? "mobile" : "desktop",
+            page_name: "video_player",
+            duration: duration,
+        });
+    }, [currentVideo, videos, duration, isMobile]);
+    const toggleFullscreen = useCallback(async () => {
         try {
             const video = videoRef.current;
             const player = playerRef.current;
@@ -236,6 +322,13 @@ const VideoPlayer = () => {
                 document.webkitFullscreenElement ||
                 document.mozFullScreenElement ||
                 document.msFullscreenElement;
+            ReactGA.event(GA4_EVENTS.FULLSCREEN_TOGGLE, {
+                video_title: videos[currentVideo].title,
+                video_index: currentVideo,
+                device_type: isMobile() ? "mobile" : "desktop",
+                page_name: "video_player",
+                fullscreen_state: isCurrentlyFullscreen ? "exit" : "enter",
+            });
             if (isCurrentlyFullscreen) {
                 if (document.exitFullscreen) {
                     await document.exitFullscreen();
@@ -290,11 +383,18 @@ const VideoPlayer = () => {
             console.warn("Fullscreen not supported or failed:", error);
             setIsFullscreen(!isFullscreen);
         }
-    };
-    const togglePlaylist = () => {
+    }, [currentVideo, videos, isMobile, isFullscreen]);
+    const togglePlaylist = useCallback(() => {
         setShowPlaylist(!showPlaylist);
-    };
-    const handleMouseMove = () => {
+        ReactGA.event(GA4_EVENTS.PLAYLIST_TOGGLE, {
+            video_title: videos[currentVideo].title,
+            video_index: currentVideo,
+            device_type: isMobile() ? "mobile" : "desktop",
+            page_name: "video_player",
+            playlist_state: !showPlaylist ? "open" : "close",
+        });
+    }, [showPlaylist, currentVideo, videos, isMobile]);
+    const handleMouseMove = useCallback(() => {
         setShowControls(true);
         if (controlsTimeoutRef.current) {
             clearTimeout(controlsTimeoutRef.current);
@@ -304,7 +404,7 @@ const VideoPlayer = () => {
                 setShowControls(false);
             }
         }, 3000);
-    };
+    }, [isPlaying]);
     useEffect(() => {
         const handleFullscreenChange = () => {
             const isCurrentlyFullscreen = !!(document.fullscreenElement ||
@@ -346,13 +446,15 @@ const VideoPlayer = () => {
         video.addEventListener("pause", handlePause);
         video.addEventListener("loadeddata", handleLoadedData);
         video.addEventListener("loadedmetadata", handleLoadedMetadataEvent);
+        video.addEventListener("error", handleVideoError);
         return () => {
             video.removeEventListener("play", handlePlay);
             video.removeEventListener("pause", handlePause);
             video.removeEventListener("loadeddata", handleLoadedData);
             video.removeEventListener("loadedmetadata", handleLoadedMetadataEvent);
+            video.removeEventListener("error", handleVideoError);
         };
-    }, [currentVideo, isInitialized]);
+    }, [isInitialized, handleVideoError, setStartTime]);
     useEffect(() => {
         if (videoRef.current && !isInitialized) {
             const video = videoRef.current;
@@ -365,13 +467,17 @@ const VideoPlayer = () => {
                     video.removeEventListener("loadeddata", handleInitialLoad);
                 };
                 video.addEventListener("loadeddata", handleInitialLoad);
+                return () => video.removeEventListener("loadeddata", handleInitialLoad);
             }
         }
-    }, [isInitialized]);
+    }, [isInitialized, setStartTime]);
     useEffect(() => {
         return () => {
             if (controlsTimeoutRef.current) {
                 clearTimeout(controlsTimeoutRef.current);
+            }
+            if (engagementTimerRef.current) {
+                clearTimeout(engagementTimerRef.current);
             }
         };
     }, []);
@@ -389,10 +495,8 @@ const VideoPlayer = () => {
         }
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
-    }, []);
-    return (_jsxs("div", { ref: playerRef, className: `video-player ${isFullscreen ? "video-player--fullscreen" : ""}`, role: "application", "aria-label": "Lecteur vid\u00E9o Rosi Trattoria", children: [_jsxs("div", { className: "video-player__content", children: [_jsxs("div", { className: `video-player__main ${showPlaylist ? "video-player__main--with-playlist" : ""}`, onMouseMove: handleMouseMove, onMouseLeave: () => isPlaying && setShowControls(false), children: [_jsxs("video", { ref: videoRef, src: videos[currentVideo].url, className: "video-player__video", onTimeUpdate: handleTimeUpdate, onLoadedMetadata: handleLoadedMetadata, onEnded: handleVideoEnded, onClick: togglePlay, preload: "metadata", playsInline: true, muted: isMuted, "webkit-playsinline": "true", "x-webkit-airplay": "allow", "aria-label": `Vidéo: ${videos[currentVideo].title}`, children: [_jsx("source", { src: videos[currentVideo].url, type: "video/mp4" }), "Your browser does not support the video tag."] }), _jsxs("div", { className: `video-player__controls ${showControls ? "video-player__controls--visible" : ""}`, role: "toolbar", "aria-label": "Contr\u00F4les de lecture vid\u00E9o", children: [_jsx("h2", { className: "video-player__current-title", children: videos[currentVideo].title }), _jsx("div", { className: "video-player__progress", onClick: handleSeek, role: "slider", "aria-label": "Barre de progression de la vid\u00E9o", "aria-valuemin": 0, "aria-valuemax": duration, "aria-valuenow": currentTime, "aria-valuetext": `${formatTime(currentTime)} sur ${formatTime(duration)}`, tabIndex: 0, children: _jsx("div", { className: "video-player__progress-bar", style: { width: `${(currentTime / duration) * 100}%` }, children: _jsx("div", { className: "video-player__progress-handle" }) }) }), _jsxs("div", { className: "video-player__controls-row", children: [_jsxs("div", { className: "video-player__controls-left", children: [_jsx("button", { onClick: prevVideo, className: "video-player__btn video-player__btn--icon", "aria-label": "Vid\u00E9o pr\u00E9c\u00E9dente", title: "Vid\u00E9o pr\u00E9c\u00E9dente", children: _jsx(SkipBack, { size: 24 }) }), _jsx("button", { onClick: togglePlay, className: "video-player__btn video-player__btn--play", "aria-label": isPlaying ? "Mettre en pause" : "Lire la vidéo", title: isPlaying ? "Mettre en pause" : "Lire la vidéo", children: isPlaying ? _jsx(Pause, { size: 24 }) : _jsx(Play, { size: 24 }) }), _jsx("button", { onClick: nextVideo, className: "video-player__btn video-player__btn--icon", "aria-label": "Vid\u00E9o suivante", title: "Vid\u00E9o suivante", children: _jsx(SkipForward, { size: 24 }) }), _jsxs("div", { className: "video-player__volume", children: [_jsx("button", { onClick: toggleMute, className: "video-player__btn video-player__btn--small", "aria-label": isMuted ? "Activer le son" : "Couper le son", title: isMuted ? "Activer le son" : "Couper le son", children: isMuted ? _jsx(VolumeX, { size: 20 }) : _jsx(Volume2, { size: 20 }) }), _jsx("label", { htmlFor: "volume-slider", className: "sr-only", children: "Volume" }), _jsx("input", { id: "volume-slider", type: "range", min: "0", max: "1", step: "0.1", value: volume, onChange: handleVolumeChange, className: "video-player__volume-slider", "aria-label": `Volume: ${Math.round(volume * 100)}%`, title: `Volume: ${Math.round(volume * 100)}%` })] }), _jsxs("span", { className: "video-player__time", "aria-live": "polite", children: [formatTime(currentTime), " / ", formatTime(duration)] })] }), _jsx("div", { className: "video-player__controls-right", children: _jsx("button", { onClick: toggleFullscreen, className: "video-player__btn video-player__btn--small", "aria-label": isFullscreen ? "Quitter le plein écran" : "Plein écran", title: isFullscreen ? "Quitter le plein écran" : "Plein écran", children: _jsx(Maximize, { size: 20 }) }) })] })] })] }), _jsxs("div", { className: `video-player__playlist ${showPlaylist ? "video-player__playlist--visible" : ""} `, role: "region", "aria-label": "Liste de lecture", children: [_jsx("div", { className: "video-player__playlist-header", children: _jsxs("h3", { className: "video-player__playlist-title", children: ["Vid\u00E9os (", videos.length, ")"] }) }), _jsx("div", { className: "video-player__playlist-content", role: "list", "aria-label": "Liste des vid\u00E9os disponibles", children: videos.map((video, index) => (_jsxs("div", { onClick: () => {
-                                        changeVideo(index, true); // autoPlay = true
-                                    }, className: `video-player__playlist-item ${currentVideo === index
+    }, [showPlaylist]);
+    return (_jsxs("div", { ref: playerRef, className: `video-player ${isFullscreen ? "video-player--fullscreen" : ""}`, role: "application", "aria-label": "Lecteur vid\u00E9o Rosi Trattoria", children: [_jsxs("div", { className: "video-player__content", children: [_jsxs("div", { className: `video-player__main ${showPlaylist ? "video-player__main--with-playlist" : ""}`, onMouseMove: handleMouseMove, onMouseLeave: () => isPlaying && setShowControls(false), children: [_jsxs("video", { ref: videoRef, src: videos[currentVideo].url, className: "video-player__video", onTimeUpdate: handleTimeUpdate, onLoadedMetadata: handleLoadedMetadata, onEnded: handleVideoEnded, onClick: togglePlay, preload: "metadata", playsInline: true, muted: isMuted, "webkit-playsinline": "true", "x-webkit-airplay": "allow", "aria-label": `Vidéo: ${videos[currentVideo].title}`, children: [_jsx("source", { src: videos[currentVideo].url, type: "video/mp4" }), "Your browser does not support the video tag."] }), _jsxs("div", { className: `video-player__controls ${showControls ? "video-player__controls--visible" : ""}`, role: "toolbar", "aria-label": "Contr\u00F4les de lecture vid\u00E9o", children: [_jsx("h2", { className: "video-player__current-title", children: videos[currentVideo].title }), _jsx("div", { className: "video-player__progress", onClick: handleSeek, role: "slider", "aria-label": "Barre de progression de la vid\u00E9o", "aria-valuemin": 0, "aria-valuemax": duration, "aria-valuenow": currentTime, "aria-valuetext": `${formatTime(currentTime)} sur ${formatTime(duration)}`, tabIndex: 0, children: _jsx("div", { className: "video-player__progress-bar", style: { width: `${(currentTime / duration) * 100}%` }, children: _jsx("div", { className: "video-player__progress-handle" }) }) }), _jsxs("div", { className: "video-player__controls-row", children: [_jsxs("div", { className: "video-player__controls-left", children: [_jsx("button", { onClick: prevVideo, className: "video-player__btn video-player__btn--icon", "aria-label": "Vid\u00E9o pr\u00E9c\u00E9dente", title: "Vid\u00E9o pr\u00E9c\u00E9dente", children: _jsx(SkipBack, { size: 24 }) }), _jsx("button", { onClick: togglePlay, className: "video-player__btn video-player__btn--play", "aria-label": isPlaying ? "Mettre en pause" : "Lire la vidéo", title: isPlaying ? "Mettre en pause" : "Lire la vidéo", children: isPlaying ? _jsx(Pause, { size: 24 }) : _jsx(Play, { size: 24 }) }), _jsx("button", { onClick: nextVideo, className: "video-player__btn video-player__btn--icon", "aria-label": "Vid\u00E9o suivante", title: "Vid\u00E9o suivante", children: _jsx(SkipForward, { size: 24 }) }), _jsxs("div", { className: "video-player__volume", children: [_jsx("button", { onClick: toggleMute, className: "video-player__btn video-player__btn--small", "aria-label": isMuted ? "Activer le son" : "Couper le son", title: isMuted ? "Activer le son" : "Couper le son", children: isMuted ? _jsx(VolumeX, { size: 20 }) : _jsx(Volume2, { size: 20 }) }), _jsx("label", { htmlFor: "volume-slider", className: "sr-only", children: "Volume" }), _jsx("input", { id: "volume-slider", type: "range", min: "0", max: "1", step: "0.1", value: volume, onChange: handleVolumeChange, className: "video-player__volume-slider", "aria-label": `Volume: ${Math.round(volume * 100)}%`, title: `Volume: ${Math.round(volume * 100)}%` })] }), _jsxs("span", { className: "video-player__time", "aria-live": "polite", children: [formatTime(currentTime), " / ", formatTime(duration)] })] }), _jsx("div", { className: "video-player__controls-right", children: _jsx("button", { onClick: toggleFullscreen, className: "video-player__btn video-player__btn--small", "aria-label": isFullscreen ? "Quitter le plein écran" : "Plein écran", title: isFullscreen ? "Quitter le plein écran" : "Plein écran", children: _jsx(Maximize, { size: 20 }) }) })] })] })] }), _jsxs("div", { className: `video-player__playlist ${showPlaylist ? "video-player__playlist--visible" : ""}`, role: "region", "aria-label": "Liste de lecture", children: [_jsx("div", { className: "video-player__playlist-header", children: _jsxs("h3", { className: "video-player__playlist-title", children: ["Vid\u00E9os (", videos.length, ")"] }) }), _jsx("div", { className: "video-player__playlist-content", role: "list", "aria-label": "Liste des vid\u00E9os disponibles", children: videos.map((video, index) => (_jsxs("div", { onClick: () => changeVideo(index, true), className: `video-player__playlist-item ${currentVideo === index
                                         ? "video-player__playlist-item--active"
                                         : ""}`, role: "listitem", tabIndex: 0, "aria-label": `${video.title} - ${currentVideo === index
                                         ? "En cours de lecture"
@@ -404,7 +508,6 @@ const VideoPlayer = () => {
                                     }, children: [_jsxs("div", { className: "video-player__thumbnail", children: [_jsx(LazyLoadImage, { src: video.thumbnail, alt: `Miniature de ${video.title}`, className: "video-player__thumbnail-image", effect: "blur", width: "120", height: "68", threshold: 100, placeholderSrc: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='68' viewBox='0 0 120 68'%3E%3Crect width='120' height='68' fill='%23f0f0f0'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial, sans-serif' font-size='12' fill='%23999'%3EChargement...%3C/text%3E%3C/svg%3E", onError: (e) => {
                                                         const target = e.target;
                                                         target.style.display = "none";
-                                                        // Create fallback element if needed
                                                         const fallback = document.createElement("div");
                                                         fallback.className = "video-player__thumbnail-fallback";
                                                         fallback.textContent = "Image non disponible";
@@ -413,6 +516,6 @@ const VideoPlayer = () => {
                         ? "Masquer la liste de lecture"
                         : "Afficher la liste de lecture", title: showPlaylist
                         ? "Masquer la liste de lecture"
-                        : "Afficher la liste de lecture", children: showPlaylist ? "Masquer" : "Voir plus" }) })] }));
+                        : "Afficher la liste de lecture", children: showPlaylist ? "Masåquer" : "Voir plus" }) })] }));
 };
 export default VideoPlayer;

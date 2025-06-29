@@ -85,12 +85,49 @@ const NosValeursComponent: React.FC = () => {
       aria-label="Nos valeurs et savoir-faire chez Rosi Trattoria"
     >
       <div className="nos-valeurs__content">
-        {/* Hero Section avec Pascal - MAINTENANT EN PREMIER */}
+        {/* Feature Cards - Nos savoir-faire */}
+        <section
+          className="nos-valeurs__feature-cards"
+          aria-labelledby="savoir-faire-title"
+        >
+          <h2 id="savoir-faire-title" className="nos-valeurs__features-title">
+            Nos Savoir-Faire Authentiques
+          </h2>
+          <div className="nos-valeurs__cards-grid">
+            {featureCardsData.map((card, index) => {
+              const IconComponent = card.icon;
+              return (
+                <article key={index} className="nos-valeurs__feature-card">
+                  <div className="nos-valeurs__card-header">
+                    <IconComponent
+                      className="nos-valeurs__card-icon"
+                      size={32}
+                      aria-hidden="true"
+                    />
+                    <img
+                      src={card.image}
+                      alt={card.alt}
+                      className="nos-valeurs__feature-image"
+                      loading="lazy"
+                      width="300"
+                      height="200"
+                    />
+                  </div>
+                  <div className="nos-valeurs__card-content">
+                    <h3 className="nos-valeurs__feature-title">{card.title}</h3>
+                    <p className="nos-valeurs__feature-text">{card.text}</p>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+
         <article className="nos-valeurs__hero" role="banner">
           <div className="nos-valeurs__pascal-showcase">
             <div className="nos-valeurs__pascal-name-container">
               <div className="nos-valeurs__pascal-title">
-                <span>Maître Pizzaïolo Certifié</span>
+                <span>Maître Pizzaïolo</span>
               </div>
               <h1 id="pascal-title" className="nos-valeurs__pascal-name">
                 Pascal Bellemain
@@ -132,44 +169,6 @@ const NosValeursComponent: React.FC = () => {
             </blockquote>
           </div>
         </article>
-
-        {/* Feature Cards - Nos savoir-faire */}
-        <section
-          className="nos-valeurs__feature-cards"
-          aria-labelledby="savoir-faire-title"
-        >
-          <h2 id="savoir-faire-title" className="nos-valeurs__features-title">
-            Nos Savoir-Faire Authentiques
-          </h2>
-          <div className="nos-valeurs__cards-grid">
-            {featureCardsData.map((card, index) => {
-              const IconComponent = card.icon;
-              return (
-                <article key={index} className="nos-valeurs__feature-card">
-                  <div className="nos-valeurs__card-header">
-                    <IconComponent
-                      className="nos-valeurs__card-icon"
-                      size={32}
-                      aria-hidden="true"
-                    />
-                    <img
-                      src={card.image}
-                      alt={card.alt}
-                      className="nos-valeurs__feature-image"
-                      loading="lazy"
-                      width="300"
-                      height="200"
-                    />
-                  </div>
-                  <div className="nos-valeurs__card-content">
-                    <h3 className="nos-valeurs__feature-title">{card.title}</h3>
-                    <p className="nos-valeurs__feature-text">{card.text}</p>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-        </section>
 
         {/* Quote inspirante */}
         <aside className="nos-valeurs__quote" role="complementary">
@@ -214,7 +213,7 @@ const NosValeursComponent: React.FC = () => {
         </section>
       </div>
 
-      <Swipergallery />
+      <Swipergallery pageName="Nos Valeurs" />
     </section>
   );
 };

@@ -64,6 +64,90 @@ const BREADCRUMB_CONFIG = {
   },
 };
 
+// Liste des vidéos (extraite du composant VideoPlayer)
+const VIDEOS = [
+  {
+    title: "Présentation de Rosi Trattoria",
+    url: "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/rosipresentation.mp4",
+    thumbnail:
+      "https://www.rosi-trattoria.com/images/thumbnails/presentation-rosi-trattoria.png",
+    description:
+      "Découvrez Rosi Trattoria, une pizzeria italienne authentique à Brive-la-Gaillarde, avec des pizzas napolitaines bio et locales.",
+    duration: "PT1M30S", // Durée estimée, ajustez selon la vidéo réelle
+    uploadDate: "2025-06-23",
+  },
+  {
+    title: "La focaccia chez Rosi",
+    url: "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/rosifocaccia.mp4",
+    thumbnail:
+      "https://www.rosi-trattoria.com/images/thumbnails/la-forracia-chez-rosi.png",
+    description:
+      "Apprenez comment Rosi Trattoria prépare sa focaccia artisanale avec des ingrédients bio et locaux.",
+    duration: "PT1M45S", // Durée estimée, ajustez selon la vidéo réelle
+    uploadDate: "2025-06-23",
+  },
+  {
+    title: "Les pâtes fraiche de Rosi",
+    url: "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/rosipatefraiche.mp4",
+    thumbnail:
+      "https://www.rosi-trattoria.com/images/thumbnails/pates-fraiche-rosi.png",
+    description:
+      "Découvrez la préparation des pâtes fraîches chez Rosi Trattoria, un savoir-faire italien authentique.",
+    duration: "PT2M0S", // Durée estimée, ajustez selon la vidéo réelle
+    uploadDate: "2025-06-23",
+  },
+  {
+    title: "Les secrets de la pâte Rosi",
+    url: "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/rosisecretspates.mp4",
+    thumbnail:
+      "https://www.rosi-trattoria.com/images/thumbnails/secrets-de-la-pate-rosi.png",
+    description:
+      "Les secrets de la pâte à pizza parfaite de Rosi Trattoria, levée pendant 48 heures.",
+    duration: "PT1M50S", // Durée estimée, ajustez selon la vidéo réelle
+    uploadDate: "2025-06-23",
+  },
+  {
+    title: "La téglia et Focaccia de Rosi",
+    url: "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/rositegliafoccacia.mp4",
+    thumbnail:
+      "https://www.rosi-trattoria.com/images/thumbnails/teglia-et-foraccia-de-rosi.png",
+    description:
+      "Découvrez la téglia et la focaccia uniques de Rosi Trattoria, préparées avec soin.",
+    duration: "PT1M40S", // Durée estimée, ajustez selon la vidéo réelle
+    uploadDate: "2025-06-23",
+  },
+  {
+    title: "Capri c'est fini",
+    url: "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/rosicapri.mp4",
+    thumbnail:
+      "https://www.rosi-trattoria.com/images/thumbnails/rosi-capri.png",
+    description:
+      "Un voyage culinaire inspiré de Capri avec les saveurs de Rosi Trattoria.",
+    duration: "PT1M55S", // Durée estimée, ajustez selon la vidéo réelle
+    uploadDate: "2025-06-23",
+  },
+  {
+    title: "Les Tiramisu de Rosi",
+    url: "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/rositiramistu.mp4",
+    thumbnail:
+      "https://www.rosi-trattoria.com/images/thumbnails/tiramisu-de-rosi.png",
+    description:
+      "Découvrez le tiramisu authentique préparé par Rosi Trattoria, un dessert italien classique.",
+    duration: "PT1M20S", // Durée estimée, ajustez selon la vidéo réelle
+    uploadDate: "2025-06-23",
+  },
+  {
+    title: "Les cocktails de Rosi",
+    url: "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/rosicocktail.mp4",
+    thumbnail:
+      "https://www.rosi-trattoria.com/images/thumbnails/les-cocktails-rosi.png",
+    description:
+      "Découvrez les cocktails signature de Rosi Trattoria, parfaits pour accompagner votre repas.",
+    duration: "PT1M25S", // Durée estimée, ajustez selon la vidéo réelle
+    uploadDate: "2025-06-23",
+  },
+];
+
 // Fonction utilitaire pour générer le JSON-LD des breadcrumbs
 function generateBreadcrumbJsonLd(path) {
   const config = BREADCRUMB_CONFIG[path];
@@ -81,6 +165,30 @@ function generateBreadcrumbJsonLd(path) {
       item: breadcrumb.url,
     })),
   };
+}
+
+// Fonction pour générer le JSON-LD des VideoObject
+function generateVideoJsonLd() {
+  return VIDEOS.map((video, index) => ({
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    name: video.title,
+    description: video.description,
+    thumbnailUrl: video.thumbnail,
+    contentUrl: video.url,
+    uploadDate: video.uploadDate,
+    duration: video.duration,
+    publisher: {
+      "@type": "Organization",
+      name: "Rosi Trattoria",
+      logo: {
+        "@type": "ImageObject",
+        url: `${CONFIG.baseUrl}/images/logo/og-image.jpg`,
+      },
+    },
+    isFamilyFriendly: true,
+    inLanguage: "fr-FR",
+  }));
 }
 
 // Routes cohérentes avec slashes finaux (sauf accueil)
@@ -153,7 +261,7 @@ const routes = [
   },
 ];
 
-// Fonction pour injecter les meta tags SEO avec breadcrumbs
+// Fonction pour injecter les meta tags SEO avec breadcrumbs et VideoObject
 function injectSEOMeta(html, route) {
   const dom = new JSDOM(html);
   const document = dom.window.document;
@@ -187,7 +295,7 @@ function injectSEOMeta(html, route) {
   metaRobots.setAttribute("name", "robots");
   metaRobots.setAttribute(
     "content",
-    "index, follow, max-snippet:-1, max-image-preview:large"
+    "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
   );
   head.appendChild(metaRobots);
 
@@ -320,10 +428,10 @@ function injectSEOMeta(html, route) {
 
   // Schema.org pour la page d'accueil
   if (route.path === "/") {
-    const script = document.createElement("script");
-    script.setAttribute("type", "application/ld+json");
-    script.textContent = JSON.stringify({
-      "@context": "http://schema.org",
+    const restaurantScript = document.createElement("script");
+    restaurantScript.setAttribute("type", "application/ld+json");
+    restaurantScript.textContent = JSON.stringify({
+      "@context": "https://schema.org",
       "@type": "Restaurant",
       name: "Rosi Trattoria",
       address: {
@@ -346,7 +454,16 @@ function injectSEOMeta(html, route) {
       hasMenu: `${CONFIG.baseUrl}/carte/`,
       acceptsReservations: true,
     });
-    head.appendChild(script);
+    head.appendChild(restaurantScript);
+
+    // Schema.org pour les vidéos sur la page d'accueil
+    const videoJsonLd = generateVideoJsonLd();
+    videoJsonLd.forEach((videoSchema) => {
+      const videoScript = document.createElement("script");
+      videoScript.setAttribute("type", "application/ld+json");
+      videoScript.textContent = JSON.stringify(videoSchema);
+      head.appendChild(videoScript);
+    });
   }
 
   // Schema.org pour la page Recrutement
@@ -499,7 +616,7 @@ Disallow: /assets/
 Disallow: /*.json$`;
 }
 
-// Génération du .htaccess# Génération du .htaccess corrigé
+// Génération du .htaccess
 function generateHtaccess() {
   return `<IfModule mod_rewrite.c>
  RewriteEngine On

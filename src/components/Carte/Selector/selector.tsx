@@ -27,7 +27,16 @@ interface SelectorProps {
   showPdf?: boolean;
   onPdfToggle?: (show: boolean) => void;
   selectedMenu?: string;
+  pageName?: string;
 }
+
+const GA4_EVENTS = {
+  DROPDOWN_OPEN: "carte_dropdown_open",
+  MENU_SELECT: "carte_menu_select",
+  PDF_DISPLAY: "carte_pdf_display",
+  PDF_DOWNLOAD: "carte_pdf_download",
+  PDF_ERROR: "carte_pdf_error",
+};
 
 const Selector: React.FC<SelectorProps> = ({
   onMenuSelect,
@@ -35,6 +44,7 @@ const Selector: React.FC<SelectorProps> = ({
   showPdf = true,
   onPdfToggle,
   selectedMenu: parentSelectedMenu,
+  pageName = "Unknown Page",
 }) => {
   const [numPages, setNumPages] = useState<number | null>(null);
   const [pageWidth, setPageWidth] = useState(800);
@@ -44,7 +54,8 @@ const Selector: React.FC<SelectorProps> = ({
   const [pdfLoaded, setPdfLoaded] = useState(false);
   const [internalShowPdf, setInternalShowPdf] = useState(showPdf);
   const [loadingOffset, setLoadingOffset] = useState(false);
-
+  const lastDropdownTime = useRef<number>(0);
+  const dropdownDebounceMs = 1000; // 1 second debounce
   const containerRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const loadingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -55,54 +66,64 @@ const Selector: React.FC<SelectorProps> = ({
     return isMobile() ? 7000 : 9000;
   };
 
-  const trackDropdownOpen = () => {
-    ReactGA.event({
-      category: "Menu Interaction",
-      action: "Dropdown Open",
-      label: "Menu Selection Dropdown",
+  const handleMenuLoad = (menuType: string) => {
+    const startTime = Date.now();
+
+    ReactGA.event(GA4_EVENTS.MENU_SELECT, {
+      page_name: pageName,
+      menu_type: menuType === "sur_place" ? "dine_in" : "takeaway",
     });
+
+    setNumPages(null);
+    setPdfLoaded(false);
+    setInternalShowPdf(true);
+    setIsLoading(true);
+    setLoadingOffset(true);
+
+    if (loadingTimeoutRef.current) {
+      clearTimeout(loadingTimeoutRef.current);
+    }
+
+    if (onMenuSelect) {
+      onMenuSelect(menuType);
+    }
+
+    if (onPdfToggle) {
+      onPdfToggle(true);
+    }
+
+    if (menuType === "a_emporter") {
+      setIsLoading(false);
+      setLoadingOffset(false);
+    } else {
+      const loadingDelay = getLoadingDelay();
+      loadingTimeoutRef.current = setTimeout(() => {
+        const loadTime = Date.now() - startTime;
+        setIsLoading(false);
+        setLoadingOffset(false);
+      }, loadingDelay);
+    }
   };
 
-  const trackMenuSelection = (menuType: string) => {
-    ReactGA.event({
-      category: "Menu Selection",
-      action: "Select Menu Type",
-      label: menuType === "sur_place" ? "Carte Sur Place" : "Carte À Emporter",
-    });
+  const handleMenuSelect = (menuType: string) => {
+    setSelectedMenu(menuType);
+    setDropdownOpen(false);
+    handleMenuLoad(menuType);
   };
 
-  const trackPdfLoadingStart = (menuType: string) => {
-    ReactGA.event({
-      category: "PDF Loading",
-      action: "Start Loading",
-      label:
-        menuType === "sur_place"
-          ? "Carte Sur Place PDF"
-          : "Carte À Emporter PDF",
-    });
-  };
+  const handleDropdownToggle = () => {
+    const now = Date.now();
+    if (now - lastDropdownTime.current < dropdownDebounceMs) {
+      return;
+    }
+    lastDropdownTime.current = now;
 
-  const trackPdfLoadingSuccess = (menuType: string, loadTime: number) => {
-    ReactGA.event({
-      category: "PDF Loading",
-      action: "Loading Success",
-      label:
-        menuType === "sur_place"
-          ? "Carte Sur Place PDF"
-          : "Carte À Emporter PDF",
-      value: Math.round(loadTime / 1000),
-    });
-  };
-
-  const trackPdfDownload = (menuType: string) => {
-    ReactGA.event({
-      category: "PDF Download",
-      action: "Download PDF",
-      label:
-        menuType === "sur_place"
-          ? "Carte Sur Place PDF"
-          : "Carte À Emporter PDF",
-    });
+    if (!dropdownOpen) {
+      ReactGA.event(GA4_EVENTS.DROPDOWN_OPEN, {
+        page_name: pageName,
+      });
+    }
+    setDropdownOpen(!dropdownOpen);
   };
 
   useEffect(() => {
@@ -150,55 +171,6 @@ const Selector: React.FC<SelectorProps> = ({
     }
   }, [parentSelectedMenu]);
 
-  const handleMenuLoad = (menuType: string) => {
-    const startTime = Date.now();
-
-    trackMenuSelection(menuType);
-
-    setNumPages(null);
-    setPdfLoaded(false);
-    setInternalShowPdf(true); // Show PDF immediately
-    setIsLoading(true);
-    setLoadingOffset(true); // Apply offset
-
-    if (loadingTimeoutRef.current) {
-      clearTimeout(loadingTimeoutRef.current);
-    }
-
-    if (onMenuSelect) {
-      onMenuSelect(menuType);
-    }
-
-    if (onPdfToggle) {
-      onPdfToggle(true);
-    }
-
-    if (menuType === "a_emporter") {
-      setIsLoading(false);
-      setLoadingOffset(false); // No offset for immediate display
-      ReactGA.event({
-        category: "PDF Display",
-        action: "Immediate Display",
-        label: "Carte À Emporter PDF",
-      });
-    } else {
-      trackPdfLoadingStart(menuType);
-      const loadingDelay = getLoadingDelay();
-      loadingTimeoutRef.current = setTimeout(() => {
-        const loadTime = Date.now() - startTime;
-        trackPdfLoadingSuccess(menuType, loadTime);
-        setIsLoading(false);
-        setLoadingOffset(false); // Remove offset after loading
-      }, loadingDelay);
-    }
-  };
-
-  const handleMenuSelect = (menuType: string) => {
-    setSelectedMenu(menuType);
-    setDropdownOpen(false);
-    handleMenuLoad(menuType);
-  };
-
   useEffect(() => {
     setInternalShowPdf(showPdf);
     if (!showPdf) {
@@ -211,6 +183,16 @@ const Selector: React.FC<SelectorProps> = ({
       }
     }
   }, [showPdf]);
+
+  useEffect(() => {
+    if (pdfLoaded && !isLoading && internalShowPdf && selectedMenu) {
+      ReactGA.event(GA4_EVENTS.PDF_DISPLAY, {
+        page_name: pageName,
+        menu_type: selectedMenu === "sur_place" ? "dine_in" : "takeaway",
+        num_pages: numPages || 0,
+      });
+    }
+  }, [pdfLoaded, isLoading, internalShowPdf, selectedMenu, numPages, pageName]);
 
   useEffect(() => {
     return () => {
@@ -227,7 +209,11 @@ const Selector: React.FC<SelectorProps> = ({
   };
 
   const handleDownloadPdf = () => {
-    trackPdfDownload(selectedMenu);
+    ReactGA.event(GA4_EVENTS.PDF_DOWNLOAD, {
+      page_name: pageName,
+      menu_type: selectedMenu === "sur_place" ? "dine_in" : "takeaway",
+    });
+
     const pdfFile = getPdfFile();
     if (pdfFile) {
       const link = document.createElement("a");
@@ -265,25 +251,13 @@ const Selector: React.FC<SelectorProps> = ({
   const handleDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
     setPdfLoaded(true);
-    ReactGA.event({
-      category: "PDF Render",
-      action: "Render Success",
-      label:
-        selectedMenu === "sur_place"
-          ? "Carte Sur Place PDF"
-          : "Carte À Emporter PDF",
-      value: numPages,
-    });
   };
 
   const handleDocumentError = (error: Error) => {
-    ReactGA.event({
-      category: "PDF Loading",
-      action: "Loading Error",
-      label:
-        selectedMenu === "sur_place"
-          ? "Carte Sur Place PDF"
-          : "Carte À Emporter PDF",
+    ReactGA.event(GA4_EVENTS.PDF_ERROR, {
+      page_name: pageName,
+      menu_type: selectedMenu === "sur_place" ? "dine_in" : "takeaway",
+      error_message: error.message,
     });
     console.error("PDF loading error:", error);
   };
@@ -304,18 +278,6 @@ const Selector: React.FC<SelectorProps> = ({
               renderMode="canvas"
               className="pdf-page"
               loading={<div className="page-loading">Chargement...</div>}
-              onLoadSuccess={() => {
-                if (i === 0) {
-                  ReactGA.event({
-                    category: "PDF Page",
-                    action: "First Page Rendered",
-                    label:
-                      selectedMenu === "sur_place"
-                        ? "Carte Sur Place"
-                        : "Carte À Emporter",
-                  });
-                }
-              }}
             />
           </div>
         ))}
@@ -361,12 +323,7 @@ const Selector: React.FC<SelectorProps> = ({
         <div className="dropdown-container" ref={dropdownRef}>
           <div
             className={`dropdown-trigger ${selectedMenu ? "selected" : ""}`}
-            onClick={() => {
-              if (!dropdownOpen) {
-                trackDropdownOpen();
-              }
-              setDropdownOpen(!dropdownOpen);
-            }}
+            onClick={handleDropdownToggle}
           >
             <div className="dropdown-trigger-content">
               {selectedMenu && selectedMenuInfo ? (

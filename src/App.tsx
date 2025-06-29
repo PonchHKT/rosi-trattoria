@@ -40,12 +40,13 @@ function App(): React.JSX.Element {
           path="/"
           element={
             <>
-              <HomeSectionVideo />
+              <HomeSectionVideo pageName="Accueil" />
               <Biographie1 />
               <VideoPlayer />
+              <SwiperGallery pageName="Accueil" />
               <Biographie2 />
-              <SwiperGallery />
-              <ReviewWidget />
+
+              <ReviewWidget pageName="Accueil" />
             </>
           }
         />

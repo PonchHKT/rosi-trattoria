@@ -6,6 +6,7 @@ import "./biographie1.scss";
 const Biographie1: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [hasBeenTriggered, setHasBeenTriggered] = useState(false);
+  const [titleAnimationPlayed, setTitleAnimationPlayed] = useState(false); // Nouveau state
   const [imagesLoaded, setImagesLoaded] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -20,12 +21,17 @@ const Biographie1: React.FC = () => {
   const resetAnimation = () => {
     setIsVisible(false);
     setHasBeenTriggered(false);
+    // Ne pas reset titleAnimationPlayed pour garder l'animation jouée
   };
 
   const startAnimation = () => {
     if (!hasBeenTriggered) {
       setIsVisible(true);
       setHasBeenTriggered(true);
+      // Marquer l'animation du titre comme jouée
+      if (!titleAnimationPlayed) {
+        setTitleAnimationPlayed(true);
+      }
     }
   };
 
@@ -91,7 +97,13 @@ const Biographie1: React.FC = () => {
         <AnimatedSection animationType="fade-in-scale" delay={100}>
           <header className="biographie__header" role="banner">
             <hgroup
-              className={`biographie__title ${isVisible ? "visible" : ""}`}
+              className={`biographie__title ${
+                titleAnimationPlayed
+                  ? "visible permanent"
+                  : isVisible
+                  ? "visible"
+                  : ""
+              }`}
             >
               <h1 id="biographie-main-title" className="biographie__title-main">
                 LA PASSION ET L'EXIGENCE

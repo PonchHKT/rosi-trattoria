@@ -7,26 +7,24 @@ import ReviewPopup from "../ReviewPopup/reviewpopup";
 import ReactGA from "react-ga4";
 // Configuration des événements GA4 pour ReviewWidget
 const GA4_EVENTS = {
-    WIDGET_INITIALIZED: "review_widget_initialized",
-    REVIEWS_LOADED: "reviews_loaded",
-    SLIDER_INTERACTION: "slider_interaction",
-    REVIEW_ENGAGEMENT: "review_engagement",
-    EXTERNAL_LINK_CLICK: "external_platform_click",
-    LEAVE_REVIEW_ACTION: "leave_review_action",
-    ERROR_OCCURRED: "review_widget_error",
+    WIDGET_INITIALIZED: "avis_widget_initialized",
+    REVIEWS_LOADED: "avis_reviews_loaded",
+    SLIDER_NAVIGATION: "avis_slider_navigation",
+    EXTERNAL_LINK_CLICK: "avis_external_link_click",
+    LEAVE_REVIEW_CLICK: "avis_leave_review_click",
+    POPUP_CLOSE: "avis_popup_close",
+    REVIEW_CLICK: "avis_review_click",
+    ERROR: "avis_error",
 };
-const ReviewWidget = () => {
+const ReviewWidget = ({ pageName = "Accueil", }) => {
     const [reviews, setReviews] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [isPaused, setIsPaused] = useState(false);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
-    const autoSlideInterval = useRef(null);
-    // États pour le tracking GA4
-    const [sessionStartTime] = useState(Date.now());
     const [reviewsViewed, setReviewsViewed] = useState(new Set());
     const [totalSlideChanges, setTotalSlideChanges] = useState(0);
-    const [userEngagementScore, setUserEngagementScore] = useState(0);
+    const autoSlideInterval = useRef(null);
     const [sliderRef, instanceRef] = useKeenSlider({
         initial: 0,
         slides: {
@@ -40,61 +38,29 @@ const ReviewWidget = () => {
             duration: 500,
         },
         created(slider) {
-            // GA4 - Initialisation du widget avec métadonnées
             ReactGA.event(GA4_EVENTS.WIDGET_INITIALIZED, {
-                widget_type: "review_carousel",
-                slider_library: "keen_slider",
-                initial_slide: slider.track.details.abs,
-                total_slides: slider.track.details.slides.length,
-                session_id: sessionStartTime.toString(),
-                custom_parameters: {
-                    auto_play: true,
-                    loop_enabled: true,
-                    touch_enabled: true,
-                },
+                page_name: pageName,
+                review_count: slider.track.details.slides.length,
             });
         },
         slideChanged(slider) {
             const currentSlide = slider.track.details.rel;
             const totalSlides = slider.track.details.slides.length;
             setTotalSlideChanges((prev) => prev + 1);
-            // Marquer cet avis comme vu
             if (reviews[currentSlide]) {
                 setReviewsViewed((prev) => new Set([...prev, reviews[currentSlide].id]));
             }
-            // GA4 - Changement de slide avec contexte enrichi
-            ReactGA.event(GA4_EVENTS.SLIDER_INTERACTION, {
-                interaction_type: "slide_change",
-                slide_index: currentSlide,
-                slide_direction: "next", // Peut être amélioré pour détecter la direction
-                total_slides: totalSlides,
-                slide_progress: (((currentSlide + 1) / totalSlides) * 100).toFixed(1),
-                review_source: reviews[currentSlide]?.source || "unknown",
-                review_rating: reviews[currentSlide]?.rating || 0,
-                session_slides_viewed: totalSlideChanges + 1,
-                engagement_score: userEngagementScore,
-            });
+            if (totalSlideChanges % 3 === 0) {
+                ReactGA.event(GA4_EVENTS.SLIDER_NAVIGATION, {
+                    page_name: pageName,
+                    slide_index: currentSlide + 1,
+                    total_slides: totalSlides,
+                    review_source: reviews[currentSlide]?.source || "unknown",
+                    reviews_viewed: reviewsViewed.size,
+                });
+            }
         },
     });
-    // Fonction pour calculer le score d'engagement
-    const calculateEngagementScore = () => {
-        const timeSpent = (Date.now() - sessionStartTime) / 1000; // en secondes
-        const reviewsViewedCount = reviewsViewed.size;
-        const slideInteractions = totalSlideChanges;
-        // Score basé sur différents facteurs (0-100)
-        const timeScore = Math.min((timeSpent / 60) * 20, 40); // Max 40 points pour 2 minutes
-        const viewsScore = Math.min(reviewsViewedCount * 5, 30); // Max 30 points pour 6 avis vus
-        const interactionScore = Math.min(slideInteractions * 2, 30); // Max 30 points pour 15 interactions
-        return Math.round(timeScore + viewsScore + interactionScore);
-    };
-    // Update engagement score périodiquement
-    useEffect(() => {
-        const interval = setInterval(() => {
-            const newScore = calculateEngagementScore();
-            setUserEngagementScore(newScore);
-        }, 5000); // Recalculer toutes les 5 secondes
-        return () => clearInterval(interval);
-    }, [reviewsViewed.size, totalSlideChanges, sessionStartTime]);
     // Fonction pour vérifier si c'est un avis TripAdvisor
     const isTripAdvisorReview = (review) => {
         return "user" in review && "travelDate" in review;
@@ -206,15 +172,8 @@ const ReviewWidget = () => {
         }
     };
     const loadReviews = async () => {
-        const loadStartTime = Date.now();
         try {
             setLoading(true);
-            // GA4 - Début du chargement des avis
-            ReactGA.event(GA4_EVENTS.REVIEWS_LOADED, {
-                loading_status: "started",
-                data_source: "googlereviews_json",
-                timestamp: loadStartTime,
-            });
             const response = await fetch("/googlereviews.json");
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}: Failed to load reviews JSON file`);
@@ -226,9 +185,9 @@ const ReviewWidget = () => {
                 if (isTripAdvisorReview(review)) {
                     return review.text && review.user.name && review.rating >= 4;
                 }
-                else {
-                    return review.text && review.name && review.stars >= 4;
-                }
+                return (review.text &&
+                    review.name &&
+                    review.stars >= 4);
             })
                 .map((review, index) => {
                 const isTripAdvisor = isTripAdvisorReview(review);
@@ -266,64 +225,34 @@ const ReviewWidget = () => {
                         source: "tripadvisor",
                     };
                 }
-                else {
-                    return {
-                        id: review.reviewUrl || `google-review-${index}`,
-                        reviewer: review.name.trim(),
-                        rating: review.stars,
-                        date: formattedDate,
-                        text: review.text.trim(),
-                        reviewCount: Math.floor(Math.random() * 50) + 1,
-                        profilePhotoUrl: undefined,
-                        source: "google",
-                    };
-                }
+                return {
+                    id: review.reviewUrl ||
+                        `google-review-${index}`,
+                    reviewer: review.name.trim(),
+                    rating: review.stars,
+                    date: formattedDate,
+                    text: review.text.trim(),
+                    reviewCount: Math.floor(Math.random() * 50) + 1,
+                    profilePhotoUrl: undefined,
+                    source: "google",
+                };
             });
             // Mélanger les avis avant de les afficher
             const shuffledReviews = shuffleArray(transformedReviews);
             setReviews(shuffledReviews);
             setLoading(false);
-            const loadEndTime = Date.now();
-            const loadDuration = loadEndTime - loadStartTime;
-            // GA4 - Succès du chargement avec métriques détaillées
             ReactGA.event(GA4_EVENTS.REVIEWS_LOADED, {
-                loading_status: "success",
-                total_reviews: shuffledReviews.length,
-                google_reviews: shuffledReviews.filter((r) => r.source === "google")
-                    .length,
-                tripadvisor_reviews: shuffledReviews.filter((r) => r.source === "tripadvisor").length,
-                load_duration_ms: loadDuration,
-                average_rating: (shuffledReviews.reduce((sum, r) => sum + r.rating, 0) /
-                    shuffledReviews.length).toFixed(2),
-                rating_distribution: {
-                    "5_star": shuffledReviews.filter((r) => r.rating === 5).length,
-                    "4_star": shuffledReviews.filter((r) => r.rating === 4).length,
-                    "3_star": shuffledReviews.filter((r) => r.rating === 3).length,
-                    "2_star": shuffledReviews.filter((r) => r.rating === 2).length,
-                    "1_star": shuffledReviews.filter((r) => r.rating === 1).length,
-                },
-            });
-            // Track Schema.org implementation
-            ReactGA.event("schema_structured_data", {
-                schema_type: "Restaurant_Reviews",
-                reviews_count: Math.min(shuffledReviews.length, 20),
-                has_aggregate_rating: true,
-                has_geo_coordinates: true,
+                page_name: pageName,
+                review_count: shuffledReviews.length,
             });
         }
         catch (fetchError) {
             console.error("Error loading reviews JSON file:", fetchError);
             setError("Impossible de charger les avis");
             setLoading(false);
-            const loadEndTime = Date.now();
-            const loadDuration = loadEndTime - loadStartTime;
-            // GA4 - Erreur de chargement avec détails
-            ReactGA.event(GA4_EVENTS.ERROR_OCCURRED, {
-                error_type: "reviews_loading_failed",
-                error_message: fetchError instanceof Error ? fetchError.message : "unknown_error",
-                load_duration_ms: loadDuration,
-                fetch_url: "/googlereviews.json",
-                error_context: "initial_load",
+            ReactGA.event(GA4_EVENTS.ERROR, {
+                page_name: pageName,
+                error_message: "Échec du chargement des avis",
             });
         }
     };
@@ -343,13 +272,6 @@ const ReviewWidget = () => {
                 existingScript.remove();
             }
             document.head.appendChild(schemaScript);
-            // GA4 - Schema JSON-LD ajouté
-            ReactGA.event("seo_enhancement", {
-                enhancement_type: "schema_jsonld_added",
-                schema_type: "Restaurant",
-                reviews_included: Math.min(reviews.length, 20),
-                has_aggregate_rating: true,
-            });
             // Nettoyage au démontage du composant
             return () => {
                 const scriptToRemove = document.getElementById("reviews-schema");
@@ -368,142 +290,52 @@ const ReviewWidget = () => {
             stopAutoSlide();
         };
     }, [reviews, loading, isPaused]);
-    // Gestionnaires d'événements pour pause/reprise avec GA4 enrichi
+    // Gestionnaires d'événements pour pause/reprise
     const handleMouseEnter = () => {
         setIsPaused(true);
-        ReactGA.event(GA4_EVENTS.SLIDER_INTERACTION, {
-            interaction_type: "auto_play_paused",
-            trigger: "mouse_enter",
-            current_slide: instanceRef.current?.track.details.rel || 0,
-            engagement_score: userEngagementScore,
-        });
     };
     const handleMouseLeave = () => {
         setIsPaused(false);
-        ReactGA.event(GA4_EVENTS.SLIDER_INTERACTION, {
-            interaction_type: "auto_play_resumed",
-            trigger: "mouse_leave",
-            current_slide: instanceRef.current?.track.details.rel || 0,
-            engagement_score: userEngagementScore,
-        });
     };
     const handleTouchStart = () => {
         setIsPaused(true);
-        ReactGA.event(GA4_EVENTS.SLIDER_INTERACTION, {
-            interaction_type: "auto_play_paused",
-            trigger: "touch_start",
-            device_type: "mobile",
-            current_slide: instanceRef.current?.track.details.rel || 0,
-            engagement_score: userEngagementScore,
-        });
     };
     const handleTouchEnd = () => {
         setTimeout(() => {
             setIsPaused(false);
-            ReactGA.event(GA4_EVENTS.SLIDER_INTERACTION, {
-                interaction_type: "auto_play_resumed",
-                trigger: "touch_end_delayed",
-                device_type: "mobile",
-                current_slide: instanceRef.current?.track.details.rel || 0,
-                engagement_score: userEngagementScore,
-            });
         }, 2000);
     };
-    // Gestionnaire pour les clics sur les liens externes avec GA4 enrichi
+    // Gestionnaire pour les clics sur les liens externes
     const handleExternalLinkClick = (platform, action) => {
         ReactGA.event(GA4_EVENTS.EXTERNAL_LINK_CLICK, {
+            page_name: pageName,
             platform: platform,
-            action: action,
-            link_type: "review_platform",
-            current_slide: instanceRef.current?.track.details.rel || 0,
-            session_engagement_score: userEngagementScore,
-            reviews_viewed_count: reviewsViewed.size,
-            time_on_widget: Math.round((Date.now() - sessionStartTime) / 1000),
-        });
-        // Conversion tracking pour les clics externes
-        ReactGA.event("conversion", {
-            conversion_type: "external_review_platform_visit",
-            platform: platform,
-            value: platform === "google" ? 10 : 8, // Valeur différente selon la plateforme
+            action_type: action,
         });
     };
-    // Gestionnaire pour le bouton "Laisser un avis" avec GA4 enrichi
+    // Gestionnaire pour le bouton "Laisser un avis"
     const handleLeaveReviewClick = () => {
         setIsPopupOpen(true);
-        ReactGA.event(GA4_EVENTS.LEAVE_REVIEW_ACTION, {
-            action: "popup_opened",
-            trigger_location: "individual_review_card",
-            current_slide: instanceRef.current?.track.details.rel || 0,
-            session_engagement_score: userEngagementScore,
-            reviews_viewed_before_action: reviewsViewed.size,
-            time_before_action: Math.round((Date.now() - sessionStartTime) / 1000),
-        });
-        // Funnel tracking pour les actions de review
-        ReactGA.event("review_funnel", {
-            funnel_step: "popup_opened",
-            funnel_position: 1,
-            session_id: sessionStartTime.toString(),
+        ReactGA.event(GA4_EVENTS.LEAVE_REVIEW_CLICK, {
+            page_name: pageName,
         });
     };
-    // Gestionnaire pour la fermeture de la popup avec GA4
+    // Gestionnaire pour la fermeture de la popup
     const handlePopupClose = () => {
         setIsPopupOpen(false);
-        ReactGA.event(GA4_EVENTS.LEAVE_REVIEW_ACTION, {
-            action: "popup_closed",
-            session_engagement_score: userEngagementScore,
-            popup_interaction_completed: false,
+        ReactGA.event(GA4_EVENTS.POPUP_CLOSE, {
+            page_name: pageName,
         });
     };
     // Tracking de l'engagement sur les avis individuels
     const handleReviewClick = (review, index) => {
-        ReactGA.event(GA4_EVENTS.REVIEW_ENGAGEMENT, {
-            engagement_type: "review_clicked",
+        ReactGA.event(GA4_EVENTS.REVIEW_CLICK, {
+            page_name: pageName,
             review_source: review.source,
             review_rating: review.rating,
-            review_index: index,
-            reviewer_name: review.reviewer.slice(0, 10) + "...", // Nom tronqué pour la confidentialité
-            session_engagement_score: userEngagementScore,
-            time_on_slide: "unknown", // Pourrait être calculé avec un timer
+            slide_index: index + 1,
         });
     };
-    useEffect(() => {
-        // Performance tracking
-        const performanceObserver = new PerformanceObserver((list) => {
-            const entries = list.getEntries();
-            entries.forEach((entry) => {
-                if (entry.name.includes("googlereviews.json")) {
-                    const resourceEntry = entry;
-                    ReactGA.event("performance_metric", {
-                        metric_type: "resource_load_time",
-                        resource_name: "googlereviews_json",
-                        load_time: entry.duration,
-                        transfer_size: resourceEntry.transferSize || 0,
-                        encoded_body_size: resourceEntry.encodedBodySize || 0,
-                    });
-                }
-            });
-        });
-        performanceObserver.observe({ entryTypes: ["resource"] });
-        // Cleanup
-        return () => {
-            performanceObserver.disconnect();
-        };
-    }, []);
-    // Send session summary before component unmounts
-    useEffect(() => {
-        return () => {
-            // Envoyer un résumé de session avant la fermeture
-            ReactGA.event("session_summary", {
-                widget_type: "review_widget",
-                session_duration: Math.round((Date.now() - sessionStartTime) / 1000),
-                total_reviews_viewed: reviewsViewed.size,
-                total_slide_changes: totalSlideChanges,
-                final_engagement_score: calculateEngagementScore(),
-                reviews_available: reviews.length,
-                session_completed: true,
-            });
-        };
-    }, []);
     const renderGoogleStars = (rating) => {
         return Array.from({ length: 5 }).map((_, i) => (_jsx("span", { className: `google-star ${i < rating ? "filled" : "empty"}`, "aria-label": `${i + 1} étoile${i > 0 ? "s" : ""}`, children: "\u2605" }, i)));
     };
@@ -530,6 +362,6 @@ const ReviewWidget = () => {
     }
     return (_jsxs("section", { className: "review-widget", "aria-label": "Avis clients du restaurant Rosi Trattoria", children: [renderHeader(), _jsx("div", { className: "slider-container", children: _jsx("div", { ref: sliderRef, className: "keen-slider", onMouseEnter: handleMouseEnter, onMouseLeave: handleMouseLeave, onTouchStart: handleTouchStart, onTouchEnd: handleTouchEnd, role: "region", "aria-label": "Carrousel d'avis clients", children: reviews.map((review, index) => (_jsxs("article", { className: "keen-slider__slide", itemScope: true, itemType: "https://schema.org/Review", onClick: () => handleReviewClick(review, index), children: [_jsxs("div", { itemProp: "itemReviewed", itemScope: true, itemType: "https://schema.org/Restaurant", style: { display: "none" }, children: [_jsx("meta", { itemProp: "name", content: "Rosi Trattoria" }), _jsx("meta", { itemProp: "url", content: "https://www.rosi-trattoria.com/" }), _jsxs("div", { itemProp: "address", itemScope: true, itemType: "https://schema.org/PostalAddress", children: [_jsx("meta", { itemProp: "streetAddress", content: "11 Prom. des Tilleuls" }), _jsx("meta", { itemProp: "addressLocality", content: "Brive-la-Gaillarde" }), _jsx("meta", { itemProp: "postalCode", content: "19100" }), _jsx("meta", { itemProp: "addressCountry", content: "FR" }), _jsx("meta", { itemProp: "addressRegion", content: "Nouvelle-Aquitaine" })] }), _jsx("meta", { itemProp: "telephone", content: "+33544314447" }), _jsx("meta", { itemProp: "servesCuisine", content: "Italian" }), _jsxs("div", { itemProp: "geo", itemScope: true, itemType: "https://schema.org/GeoCoordinates", children: [_jsx("meta", { itemProp: "latitude", content: "45.1632303" }), _jsx("meta", { itemProp: "longitude", content: "1.5330001" })] })] }), _jsxs("div", { className: "review-item", children: [_jsxs("div", { className: "review-content", children: [_jsxs("div", { className: "review-header", children: [_jsx("div", { className: "review-meta", children: _jsxs("time", { className: "review-date", dateTime: new Date().toISOString(), itemProp: "datePublished", children: ["Visit\u00E9 en ", review.date] }) }), _jsxs("div", { className: "rating-section", itemProp: "reviewRating", itemScope: true, itemType: "https://schema.org/Rating", children: [_jsx("meta", { itemProp: "ratingValue", content: review.rating.toString() }), _jsx("meta", { itemProp: "bestRating", content: "5" }), _jsx("meta", { itemProp: "worstRating", content: "1" }), renderReviewStars(review.rating, review.source)] })] }), _jsx("blockquote", { className: "review-text", itemProp: "reviewBody", cite: review.source === "google"
                                                     ? "Google Reviews"
-                                                    : "TripAdvisor", children: review.text })] }), _jsxs("div", { className: "reviewer-info", children: [_jsxs("div", { className: "reviewer-details", children: [_jsx("cite", { className: "reviewer-name", itemProp: "author", itemScope: true, itemType: "https://schema.org/Person", children: _jsx("span", { itemProp: "name", children: review.reviewer }) }), _jsxs("small", { className: "review-source", children: ["Avis v\u00E9rifi\u00E9", " ", review.source === "google" ? "Google" : "TripAdvisor"] })] }), _jsx("button", { className: "leave-review-btn", onClick: handleLeaveReviewClick, "aria-label": "Laisser un avis sur notre restaurant", children: "Laisser un avis" })] })] })] }, review.id))) }) }), _jsx("div", { className: "seo-reviews-section", children: _jsxs("div", { className: "seo-content", children: [_jsx("p", { className: "seo-text", children: "Restaurant italien Brive-la-Gaillarde - Rosi Trattoria, pizzas napolitaines artisanales. Avis v\u00E9rifi\u00E9s clients : cuisine italienne authentique, produits bio et locaux, ambiance chaleureuse. R\u00E9servations 05 44 31 44 47." }), _jsx("div", { className: "seo-reviews-hidden", children: reviews.slice(0, 50).map((review) => (_jsxs("div", { className: "seo-review-compact", itemScope: true, itemType: "https://schema.org/Review", children: [_jsxs("div", { itemProp: "itemReviewed", itemScope: true, itemType: "https://schema.org/Restaurant", children: [_jsx("span", { itemProp: "name", children: "Rosi Trattoria" }), _jsx("meta", { itemProp: "url", content: "https://www.rosi-trattoria.com/" }), _jsxs("div", { itemProp: "address", itemScope: true, itemType: "https://schema.org/PostalAddress", children: [_jsx("meta", { itemProp: "streetAddress", content: "11 Prom. des Tilleuls" }), _jsx("meta", { itemProp: "addressLocality", content: "Brive-la-Gaillarde" }), _jsx("meta", { itemProp: "postalCode", content: "19100" }), _jsx("meta", { itemProp: "addressCountry", content: "FR" }), _jsx("meta", { itemProp: "addressRegion", content: "Nouvelle-Aquitaine" })] }), _jsx("meta", { itemProp: "telephone", content: "+33544314447" }), _jsx("meta", { itemProp: "servesCuisine", content: "Italian" })] }), _jsx("cite", { itemProp: "author", itemScope: true, itemType: "https://schema.org/Person", children: _jsx("span", { itemProp: "name", children: review.reviewer }) }), _jsxs("div", { itemProp: "reviewRating", itemScope: true, itemType: "https://schema.org/Rating", children: [_jsx("meta", { itemProp: "ratingValue", content: review.rating.toString() }), _jsx("meta", { itemProp: "bestRating", content: "5" }), _jsx("meta", { itemProp: "worstRating", content: "1" })] }), _jsx("time", { itemProp: "datePublished", dateTime: new Date().toISOString(), children: review.date }), _jsx("span", { itemProp: "reviewBody", children: review.text })] }, `seo-${review.id}`))) })] }) }), _jsx(ReviewPopup, { isOpen: isPopupOpen, onClose: handlePopupClose })] }));
+                                                    : "TripAdvisor", children: review.text })] }), _jsxs("div", { className: "reviewer-info", children: [_jsxs("div", { className: "reviewer-details", children: [_jsx("cite", { className: "reviewer-name", itemProp: "author", itemScope: true, itemType: "https://schema.org/Person", children: _jsx("span", { itemProp: "name", children: review.reviewer }) }), _jsxs("small", { className: "review-source", children: ["Avis v\u00E9rifi\u00E9", " ", review.source === "google" ? "Google" : "TripAdvisor"] })] }), _jsx("button", { className: "leave-review-btn", onClick: handleLeaveReviewClick, "aria-label": "Laisser un avis sur notre restaurant", children: "Laisser un avis" })] })] })] }, review.id))) }) }), _jsx("div", { className: "seo-reviews-section", children: _jsxs("div", { className: "seo-content", children: [_jsx("p", { className: "seo-text", children: "Restaurant italien Brive-la-Gaillarde - Rosi Trattoria, pizzas napolitaines artisanales. Avis v\u00E9rifi\u00E9s clients : cuisine italienne authentique, produits bio et locaux, ambiance chaleureuse. R\u00E9servations 05 44 31 44 47." }), _jsx("div", { className: "seo-reviews-hidden", children: reviews.map((review) => (_jsxs("div", { className: "seo-review-compact", itemScope: true, itemType: "https://schema.org/Review", children: [_jsxs("div", { itemProp: "itemReviewed", itemScope: true, itemType: "https://schema.org/Restaurant", children: [_jsx("span", { itemProp: "name", children: "Rosi Trattoria" }), _jsx("meta", { itemProp: "url", content: "https://www.rosi-trattoria.com/" }), _jsxs("div", { itemProp: "address", itemScope: true, itemType: "https://schema.org/PostalAddress", children: [_jsx("meta", { itemProp: "streetAddress", content: "11 Prom. des Tilleuls" }), _jsx("meta", { itemProp: "addressLocality", content: "Brive-la-Gaillarde" }), _jsx("meta", { itemProp: "postalCode", content: "19100" }), _jsx("meta", { itemProp: "addressCountry", content: "FR" }), _jsx("meta", { itemProp: "addressRegion", content: "Nouvelle-Aquitaine" })] }), _jsx("meta", { itemProp: "telephone", content: "+33544314447" }), _jsx("meta", { itemProp: "servesCuisine", content: "Italian" })] }), _jsx("cite", { itemProp: "author", itemScope: true, itemType: "https://schema.org/Person", children: _jsx("span", { itemProp: "name", children: review.reviewer }) }), _jsxs("div", { itemProp: "reviewRating", itemScope: true, itemType: "https://schema.org/Rating", children: [_jsx("meta", { itemProp: "ratingValue", content: review.rating.toString() }), _jsx("meta", { itemProp: "bestRating", content: "5" }), _jsx("meta", { itemProp: "worstRating", content: "1" })] }), _jsx("time", { itemProp: "datePublished", dateTime: new Date().toISOString(), children: review.date }), _jsx("span", { itemProp: "reviewBody", children: review.text })] }, `seo-${review.id}`))) })] }) }), _jsx(ReviewPopup, { isOpen: isPopupOpen, onClose: handlePopupClose })] }));
 };
 export default ReviewWidget;

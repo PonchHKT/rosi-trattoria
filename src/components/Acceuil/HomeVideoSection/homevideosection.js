@@ -4,22 +4,36 @@ import { useNavigate } from "react-router-dom";
 import ReactGA from "react-ga4";
 import ComingSoonModal from "../ComingSoonModal/ComingSoonModal";
 import "./homevideosection.scss";
-const HomeVideoSection = () => {
+// Événements GA4 optimisés avec convention snake_case
+const GA4_EVENTS = {
+    // Événements d'engagement utilisateur
+    VIDEO_ENGAGEMENT: "accueil_video_engagement",
+    PAGE_SCROLL_PAST_HERO: "accueil_section_scroll_past",
+    // Actions utilisateur significatives
+    RESERVATION_CLICK: "accueil_reservation_click",
+    MENU_VIEW_CLICK: "accueil_menu_view_click",
+    DISTRIBUTOR_MODAL_OPEN: "accueil_distributor_modal_open",
+    CLICK_COLLECT_REDIRECT: "accueil_click_collect_redirect",
+    // Erreurs techniques critiques
+    VIDEO_LOAD_ERROR: "accueil_video_error",
+};
+const HomeVideoSection = ({ pageName = "Accueil", }) => {
     const videoRef = useRef(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isVideoLoaded, setIsVideoLoaded] = useState(false);
     const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const [isIntersecting, setIsIntersecting] = useState(false);
-    const [hasTrackedVideoStart, setHasTrackedVideoStart] = useState(false);
-    const [hasTrackedVideoView, setHasTrackedVideoView] = useState(false);
+    // États pour tracking optimisé
+    const [hasTrackedVideoEngagement, setHasTrackedVideoEngagement] = useState(false);
+    const [hasTrackedScrollPast, setHasTrackedScrollPast] = useState(false);
+    const engagementTimerRef = useRef(null);
     const navigate = useNavigate();
-    // Configuration Cloudinary
+    // Configuration Cloudinary (inchangée)
     const CLOUDINARY_CONFIG = {
         cloudName: "dc5jx2yo7",
         publicId: "nlqz6yqlcffaf4h5mudk",
     };
-    // Génération des URLs Cloudinary optimisées
     const getCloudinaryVideoUrl = useCallback((format = "mp4", quality = "auto") => {
         const width = isMobile ? "1080" : "1920";
         const height = isMobile ? "607" : "1080";
@@ -47,11 +61,11 @@ const HomeVideoSection = () => {
             "g_center",
             "e_brightness:30",
             "fl_immutable_cache",
-            "so_0", // Extract frame at 0 seconds
+            "so_0",
         ];
         return `https://res.cloudinary.com/${CLOUDINARY_CONFIG.cloudName}/video/upload/${transformations.join(",")}/${CLOUDINARY_CONFIG.publicId}.jpg`;
     }, [isMobile]);
-    // Optimisation : Vérification mobile
+    // Détection mobile optimisée
     useEffect(() => {
         const checkMobile = () => {
             setIsMobile(window.innerWidth <= 768);
@@ -67,32 +81,40 @@ const HomeVideoSection = () => {
             return () => window.removeEventListener("resize", checkMobile);
         }
     }, []);
-    // Optimisation : Intersection Observer pour le lazy loading
+    // Intersection Observer pour engagement vidéo
     useEffect(() => {
         const observer = new IntersectionObserver(([entry]) => {
             if (entry.isIntersecting) {
                 setIsIntersecting(true);
-                if (!hasTrackedVideoView) {
-                    ReactGA.event({
-                        action: "view_hero_section",
-                        category: "engagement",
-                        label: "hero_video_section_viewed",
-                    });
-                    setHasTrackedVideoView(true);
+                // Démarrer timer d'engagement - tracking après 3 secondes de visibilité
+                if (!hasTrackedVideoEngagement) {
+                    engagementTimerRef.current = setTimeout(() => {
+                        ReactGA.event(GA4_EVENTS.VIDEO_ENGAGEMENT, {
+                            page_name: pageName,
+                            device_type: isMobile ? "mobile" : "desktop",
+                            engagement_duration: 3000, // 3 secondes
+                        });
+                        setHasTrackedVideoEngagement(true);
+                    }, 3000);
                 }
                 observer.disconnect();
             }
         }, {
-            threshold: 0.1,
-            rootMargin: "50px",
+            threshold: 0.5, // 50% de la vidéo visible
+            rootMargin: "0px",
         });
         const currentElement = document.querySelector(".home-video-section");
         if (currentElement) {
             observer.observe(currentElement);
         }
-        return () => observer.disconnect();
-    }, [hasTrackedVideoView]);
-    // Optimisation : Chargement conditionnel de la vidéo
+        return () => {
+            observer.disconnect();
+            if (engagementTimerRef.current) {
+                clearTimeout(engagementTimerRef.current);
+            }
+        };
+    }, [hasTrackedVideoEngagement, pageName, isMobile]);
+    // Chargement conditionnel de la vidéo
     useEffect(() => {
         if (isIntersecting) {
             const delay = isMobile ? 0 : 200;
@@ -100,33 +122,21 @@ const HomeVideoSection = () => {
             return () => clearTimeout(timer);
         }
     }, [isIntersecting, isMobile]);
-    // Optimisation : Gestion de la vidéo
+    // Gestion des événements vidéo optimisée
     const handleVideoLoad = useCallback(() => {
         setIsVideoLoaded(true);
-        ReactGA.event({
-            action: "video_loaded",
-            category: "media",
-            label: "hero_video_loaded_successfully",
-        });
+        // Supprimé : tracking automatique du chargement (pas de valeur business)
     }, []);
     const handleVideoError = useCallback(() => {
         console.warn("Erreur de chargement vidéo");
-        ReactGA.event({
-            action: "video_error",
-            category: "media",
-            label: "hero_video_load_failed",
+        // Tracking uniquement des erreurs critiques
+        ReactGA.event(GA4_EVENTS.VIDEO_LOAD_ERROR, {
+            page_name: pageName,
+            device_type: isMobile ? "mobile" : "desktop",
+            error_type: "video_load_failed",
         });
-    }, []);
-    const handleVideoPlay = useCallback(() => {
-        if (!hasTrackedVideoStart) {
-            ReactGA.event({
-                action: "video_start",
-                category: "media",
-                label: "hero_video_started_playing",
-            });
-            setHasTrackedVideoStart(true);
-        }
-    }, [hasTrackedVideoStart]);
+    }, [pageName, isMobile]);
+    // Supprimé : handleVideoPlay (redondant avec l'engagement timer)
     useEffect(() => {
         if (!shouldLoadVideo)
             return;
@@ -150,74 +160,82 @@ const HomeVideoSection = () => {
         video.addEventListener("loadeddata", handleVideoLoad);
         video.addEventListener("error", handleVideoError);
         video.addEventListener("canplaythrough", tryPlay);
-        video.addEventListener("play", handleVideoPlay);
         return () => {
             video.removeEventListener("loadeddata", handleVideoLoad);
             video.removeEventListener("error", handleVideoError);
             video.removeEventListener("canplaythrough", tryPlay);
-            video.removeEventListener("play", handleVideoPlay);
         };
-    }, [shouldLoadVideo, handleVideoLoad, handleVideoError, handleVideoPlay]);
+    }, [shouldLoadVideo, handleVideoLoad, handleVideoError]);
+    // Actions utilisateur avec tracking optimisé
     const handleDistributorClick = useCallback((e) => {
         e.preventDefault();
         setIsModalOpen(true);
-        ReactGA.event({
-            action: "click_distributor_button",
-            category: "engagement",
-            label: "distributor_modal_opened",
+        ReactGA.event(GA4_EVENTS.DISTRIBUTOR_MODAL_OPEN, {
+            page_name: pageName,
+            button_location: "hero_section",
+            user_type: "potential_customer",
         });
-    }, []);
+    }, [pageName]);
     const handleCarteClick = useCallback(() => {
-        ReactGA.event({
-            action: "click_carte_button",
-            category: "navigation",
-            label: "navigate_to_carte",
+        ReactGA.event(GA4_EVENTS.MENU_VIEW_CLICK, {
+            page_name: pageName,
+            destination: "menu_page",
+            click_location: "hero_section",
         });
         navigate("/carte");
-    }, [navigate]);
+    }, [navigate, pageName]);
     const handleReservationClick = useCallback(() => {
-        ReactGA.event({
-            action: "click_reservation_button",
-            category: "conversion",
-            label: "external_reservation_zenchef",
+        ReactGA.event(GA4_EVENTS.RESERVATION_CLICK, {
+            page_name: pageName,
+            reservation_platform: "zenchef",
+            click_location: "hero_section",
+            button_type: "primary_cta",
         });
-    }, []);
+    }, [pageName]);
     const handleClickCollectClick = useCallback(() => {
-        ReactGA.event({
-            action: "click_collect_button",
-            category: "conversion",
-            label: "external_click_collect",
+        ReactGA.event(GA4_EVENTS.CLICK_COLLECT_REDIRECT, {
+            page_name: pageName,
+            service_type: "click_collect",
+            destination_url: "carte.rosi-trattoria.com",
+            click_location: "hero_section",
         });
         window.open("https://carte.rosi-trattoria.com/menu", "_blank", "noopener,noreferrer");
-    }, []);
+    }, [pageName]);
     const closeModal = useCallback(() => {
         setIsModalOpen(false);
-        ReactGA.event({
-            action: "close_distributor_modal",
-            category: "engagement",
-            label: "distributor_modal_closed",
-        });
+        // Supprimé : tracking de fermeture modal (pas de valeur business significative)
     }, []);
-    // Track scroll past hero section
+    // Tracking scroll optimisé avec debounce
     useEffect(() => {
+        let scrollTimeout;
         const handleScroll = () => {
-            const heroSection = document.querySelector(".home-video-section");
-            if (heroSection) {
-                const rect = heroSection.getBoundingClientRect();
-                const isScrolledPast = rect.bottom < 0;
-                if (isScrolledPast) {
-                    ReactGA.event({
-                        action: "scroll_past_hero",
-                        category: "engagement",
-                        label: "user_scrolled_past_hero_section",
-                    });
-                    window.removeEventListener("scroll", handleScroll);
+            if (hasTrackedScrollPast)
+                return;
+            // Debounce pour éviter les multiples déclenchements
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                const heroSection = document.querySelector(".home-video-section");
+                if (heroSection) {
+                    const rect = heroSection.getBoundingClientRect();
+                    const isScrolledPast = rect.bottom < window.innerHeight * 0.2; // 20% de la section visible
+                    if (isScrolledPast) {
+                        ReactGA.event(GA4_EVENTS.PAGE_SCROLL_PAST_HERO, {
+                            page_name: pageName,
+                            scroll_depth: "hero_section_passed",
+                            device_type: isMobile ? "mobile" : "desktop",
+                        });
+                        setHasTrackedScrollPast(true);
+                        window.removeEventListener("scroll", handleScroll);
+                    }
                 }
-            }
+            }, 150); // Debounce de 150ms
         };
         window.addEventListener("scroll", handleScroll, { passive: true });
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+            clearTimeout(scrollTimeout);
+        };
+    }, [pageName, isMobile, hasTrackedScrollPast]);
     return (_jsxs("section", { className: "home-video-section", children: [_jsx("div", { className: "video-placeholder", style: {
                     backgroundImage: `url(${getCloudinaryPosterUrl()})`,
                     opacity: isVideoLoaded ? 0 : 1,

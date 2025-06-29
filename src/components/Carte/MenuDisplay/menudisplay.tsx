@@ -4,19 +4,27 @@ import ReactGA from "react-ga4";
 import "./menudisplay.scss";
 import Selector from "../Selector/selector";
 
-interface MenuDisplayProps {
+interface CarteDisplayProps {
   onMenuSelect?: (menuType: string) => void;
   showHours?: boolean;
   onToggleHours?: (show: boolean) => void;
+  pageName?: string;
 }
 
-const MenuDisplay: React.FC<MenuDisplayProps> = ({
+const GA4_EVENTS = {
+  HOURS_TOGGLE: "carte_hours_toggle",
+  MENU_SELECT: "carte_menu_select",
+};
+
+const CarteDisplay: React.FC<CarteDisplayProps> = ({
   onMenuSelect,
   showHours = true,
   onToggleHours,
+  pageName = "Unknown Page",
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const hasTrackedView = useRef(false);
+  const lastToggleTime = useRef<number>(0);
+  const toggleDebounceMs = 1000; // 1 second debounce
   const [currentStatus, setCurrentStatus] = useState<{
     isOpen: boolean;
     nextChange: string;
@@ -25,15 +33,12 @@ const MenuDisplay: React.FC<MenuDisplayProps> = ({
   const [internalShowHours, setInternalShowHours] = useState(showHours);
 
   const isAugustMonth = () => {
+    const forceAugustSchedule = false;
+    if (forceAugustSchedule) {
+      return true; // Force August schedule
+    }
     const currentMonth = new Date().getMonth();
     return currentMonth === 7;
-  };
-
-  const getFrenchTime = () => {
-    return new Date().toLocaleString("fr-FR", {
-      timeZone: "Europe/Paris",
-      hour12: false,
-    });
   };
 
   const checkOpenStatus = () => {
@@ -57,23 +62,35 @@ const MenuDisplay: React.FC<MenuDisplayProps> = ({
 
     if (isAugust) {
       schedule = {
-        0: null,
-        1: { lunch: [12 * 60, 14 * 60], dinner: [19 * 60, 21 * 60 + 30] },
-        2: { lunch: [12 * 60, 14 * 60], dinner: [19 * 60, 21 * 60 + 30] },
-        3: { lunch: [12 * 60, 14 * 60], dinner: [19 * 60, 21 * 60 + 30] },
-        4: { lunch: [12 * 60, 14 * 60], dinner: [19 * 60, 21 * 60 + 30] },
-        5: { lunch: [12 * 60, 14 * 60], dinner: [19 * 60, 22 * 60 + 30] },
-        6: { lunch: [12 * 60, 14 * 60], dinner: [19 * 60, 22 * 60 + 30] },
+        0: {
+          lunch: [12 * 60, 13 * 60 + 30],
+          dinner: [18 * 60 + 30, 21 * 60 + 30],
+        },
+        1: {
+          lunch: [12 * 60, 13 * 60 + 30],
+          dinner: [18 * 60 + 30, 21 * 60 + 30],
+        },
+        2: {
+          lunch: [12 * 60, 13 * 60 + 30],
+          dinner: [18 * 60 + 30, 21 * 60 + 30],
+        },
+        3: {
+          lunch: [12 * 60, 13 * 60 + 30],
+          dinner: [18 * 60 + 30, 21 * 60 + 30],
+        },
+        4: { lunch: [12 * 60, 13 * 60 + 30], dinner: [18 * 60 + 30, 22 * 60] },
+        5: { lunch: [12 * 60, 13 * 60 + 30], dinner: [18 * 60 + 30, 22 * 60] },
+        6: null,
       };
     } else {
       schedule = {
         0: null,
         1: null,
-        2: { lunch: [12 * 60, 14 * 60], dinner: [19 * 60, 21 * 60 + 30] },
-        3: { lunch: [12 * 60, 14 * 60], dinner: [19 * 60, 21 * 60 + 30] },
-        4: { lunch: [12 * 60, 14 * 60], dinner: [19 * 60, 21 * 60 + 30] },
-        5: { lunch: [12 * 60, 14 * 60], dinner: [19 * 60, 22 * 60 + 30] },
-        6: { lunch: [12 * 60, 14 * 60], dinner: [19 * 60, 22 * 60 + 30] },
+        2: { lunch: [12 * 60, 14 * 60], dinner: [18 * 60 + 30, 21 * 60 + 30] },
+        3: { lunch: [12 * 60, 14 * 60], dinner: [18 * 60 + 30, 21 * 60 + 30] },
+        4: { lunch: [12 * 60, 14 * 60], dinner: [18 * 60 + 30, 21 * 60 + 30] },
+        5: { lunch: [12 * 60, 14 * 60], dinner: [18 * 60 + 30, 22 * 60] },
+        6: { lunch: [12 * 60, 14 * 60], dinner: [18 * 60 + 30, 22 * 60] },
       };
     }
 
@@ -121,35 +138,40 @@ const MenuDisplay: React.FC<MenuDisplayProps> = ({
     setMenuSelected(menuType);
     setInternalShowHours(false);
 
+    ReactGA.event(GA4_EVENTS.MENU_SELECT, {
+      page_name: pageName,
+      menu_type: menuType === "sur_place" ? "dine_in" : "takeaway",
+    });
+
     if (onToggleHours) {
       onToggleHours(false);
     }
     if (onMenuSelect) {
       onMenuSelect(menuType);
     }
-
-    ReactGA.event({
-      category: "Menu Interaction",
-      action: "Hide Hours on Menu Select",
-      label: menuType,
-    });
   };
 
   const handleToggleHours = () => {
+    const now = Date.now();
+    if (now - lastToggleTime.current < toggleDebounceMs) {
+      return;
+    }
+    lastToggleTime.current = now;
+
     const newShowHours = !internalShowHours;
     setInternalShowHours(newShowHours);
-    // Do not clear menuSelected here to allow re-displaying the PDF
-    // setMenuSelected("");
+
+    if (newShowHours) {
+      ReactGA.event(GA4_EVENTS.HOURS_TOGGLE, {
+        page_name: pageName,
+        hours_state: "visible",
+        is_august: isAugustMonth(),
+      });
+    }
 
     if (onToggleHours) {
       onToggleHours(newShowHours);
     }
-
-    ReactGA.event({
-      category: "Hours Toggle",
-      action: newShowHours ? "Show Hours" : "Hide Hours",
-      label: "Manual Toggle",
-    });
   };
 
   useEffect(() => {
@@ -167,93 +189,72 @@ const MenuDisplay: React.FC<MenuDisplayProps> = ({
     setInternalShowHours(showHours);
   }, [showHours]);
 
-  useEffect(() => {
-    if (!hasTrackedView.current) {
-      ReactGA.event({
-        category: "Component View",
-        action: "View",
-        label: "Menu Display Page",
-        value: 1,
-      });
-      hasTrackedView.current = true;
-    }
-  }, []);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          ReactGA.event({
-            category: "Component Visibility",
-            action: "Scroll Into View",
-            label: "Menu Display Section",
-          });
-        }
-      },
-      { threshold: 0.3 }
-    );
-
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
   const getHoursItems = () => {
     const isAugust = isAugustMonth();
 
-    if (isAugust) {
-      ReactGA.event({
-        category: "Hours Display",
-        action: "Display August Hours",
-        label: "Summer Schedule",
-      });
-
-      return [
-        { day: "Lundi", hours: "12h00 - 14h00 / 19h00 - 21h30", closed: false },
-        { day: "Mardi", hours: "12h00 - 14h00 / 19h00 - 21h30", closed: false },
-        {
-          day: "Mercredi",
-          hours: "12h00 - 14h00 / 19h00 - 21h30",
-          closed: false,
-        },
-        { day: "Jeudi", hours: "12h00 - 14h00 / 19h00 - 21h30", closed: false },
-        {
-          day: "Vendredi",
-          hours: "12h00 - 14h00 / 19h00 - 22h30",
-          closed: false,
-        },
-        {
-          day: "Samedi",
-          hours: "12h00 - 14h00 / 19h00 - 22h30",
-          closed: false,
-        },
-        { day: "Dimanche", hours: "Fermé", closed: true },
-      ];
-    } else {
-      return [
-        { day: "Lundi", hours: "Fermé", closed: true },
-        { day: "Mardi", hours: "12h00 - 14h00 / 19h00 - 21h30", closed: false },
-        {
-          day: "Mercredi",
-          hours: "12h00 - 14h00 / 19h00 - 21h30",
-          closed: false,
-        },
-        { day: "Jeudi", hours: "12h00 - 14h00 / 19h00 - 21h30", closed: false },
-        {
-          day: "Vendredi",
-          hours: "12h00 - 14h00 / 19h00 - 22h30",
-          closed: false,
-        },
-        {
-          day: "Samedi",
-          hours: "12h00 - 14h00 / 19h00 - 22h30",
-          closed: false,
-        },
-        { day: "Dimanche", hours: "Fermé", closed: true },
-      ];
-    }
+    return isAugust
+      ? [
+          {
+            day: "Lundi",
+            hours: "12h00 - 13h30 / 18h30 - 21h30",
+            closed: false,
+          },
+          {
+            day: "Mardi",
+            hours: "12h00 - 13h30 / 18h30 - 21h30",
+            closed: false,
+          },
+          {
+            day: "Mercredi",
+            hours: "12h00 - 13h30 / 18h30 - 21h30",
+            closed: false,
+          },
+          {
+            day: "Jeudi",
+            hours: "12h00 - 13h30 / 18h30 - 21h30",
+            closed: false,
+          },
+          {
+            day: "Vendredi",
+            hours: "12h00 - 13h30 / 18h30 - 22h00",
+            closed: false,
+          },
+          {
+            day: "Samedi",
+            hours: "12h00 - 13h30 / 18h30 - 22h00",
+            closed: false,
+          },
+          { day: "Dimanche", hours: "Fermé", closed: true },
+        ]
+      : [
+          { day: "Lundi", hours: "Fermé", closed: true },
+          {
+            day: "Mardi",
+            hours: "12h00 - 14h00 / 18h30 - 21h30",
+            closed: false,
+          },
+          {
+            day: "Mercredi",
+            hours: "12h00 - 14h00 / 18h30 - 21h30",
+            closed: false,
+          },
+          {
+            day: "Jeudi",
+            hours: "12h00 - 14h00 / 18h30 - 21h30",
+            closed: false,
+          },
+          {
+            day: "Vendredi",
+            hours: "12h00 - 14h00 / 18h30 - 22h00",
+            closed: false,
+          },
+          {
+            day: "Samedi",
+            hours: "12h00 - 14h00 / 18h30 - 22h00",
+            closed: false,
+          },
+          { day: "Dimanche", hours: "Fermé", closed: true },
+        ];
   };
 
   return (
@@ -261,7 +262,8 @@ const MenuDisplay: React.FC<MenuDisplayProps> = ({
       <Selector
         onMenuSelect={handleMenuSelect}
         showPdf={!internalShowHours}
-        selectedMenu={menuSelected} // Pass the selected menu to Selector
+        selectedMenu={menuSelected}
+        pageName={pageName}
       />
 
       {menuSelected && (
@@ -279,9 +281,6 @@ const MenuDisplay: React.FC<MenuDisplayProps> = ({
             <Calendar className="calendar-icon" size={20} />
             <Clock className="clock-icon" size={20} />
             <h2>Nos Horaires</h2>
-            {isAugustMonth() && (
-              <span className="august-notice">🌞 Horaires d'été</span>
-            )}
           </div>
 
           <div className="header-right">
@@ -331,4 +330,4 @@ const MenuDisplay: React.FC<MenuDisplayProps> = ({
   );
 };
 
-export default MenuDisplay;
+export default CarteDisplay;

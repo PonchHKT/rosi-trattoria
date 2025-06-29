@@ -4,21 +4,24 @@ import { Calendar, Clock, X } from "lucide-react";
 import ReactGA from "react-ga4";
 import "./menudisplay.scss";
 import Selector from "../Selector/selector";
-const MenuDisplay = ({ onMenuSelect, showHours = true, onToggleHours, }) => {
+const GA4_EVENTS = {
+    HOURS_TOGGLE: "carte_hours_toggle",
+    MENU_SELECT: "carte_menu_select",
+};
+const CarteDisplay = ({ onMenuSelect, showHours = true, onToggleHours, pageName = "Unknown Page", }) => {
     const containerRef = useRef(null);
-    const hasTrackedView = useRef(false);
+    const lastToggleTime = useRef(0);
+    const toggleDebounceMs = 1000; // 1 second debounce
     const [currentStatus, setCurrentStatus] = useState({ isOpen: false, nextChange: "" });
     const [menuSelected, setMenuSelected] = useState("");
     const [internalShowHours, setInternalShowHours] = useState(showHours);
     const isAugustMonth = () => {
+        const forceAugustSchedule = false;
+        if (forceAugustSchedule) {
+            return true; // Force August schedule
+        }
         const currentMonth = new Date().getMonth();
         return currentMonth === 7;
-    };
-    const getFrenchTime = () => {
-        return new Date().toLocaleString("fr-FR", {
-            timeZone: "Europe/Paris",
-            hour12: false,
-        });
     };
     const checkOpenStatus = () => {
         const now = new Date();
@@ -31,24 +34,36 @@ const MenuDisplay = ({ onMenuSelect, showHours = true, onToggleHours, }) => {
         let schedule = {};
         if (isAugust) {
             schedule = {
-                0: null,
-                1: { lunch: [12 * 60, 14 * 60], dinner: [19 * 60, 21 * 60 + 30] },
-                2: { lunch: [12 * 60, 14 * 60], dinner: [19 * 60, 21 * 60 + 30] },
-                3: { lunch: [12 * 60, 14 * 60], dinner: [19 * 60, 21 * 60 + 30] },
-                4: { lunch: [12 * 60, 14 * 60], dinner: [19 * 60, 21 * 60 + 30] },
-                5: { lunch: [12 * 60, 14 * 60], dinner: [19 * 60, 22 * 60 + 30] },
-                6: { lunch: [12 * 60, 14 * 60], dinner: [19 * 60, 22 * 60 + 30] },
+                0: {
+                    lunch: [12 * 60, 13 * 60 + 30],
+                    dinner: [18 * 60 + 30, 21 * 60 + 30],
+                },
+                1: {
+                    lunch: [12 * 60, 13 * 60 + 30],
+                    dinner: [18 * 60 + 30, 21 * 60 + 30],
+                },
+                2: {
+                    lunch: [12 * 60, 13 * 60 + 30],
+                    dinner: [18 * 60 + 30, 21 * 60 + 30],
+                },
+                3: {
+                    lunch: [12 * 60, 13 * 60 + 30],
+                    dinner: [18 * 60 + 30, 21 * 60 + 30],
+                },
+                4: { lunch: [12 * 60, 13 * 60 + 30], dinner: [18 * 60 + 30, 22 * 60] },
+                5: { lunch: [12 * 60, 13 * 60 + 30], dinner: [18 * 60 + 30, 22 * 60] },
+                6: null,
             };
         }
         else {
             schedule = {
                 0: null,
                 1: null,
-                2: { lunch: [12 * 60, 14 * 60], dinner: [19 * 60, 21 * 60 + 30] },
-                3: { lunch: [12 * 60, 14 * 60], dinner: [19 * 60, 21 * 60 + 30] },
-                4: { lunch: [12 * 60, 14 * 60], dinner: [19 * 60, 21 * 60 + 30] },
-                5: { lunch: [12 * 60, 14 * 60], dinner: [19 * 60, 22 * 60 + 30] },
-                6: { lunch: [12 * 60, 14 * 60], dinner: [19 * 60, 22 * 60 + 30] },
+                2: { lunch: [12 * 60, 14 * 60], dinner: [18 * 60 + 30, 21 * 60 + 30] },
+                3: { lunch: [12 * 60, 14 * 60], dinner: [18 * 60 + 30, 21 * 60 + 30] },
+                4: { lunch: [12 * 60, 14 * 60], dinner: [18 * 60 + 30, 21 * 60 + 30] },
+                5: { lunch: [12 * 60, 14 * 60], dinner: [18 * 60 + 30, 22 * 60] },
+                6: { lunch: [12 * 60, 14 * 60], dinner: [18 * 60 + 30, 22 * 60] },
             };
         }
         const todaySchedule = schedule[currentDay];
@@ -80,31 +95,35 @@ const MenuDisplay = ({ onMenuSelect, showHours = true, onToggleHours, }) => {
     const handleMenuSelect = (menuType) => {
         setMenuSelected(menuType);
         setInternalShowHours(false);
+        ReactGA.event(GA4_EVENTS.MENU_SELECT, {
+            page_name: pageName,
+            menu_type: menuType === "sur_place" ? "dine_in" : "takeaway",
+        });
         if (onToggleHours) {
             onToggleHours(false);
         }
         if (onMenuSelect) {
             onMenuSelect(menuType);
         }
-        ReactGA.event({
-            category: "Menu Interaction",
-            action: "Hide Hours on Menu Select",
-            label: menuType,
-        });
     };
     const handleToggleHours = () => {
+        const now = Date.now();
+        if (now - lastToggleTime.current < toggleDebounceMs) {
+            return;
+        }
+        lastToggleTime.current = now;
         const newShowHours = !internalShowHours;
         setInternalShowHours(newShowHours);
-        // Do not clear menuSelected here to allow re-displaying the PDF
-        // setMenuSelected("");
+        if (newShowHours) {
+            ReactGA.event(GA4_EVENTS.HOURS_TOGGLE, {
+                page_name: pageName,
+                hours_state: "visible",
+                is_august: isAugustMonth(),
+            });
+        }
         if (onToggleHours) {
             onToggleHours(newShowHours);
         }
-        ReactGA.event({
-            category: "Hours Toggle",
-            action: newShowHours ? "Show Hours" : "Hide Hours",
-            label: "Manual Toggle",
-        });
     };
     useEffect(() => {
         const updateStatus = () => {
@@ -117,88 +136,74 @@ const MenuDisplay = ({ onMenuSelect, showHours = true, onToggleHours, }) => {
     useEffect(() => {
         setInternalShowHours(showHours);
     }, [showHours]);
-    useEffect(() => {
-        if (!hasTrackedView.current) {
-            ReactGA.event({
-                category: "Component View",
-                action: "View",
-                label: "Menu Display Page",
-                value: 1,
-            });
-            hasTrackedView.current = true;
-        }
-    }, []);
-    useEffect(() => {
-        const observer = new IntersectionObserver(([entry]) => {
-            if (entry.isIntersecting) {
-                ReactGA.event({
-                    category: "Component Visibility",
-                    action: "Scroll Into View",
-                    label: "Menu Display Section",
-                });
-            }
-        }, { threshold: 0.3 });
-        if (containerRef.current) {
-            observer.observe(containerRef.current);
-        }
-        return () => observer.disconnect();
-    }, []);
     const getHoursItems = () => {
         const isAugust = isAugustMonth();
-        if (isAugust) {
-            ReactGA.event({
-                category: "Hours Display",
-                action: "Display August Hours",
-                label: "Summer Schedule",
-            });
-            return [
-                { day: "Lundi", hours: "12h00 - 14h00 / 19h00 - 21h30", closed: false },
-                { day: "Mardi", hours: "12h00 - 14h00 / 19h00 - 21h30", closed: false },
+        return isAugust
+            ? [
                 {
-                    day: "Mercredi",
-                    hours: "12h00 - 14h00 / 19h00 - 21h30",
+                    day: "Lundi",
+                    hours: "12h00 - 13h30 / 18h30 - 21h30",
                     closed: false,
                 },
-                { day: "Jeudi", hours: "12h00 - 14h00 / 19h00 - 21h30", closed: false },
+                {
+                    day: "Mardi",
+                    hours: "12h00 - 13h30 / 18h30 - 21h30",
+                    closed: false,
+                },
+                {
+                    day: "Mercredi",
+                    hours: "12h00 - 13h30 / 18h30 - 21h30",
+                    closed: false,
+                },
+                {
+                    day: "Jeudi",
+                    hours: "12h00 - 13h30 / 18h30 - 21h30",
+                    closed: false,
+                },
                 {
                     day: "Vendredi",
-                    hours: "12h00 - 14h00 / 19h00 - 22h30",
+                    hours: "12h00 - 13h30 / 18h30 - 22h00",
                     closed: false,
                 },
                 {
                     day: "Samedi",
-                    hours: "12h00 - 14h00 / 19h00 - 22h30",
+                    hours: "12h00 - 13h30 / 18h30 - 22h00",
                     closed: false,
                 },
                 { day: "Dimanche", hours: "Fermé", closed: true },
-            ];
-        }
-        else {
-            return [
+            ]
+            : [
                 { day: "Lundi", hours: "Fermé", closed: true },
-                { day: "Mardi", hours: "12h00 - 14h00 / 19h00 - 21h30", closed: false },
                 {
-                    day: "Mercredi",
-                    hours: "12h00 - 14h00 / 19h00 - 21h30",
+                    day: "Mardi",
+                    hours: "12h00 - 14h00 / 18h30 - 21h30",
                     closed: false,
                 },
-                { day: "Jeudi", hours: "12h00 - 14h00 / 19h00 - 21h30", closed: false },
+                {
+                    day: "Mercredi",
+                    hours: "12h00 - 14h00 / 18h30 - 21h30",
+                    closed: false,
+                },
+                {
+                    day: "Jeudi",
+                    hours: "12h00 - 14h00 / 18h30 - 21h30",
+                    closed: false,
+                },
                 {
                     day: "Vendredi",
-                    hours: "12h00 - 14h00 / 19h00 - 22h30",
+                    hours: "12h00 - 14h00 / 18h30 - 22h00",
                     closed: false,
                 },
                 {
                     day: "Samedi",
-                    hours: "12h00 - 14h00 / 19h00 - 22h30",
+                    hours: "12h00 - 14h00 / 18h30 - 22h00",
                     closed: false,
                 },
                 { day: "Dimanche", hours: "Fermé", closed: true },
             ];
-        }
     };
-    return (_jsxs("div", { className: "menu-container", ref: containerRef, children: [_jsx(Selector, { onMenuSelect: handleMenuSelect, showPdf: !internalShowHours, selectedMenu: menuSelected }), menuSelected && (_jsxs("div", { className: "hours-toggle-button", onClick: handleToggleHours, children: [_jsx(Calendar, { size: 18 }), _jsx("span", { children: "Voir les horaires" })] })), _jsxs("div", { className: `hours-section ${internalShowHours ? "visible" : "hidden"}`, children: [_jsxs("div", { className: "hours-header", children: [_jsxs("div", { className: "header-left", children: [_jsx(Calendar, { className: "calendar-icon", size: 20 }), _jsx(Clock, { className: "clock-icon", size: 20 }), _jsx("h2", { children: "Nos Horaires" }), isAugustMonth() && (_jsx("span", { className: "august-notice", children: "\uD83C\uDF1E Horaires d'\u00E9t\u00E9" }))] }), _jsxs("div", { className: "header-right", children: [menuSelected && (_jsx("button", { className: "close-hours-button", onClick: handleToggleHours, "aria-label": "Fermer les horaires", children: _jsx(X, { size: 20 }) })), _jsxs("div", { className: `status-indicator ${currentStatus.isOpen ? "open" : "closed"}`, children: [_jsx("div", { className: "status-dot" }), _jsx("div", { className: "status-text", children: currentStatus.isOpen
+    return (_jsxs("div", { className: "menu-container", ref: containerRef, children: [_jsx(Selector, { onMenuSelect: handleMenuSelect, showPdf: !internalShowHours, selectedMenu: menuSelected, pageName: pageName }), menuSelected && (_jsxs("div", { className: "hours-toggle-button", onClick: handleToggleHours, children: [_jsx(Calendar, { size: 18 }), _jsx("span", { children: "Voir les horaires" })] })), _jsxs("div", { className: `hours-section ${internalShowHours ? "visible" : "hidden"}`, children: [_jsxs("div", { className: "hours-header", children: [_jsxs("div", { className: "header-left", children: [_jsx(Calendar, { className: "calendar-icon", size: 20 }), _jsx(Clock, { className: "clock-icon", size: 20 }), _jsx("h2", { children: "Nos Horaires" })] }), _jsxs("div", { className: "header-right", children: [menuSelected && (_jsx("button", { className: "close-hours-button", onClick: handleToggleHours, "aria-label": "Fermer les horaires", children: _jsx(X, { size: 20 }) })), _jsxs("div", { className: `status-indicator ${currentStatus.isOpen ? "open" : "closed"}`, children: [_jsx("div", { className: "status-dot" }), _jsx("div", { className: "status-text", children: currentStatus.isOpen
                                                     ? "Actuellement Ouvert"
                                                     : "Actuellement Fermé" })] })] })] }), _jsx("div", { className: "hours-list", children: getHoursItems().map((item, index) => (_jsxs("div", { className: `hours-item ${item.closed ? "closed" : ""}`, children: [_jsx("span", { children: item.day }), _jsx("span", { children: item.hours })] }, index))) }), _jsx("div", { className: "hours-notice", children: "\u26A0\uFE0F Attention : ces horaires peuvent varier selon les jours f\u00E9ri\u00E9s et \u00E9v\u00E9nements sp\u00E9ciaux" })] })] }));
 };
-export default MenuDisplay;
+export default CarteDisplay;

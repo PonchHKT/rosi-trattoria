@@ -1,53 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { X, Menu, Phone } from "lucide-react";
 import ReactGA from "react-ga4";
 import "./navbar.scss";
 
+// Configuration des événements GA4 pour Navbar
+const GA4_EVENTS = {
+  MENU_TOGGLE: "navbar_menu_toggle",
+  LINK_CLICK: "navbar_link_click",
+  PHONE_CLICK: "navbar_phone_click",
+};
+
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const lastToggleTime = useRef<number>(0);
+  const toggleDebounceMs = 1000; // 1 second debounce for menu toggle
 
   const toggleNavbar = () => {
-    setIsOpen(!isOpen);
+    const now = Date.now();
+    // Debounce to prevent spamming toggle events
+    if (now - lastToggleTime.current < toggleDebounceMs) {
+      return;
+    }
+    lastToggleTime.current = now;
 
-    // Track menu toggle events avec les noms d'événements GA4 recommandés
-    ReactGA.event({
-      action: isOpen ? "menu_close" : "menu_open",
-      category: "engagement",
-      label: "mobile_menu",
-    });
+    setIsOpen((prev) => !prev);
+
+    // Track only menu open event
+    if (!isOpen) {
+      ReactGA.event(GA4_EVENTS.MENU_TOGGLE, {
+        page_name: location.pathname,
+        menu_state: "open",
+      });
+    }
   };
 
   const handleLinkClick = (linkLabel: string, linkPath: string) => {
     setIsOpen(false);
 
-    // Track navigation clicks
-    ReactGA.event({
-      action: "select_content",
-      category: "navigation",
-      label: `${linkLabel.toLowerCase()}_${linkPath}`,
+    // Track navigation link clicks with detailed parameters
+    ReactGA.event(GA4_EVENTS.LINK_CLICK, {
+      page_name: location.pathname,
+      link_label: linkLabel,
+      link_path: linkPath,
     });
   };
 
   const handlePhoneCall = () => {
     // Track phone call clicks
-    ReactGA.event({
-      action: "generate_lead",
-      category: "contact",
-      label: "phone_call_navbar_0544314447",
+    ReactGA.event(GA4_EVENTS.PHONE_CLICK, {
+      page_name: location.pathname,
+      phone_number: "0544314447",
     });
 
     window.location.href = "tel:0544314447";
-  };
-
-  const handleLogoClick = () => {
-    // Track logo clicks
-    ReactGA.event({
-      action: "select_content",
-      category: "navigation",
-      label: "logo_home_click",
-    });
   };
 
   const navItems = [
@@ -101,7 +108,7 @@ const Navbar: React.FC = () => {
                 className="navbar__brand-link"
                 title="Rosi Trattoria – Pizzeria Italienne Bio, Locale & Fait Maison"
                 aria-label="Retour à l'accueil du restaurant Rosi Trattoria"
-                onClick={handleLogoClick}
+                onClick={() => handleLinkClick("Accueil", "/")}
               >
                 <h1 className="navbar__brand">
                   <span className="navbar__brand-rosi">Rosi</span>
