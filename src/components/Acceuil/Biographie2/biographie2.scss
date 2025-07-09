@@ -3,15 +3,14 @@
 .restaurant-bio {
   padding-bottom: 50px;
   font-family: "Open Sans", sans-serif;
-  background: #000;
-  color: #fff;
+  background: #fff;
+  color: #333;
 
   // Header en pleine largeur avec background du four à dôme
   .bio-header {
     position: relative;
     width: 100vw;
     margin-left: calc(-50vw + 50%);
-    // Ajout d'une marge négative en haut pour éviter le trait fin
     margin-top: -1px;
     min-height: 70vh;
     display: flex;
@@ -21,10 +20,9 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    // Forcer le background à s'étendre complètement
     background-clip: border-box;
 
-    // Overlay sombre avec opacité
+    // Overlay clair avec opacité
     &::before {
       content: "";
       position: absolute;
@@ -32,42 +30,42 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(255, 255, 255, 0.7);
       backdrop-filter: blur(2px);
       z-index: 1;
     }
 
-    // Fade noir vers l'intérieur en haut - étendu pour couvrir le trait
+    // Fade blanc vers l'intérieur en haut
     &::after {
       content: "";
       position: absolute;
-      top: -1px; // Étendre légèrement au-dessus
+      top: -1px;
       left: 0;
       right: 0;
-      height: 81px; // Hauteur légèrement augmentée
+      height: 81px;
       background: linear-gradient(
         to bottom,
-        #000 0%,
-        rgba(0, 0, 0, 0.8) 30%,
-        rgba(0, 0, 0, 0.4) 60%,
+        #fff 0%,
+        rgba(255, 255, 255, 0.8) 30%,
+        rgba(255, 255, 255, 0.4) 60%,
         transparent 100%
       );
       z-index: 2;
       pointer-events: none;
     }
 
-    // Fade noir vers l'intérieur en bas (élément séparé)
+    // Fade blanc vers l'intérieur en bas
     .bio-header-fade-bottom {
       position: absolute;
-      bottom: -1px; // Étendre légèrement en dessous
+      bottom: -1px;
       left: 0;
       right: 0;
-      height: 81px; // Hauteur légèrement augmentée
+      height: 81px;
       background: linear-gradient(
         to top,
-        #000 0%,
-        rgba(0, 0, 0, 0.8) 30%,
-        rgba(0, 0, 0, 0.4) 60%,
+        #fff 0%,
+        rgba(255, 255, 255, 0.8) 30%,
+        rgba(255, 255, 255, 0.4) 60%,
         transparent 100%
       );
       z-index: 2;
@@ -88,10 +86,10 @@
     font-family: "Playfair Display", serif;
     font-size: clamp(2.5rem, 5vw, 4rem);
     font-weight: 700;
-    color: #fff;
+    color: #1a1a1a;
     margin-bottom: 1.5rem;
     line-height: 1.2;
-    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
     letter-spacing: -0.02em;
 
     // Animation de fade-in
@@ -107,10 +105,10 @@
 
   .bio-subtitle {
     font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-    color: #e0e0e0;
+    color: #555;
     font-weight: 300;
     margin: 0;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
     letter-spacing: 0.02em;
 
     // Animation de fade-in avec délai
@@ -153,7 +151,7 @@
       transform: translateY(0);
     }
 
-    // Section Pascal - texte à gauche, image à droite (ordre normal)
+    // Section Pascal - texte à gauche, image à droite
     &--pascal {
       .bio-text {
         order: 1;
@@ -179,7 +177,7 @@
   .bio-text {
     font-size: 1.1rem;
     line-height: 1.8;
-    color: #d4d4d4;
+    color: #444;
 
     p {
       margin: 0 0 1.5rem 0;
@@ -190,13 +188,13 @@
     }
 
     strong {
-      color: #fff;
+      color: #1a1a1a;
       font-weight: 600;
     }
   }
 
   .bio-highlight {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(0, 0, 0, 0.05);
     border-left: 4px solid #e91e63;
     padding: 1.5rem;
     border-radius: 0 8px 8px 0;
@@ -205,31 +203,32 @@
     margin-top: 1.5rem;
 
     &:hover {
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(0, 0, 0, 0.08);
       transform: translateX(5px);
     }
 
     p {
       margin: 0;
       font-size: 1.1rem;
+      color: #444;
     }
 
     strong {
-      color: #fff;
+      color: #1a1a1a;
       font-weight: 700;
     }
   }
 
   .bio-pascal {
-    color: #ffd700 !important;
+    color: #b8860b !important;
     font-family: "Playfair Display", serif;
     font-size: 1.3em;
     font-weight: 700 !important;
-    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+    text-shadow: 0 0 10px rgba(184, 134, 11, 0.3);
     transition: all 0.3s ease;
 
     &:hover {
-      text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+      text-shadow: 0 0 15px rgba(184, 134, 11, 0.6);
     }
   }
 
@@ -242,19 +241,19 @@
     height: 300px;
     border-radius: 8px;
     object-fit: cover;
-    border: 2px solid #333;
+    border: 2px solid #ccc;
     transition: all 0.3s ease;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 
     // Classe spécifique pour la photo de Pascal
     &--pascal {
-      object-position: center 30%; // Ajuste la position verticale
+      object-position: center 30%;
     }
 
     &:hover {
       transform: scale(1.02);
-      border-color: #555;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+      border-color: #999;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
     }
   }
 
@@ -306,13 +305,12 @@
   @media (max-width: 768px) {
     .bio-header {
       min-height: 60vh;
-      margin-top: -1px; // Maintenir la correction sur mobile
+      margin-top: -1px;
 
       .bio-header-content {
         padding: 1.5rem;
       }
 
-      // Ajuster la hauteur des fades sur mobile
       &::after {
         top: -1px;
         height: 61px;
@@ -333,7 +331,6 @@
       grid-template-columns: 1fr;
       gap: 2rem;
 
-      // Sur mobile, tout revient à l'ordre normal
       &--pascal,
       &:not(.bio-section--pascal) {
         .bio-text {
@@ -370,13 +367,12 @@
   @media (max-width: 480px) {
     .bio-header {
       min-height: 50vh;
-      margin-top: -1px; // Maintenir la correction sur très petits écrans
+      margin-top: -1px;
 
       .bio-header-content {
         padding: 1rem;
       }
 
-      // Réduire encore plus la hauteur des fades sur très petits écrans
       &::after {
         top: -1px;
         height: 41px;

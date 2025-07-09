@@ -253,7 +253,7 @@ const SwiperGallery: React.FC<SwiperGalleryProps> = ({
         stretch: 0,
         depth: 100,
         modifier: 1,
-        slideShadows: true,
+        slideShadows: false, // Disable slide shadows
       },
       loop: true,
       centeredSlides: true,
@@ -278,7 +278,7 @@ const SwiperGallery: React.FC<SwiperGalleryProps> = ({
             stretch: 0,
             depth: 0,
             modifier: 1,
-            slideShadows: false,
+            slideShadows: false, // Disable slide shadows
           },
           autoplay: false,
         },
@@ -292,7 +292,7 @@ const SwiperGallery: React.FC<SwiperGalleryProps> = ({
             stretch: 0,
             depth: 0,
             modifier: 1,
-            slideShadows: false,
+            slideShadows: false, // Disable slide shadows
           },
           autoplay: {
             delay: 5000,
@@ -311,7 +311,7 @@ const SwiperGallery: React.FC<SwiperGalleryProps> = ({
             stretch: 0,
             depth: 80,
             modifier: 1,
-            slideShadows: true,
+            slideShadows: false, // Disable slide shadows
           },
           autoplay: {
             delay: 4500,
@@ -330,7 +330,7 @@ const SwiperGallery: React.FC<SwiperGalleryProps> = ({
             stretch: 0,
             depth: 100,
             modifier: 1,
-            slideShadows: true,
+            slideShadows: false, // Disable slide shadows
           },
           autoplay: {
             delay: 4000,
@@ -413,7 +413,6 @@ const SwiperGallery: React.FC<SwiperGalleryProps> = ({
         <Swiper {...swiperConfig} onSwiper={onSwiper}>
           {slides.map((slide, index) => (
             <SwiperSlide key={slide.id}>
-              <div className="swiper-slide-overlay" />
               {isMobile ? (
                 <img
                   src={slide.src}

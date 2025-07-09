@@ -549,7 +549,7 @@ const ReviewWidget: React.FC<ReviewWidgetProps> = ({
             }
           >
             <img
-              src="/images/logo/tripadvisor_white.png"
+              src="/images/logo/tripadvisor_logo.png"
               alt="TripAdvisor"
               className="tripadvisor-logo"
             />

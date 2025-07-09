@@ -3,8 +3,8 @@ $brand-green: #00af87;
 $google-blue: #4285f4;
 $google-yellow: #ffc107;
 $tripadvisor-green: #00aa6c; // Couleur officielle TripAdvisor
-$background: #000000;
-$text-white: #ffffff;
+$background: #ffffff;
+$text-dark: #333333;
 $text-muted: #666666;
 $border-radius: 20px;
 $shadow-light: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -13,7 +13,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
 // Mixins pour les étoiles
 @mixin star-base {
   font-size: 18px;
-  color: #ddd;
+  color: #cccccc;
   transition: all 0.2s ease;
   line-height: 1;
   user-select: none;
@@ -93,7 +93,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
           align-items: center;
           gap: 6px;
           font-weight: 600;
-          color: $text-white;
+          color: $text-dark;
           font-size: 14px;
           max-height: 36px;
 
@@ -138,7 +138,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
     .header-content {
       align-items: center;
       h2 {
-        color: $text-white;
+        color: $text-dark;
         font-size: 26px;
         font-weight: 800;
         margin: 0;
@@ -152,7 +152,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
         background: linear-gradient(
           90deg,
           transparent,
-          rgba(255, 255, 255, 0.1),
+          rgba(0, 0, 0, 0.1),
           transparent
         );
         background-size: 200% 100%;
@@ -180,7 +180,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
       }
 
       &.empty {
-        color: #ddd;
+        color: #cccccc;
       }
 
       &:hover {
@@ -189,7 +189,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
   }
 
-  // Étoiles TripAdvisor - CORRIGÉ
+  // Étoiles TripAdvisor
   .tripadvisor-stars {
     @include star-container;
 
@@ -197,13 +197,11 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
       @include star-base;
 
       &.filled {
-        @include star-filled(
-          $tripadvisor-green
-        ); // VERT TripAdvisor au lieu de jaune
+        @include star-filled($tripadvisor-green); // Vert TripAdvisor
       }
 
       &.empty {
-        color: #ddd;
+        color: #cccccc;
       }
 
       &:hover {
@@ -224,12 +222,12 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
       }
 
       &.empty {
-        color: #ddd;
+        color: #cccccc;
       }
     }
   }
 
-  // Étoiles système unifié (au cas où)
+  // Étoiles système unifié
   .stars {
     @include star-container;
 
@@ -242,12 +240,12 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
         }
 
         &.tripadvisor {
-          @include star-filled($tripadvisor-green); // VERT pour TripAdvisor
+          @include star-filled($tripadvisor-green);
         }
       }
 
       &.empty {
-        color: #ddd;
+        color: #cccccc;
       }
 
       &:hover {
@@ -310,7 +308,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
       .review-meta {
         .review-date {
           font-size: 12px;
-          color: $text-white;
+          color: $text-muted;
           font-weight: 500;
         }
       }
@@ -327,7 +325,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
             }
 
             &.empty {
-              color: #ddd;
+              color: #cccccc;
             }
           }
         }
@@ -336,7 +334,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
 
     .review-text {
       font-size: 15px;
-      color: $text-white;
+      color: $text-dark;
       line-height: 1.5;
       margin-bottom: 16px;
       letter-spacing: -0.1px;
@@ -370,7 +368,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
         align-items: center;
 
         .reviewer-name {
-          color: $text-white;
+          color: $text-dark;
           font-weight: 800;
         }
 
@@ -443,37 +441,36 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
       padding: 16px 24px;
 
       .brand-section {
-        // MODIFICATION PRINCIPALE : Garder flex-direction: row sur mobile
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        gap: 16px; // Espacement entre les deux sections
+        gap: 16px;
         padding: 12px 20px;
 
         .tripadvisor-section .tripadvisor-logo {
-          max-width: 140px; // Agrandi de 110px à 140px
-          max-height: 38px; // Agrandi de 32px à 38px
+          max-width: 140px;
+          max-height: 38px;
         }
 
         .google-section .google-logo {
-          font-size: 15px; // Agrandi de 13px à 15px
-          gap: 6px; // Légèrement plus d'espace
+          font-size: 15px;
+          gap: 6px;
 
           .google-svg {
-            width: 24px; // Agrandi de 20px à 24px
-            height: 24px; // Agrandi de 20px à 24px
+            width: 24px;
+            height: 24px;
           }
         }
 
         .rating-display {
-          gap: 10px; // Agrandi de 8px à 10px
+          gap: 10px;
 
           .rating-number {
-            font-size: 26px; // Agrandi de 24px à 26px
+            font-size: 26px;
           }
 
           .review-count {
-            font-size: 12px; // Agrandi de 11px à 12px
+            font-size: 12px;
           }
         }
 
@@ -481,7 +478,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
         .tripadvisor-stars {
           .google-star,
           .tripadvisor-star {
-            font-size: 18px; // Agrandi de 16px à 18px
+            font-size: 18px;
           }
         }
       }
@@ -512,24 +509,23 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
       padding: 12px 20px;
 
       .brand-section {
-        // MODIFICATION : Garder aussi flex-direction: row sur très petit mobile
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
         padding: 10px 16px;
-        gap: 12px; // Espacement un peu réduit
+        gap: 12px;
 
         .tripadvisor-section .tripadvisor-logo {
-          max-width: 120px; // Légèrement réduit pour très petit écran
+          max-width: 120px;
           max-height: 34px;
         }
 
         .google-section .google-logo {
-          font-size: 14px; // Légèrement réduit
+          font-size: 14px;
           gap: 5px;
 
           .google-svg {
-            width: 22px; // Légèrement réduit
+            width: 22px;
             height: 22px;
           }
         }
@@ -538,11 +534,11 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
           gap: 8px;
 
           .rating-number {
-            font-size: 22px; // Agrandi de 20px à 22px
+            font-size: 22px;
           }
 
           .review-count {
-            font-size: 11px; // Agrandi de 10px à 11px
+            font-size: 11px;
           }
         }
 
@@ -550,7 +546,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
         .tripadvisor-stars {
           .google-star,
           .tripadvisor-star {
-            font-size: 16px; // Agrandi de 14px à 16px
+            font-size: 16px;
           }
         }
       }
@@ -676,9 +672,9 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
   gap: 8px;
   padding: 12px 24px;
   margin-bottom: 16px;
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.1);
+  color: $text-dark;
+  border: 2px solid rgba(0, 0, 0, 0.2);
   border-radius: 12px;
   font-size: 16px;
   font-weight: 500;
@@ -689,8 +685,8 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
   position: relative;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(0, 0, 0, 0.2);
+    border-color: rgba(0, 0, 0, 0.4);
     transform: translateY(-1px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
   }
@@ -723,7 +719,8 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
     text-align: center;
   }
 }
-/* Section SEO discrète - Invisible sur fond noir */
+
+// Section SEO discrète
 .seo-reviews-section {
   margin-top: 0;
   padding: 0;
@@ -733,7 +730,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
   .seo-content {
     .seo-text {
       font-size: 1px;
-      color: #000000; // Noir sur noir = invisible
+      color: $background; // Blanc sur blanc = invisible
       margin: 0;
       padding: 0;
       line-height: 1px;
@@ -743,7 +740,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
 
     .seo-reviews-hidden {
       font-size: 1px;
-      color: #000000; // Noir sur noir
+      color: $background; // Blanc sur blanc
       line-height: 1px;
       height: 1px;
       overflow: hidden;
@@ -751,13 +748,13 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
       .seo-review-compact {
         display: inline;
         font-size: 1px;
-        color: #000000;
+        color: $background;
 
         cite,
         time,
         span {
           font-size: 1px;
-          color: #000000; // Texte noir sur fond noir
+          color: $background; // Texte blanc sur fond blanc
           margin: 0;
           padding: 0;
         }

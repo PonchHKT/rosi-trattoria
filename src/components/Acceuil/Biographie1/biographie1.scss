@@ -386,33 +386,6 @@
   }
 }
 
-.biographie__image-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity var(--transition-medium);
-  z-index: 10;
-  border-radius: var(--radius-large);
-}
-
-.biographie__image-container:hover .biographie__image-overlay {
-  opacity: 1;
-}
-
-.biographie__image-overlay-content {
-  text-align: center;
-  color: white !important;
-  transform: translateY(10px);
-  transition: transform var(--transition-medium);
-}
-
 .biographie__image-container:hover .biographie__image-overlay-content {
   transform: translateY(0);
 }
@@ -888,7 +861,7 @@
 .biographie__image-overlay-text,
 .biographie__cta-button,
 .biographie__cta-button-text {
-  color: white !important;
+  color: black !important;
 }
 
 /* Gold accent exceptions */

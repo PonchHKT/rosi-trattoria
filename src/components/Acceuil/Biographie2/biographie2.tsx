@@ -57,7 +57,7 @@ const Biographie2: React.FC = () => {
       {/* Header en pleine largeur avec background du four à dôme */}
       <AnimatedSection animationType="fade-in-up" delay={0}>
         <header className="bio-header" role="banner">
-          {/* Fade noir du bas */}
+          {/* Fade blanc du bas */}
           <div className="bio-header-fade-bottom" aria-hidden="true"></div>
 
           <div className="bio-header-content">

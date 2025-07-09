@@ -35,8 +35,8 @@
 
 .footer {
   position: relative;
-  background: #000000;
-  color: white;
+  background: #ffffff;
+  color: #333333;
   overflow: hidden;
 
   &__top-border {
@@ -99,7 +99,7 @@
     width: 100%;
     max-width: 200px;
     object-fit: contain;
-    filter: brightness(1.1);
+    filter: brightness(1);
   }
 
   &__rating {
@@ -124,7 +124,7 @@
   }
 
   &__description {
-    color: #cbd5e1;
+    color: #666666;
     line-height: 1.6;
     text-align: center;
     max-width: 300px;
@@ -140,7 +140,7 @@
   &__social-title {
     font-size: 1.125rem;
     font-weight: 600;
-    color: white;
+    color: #1a1a1a;
     margin: 0;
     text-align: center;
   }
@@ -240,7 +240,7 @@
   &__section-title {
     font-size: 1.25rem;
     font-weight: 600;
-    color: white;
+    color: #1a1a1a;
     margin: 0 0 1.5rem 0;
     text-align: center;
 
@@ -262,10 +262,6 @@
     padding: 0.75rem;
     border-radius: 0.5rem;
     transition: background-color 0.2s ease;
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.05);
-    }
   }
 
   &__contact-icon {
@@ -326,16 +322,16 @@
     flex-direction: column;
     justify-content: flex-start;
     flex: 1;
-    color: #cbd5e1;
+    color: #555555;
     min-width: 0;
 
     a {
-      color: #cbd5e1;
+      color: #555555;
       text-decoration: none;
       transition: color 0.2s ease;
 
       &:hover {
-        color: white;
+        color: #1a1a1a;
       }
     }
   }
@@ -427,7 +423,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 0.5rem 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 
     &:last-child {
       border-bottom: none;
@@ -443,14 +439,14 @@
 
   &__hours-day {
     font-weight: 600;
-    color: white;
+    color: #1a1a1a;
     flex-shrink: 0;
     min-width: 60%;
     max-width: 70%;
   }
 
   &__hours-time {
-    color: #cbd5e1;
+    color: #555555;
     text-align: right;
     flex-shrink: 0;
 
@@ -460,7 +456,7 @@
   }
 
   &__hours-closed {
-    color: #94a3b8;
+    color: #888888;
     font-style: italic;
     text-align: right;
     flex-shrink: 0;
@@ -494,7 +490,7 @@
   }
 
   &__nav-link {
-    color: #cbd5e1;
+    color: #555555;
     text-decoration: none;
     transition: all 0.2s ease;
     padding: 0.25rem 0;
@@ -507,7 +503,7 @@
   }
 
   &__bottom {
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
     padding-top: 2rem;
   }
 
@@ -524,7 +520,7 @@
   }
 
   &__copyright {
-    color: #94a3b8;
+    color: #888888;
     font-size: 0.875rem;
     margin: 0;
     text-align: center;
@@ -547,7 +543,7 @@
   }
 
   &__legal-link {
-    color: #94a3b8;
+    color: #888888;
     text-decoration: none;
     transition: color 0.2s ease;
 

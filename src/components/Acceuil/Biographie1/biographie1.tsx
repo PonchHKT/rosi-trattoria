@@ -334,12 +334,12 @@ const Biographie1: React.FC = () => {
                 <span className="biographie__quote-mark biographie__quote-mark--open">
                   "
                 </span>
-                Nous proposons des{" "}
+                Toutes nos{" "}
                 <strong className="biographie__quote-highlight">
-                  pizzas délicieuses aux saveurs originales
-                </strong>
-                . Vous pouvez les apprécier <em>sur place</em> ou les{" "}
-                <em>emporter</em>.
+                  pizzas sont préparées à la main
+                </strong>{" "}
+                avec des ingrédients frais, pour un goût unique à savourer sur
+                place ou à <em>emporter</em>.
                 <span className="biographie__quote-mark biographie__quote-mark--close">
                   "
                 </span>
@@ -372,15 +372,6 @@ const Biographie1: React.FC = () => {
                   imagesLoaded[index] ? "loaded" : ""
                 } ${imageErrors[index] ? "error" : ""}`}
               >
-                <div className="biographie__image-overlay">
-                  <div className="biographie__image-overlay-content">
-                    <Heart className="biographie__image-overlay-icon" />
-                    <span className="biographie__image-overlay-text">
-                      {index === 0 ? "Atmosphère unique" : "Cadre chaleureux"}
-                    </span>
-                  </div>
-                </div>
-
                 {!imagesLoaded[index] && (
                   <div className="biographie__image-placeholder">
                     <div className="biographie__image-skeleton"></div>
@@ -442,7 +433,7 @@ const Biographie1: React.FC = () => {
               >
                 <button className="biographie__cta-button" type="button">
                   <span className="biographie__cta-button-text">
-                    Je réserve !
+                    Réservez votre table
                   </span>
                   <div className="biographie__cta-button-shine"></div>
                 </button>
