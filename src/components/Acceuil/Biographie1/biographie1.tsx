@@ -223,12 +223,6 @@ const Biographie1: React.FC = () => {
                   </span>
                 </p>
               </hgroup>
-              <div className="biographie__title-badge">
-                <Award className="biographie__title-badge-icon" />
-                <span className="biographie__title-badge-text">
-                  Depuis 2020
-                </span>
-              </div>
             </div>
           </header>
         </AnimatedSection>
@@ -354,6 +348,12 @@ const Biographie1: React.FC = () => {
                 <div className="biographie__quote-dot"></div>
                 <div className="biographie__quote-dot"></div>
                 <div className="biographie__quote-dot"></div>
+              </div>
+              <div className="biographie__title-badge">
+                <Award className="biographie__title-badge-icon" />
+                <span className="biographie__title-badge-text">
+                  Depuis 2020
+                </span>
               </div>
             </div>
           </div>

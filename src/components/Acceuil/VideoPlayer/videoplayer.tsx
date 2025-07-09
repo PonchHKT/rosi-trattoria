@@ -44,8 +44,8 @@ const VideoPlayer: React.FC = () => {
   const [shouldAutoPlay, setShouldAutoPlay] = useState<boolean>(false);
   const [hasTrackedEngagement, setHasTrackedEngagement] =
     useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true); // New loading state
-  const [error, setError] = useState<string | null>(null); // New error state
+  const [isLoading, setIsLoading] = useState<boolean>(false); // Changed to false
+  const [error, setError] = useState<string | null>(null);
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const playerRef = useRef<HTMLDivElement>(null);
@@ -65,7 +65,7 @@ const VideoPlayer: React.FC = () => {
     },
     {
       title: "Les pâtes fraiche de Rosi",
-      url: "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/rosipatefraiche.mp4",
+      url: "https://pub-c0cb6a1e942a4d729260f30a324399aecomponent.r2.dev/Vid%C3%A9o%20Rosi/rosipatefraiche.mp4",
       thumbnail: "/images/thumbnails/pates-fraiche-rosi.png",
     },
     {
@@ -301,7 +301,7 @@ const VideoPlayer: React.FC = () => {
       setIsPlaying(false);
       setShouldAutoPlay(autoPlay);
       setHasTrackedEngagement(false);
-      setIsLoading(true);
+      setIsLoading(autoPlay); // Only show loading if autoplay is requested
       setError(null);
 
       ReactGA.event(GA4_EVENTS.VIDEO_SWITCH, {
@@ -507,7 +507,6 @@ const VideoPlayer: React.FC = () => {
 
   useEffect(() => {
     if (videoRef.current && !isInitialized) {
-      setIsLoading(true);
       const video = videoRef.current;
       if (video.readyState >= 2) {
         setStartTime();
@@ -552,256 +551,257 @@ const VideoPlayer: React.FC = () => {
   }, [showPlaylist]);
 
   return (
-    <div
-      ref={playerRef}
-      className={`video-player ${
-        isFullscreen ? "video-player--fullscreen" : ""
-      }`}
-      role="application"
-      aria-label="Lecteur vidéo Rosi Trattoria"
-    >
-      <div className="video-player__content">
-        <div
-          className={`video-player__main ${
-            showPlaylist ? "video-player__main--with-playlist" : ""
-          }`}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={() => isPlaying && setShowControls(false)}
-        >
-          {isLoading && (
-            <div className="video-player__loading" aria-live="polite">
-              Chargement...
-            </div>
-          )}
-          {error && (
-            <div className="video-player__error" aria-live="assertive">
-              {error}
-            </div>
-          )}
-          <video
-            ref={videoRef}
-            src={videos[currentVideo].url}
-            poster={videos[currentVideo].thumbnail}
-            className="video-player__video"
-            onTimeUpdate={handleTimeUpdate}
-            onLoadedMetadata={handleLoadedMetadata}
-            onEnded={handleVideoEnded}
-            onClick={togglePlay}
-            preload="auto"
-            playsInline
-            muted={isMuted}
-            webkit-playsinline="true"
-            x-webkit-airplay="allow"
-            aria-label={`Vidéo: ${videos[currentVideo].title}`}
-          >
-            <source src={videos[currentVideo].url} type="video/mp4" />
-            Votre navigateur ne supporte pas la lecture de vidéos.
-          </video>
-
+    <div className="video-player-wrapper force-white-background">
+      <div
+        ref={playerRef}
+        className={`video-player ${
+          isFullscreen ? "video-player--fullscreen" : ""
+        }`}
+        role="application"
+        aria-label="Lecteur vidéo Rosi Trattoria"
+      >
+        <div className="video-player__content">
           <div
-            className={`video-player__controls ${
-              showControls ? "video-player__controls--visible" : ""
+            className={`video-player__main ${
+              showPlaylist ? "video-player__main--with-playlist" : ""
             }`}
-            role="toolbar"
-            aria-label="Contrôles de lecture vidéo"
+            onMouseMove={handleMouseMove}
+            onMouseLeave={() => isPlaying && setShowControls(false)}
           >
-            <h2 className="video-player__current-title">
-              {videos[currentVideo].title}
-            </h2>
+            {isLoading && (
+              <div className="video-player__loading" aria-live="polite">
+                Chargement...
+              </div>
+            )}
+            {error && (
+              <div className="video-player__error" aria-live="assertive">
+                {error}
+              </div>
+            )}
+            <video
+              ref={videoRef}
+              src={videos[currentVideo].url}
+              poster={videos[currentVideo].thumbnail}
+              className="video-player__video"
+              onTimeUpdate={handleTimeUpdate}
+              onLoadedMetadata={handleLoadedMetadata}
+              onEnded={handleVideoEnded}
+              onClick={togglePlay}
+              preload="metadata"
+              playsInline
+              muted={isMuted}
+              webkit-playsinline="true"
+              x-webkit-airplay="allow"
+              aria-label={`Vidéo: ${videos[currentVideo].title}`}
+            >
+              <source src={videos[currentVideo].url} type="video/mp4" />
+              Votre navigateur ne supporte pas la lecture de vidéos.
+            </video>
 
             <div
-              className="video-player__progress"
-              onClick={handleSeek}
-              role="slider"
-              aria-label="Barre de progression de la vidéo"
-              aria-valuemin={0}
-              aria-valuemax={duration}
-              aria-valuenow={currentTime}
-              aria-valuetext={`${formatTime(currentTime)} sur ${formatTime(
-                duration
-              )}`}
-              tabIndex={0}
+              className={`video-player__controls ${
+                showControls ? "video-player__controls--visible" : ""
+              }`}
+              role="toolbar"
+              aria-label="Contrôles de lecture vidéo"
             >
+              <h2 className="video-player__current-title">
+                {videos[currentVideo].title}
+              </h2>
+
               <div
-                className="video-player__progress-bar"
-                style={{ width: `${(currentTime / duration) * 100}%` }}
+                className="video-player__progress"
+                onClick={handleSeek}
+                role="slider"
+                aria-label="Barre de progression de la vidéo"
+                aria-valuemin={0}
+                aria-valuemax={duration}
+                aria-valuenow={currentTime}
+                aria-valuetext={`${formatTime(currentTime)} sur ${formatTime(
+                  duration
+                )}`}
+                tabIndex={0}
               >
-                <div className="video-player__progress-handle"></div>
+                <div
+                  className="video-player__progress-bar"
+                  style={{ width: `${(currentTime / duration) * 100}%` }}
+                >
+                  <div className="video-player__progress-handle"></div>
+                </div>
               </div>
-            </div>
 
-            <div className="video-player__controls-row">
-              <div className="video-player__controls-left">
-                <button
-                  onClick={prevVideo}
-                  className="video-player__btn video-player__btn--icon"
-                  aria-label="Vidéo précédente"
-                  title="Vidéo précédente"
-                >
-                  <SkipBack size={24} />
-                </button>
-
-                <button
-                  onClick={togglePlay}
-                  className="video-player__btn video-player__btn--play"
-                  aria-label={isPlaying ? "Mettre en pause" : "Lire la vidéo"}
-                  title={isPlaying ? "Mettre en pause" : "Lire la vidéo"}
-                >
-                  {isPlaying ? <Pause size={24} /> : <Play size={24} />}
-                </button>
-
-                <button
-                  onClick={nextVideo}
-                  className="video-player__btn video-player__btn--icon"
-                  aria-label="Vidéo suivante"
-                  title="Vidéo suivante"
-                >
-                  <SkipForward size={24} />
-                </button>
-
-                <div className="video-player__volume">
+              <div className="video-player__controls-row">
+                <div className="video-player__controls-left">
                   <button
-                    onClick={toggleMute}
-                    className="video-player__btn video-player__btn--small"
-                    aria-label={isMuted ? "Activer le son" : "Couper le son"}
-                    title={isMuted ? "Activer le son" : "Couper le son"}
+                    onClick={prevVideo}
+                    className="video-player__btn video-player__btn--icon"
+                    aria-label="Vidéo précédente"
+                    title="Vidéo précédente"
                   >
-                    {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+                    <SkipBack size={24} />
                   </button>
-                  <label htmlFor="volume-slider" className="sr-only">
-                    Volume
-                  </label>
-                  <input
-                    id="volume-slider"
-                    type="range"
-                    min="0"
-                    max="1"
-                    step="0.1"
-                    value={volume}
-                    onChange={handleVolumeChange}
-                    className="video-player__volume-slider"
-                    aria-label={`Volume: ${Math.round(volume * 100)}%`}
-                    title={`Volume: ${Math.round(volume * 100)}%`}
-                  />
+
+                  <button
+                    onClick={togglePlay}
+                    className="video-player__btn video-player__btn--play"
+                    aria-label={isPlaying ? "Mettre en pause" : "Lire la vidéo"}
+                    title={isPlaying ? "Mettre en pause" : "Lire la vidéo"}
+                  >
+                    {isPlaying ? <Pause size={24} /> : <Play size={24} />}
+                  </button>
+
+                  <button
+                    onClick={nextVideo}
+                    className="video-player__btn video-player__btn--icon"
+                    aria-label="Vidéo suivante"
+                    title="Vidéo suivante"
+                  >
+                    <SkipForward size={24} />
+                  </button>
+
+                  <div className="video-player__volume">
+                    <button
+                      onClick={toggleMute}
+                      className="video-player__btn video-player__btn--small"
+                      aria-label={isMuted ? "Activer le son" : "Couper le son"}
+                      title={isMuted ? "Activer le son" : "Couper le son"}
+                    >
+                      {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+                    </button>
+                    <label htmlFor="volume-slider" className="sr-only">
+                      Volume
+                    </label>
+                    <input
+                      id="volume-slider"
+                      type="range"
+                      min="0"
+                      max="1"
+                      step="0.1"
+                      value={volume}
+                      onChange={handleVolumeChange}
+                      className="video-player__volume-slider"
+                      aria-label={`Volume: ${Math.round(volume * 100)}%`}
+                      title={`Volume: ${Math.round(volume * 100)}%`}
+                    />
+                  </div>
+
+                  <span className="video-player__time" aria-live="polite">
+                    {formatTime(currentTime)} / {formatTime(duration)}
+                  </span>
                 </div>
 
-                <span className="video-player__time" aria-live="polite">
-                  {formatTime(currentTime)} / {formatTime(duration)}
-                </span>
-              </div>
-
-              <div className="video-player__controls-right">
-                <button
-                  onClick={toggleFullscreen}
-                  className="video-player__btn video-player__btn--small"
-                  aria-label={
-                    isFullscreen ? "Quitter le plein écran" : "Plein écran"
-                  }
-                  title={
-                    isFullscreen ? "Quitter le plein écran" : "Plein écran"
-                  }
-                >
-                  <Maximize size={20} />
-                </button>
+                <div className="video-player__controls-right">
+                  <button
+                    onClick={toggleFullscreen}
+                    className="video-player__btn video-player__btn--small"
+                    aria-label={
+                      isFullscreen ? "Quitter le plein écran" : "Plein écran"
+                    }
+                    title={
+                      isFullscreen ? "Quitter le plein écran" : "Plein écran"
+                    }
+                  >
+                    <Maximize size={20} />
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-
-        <div
-          className={`video-player__playlist ${
-            showPlaylist ? "video-player__playlist--visible" : ""
-          }`}
-          role="region"
-          aria-label="Liste de lecture"
-        >
-          <div className="video-player__playlist-header">
-            <h3 className="video-player__playlist-title">
-              Vidéos ({videos.length})
-            </h3>
           </div>
 
           <div
-            className="video-player__playlist-content"
-            role="list"
-            aria-label="Liste des vidéos disponibles"
+            className={`video-player__playlist ${
+              showPlaylist ? "video-player__playlist--visible" : ""
+            }`}
+            role="region"
+            aria-label="Liste de lecture"
           >
-            {videos.map((video, index) => (
-              <div
-                key={index}
-                onClick={() => changeVideo(index, true)}
-                className={`video-player__playlist-item ${
-                  currentVideo === index
-                    ? "video-player__playlist-item--active"
-                    : ""
-                }`}
-                role="listitem"
-                tabIndex={0}
-                aria-label={`${video.title} - ${
-                  currentVideo === index
-                    ? "En cours de lecture"
-                    : "Cliquer pour lire"
-                }`}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    changeVideo(index, true);
-                  }
-                }}
-              >
-                <div className="video-player__thumbnail">
-                  <LazyLoadImage
-                    src={video.thumbnail}
-                    alt={`Miniature de ${video.title}`}
-                    className="video-player__thumbnail-image"
-                    effect="blur"
-                    width="120"
-                    height="68"
-                    threshold={100}
-                    placeholderSrc="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='68' viewBox='0 0 120 68'%3E%3Crect width='120' height='68' fill='%23f0f0f0'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial, sans-serif' font-size='12' fill='%23999'%3EChargement...%3C/text%3E%3C/svg%3E"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.style.display = "none";
-                      const fallback = document.createElement("div");
-                      fallback.className = "video-player__thumbnail-fallback";
-                      fallback.textContent = "Image non disponible";
-                      target.parentNode?.appendChild(fallback);
-                    }}
-                  />
-                  <div className="video-player__thumbnail-overlay"></div>
-                </div>
+            <div className="video-player__playlist-header">
+              <h3 className="video-player__playlist-title">
+                Vidéos ({videos.length})
+              </h3>
+            </div>
 
-                <div className="video-player__playlist-item-content">
-                  <h4 className="video-player__playlist-item-title">
-                    {video.title}
-                  </h4>
-                  <p className="video-player__playlist-item-meta">
-                    Rosi Trattoria
-                  </p>
+            <div
+              className="video-player__playlist-content"
+              role="list"
+              aria-label="Liste des vidéos disponibles"
+            >
+              {videos.map((video, index) => (
+                <div
+                  key={index}
+                  onClick={() => changeVideo(index, true)}
+                  className={`video-player__playlist-item ${
+                    currentVideo === index
+                      ? "video-player__playlist-item--active"
+                      : ""
+                  }`}
+                  role="listitem"
+                  tabIndex={0}
+                  aria-label={`${video.title} - ${
+                    currentVideo === index
+                      ? "En cours de lecture"
+                      : "Cliquer pour lire"
+                  }`}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      changeVideo(index, true);
+                    }
+                  }}
+                >
+                  <div className="video-player__thumbnail">
+                    <LazyLoadImage
+                      src={video.thumbnail}
+                      alt={`Miniature de ${video.title}`}
+                      className="video-player__thumbnail-image"
+                      effect="blur"
+                      width="120"
+                      height="68"
+                      threshold={100}
+                      placeholderSrc="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='68' viewBox='0 0 120 68'%3E%3Crect width='120' height='68' fill='%23f0f0f0'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial, sans-serif' font-size='12' fill='%23999'%3EChargement...%3C/text%3E%3C/svg%3E"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = "none";
+                        const fallback = document.createElement("div");
+                        fallback.className = "video-player__thumbnail-fallback";
+                        fallback.textContent = "Image non disponible";
+                        target.parentNode?.appendChild(fallback);
+                      }}
+                    />
+                    <div className="video-player__thumbnail-overlay"></div>
+                  </div>
+
+                  <div className="video-player__playlist-item-content">
+                    <h4 className="video-player__playlist-item-title">
+                      {video.title}
+                    </h4>
+                    <p className="video-player__playlist-item-meta">
+                      Rosi Trattoria
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-
-      <div className="video-player__mobile-toggle">
-        <button
-          onClick={togglePlaylist}
-          className="video-player__btn video-player__btn--mobile"
-          aria-label={
-            showPlaylist
-              ? "Masquer la liste de lecture"
-              : "Afficher la liste de lecture"
-          }
-          title={
-            showPlaylist
-              ? "Masquer la liste de lecture"
-              : "Afficher la liste de lecture"
-          }
-        >
-          {showPlaylist ? "Masquer" : "Voir plus"}
-        </button>
+        <div className="video-player__mobile-toggle">
+          <button
+            onClick={togglePlaylist}
+            className="video-player__btn video-player__btn--mobile"
+            aria-label={
+              showPlaylist
+                ? "Masquer la liste de lecture"
+                : "Afficher la liste de lecture"
+            }
+            title={
+              showPlaylist
+                ? "Masquer la liste de lecture"
+                : "Afficher la liste de lecture"
+            }
+          >
+            {showPlaylist ? "Masquer" : "Voir plus"}
+          </button>
+        </div>
       </div>
     </div>
   );

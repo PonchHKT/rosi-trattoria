@@ -34,7 +34,7 @@
   padding: 80px 0 100px;
   position: relative;
   margin-top: -100px;
-  z-index: 1000;
+  z-index: 200;
 
   * {
     color: inherit !important;
@@ -157,14 +157,16 @@
   padding: 8px 12px;
   display: flex;
   align-items: center;
+  justify-content: center; /* Centre le contenu à l'intérieur */
   gap: 6px;
   font-size: clamp(0.7rem, 1.5vw, 0.75rem);
   font-weight: 500;
   color: #000000 !important;
   box-shadow: var(--shadow-light);
-  margin-top: 12px;
-  justify-content: center;
-  align-self: center;
+  margin: 12px auto 0; /* Centrer horizontalement avec margin auto */
+  width: fit-content; /* Ajuster la largeur au contenu */
+  max-width: 200px; /* Limiter la largeur maximale */
+  text-align: center; /* Centrer le texte */
 }
 
 .biographie__title-badge-icon {
@@ -599,7 +601,7 @@
   &:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-strong);
-    background: #d1b321 !important;
+    background: #e6bd00 !important;
   }
 
   &:active {
