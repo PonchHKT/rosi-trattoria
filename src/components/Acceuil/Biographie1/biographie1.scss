@@ -1,11 +1,24 @@
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap");
 
 :root {
-  --primary-blue: #4a90e2;
-  --primary-pink: #ff1493;
-  --dark-bg: #ffffff;
-  --text-light: #000000;
-  --text-gray: #000000;
+  --text-primary: #000000 !important;
+  --text-secondary: #374151;
+  --background-white: #ffffff;
+  --background-gray: #f9fafb;
+  --border-light: #e5e7eb;
+  --border-medium: #d1d5db;
+  --accent-gold: #d4af37;
+  --primary-blue: #3b82f6;
+  --primary-pink: #ec4899;
+  --shadow-light: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-strong: 0 10px 25px rgba(0, 0, 0, 0.15);
+  --radius-small: 8px;
+  --radius-medium: 12px;
+  --radius-large: 16px;
+  --transition-fast: 0.15s ease-out;
+  --transition-medium: 0.25s ease-out;
+  --transition-slow: 0.4s ease-out;
 }
 
 * {
@@ -13,273 +26,396 @@
 }
 
 .biographie {
-  font-family: "Open Sans", sans-serif;
-  background: var(--dark-bg);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+  background: var(--background-white);
+  color: #000000 !important;
   min-height: 100vh;
+  padding: 80px 0 100px;
   position: relative;
-  overflow: hidden;
-  margin-top: -65px;
-  z-index: 200;
-  padding-top: 50px;
-  padding-bottom: 60px;
-  // Optimisations pour la performance
-  will-change: auto;
-  transform: translateZ(0);
-  contain: layout style paint;
-}
 
-@media (max-width: 768px) {
-  .biographie {
-    margin-top: -80px;
-
-    padding-bottom: 40px;
-    z-index: 1001;
+  * {
+    color: inherit !important;
   }
 }
 
 .biographie__container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
-  position: relative;
-  z-index: 4;
-  contain: layout style;
-}
-
-.biographie__bottom-fade {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 150px;
-  background: linear-gradient(
-    to top,
-    rgba(255, 255, 255, 1) 0%,
-    rgba(255, 255, 255, 0.8) 30%,
-    rgba(255, 255, 255, 0.4) 70%,
-    transparent 100%
-  );
-  z-index: 3;
-  pointer-events: none;
-  will-change: auto;
+  padding: 0 24px;
+  color: #000000 !important;
 }
 
 .biographie__header {
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 80px;
+}
+
+.biographie__title-wrapper {
+  position: relative;
+  display: inline-block;
 }
 
 .biographie__title {
   font-family: "Playfair Display", serif;
-  font-size: clamp(2rem, 6vw, 3.5rem);
-  font-weight: 700;
-  color: black;
-  letter-spacing: 1.5px;
-  line-height: 1.2;
+  font-size: clamp(2.5rem, 4vw, 4rem);
+  font-weight: 600;
+  color: #000000 !important;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  gap: 0.5rem;
   text-align: center;
   min-height: 200px;
   justify-content: center;
-  opacity: 0;
-  transform: translateY(-30px);
   width: 100%;
-  max-width: 1000px;
-  will-change: auto;
-
-  &.visible {
-    opacity: 1;
-    transform: translateY(0);
-    animation: titleEntrance 0.8s ease-out forwards;
-    will-change: opacity, transform;
-  }
-
-  &.permanent {
-    opacity: 1;
-    transform: translateY(0);
-    animation: none;
-    will-change: auto;
-  }
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .biographie__title-main {
-  display: block;
-  min-height: 1.2em;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem 1rem;
   margin: 0;
   font-size: inherit;
   font-weight: inherit;
-  color: inherit;
+  color: #000000 !important;
+  line-height: inherit;
+
+  // Éviter la coupure après l'apostrophe
+  word-break: keep-all;
+  overflow-wrap: normal;
+}
+
+.biographie__title-word {
+  display: inline-block;
+  color: #000000 !important;
+  white-space: nowrap; // Empêche la coupure des mots
+
+  // Grouper "L'" avec "EXIGENCE"
+  &:nth-child(4) {
+    // "L'"
+    margin-right: 0.2rem; // Rapprocher de "EXIGENCE"
+  }
+
+  &--accent {
+    color: #000000 !important;
+    font-weight: 700;
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--accent-gold);
+      opacity: 0.3;
+    }
+  }
 }
 
 .biographie__title-accent {
-  color: black;
-  position: relative;
+  color: #000000 !important;
+  font-weight: 500;
+  // Augmenter la taille de "MÈNENT À L'EXCELLENCE"
+  font-size: clamp(1.2rem, 3vw, 1.5rem); // Beaucoup plus grand
+  letter-spacing: 0.05em;
+  margin-top: 1rem;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  line-height: 1.2;
+}
+
+.biographie__title-accent-word {
+  color: #000000 !important;
+  white-space: nowrap;
+
+  &--highlight {
+    color: #000000 !important;
+    font-weight: 600;
+  }
+}
+
+.biographie__title-badge {
+  background: var(--background-gray);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-medium);
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: clamp(0.7rem, 1.5vw, 0.75rem);
+  font-weight: 500;
+  color: #000000 !important;
+  box-shadow: var(--shadow-light);
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.biographie__title-badge-icon {
+  width: 14px;
+  height: 14px;
+  color: var(--accent-gold) !important;
+}
+
+.biographie__title-badge-text {
+  color: #000000 !important;
 }
 
 .biographie__section-header {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 60px;
 }
 
 .biographie__subtitle-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
-  gap: 15px;
+  margin-bottom: 24px;
+  gap: 20px;
 }
 
 .biographie__decorative-line {
-  height: 2px;
-  width: 80px;
-  background: var(--primary-pink);
+  height: 1px;
+  width: 60px;
+  background: var(--border-medium);
   border-radius: 1px;
+  position: relative;
+
+  &--left::after,
+  &--right::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 4px;
+    background: var(--accent-gold);
+    border-radius: 50%;
+  }
+
+  &--left::after {
+    right: -10px;
+  }
+
+  &--right::after {
+    left: -10px;
+  }
 }
 
 .biographie__pizza-icon {
-  font-size: 2rem;
-  color: var(--primary-blue);
+  font-size: 1.5rem;
+  color: #000000 !important;
+  background: var(--background-gray);
+  border: 1px solid var(--border-light);
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-light);
+}
+
+.biographie__pizza-emoji {
+  font-size: 1.2rem;
 }
 
 .biographie__subtitle {
   font-family: "Playfair Display", serif;
-  font-size: 2rem;
-  font-weight: 700;
-  color: black;
-  margin-bottom: 1.5rem;
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 500;
+  color: #000000 !important;
+  margin: 0;
   text-align: center;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
 
-  .text-blue {
-    color: var(--primary-blue);
-  }
+.text-blue {
+  color: var(--primary-blue) !important;
+  font-weight: 600;
+}
 
-  .text-pink {
-    color: var(--primary-pink);
-  }
+.text-pink {
+  color: var(--primary-pink) !important;
+  font-weight: 600;
 }
 
 .biographie__description {
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 80px;
+}
+
+.biographie__text-container {
+  max-width: 700px;
+  margin: 0 auto;
 }
 
 .biographie__text {
-  font-size: 1.1rem;
-  line-height: 1.8;
-  color: black;
-  max-width: 800px;
-  margin: 0 auto;
+  font-size: clamp(1rem, 2.5vw, 1.125rem);
+  line-height: 1.7;
+  color: #000000 !important;
+  margin-bottom: 1.5rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.biographie__text-highlight {
+  color: #000000 !important;
+  font-weight: 600;
 }
 
 .biographie__capacity-section {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 40px;
-  margin-bottom: 60px;
+  gap: 32px;
+  margin-bottom: 80px;
 }
 
 .biographie__capacity-card {
-  background: rgba(0, 0, 0, 0.05);
-  border-radius: 20px;
-  padding: 40px 30px;
+  background: var(--background-white);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-large);
+  padding: 40px 32px;
   text-align: center;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease-out;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
-  will-change: auto;
+  transition: all var(--transition-medium);
+  box-shadow: var(--shadow-light);
+  position: relative;
+  overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 
-  &:hover {
-    transform: translateY(-5px);
-    will-change: transform;
+  &--indoor .biographie__capacity-icon {
+    color: var(--primary-blue) !important;
   }
 
-  &:not(:hover) {
-    will-change: auto;
-  }
-
-  &--indoor {
-    .biographie__capacity-icon {
-      color: var(--primary-blue);
-    }
-  }
-
-  &--outdoor {
-    .biographie__capacity-icon {
-      color: var(--primary-pink);
-    }
+  &--outdoor .biographie__capacity-icon {
+    color: var(--primary-pink) !important;
   }
 }
 
 .biographie__capacity-icon {
-  margin-bottom: 20px;
+  margin: 0 auto 24px;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 80px;
-  height: 80px;
-  margin: 0 auto 20px;
-  background: rgba(0, 0, 0, 0.08);
+  width: 72px;
+  height: 72px;
+  background: var(--background-gray);
+  border: 1px solid var(--border-light);
   border-radius: 50%;
 }
 
 .biographie__capacity-number {
   font-family: "Playfair Display", serif;
-  font-size: 1.5rem;
+  font-size: clamp(2rem, 5vw, 2.5rem);
   font-weight: 700;
-  color: black;
-  margin: 0 0 15px 0;
+  color: #000000 !important;
+  margin: 0 0 8px 0;
+  line-height: 1;
+}
+
+.biographie__capacity-label {
+  font-size: clamp(0.8rem, 2vw, 0.875rem);
+  color: #000000 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+  display: block;
+  margin-bottom: 16px;
 }
 
 .biographie__capacity-desc {
-  font-size: 1rem;
-  color: black;
-  line-height: 1.6;
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  color: #000000 !important;
+  line-height: 1.5;
   margin: 0;
+
+  strong {
+    color: #000000 !important;
+    font-weight: 600;
+  }
 }
 
 .biographie__images {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 30px;
-  margin-bottom: 60px;
+  gap: 32px;
+  margin-bottom: 80px;
 }
 
 .biographie__image-container {
   position: relative;
-  border-radius: 20px;
+  border-radius: var(--radius-large);
   overflow: hidden;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s ease-out;
+  box-shadow: var(--shadow-medium);
+  transition: transform var(--transition-medium);
   height: 300px;
-  background: rgba(0, 0, 0, 0.05);
-  will-change: auto;
+  background: var(--background-gray);
+  border: 1px solid var(--border-light);
 
   &:hover {
     transform: scale(1.02);
-    will-change: transform;
-  }
-
-  &:not(:hover) {
-    will-change: auto;
-  }
-
-  &.loaded {
-    .biographie__image-placeholder {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .biographie__image {
-      opacity: 1;
-    }
+    box-shadow: var(--shadow-strong);
   }
 
   &.error {
-    background: rgba(0, 0, 0, 0.05);
-    border: 1px dashed rgba(0, 0, 0, 0.2);
+    background: var(--background-gray);
+    border: 1px dashed var(--border-medium);
   }
+}
+
+.biographie__image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity var(--transition-medium);
+  z-index: 10;
+  border-radius: var(--radius-large);
+}
+
+.biographie__image-container:hover .biographie__image-overlay {
+  opacity: 1;
+}
+
+.biographie__image-overlay-content {
+  text-align: center;
+  color: white !important;
+  transform: translateY(10px);
+  transition: transform var(--transition-medium);
+}
+
+.biographie__image-container:hover .biographie__image-overlay-content {
+  transform: translateY(0);
+}
+
+.biographie__image-overlay-icon {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 8px;
+  color: var(--accent-gold) !important;
+}
+
+.biographie__image-overlay-text {
+  font-size: clamp(0.8rem, 2vw, 0.875rem);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: white !important;
 }
 
 .biographie__image {
@@ -288,16 +424,7 @@
   object-fit: cover;
   object-position: center;
   display: block;
-  transition: opacity 0.3s ease-out;
-  opacity: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 2;
-  border-radius: 20px;
-  image-rendering: -webkit-optimize-contrast;
-  backface-visibility: hidden;
-  transform: translateZ(0);
+  border-radius: var(--radius-large);
 }
 
 .biographie__image-placeholder {
@@ -307,29 +434,38 @@
   width: 100%;
   height: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.05);
-  transition: opacity 0.3s ease-out;
-  z-index: 1;
-  border-radius: 20px;
+  background: var(--background-gray);
+  border-radius: var(--radius-large);
 }
 
 .biographie__image-skeleton {
-  width: 60px;
-  height: 60px;
-  border: 3px solid rgba(0, 0, 0, 0.1);
-  border-top: 3px solid var(--primary-blue);
+  width: 48px;
+  height: 48px;
+  border: 2px solid var(--border-light);
+  border-top: 2px solid var(--accent-gold);
   border-radius: 50%;
-  animation: skeletonSpin 1.2s linear infinite;
-  will-change: transform;
+  animation: spin 1.2s linear infinite;
+  margin-bottom: 12px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .biographie__loading-text {
-  margin-top: 10px;
-  color: black;
-  font-size: 0.9rem;
+  color: #000000 !important;
+  font-size: clamp(0.8rem, 2vw, 0.875rem);
+  font-weight: 500;
   text-align: center;
+  margin: 0;
 }
 
 .biographie__image-error {
@@ -342,352 +478,139 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.05);
-  border-radius: 20px;
+  background: var(--background-gray);
+  border-radius: var(--radius-large);
   z-index: 3;
 }
 
 .biographie__error-icon {
-  font-size: 3rem;
-  margin-bottom: 15px;
-  opacity: 0.6;
+  font-size: 2rem;
+  margin-bottom: 12px;
+  opacity: 0.5;
+  color: #000000 !important;
 }
 
 .biographie__error-text {
-  color: black;
-  font-size: 0.9rem;
+  color: #000000 !important;
+  font-size: clamp(0.8rem, 2vw, 0.875rem);
   text-align: center;
   margin: 0;
-  padding: 0 20px;
+  padding: 0 24px;
   line-height: 1.4;
-}
-
-@keyframes skeletonSpin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 }
 
 .biographie__quote-section {
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 80px;
+}
+
+.biographie__quote-container {
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+  padding: 40px 32px;
+  background: var(--background-gray);
+  border-radius: var(--radius-large);
+  border: 1px solid var(--border-light);
 }
 
 .biographie__quote {
   font-family: "Playfair Display", serif;
   font-style: italic;
-  font-size: 1.3rem;
-  color: black;
-  max-width: 700px;
-  margin: 0 auto;
+  font-size: clamp(1.1rem, 2.5vw, 1.25rem);
+  color: #000000 !important;
+  margin: 0;
   line-height: 1.6;
   position: relative;
+  font-weight: 500;
+}
 
-  &::before,
-  &::after {
-    content: '"';
-    font-size: 3rem;
-    color: var(--primary-pink);
-    position: absolute;
-    opacity: 0.3;
-  }
+.biographie__quote-mark {
+  font-size: 3rem;
+  color: var(--accent-gold) !important;
+  opacity: 0.4;
+  position: absolute;
+  font-style: normal;
+  font-weight: 700;
 
-  &::before {
-    left: -30px;
+  &--open {
     top: -10px;
+    left: -20px;
   }
 
-  &::after {
-    right: -30px;
+  &--close {
     bottom: -30px;
+    right: -20px;
   }
+}
+
+.biographie__quote-highlight {
+  color: #000000 !important;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.biographie__quote-decoration {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.biographie__quote-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--accent-gold);
+  border-radius: 50%;
+  opacity: 0.6;
 }
 
 .biographie__cta {
   text-align: center;
 }
 
+.biographie__cta-container {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
 .biographie__cta-button {
-  background: #ffd506;
-  color: black;
+  background: #ffd506 !important;
+  color: black !important;
   border: none;
-  padding: 15px 40px;
-  border-radius: 50px;
-  font-size: 1.1rem;
+  padding: 16px 48px;
+  border-radius: var(--radius-medium);
+  font-size: clamp(0.95rem, 2vw, 1rem);
   font-weight: 600;
   cursor: pointer;
-  transition: transform 0.2s ease-out;
-  will-change: auto;
+  transition: all var(--transition-medium);
+  text-decoration: none;
+  display: inline-block;
+  letter-spacing: 0.02em;
 
   &:hover {
     transform: translateY(-2px);
-    will-change: transform;
+    box-shadow: var(--shadow-strong);
+    background: #1a1a1a !important;
   }
 
   &:active {
-    transform: translateY(0);
-  }
-
-  &:not(:hover):not(:active) {
-    will-change: auto;
+    transform: translateY(-1px);
   }
 }
 
-@keyframes titleEntrance {
-  0% {
-    opacity: 0;
-    transform: translateY(-30px) scale(0.95);
-  }
-  50% {
-    opacity: 0.7;
-    transform: translateY(-5px) scale(1.02);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+.biographie__cta-button-text {
+  color: black !important;
 }
 
-// OPTIMISATIONS MOBILE AMÉLIORÉES
-@media (max-width: 768px) {
-  .biographie__bottom-fade {
-    height: 120px;
-  }
-
-  .biographie__container {
-    padding: 0 15px;
-  }
-
-  .biographie__title {
-    font-size: clamp(2.5rem, 9vw, 4rem);
-    min-height: 220px;
-    gap: 1.2rem;
-    line-height: 1.15;
-    letter-spacing: 1px;
-    margin-bottom: 2rem;
-    animation-duration: 0.8s;
-    padding: 0 10px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-
-  .biographie__title-main {
-    font-size: clamp(2.5rem, 9vw, 4rem);
-    margin-bottom: 0.8rem;
-  }
-
-  .biographie__title-accent {
-    font-size: clamp(2.2rem, 8vw, 3.5rem);
-    opacity: 0.95;
-  }
-
-  .biographie__subtitle-container {
-    gap: 12px;
-    margin-bottom: 25px;
-  }
-
-  .biographie__decorative-line {
-    width: 70px;
-    height: 2px;
-  }
-
-  .biographie__pizza-icon {
-    font-size: 1.8rem;
-  }
-
-  .biographie__subtitle {
-    font-size: 1.8rem;
-    line-height: 1.3;
-    padding: 0 10px;
-  }
-
-  .biographie__text {
-    font-size: 1.05rem;
-    line-height: 1.7;
-    padding: 0 10px;
-  }
-
-  .biographie__capacity-section {
-    grid-template-columns: 1fr;
-    gap: 25px;
-  }
-
-  .biographie__capacity-card {
-    padding: 35px 25px;
-    margin: 0 5px;
-  }
-
-  .biographie__images {
-    grid-template-columns: 1fr;
-    gap: 25px;
-  }
-
-  .biographie__image-container {
-    height: 280px;
-    border-radius: 15px;
-    margin: 0 5px;
-  }
-
-  .biographie__image {
-    border-radius: 15px;
-  }
-
-  .biographie__image-placeholder {
-    border-radius: 15px;
-  }
-
-  .biographie__quote {
-    font-size: 1.2rem;
-    padding: 0 25px;
-    line-height: 1.6;
-
-    &::before,
-    &::after {
-      display: none;
-    }
-  }
-
-  .biographie__cta-button {
-    padding: 15px 35px;
-    font-size: 1.05rem;
-  }
-
-  .biographie__error-icon {
-    font-size: 2rem;
-    margin-bottom: 10px;
-  }
-
-  .biographie__error-text {
-    font-size: 0.8rem;
-    padding: 0 15px;
-  }
-
-  .biographie__loading-text {
-    font-size: 0.8rem;
-  }
+.biographie__cta-subtitle {
+  margin-top: 16px;
+  font-size: clamp(0.8rem, 2vw, 0.875rem);
+  color: #000000 !important;
+  font-weight: 500;
+  margin-bottom: 0;
 }
 
-// OPTIMISATIONS TRÈS PETIT MOBILE (320px-480px)
-@media (max-width: 480px) {
-  .biographie {
-    margin-top: -100px;
-    z-index: 200;
-  }
-
-  .biographie__bottom-fade {
-    height: 100px;
-  }
-
-  .biographie__title {
-    font-size: clamp(2.2rem, 8.5vw, 3.5rem);
-    min-height: 200px;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-    padding: 0 15px;
-    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-  }
-
-  .biographie__title-main {
-    font-size: clamp(2.2rem, 8.5vw, 3.5rem);
-    margin-bottom: 0.6rem;
-    word-spacing: 0.1em;
-  }
-
-  .biographie__title-accent {
-    font-size: clamp(1.9rem, 7.5vw, 3rem);
-    opacity: 0.9;
-  }
-
-  .biographie__subtitle-container {
-    gap: 10px;
-    flex-wrap: nowrap;
-  }
-
-  .biographie__decorative-line {
-    width: 50px;
-    height: 2px;
-  }
-
-  .biographie__pizza-icon {
-    font-size: 1.5rem;
-  }
-
-  .biographie__subtitle {
-    font-size: 1.6rem;
-    line-height: 1.25;
-    padding: 0 15px;
-  }
-
-  .biographie__text {
-    font-size: 1rem;
-    line-height: 1.6;
-    padding: 0 15px;
-  }
-
-  .biographie__capacity-card {
-    padding: 30px 20px;
-    background: rgba(0, 0, 0, 0.05);
-    margin: 0 10px;
-  }
-
-  .biographie__image-container {
-    height: 250px;
-    border-radius: 12px;
-    margin: 0 10px;
-  }
-
-  .biographie__image {
-    border-radius: 12px;
-  }
-
-  .biographie__image-placeholder {
-    border-radius: 12px;
-  }
-
-  .biographie__quote {
-    font-size: 1.1rem;
-    padding: 0 20px;
-    line-height: 1.5;
-  }
-
-  .biographie__cta-button {
-    padding: 14px 32px;
-    font-size: 1rem;
-  }
-}
-
-// Optimisations pour appareils avec faibles performances
-@media (max-resolution: 1dppx) {
-  .biographie__capacity-card {
-    background: rgba(0, 0, 0, 0.05);
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .biographie {
-    background: var(--dark-bg);
-  }
-}
-
-@media (max-device-memory: 2) {
-  .biographie__capacity-card {
-    background: rgba(0, 0, 0, 0.05);
-  }
-
-  .biographie__image {
-    image-rendering: auto;
-  }
-}
-
-@media (prefers-reduced-data) {
-  .biographie {
-    background: var(--dark-bg);
-  }
-}
-
-// Classe utilitaire pour screen readers
 .sr-only {
   position: absolute;
   width: 1px;
@@ -698,4 +621,270 @@
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* Responsive optimisé */
+@media (max-width: 768px) {
+  .biographie {
+    padding: 60px 0 80px;
+  }
+
+  .biographie__container {
+    padding: 0 16px;
+  }
+
+  .biographie__title {
+    font-size: clamp(1.8rem, 6vw, 2.5rem);
+    min-height: 160px;
+    gap: 0.8rem;
+  }
+
+  .biographie__title-main {
+    gap: 0.3rem 0.8rem;
+  }
+
+  .biographie__title-accent {
+    // Taille plus grande sur mobile aussi
+    font-size: clamp(1rem, 4vw, 1.2rem);
+    gap: 0.3rem;
+  }
+
+  .biographie__title-word {
+    &:nth-child(4) {
+      // "L'"
+      margin-right: 0.1rem;
+    }
+  }
+
+  .biographie__title-badge {
+    position: static;
+    margin-top: 20px;
+    align-self: center;
+    padding: 6px 10px;
+    font-size: clamp(0.65rem, 2vw, 0.7rem);
+  }
+
+  .biographie__title-badge-icon {
+    width: 12px;
+    height: 12px;
+  }
+
+  .biographie__subtitle-container {
+    gap: 16px;
+  }
+
+  .biographie__decorative-line {
+    width: 40px;
+  }
+
+  .biographie__pizza-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .biographie__pizza-emoji {
+    font-size: 1rem;
+  }
+
+  .biographie__subtitle {
+    font-size: clamp(1.3rem, 4vw, 1.8rem);
+    padding: 0 16px;
+  }
+
+  .biographie__text {
+    font-size: clamp(0.95rem, 3vw, 1.05rem);
+    padding: 0 16px;
+  }
+
+  .biographie__capacity-section {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-bottom: 60px;
+  }
+
+  .biographie__capacity-card {
+    padding: 32px 24px;
+  }
+
+  .biographie__capacity-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .biographie__capacity-number {
+    font-size: clamp(1.8rem, 8vw, 2.2rem);
+  }
+
+  .biographie__capacity-label {
+    font-size: clamp(0.75rem, 3vw, 0.8rem);
+  }
+
+  .biographie__capacity-desc {
+    font-size: clamp(0.85rem, 3vw, 0.95rem);
+  }
+
+  .biographie__images {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-bottom: 60px;
+  }
+
+  .biographie__image-container {
+    height: 250px;
+    min-height: 200px;
+  }
+
+  .biographie__quote-container {
+    padding: 32px 24px;
+    margin-bottom: 60px;
+  }
+
+  .biographie__quote {
+    font-size: clamp(1rem, 4vw, 1.15rem);
+  }
+
+  .biographie__quote-mark {
+    display: none;
+  }
+
+  .biographie__cta-button {
+    padding: 14px 32px;
+    font-size: clamp(0.9rem, 3vw, 0.95rem);
+  }
+
+  .biographie__cta-subtitle {
+    font-size: clamp(0.75rem, 3vw, 0.8rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .biographie {
+    padding: 40px 0 60px;
+  }
+
+  .biographie__container {
+    padding: 0 12px;
+  }
+
+  .biographie__title {
+    font-size: clamp(1.5rem, 7vw, 2rem);
+    min-height: 140px;
+    gap: 0.6rem;
+  }
+
+  .biographie__title-main {
+    gap: 0.2rem 0.6rem;
+  }
+
+  .biographie__title-accent {
+    // Encore plus grand sur très petit écran
+    font-size: clamp(0.9rem, 4.5vw, 1.1rem);
+    gap: 0.2rem;
+  }
+
+  .biographie__title-badge {
+    padding: 5px 8px;
+    font-size: clamp(0.6rem, 2.5vw, 0.65rem);
+  }
+
+  .biographie__title-badge-icon {
+    width: 10px;
+    height: 10px;
+  }
+
+  .biographie__subtitle {
+    font-size: clamp(1.2rem, 5vw, 1.5rem);
+    padding: 0 12px;
+  }
+
+  .biographie__text {
+    font-size: clamp(0.9rem, 3.5vw, 1rem);
+    padding: 0 12px;
+  }
+
+  .biographie__capacity-card {
+    padding: 24px 20px;
+  }
+
+  .biographie__capacity-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .biographie__capacity-number {
+    font-size: clamp(1.6rem, 10vw, 2rem);
+  }
+
+  .biographie__capacity-label {
+    font-size: clamp(0.7rem, 3vw, 0.75rem);
+  }
+
+  .biographie__capacity-desc {
+    font-size: clamp(0.8rem, 3vw, 0.85rem);
+  }
+
+  .biographie__image-container {
+    height: 200px;
+    min-height: 180px;
+  }
+
+  .biographie__quote-container {
+    padding: 24px 20px;
+  }
+
+  .biographie__quote {
+    font-size: clamp(0.95rem, 4vw, 1.05rem);
+  }
+
+  .biographie__cta-button {
+    padding: 12px 24px;
+    font-size: clamp(0.85rem, 3.5vw, 0.9rem);
+  }
+
+  .biographie__cta-subtitle {
+    font-size: clamp(0.7rem, 3vw, 0.75rem);
+  }
+}
+
+/* Performance optimisations */
+.biographie__image {
+  will-change: transform;
+}
+
+.biographie__capacity-card {
+  will-change: transform;
+}
+
+/* Specific white text exceptions */
+.biographie__image-overlay-content,
+.biographie__image-overlay-text,
+.biographie__cta-button,
+.biographie__cta-button-text {
+  color: white !important;
+}
+
+/* Gold accent exceptions */
+.biographie__title-badge-icon,
+.biographie__image-overlay-icon,
+.biographie__quote-mark {
+  color: var(--accent-gold) !important;
+}
+
+/* Hover states on mobile */
+@media (max-width: 768px) {
+  .biographie__capacity-card:hover {
+    transform: none;
+  }
+
+  .biographie__image-container:hover {
+    transform: none;
+  }
+
+  .biographie__image-overlay {
+    opacity: 0;
+  }
+
+  .biographie__cta-button:hover {
+    transform: none;
+  }
 }

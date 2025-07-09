@@ -5,7 +5,7 @@ import React, {
   useCallback,
   useMemo,
 } from "react";
-import { Users, Utensils } from "lucide-react";
+import { Users, Utensils, Award, Heart } from "lucide-react";
 import AnimatedSection from "../AnimatedSection/AnimatedSection";
 import "./biographie1.scss";
 
@@ -77,16 +77,14 @@ const Biographie1: React.FC = () => {
   useEffect(() => {
     const preloadImages = () => {
       imageUrls.forEach((url, index) => {
-        // Timeout de sécurité pour éviter les blocages infinis
         imageTimeoutsRef.current[index] = setTimeout(() => {
           console.warn(`Image ${index} timeout - affichage forcé`);
           setImagesLoaded((prev) => ({ ...prev, [index]: true }));
-        }, 8000); // 8 secondes max
+        }, 8000);
 
         const img = new Image();
 
         img.onload = () => {
-          // Nettoyer le timeout
           if (imageTimeoutsRef.current[index]) {
             clearTimeout(imageTimeoutsRef.current[index]);
             delete imageTimeoutsRef.current[index];
@@ -99,25 +97,22 @@ const Biographie1: React.FC = () => {
         img.onerror = () => {
           console.error(`Erreur de chargement pour l'image ${index}:`, url);
 
-          // Nettoyer le timeout
           if (imageTimeoutsRef.current[index]) {
             clearTimeout(imageTimeoutsRef.current[index]);
             delete imageTimeoutsRef.current[index];
           }
 
           setImageErrors((prev) => ({ ...prev, [index]: true }));
-          setImagesLoaded((prev) => ({ ...prev, [index]: true })); // Marquer comme "chargé" même en erreur
+          setImagesLoaded((prev) => ({ ...prev, [index]: true }));
         };
 
-        // Optimisations d'image
         img.decoding = "async";
         img.loading = "lazy";
-        img.crossOrigin = "anonymous"; // Pour éviter les erreurs CORS
+        img.crossOrigin = "anonymous";
         img.src = url;
       });
     };
 
-    // Observer pour démarrer le préchargement quand la section est proche
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -134,7 +129,6 @@ const Biographie1: React.FC = () => {
 
     return () => {
       observer.disconnect();
-      // Nettoyer tous les timeouts
       Object.values(imageTimeoutsRef.current).forEach((timeout) => {
         clearTimeout(timeout);
       });
@@ -144,14 +138,12 @@ const Biographie1: React.FC = () => {
 
   // IntersectionObserver optimisé
   useEffect(() => {
-    // Nettoyer l'observer précédent
     if (observerRef.current) {
       observerRef.current.disconnect();
     }
 
     observerRef.current = new IntersectionObserver(
       ([entry]) => {
-        // Utiliser requestIdleCallback si disponible
         const scheduleUpdate = (callback: () => void) => {
           if (window.requestIdleCallback) {
             window.requestIdleCallback(callback, { timeout: 100 });
@@ -194,31 +186,62 @@ const Biographie1: React.FC = () => {
       <div className="biographie__container">
         <AnimatedSection animationType="fade-in-scale" delay={100}>
           <header className="biographie__header" role="banner">
-            <hgroup
-              className={`biographie__title ${
-                titleAnimationPlayed
-                  ? "visible permanent"
-                  : isVisible
-                  ? "visible"
-                  : ""
-              }`}
-            >
-              <h1 id="biographie-main-title" className="biographie__title-main">
-                LA PASSION ET L'EXIGENCE
-              </h1>
-              <p className="biographie__title-accent" role="doc-subtitle">
-                MÈNENT À L'EXCELLENCE
-              </p>
-            </hgroup>
+            <div className="biographie__title-wrapper">
+              <div className="biographie__title-decorative">
+                <div className="biographie__title-ornament biographie__title-ornament--left"></div>
+                <div className="biographie__title-ornament biographie__title-ornament--right"></div>
+              </div>
+
+              <hgroup
+                className={`biographie__title ${
+                  titleAnimationPlayed
+                    ? "visible permanent"
+                    : isVisible
+                    ? "visible"
+                    : ""
+                }`}
+              >
+                <h1
+                  id="biographie-main-title"
+                  className="biographie__title-main"
+                >
+                  <span className="biographie__title-word">LA</span>
+                  <span className="biographie__title-word biographie__title-word--accent">
+                    PASSION
+                  </span>
+                  <span className="biographie__title-word">ET</span>
+                  <span className="biographie__title-word">L'</span>
+                  <span className="biographie__title-word biographie__title-word--accent">
+                    EXIGENCE
+                  </span>
+                </h1>
+                <p className="biographie__title-accent" role="doc-subtitle">
+                  <span className="biographie__title-accent-word">MÈNENT</span>
+                  <span className="biographie__title-accent-word">À</span>
+                  <span className="biographie__title-accent-word biographie__title-accent-word--highlight">
+                    L'EXCELLENCE
+                  </span>
+                </p>
+              </hgroup>
+              <div className="biographie__title-badge">
+                <Award className="biographie__title-badge-icon" />
+                <span className="biographie__title-badge-text">
+                  Depuis 2020
+                </span>
+              </div>
+            </div>
           </header>
         </AnimatedSection>
 
         <AnimatedSection animationType="fade-in-scale" delay={150}>
           <div className="biographie__section-header">
-            <div className="biographie__subtitle-container" aria-hidden="true">
-              <div className="biographie__decorative-line"></div>
-              <div className="biographie__pizza-icon">🍕</div>
-              <div className="biographie__decorative-line"></div>
+            <div className="biographie__subtitle-container">
+              <div className="biographie__decorative-line biographie__decorative-line--left"></div>
+              <div className="biographie__pizza-icon">
+                <span className="biographie__pizza-emoji">🍕</span>
+                <div className="biographie__pizza-glow"></div>
+              </div>
+              <div className="biographie__decorative-line biographie__decorative-line--right"></div>
             </div>
             <h2 className="biographie__subtitle">
               Le plaisir de manger <span className="text-blue">Italien</span>{" "}
@@ -229,15 +252,28 @@ const Biographie1: React.FC = () => {
 
         <AnimatedSection animationType="fade-in-scale" delay={200}>
           <div className="biographie__description">
-            <p className="biographie__text">
-              Nous vous servons de{" "}
-              <strong>délicieuses pizzas Napolitaines</strong> dans un{" "}
-              <strong>cadre élégant et chaleureux</strong>.
-              <br />
-              La <strong>décoration Street Art</strong> procure un sentiment de
-              dépaysement total. <em>Spacieux mais intime</em>, le cadre est
-              parfait pour passer des moments de détente et de tranquillité.
-            </p>
+            <div className="biographie__text-container">
+              <p className="biographie__text">
+                Nous vous servons de{" "}
+                <strong className="biographie__text-highlight">
+                  délicieuses pizzas Napolitaines
+                </strong>{" "}
+                dans un{" "}
+                <strong className="biographie__text-highlight">
+                  cadre élégant et chaleureux
+                </strong>
+                .
+              </p>
+              <p className="biographie__text">
+                La{" "}
+                <strong className="biographie__text-highlight">
+                  décoration Street Art
+                </strong>{" "}
+                procure un sentiment de dépaysement total.{" "}
+                <em>Spacieux mais intime</em>, le cadre est parfait pour passer
+                des moments de détente et de tranquillité.
+              </p>
+            </div>
           </div>
         </AnimatedSection>
 
@@ -252,28 +288,36 @@ const Biographie1: React.FC = () => {
             </h3>
 
             <article className="biographie__capacity-card biographie__capacity-card--indoor">
-              <div className="biographie__capacity-icon" aria-hidden="true">
-                <Users size={40} />
+              <div className="biographie__capacity-icon">
+                <Users size={32} />
+                <div className="biographie__capacity-icon-bg"></div>
               </div>
-              <h4 className="biographie__capacity-number">
-                50 places à l'intérieur
-              </h4>
-              <p className="biographie__capacity-desc">
-                Idéal pour <strong>repas d'affaires</strong> ou privés dans un{" "}
-                <strong>cadre intime</strong>.
-              </p>
+              <div className="biographie__capacity-content">
+                <h4 className="biographie__capacity-number">50</h4>
+                <span className="biographie__capacity-label">
+                  places à l'intérieur
+                </span>
+                <p className="biographie__capacity-desc">
+                  Idéal pour <strong>repas d'affaires</strong> ou privés dans un{" "}
+                  <strong>cadre intime</strong>.
+                </p>
+              </div>
             </article>
 
             <article className="biographie__capacity-card biographie__capacity-card--outdoor">
-              <div className="biographie__capacity-icon" aria-hidden="true">
-                <Utensils size={40} />
+              <div className="biographie__capacity-icon">
+                <Utensils size={32} />
+                <div className="biographie__capacity-icon-bg"></div>
               </div>
-              <h4 className="biographie__capacity-number">
-                100 places en terrasse
-              </h4>
-              <p className="biographie__capacity-desc">
-                Profitez de l'extérieur quand le temps le permet.
-              </p>
+              <div className="biographie__capacity-content">
+                <h4 className="biographie__capacity-number">100</h4>
+                <span className="biographie__capacity-label">
+                  places en terrasse
+                </span>
+                <p className="biographie__capacity-desc">
+                  Profitez de l'extérieur quand le temps le permet.
+                </p>
+              </div>
             </article>
           </div>
         </AnimatedSection>
@@ -291,11 +335,17 @@ const Biographie1: React.FC = () => {
                   imagesLoaded[index] ? "loaded" : ""
                 } ${imageErrors[index] ? "error" : ""}`}
               >
+                <div className="biographie__image-overlay">
+                  <div className="biographie__image-overlay-content">
+                    <Heart className="biographie__image-overlay-icon" />
+                    <span className="biographie__image-overlay-text">
+                      {index === 0 ? "Atmosphère unique" : "Cadre chaleureux"}
+                    </span>
+                  </div>
+                </div>
+
                 {!imagesLoaded[index] && (
-                  <div
-                    className="biographie__image-placeholder"
-                    aria-hidden="true"
-                  >
+                  <div className="biographie__image-placeholder">
                     <div className="biographie__image-skeleton"></div>
                     <p className="biographie__loading-text">Chargement...</p>
                   </div>
@@ -345,30 +395,54 @@ const Biographie1: React.FC = () => {
 
         <AnimatedSection animationType="fade-in-scale" delay={500}>
           <div className="biographie__quote-section">
-            <blockquote
-              className="biographie__quote"
-              cite="https://www.rosi-trattoria.com"
-            >
-              Nous proposons des{" "}
-              <strong>pizzas délicieuses aux saveurs originales</strong>. Vous
-              pouvez les apprécier <em>sur place</em> ou les <em>emporter</em>.
-            </blockquote>
+            <div className="biographie__quote-container">
+              <blockquote
+                className="biographie__quote"
+                cite="https://www.rosi-trattoria.com"
+              >
+                <span className="biographie__quote-mark biographie__quote-mark--open">
+                  "
+                </span>
+                Nous proposons des{" "}
+                <strong className="biographie__quote-highlight">
+                  pizzas délicieuses aux saveurs originales
+                </strong>
+                . Vous pouvez les apprécier <em>sur place</em> ou les{" "}
+                <em>emporter</em>.
+                <span className="biographie__quote-mark biographie__quote-mark--close">
+                  "
+                </span>
+              </blockquote>
+              <div className="biographie__quote-decoration">
+                <div className="biographie__quote-dot"></div>
+                <div className="biographie__quote-dot"></div>
+                <div className="biographie__quote-dot"></div>
+              </div>
+            </div>
           </div>
         </AnimatedSection>
 
         <AnimatedSection animationType="fade-in-scale" delay={600}>
           <div className="biographie__cta">
-            <a
-              href="https://bookings.zenchef.com/results?rid=356394&fullscreen=1"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Réserver une table chez Rosi Trattoria - Ouverture dans un nouvel onglet"
-              title="Réservation en ligne via ZenChef"
-            >
-              <button className="biographie__cta-button" type="button">
-                Je réserve !
-              </button>
-            </a>
+            <div className="biographie__cta-container">
+              <a
+                href="https://bookings.zenchef.com/results?rid=356394&fullscreen=1"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Réserver une table chez Rosi Trattoria - Ouverture dans un nouvel onglet"
+                title="Réservation en ligne via ZenChef"
+              >
+                <button className="biographie__cta-button" type="button">
+                  <span className="biographie__cta-button-text">
+                    Je réserve !
+                  </span>
+                  <div className="biographie__cta-button-shine"></div>
+                </button>
+              </a>
+              <p className="biographie__cta-subtitle">
+                Réservation en ligne • Confirmation immédiate
+              </p>
+            </div>
           </div>
         </AnimatedSection>
       </div>
