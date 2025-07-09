@@ -293,20 +293,6 @@ const Navbar = () => {
             ))}
           </ul>
         </nav>
-
-        <div className="navbar__mobile-footer">
-          <button
-            className="navbar__mobile-phone"
-            onClick={handlePhoneCall}
-            aria-label="Appeler le restaurant Rosi Trattoria maintenant"
-          >
-            <Phone size={24} aria-hidden="true" className="phone-icon" />
-            <div className="phone-text">
-              <span className="phone-label">Appelez-nous</span>
-              <span className="phone-number">05 44 31 44 47</span>
-            </div>
-          </button>
-        </div>
       </div>
     </>
   );
