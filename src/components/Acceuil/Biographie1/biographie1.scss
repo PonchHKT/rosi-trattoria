@@ -22,10 +22,12 @@
   z-index: 200;
   padding-top: 110px;
   padding-bottom: 60px;
-  will-change: transform;
-  transform: translate3d(0, 0, 0);
+  // Optimisations pour la performance
+  will-change: auto;
+  transform: translateZ(0);
+  contain: layout style paint;
 
-  // Background marble avec opacité
+  // Background marble avec opacité - OPTIMISÉ
   &::before {
     content: "";
     position: absolute;
@@ -34,14 +36,17 @@
     right: 0;
     bottom: 0;
     background: url("https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/marble-background.jpg")
-      no-repeat center center fixed;
+      no-repeat center center;
     background-size: cover;
+    background-attachment: scroll;
     opacity: 0.7;
     z-index: 1;
     pointer-events: none;
+    will-change: auto;
+    transform: translateZ(0);
   }
 
-  // Overlay pour améliorer le contraste
+  // Overlay pour améliorer le contraste - OPTIMISÉ
   &::after {
     content: "";
     position: absolute;
@@ -56,6 +61,8 @@
     );
     z-index: 2;
     pointer-events: none;
+    will-change: auto;
+    transform: translateZ(0);
   }
 }
 
@@ -68,8 +75,9 @@
 
     &::before {
       background: url("https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/marble-background-mobile.jpg")
-        no-repeat center center fixed;
+        no-repeat center center;
       background-size: cover;
+      background-attachment: scroll;
       opacity: 0.7;
     }
 
@@ -89,7 +97,7 @@
   padding: 0 20px;
   position: relative;
   z-index: 4;
-  contain: layout;
+  contain: layout style;
 }
 
 .biographie__bottom-fade {
@@ -107,6 +115,7 @@
   );
   z-index: 3;
   pointer-events: none;
+  will-change: auto;
 }
 
 .biographie__header {
@@ -116,7 +125,7 @@
 
 .biographie__title {
   font-family: "Playfair Display", serif;
-  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  font-size: clamp(2rem, 6vw, 3.5rem);
   font-weight: 700;
   color: var(--text-light);
   letter-spacing: 1.5px;
@@ -125,7 +134,7 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
   text-align: center;
   min-height: 200px;
   justify-content: center;
@@ -133,16 +142,20 @@
   transform: translateY(-30px);
   width: 100%;
   max-width: 1000px;
+  will-change: auto;
 
   &.visible {
     opacity: 1;
     transform: translateY(0);
-    animation: titleEntrance 0.8s ease-out;
+    animation: titleEntrance 0.8s ease-out forwards;
+    will-change: opacity, transform;
   }
+
   &.permanent {
     opacity: 1;
     transform: translateY(0);
-    animation: none; // Désactive l'animation pour éviter la répétition
+    animation: none;
+    will-change: auto;
   }
 }
 
@@ -157,16 +170,7 @@
 
 .biographie__title-accent {
   color: var(--text-light);
-  background: linear-gradient(45deg, var(--primary-pink), var(--primary-blue));
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradientShift 4s ease-in-out infinite;
-  display: block;
-  min-height: 1.2em;
-  margin: 0;
-  font-size: inherit;
-  font-weight: inherit;
+  position: relative;
 }
 
 .biographie__section-header {
@@ -237,7 +241,17 @@
   padding: 40px 30px;
   text-align: center;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease-out;
+  will-change: auto;
+
+  &:hover {
+    transform: translateY(-5px);
+    will-change: transform;
+  }
+
+  &:not(:hover) {
+    will-change: auto;
+  }
 
   &--indoor {
     .biographie__capacity-icon {
@@ -291,12 +305,18 @@
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease-out;
   height: 300px;
   background: rgba(40, 40, 40, 0.8);
+  will-change: auto;
 
   &:hover {
     transform: scale(1.02);
+    will-change: transform;
+  }
+
+  &:not(:hover) {
+    will-change: auto;
   }
 
   &.loaded {
@@ -309,6 +329,11 @@
       opacity: 1;
     }
   }
+
+  &.error {
+    background: rgba(60, 60, 60, 0.8);
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+  }
 }
 
 .biographie__image {
@@ -317,14 +342,16 @@
   object-fit: cover;
   object-position: center;
   display: block;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.3s ease-out;
   opacity: 0;
   position: absolute;
   top: 0;
   left: 0;
   z-index: 2;
   border-radius: 20px;
-  image-rendering: optimizeSpeed;
+  image-rendering: -webkit-optimize-contrast;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 .biographie__image-placeholder {
@@ -337,7 +364,7 @@
   align-items: center;
   justify-content: center;
   background: rgba(40, 40, 40, 0.8);
-  transition: opacity 0.2s ease;
+  transition: opacity 0.3s ease-out;
   z-index: 1;
   border-radius: 20px;
 }
@@ -349,6 +376,44 @@
   border-top: 3px solid var(--primary-blue);
   border-radius: 50%;
   animation: skeletonSpin 1.2s linear infinite;
+  will-change: transform;
+}
+
+.biographie__loading-text {
+  margin-top: 10px;
+  color: var(--text-gray);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.biographie__image-error {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(40, 40, 40, 0.9);
+  border-radius: 20px;
+  z-index: 3;
+}
+
+.biographie__error-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  opacity: 0.6;
+}
+
+.biographie__error-text {
+  color: var(--text-gray);
+  font-size: 0.9rem;
+  text-align: center;
+  margin: 0;
+  padding: 0 20px;
+  line-height: 1.4;
 }
 
 @keyframes skeletonSpin {
@@ -408,14 +473,20 @@
   font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: transform 0.2s ease-out;
+  will-change: auto;
 
   &:hover {
     transform: translateY(-2px);
+    will-change: transform;
   }
 
   &:active {
     transform: translateY(0);
+  }
+
+  &:not(:hover):not(:active) {
+    will-change: auto;
   }
 }
 
@@ -434,30 +505,7 @@
   }
 }
 
-@keyframes gradientShift {
-  0%,
-  100% {
-    background: linear-gradient(
-      45deg,
-      var(--primary-pink),
-      var(--primary-blue)
-    );
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  50% {
-    background: linear-gradient(
-      45deg,
-      var(--primary-blue),
-      var(--primary-pink)
-    );
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-}
-
+// OPTIMISATIONS MOBILE AMÉLIORÉES
 @media (max-width: 768px) {
   .biographie__bottom-fade {
     height: 120px;
@@ -468,55 +516,72 @@
   }
 
   .biographie__title {
-    min-height: 160px;
-    gap: 0.8rem;
-    line-height: 1.1;
-    letter-spacing: 0.5px;
-    margin-bottom: 1.5rem;
-    animation-duration: 0.6s;
+    font-size: clamp(2.5rem, 9vw, 4rem); // AUGMENTÉ pour plus d'impact
+    min-height: 220px; // AUGMENTÉ pour plus d'espace
+    gap: 1.2rem; // AUGMENTÉ pour plus d'harmonie
+    line-height: 1.15; // Optimisé pour la lisibilité
+    letter-spacing: 1px; // Réduit pour mobile
+    margin-bottom: 2rem; // Plus d'espace en bas
+    animation-duration: 0.8s; // Plus fluide
+    padding: 0 10px; // Padding latéral pour éviter les débordements
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); // Améliore la lisibilité
+  }
+
+  .biographie__title-main {
+    font-size: clamp(2.5rem, 9vw, 4rem); // Même taille que le parent
+    margin-bottom: 0.8rem; // Espacement avec la ligne suivante
   }
 
   .biographie__title-accent {
-    animation-duration: 6s;
+    font-size: clamp(2.2rem, 8vw, 3.5rem); // Légèrement plus petit
+    opacity: 0.95; // Légèrement atténué pour hiérarchie
   }
 
   .biographie__subtitle-container {
-    gap: 10px;
+    gap: 12px;
+    margin-bottom: 25px; // Plus d'espace
   }
 
   .biographie__decorative-line {
-    width: 60px;
+    width: 70px; // Plus large
+    height: 2px; // Plus épais
   }
 
   .biographie__pizza-icon {
-    font-size: 1.5rem;
+    font-size: 1.8rem; // Plus grand
   }
 
   .biographie__subtitle {
-    font-size: 1.6rem;
+    font-size: 1.8rem; // Plus grand
+    line-height: 1.3; // Meilleure lisibilité
+    padding: 0 10px; // Padding latéral
   }
 
   .biographie__text {
-    font-size: 1rem;
+    font-size: 1.05rem; // Légèrement plus grand
+    line-height: 1.7; // Meilleure lisibilité
+    padding: 0 10px; // Padding latéral
   }
 
   .biographie__capacity-section {
     grid-template-columns: 1fr;
-    gap: 30px;
+    gap: 25px; // Réduit légèrement
   }
 
   .biographie__capacity-card {
-    padding: 30px 20px;
+    padding: 35px 25px; // Plus d'espace interne
+    margin: 0 5px; // Marges latérales
   }
 
   .biographie__images {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 25px; // Plus d'espace
   }
 
   .biographie__image-container {
-    height: 250px;
+    height: 280px; // Plus grand
     border-radius: 15px;
+    margin: 0 5px; // Marges latérales
   }
 
   .biographie__image {
@@ -528,8 +593,9 @@
   }
 
   .biographie__quote {
-    font-size: 1.1rem;
-    padding: 0 20px;
+    font-size: 1.2rem; // Plus grand
+    padding: 0 25px; // Plus de padding
+    line-height: 1.6;
 
     &::before,
     &::after {
@@ -538,11 +604,27 @@
   }
 
   .biographie__cta-button {
-    padding: 12px 30px;
-    font-size: 1rem;
+    padding: 15px 35px; // Plus grand
+    font-size: 1.05rem; // Plus lisible
+  }
+
+  // Optimisation mobile pour les erreurs
+  .biographie__error-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+
+  .biographie__error-text {
+    font-size: 0.8rem;
+    padding: 0 15px;
+  }
+
+  .biographie__loading-text {
+    font-size: 0.8rem;
   }
 }
 
+// OPTIMISATIONS TRÈS PETIT MOBILE (320px-480px)
 @media (max-width: 480px) {
   .biographie {
     margin-top: -100px;
@@ -550,14 +632,15 @@
     z-index: 200;
 
     &::before {
-      opacity: 0.7;
+      opacity: 0.65; // Légèrement réduit pour plus de contraste
     }
 
     &::after {
       background: linear-gradient(
         135deg,
-        rgba(0, 0, 0, 0.8) 0%,
-        rgba(0, 0, 0, 0.6) 100%
+        rgba(0, 0, 0, 0.75) 0%,
+        // Plus de contraste
+        rgba(0, 0, 0, 0.55) 100%
       );
     }
   }
@@ -567,59 +650,84 @@
   }
 
   .biographie__title {
-    min-height: 140px;
-    gap: 0.6rem;
-    margin-bottom: 1rem;
+    font-size: clamp(2.2rem, 8.5vw, 3.5rem); // Optimisé pour très petits écrans
+    min-height: 200px; // Réduit pour très petits écrans
+    gap: 1rem; // Ajusté
+    margin-bottom: 1.5rem;
+    padding: 0 15px; // Plus de padding
+    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4); // Plus de contraste
+  }
+
+  .biographie__title-main {
+    font-size: clamp(2.2rem, 8.5vw, 3.5rem);
+    margin-bottom: 0.6rem;
+    word-spacing: 0.1em; // Meilleur espacement des mots
+  }
+
+  .biographie__title-accent {
+    font-size: clamp(1.9rem, 7.5vw, 3rem);
+    opacity: 0.9;
   }
 
   .biographie__subtitle-container {
-    gap: 8px;
-    flex-wrap: wrap;
+    gap: 10px;
+    flex-wrap: nowrap; // Évite le wrap sur très petits écrans
   }
 
   .biographie__decorative-line {
-    width: 40px;
-    height: 1px;
+    width: 50px;
+    height: 2px;
   }
 
   .biographie__pizza-icon {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
+  }
+
+  .biographie__subtitle {
+    font-size: 1.6rem;
+    line-height: 1.25;
+    padding: 0 15px;
+  }
+
+  .biographie__text {
+    font-size: 1rem;
+    line-height: 1.6;
+    padding: 0 15px;
   }
 
   .biographie__capacity-card {
-    padding: 25px 15px;
-    background: rgba(0, 0, 0, 0.8);
+    padding: 30px 20px;
+    background: rgba(0, 0, 0, 0.8); // Plus de contraste
+    margin: 0 10px;
   }
 
   .biographie__image-container {
-    height: 200px;
-    border-radius: 10px;
+    height: 250px;
+    border-radius: 12px;
+    margin: 0 10px;
   }
 
   .biographie__image {
-    border-radius: 10px;
+    border-radius: 12px;
   }
 
   .biographie__image-placeholder {
-    border-radius: 10px;
+    border-radius: 12px;
   }
 
   .biographie__quote {
     font-size: 1.1rem;
     padding: 0 20px;
-
-    &::before,
-    &::after {
-      display: none;
-    }
+    line-height: 1.5;
   }
 
   .biographie__cta-button {
-    padding: 12px 30px;
+    padding: 14px 32px;
     font-size: 1rem;
   }
 }
 
+// Optimisations pour appareils avec faibles performances
 @media (max-resolution: 1dppx) {
   .biographie__capacity-card {
     background: rgba(0, 0, 0, 0.8);
@@ -642,27 +750,49 @@
   .biographie__capacity-card {
     background: rgba(0, 0, 0, 0.8);
   }
+
+  .biographie__image {
+    image-rendering: auto;
+  }
+}
+
+@media (prefers-reduced-data) {
+  .biographie {
+    &::before {
+      background-image: none;
+      background-color: rgba(40, 40, 40, 0.8);
+    }
+  }
 }
 
 // Classes modificatrices pour différents niveaux d'opacité
 .biographie {
-  // Très discret
   &.biographie--subtle::before {
     opacity: 0.15;
   }
 
-  // Discret (recommandé)
   &.biographie--gentle::before {
     opacity: 0.3;
   }
 
-  // Modéré
   &.biographie--moderate::before {
     opacity: 0.5;
   }
 
-  // Visible
   &.biographie--visible::before {
     opacity: 0.7;
   }
+}
+
+// Classe utilitaire pour screen readers
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }

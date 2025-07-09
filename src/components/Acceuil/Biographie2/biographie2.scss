@@ -2,7 +2,6 @@
 
 .restaurant-bio {
   padding-bottom: 50px;
-
   font-family: "Open Sans", sans-serif;
   background: #000;
   color: #fff;
@@ -12,6 +11,8 @@
     position: relative;
     width: 100vw;
     margin-left: calc(-50vw + 50%);
+    // Ajout d'une marge négative en haut pour éviter le trait fin
+    margin-top: -1px;
     min-height: 70vh;
     display: flex;
     align-items: center;
@@ -20,7 +21,8 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-attachment: fixed;
+    // Forcer le background à s'étendre complètement
+    background-clip: border-box;
 
     // Overlay sombre avec opacité
     &::before {
@@ -35,14 +37,14 @@
       z-index: 1;
     }
 
-    // Fade noir vers l'intérieur en haut
+    // Fade noir vers l'intérieur en haut - étendu pour couvrir le trait
     &::after {
       content: "";
       position: absolute;
-      top: 0;
+      top: -1px; // Étendre légèrement au-dessus
       left: 0;
       right: 0;
-      height: 80px;
+      height: 81px; // Hauteur légèrement augmentée
       background: linear-gradient(
         to bottom,
         #000 0%,
@@ -57,10 +59,10 @@
     // Fade noir vers l'intérieur en bas (élément séparé)
     .bio-header-fade-bottom {
       position: absolute;
-      bottom: 0;
+      bottom: -1px; // Étendre légèrement en dessous
       left: 0;
       right: 0;
-      height: 80px;
+      height: 81px; // Hauteur légèrement augmentée
       background: linear-gradient(
         to top,
         #000 0%,
@@ -157,7 +159,7 @@
         order: 1;
       }
 
-      .bio-image {
+      .bio-image-container {
         order: 2;
       }
     }
@@ -168,7 +170,7 @@
         order: 2;
       }
 
-      .bio-image {
+      .bio-image-container {
         order: 1;
       }
     }
@@ -231,6 +233,10 @@
     }
   }
 
+  .bio-image-container {
+    position: relative;
+  }
+
   .bio-image {
     width: 100%;
     height: 300px;
@@ -242,10 +248,7 @@
 
     // Classe spécifique pour la photo de Pascal
     &--pascal {
-      object-position: center 30%; // Ajuste la position verticale (20% du haut)
-      // Ou essayez d'autres valeurs comme :
-      // object-position: center 30%;
-      // object-position: center top;
+      object-position: center 30%; // Ajuste la position verticale
     }
 
     &:hover {
@@ -303,7 +306,7 @@
   @media (max-width: 768px) {
     .bio-header {
       min-height: 60vh;
-      background-attachment: scroll;
+      margin-top: -1px; // Maintenir la correction sur mobile
 
       .bio-header-content {
         padding: 1.5rem;
@@ -311,11 +314,13 @@
 
       // Ajuster la hauteur des fades sur mobile
       &::after {
-        height: 60px;
+        top: -1px;
+        height: 61px;
       }
 
       .bio-header-fade-bottom {
-        height: 60px;
+        bottom: -1px;
+        height: 61px;
       }
     }
 
@@ -335,7 +340,7 @@
           order: 1;
         }
 
-        .bio-image {
+        .bio-image-container {
           order: 2;
         }
       }
@@ -365,6 +370,7 @@
   @media (max-width: 480px) {
     .bio-header {
       min-height: 50vh;
+      margin-top: -1px; // Maintenir la correction sur très petits écrans
 
       .bio-header-content {
         padding: 1rem;
@@ -372,11 +378,13 @@
 
       // Réduire encore plus la hauteur des fades sur très petits écrans
       &::after {
-        height: 40px;
+        top: -1px;
+        height: 41px;
       }
 
       .bio-header-fade-bottom {
-        height: 40px;
+        bottom: -1px;
+        height: 41px;
       }
     }
 

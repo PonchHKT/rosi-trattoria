@@ -21,17 +21,12 @@ interface Video {
 
 // Optimized GA4 events with snake_case convention
 const GA4_EVENTS = {
-  // User engagement events
   VIDEO_PLAY_START: "videoplayer_play_start",
   VIDEO_COMPLETION: "videoplayer_completion",
   VIDEO_ENGAGEMENT: "videoplayer_engagement",
-
-  // Significant user actions
   VIDEO_SWITCH: "videoplayer_switch",
   PLAYLIST_TOGGLE: "videoplayer_playlist_toggle",
   FULLSCREEN_TOGGLE: "videoplayer_fullscreen_toggle",
-
-  // Critical technical errors
   VIDEO_LOAD_ERROR: "videoplayer_load_error",
 };
 
@@ -49,6 +44,8 @@ const VideoPlayer: React.FC = () => {
   const [shouldAutoPlay, setShouldAutoPlay] = useState<boolean>(false);
   const [hasTrackedEngagement, setHasTrackedEngagement] =
     useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true); // New loading state
+  const [error, setError] = useState<string | null>(null); // New error state
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const playerRef = useRef<HTMLDivElement>(null);
@@ -113,10 +110,13 @@ const VideoPlayer: React.FC = () => {
         videoRef.current.pause();
         setIsPlaying(false);
       } else {
+        setIsLoading(true);
         videoRef.current
           .play()
           .then(() => {
             setIsPlaying(true);
+            setIsLoading(false);
+            setError(null);
             ReactGA.event(GA4_EVENTS.VIDEO_PLAY_START, {
               video_title: videos[currentVideo].title,
               video_index: currentVideo,
@@ -139,6 +139,8 @@ const VideoPlayer: React.FC = () => {
           })
           .catch((error) => {
             console.error("Play failed:", error);
+            setIsLoading(false);
+            setError("Impossible de lire la vidéo. Veuillez réessayer.");
             ReactGA.event(GA4_EVENTS.VIDEO_LOAD_ERROR, {
               video_title: videos[currentVideo].title,
               video_index: currentVideo,
@@ -180,25 +182,37 @@ const VideoPlayer: React.FC = () => {
   const handleLoadedMetadata = useCallback(() => {
     if (videoRef.current) {
       setDuration(videoRef.current.duration);
+      setIsLoading(false);
     }
   }, []);
 
-  const handleVideoError = useCallback(() => {
-    ReactGA.event(GA4_EVENTS.VIDEO_LOAD_ERROR, {
-      video_title: videos[currentVideo].title,
-      video_index: currentVideo,
-      device_type: isMobile() ? "mobile" : "desktop",
-      error_type: "video_load_failed",
-      page_name: "video_player",
-    });
-  }, [currentVideo, videos, isMobile]);
+  const handleVideoError = useCallback(
+    (e: Event) => {
+      const errorMessage =
+        (e as any).target?.error?.message || "Unknown video error";
+      setError("Erreur de chargement de la vidéo. Veuillez réessayer.");
+      setIsLoading(false);
+      console.error("Video error:", errorMessage);
+      ReactGA.event(GA4_EVENTS.VIDEO_LOAD_ERROR, {
+        video_title: videos[currentVideo].title,
+        video_index: currentVideo,
+        device_type: isMobile() ? "mobile" : "desktop",
+        error_type: "video_load_failed",
+        error_message: errorMessage,
+        page_name: "video_player",
+      });
+    },
+    [currentVideo, videos, isMobile]
+  );
 
   const setStartTime = useCallback(() => {
     if (videoRef.current && videoRef.current.readyState >= 2) {
       try {
-        videoRef.current.currentTime = 0.01;
-        setCurrentTime(0.01);
+        videoRef.current.currentTime = 0;
+        setCurrentTime(0);
         setIsInitialized(true);
+        setIsLoading(false);
+        setError(null);
 
         if (shouldAutoPlay) {
           videoRef.current
@@ -215,6 +229,8 @@ const VideoPlayer: React.FC = () => {
             })
             .catch((error) => {
               console.error("Autoplay failed:", error);
+              setError("Impossible de lire automatiquement la vidéo.");
+              setIsLoading(false);
               ReactGA.event(GA4_EVENTS.VIDEO_LOAD_ERROR, {
                 video_title: videos[currentVideo].title,
                 video_index: currentVideo,
@@ -229,37 +245,8 @@ const VideoPlayer: React.FC = () => {
         }
       } catch (error) {
         console.warn("Could not set start time:", error);
-        videoRef.current.currentTime = 0;
-        setCurrentTime(0);
-        setIsInitialized(true);
-
-        if (shouldAutoPlay) {
-          videoRef.current
-            .play()
-            .then(() => {
-              setIsPlaying(true);
-              ReactGA.event(GA4_EVENTS.VIDEO_PLAY_START, {
-                video_title: videos[currentVideo].title,
-                video_index: currentVideo,
-                device_type: isMobile() ? "mobile" : "desktop",
-                page_name: "video_player",
-              });
-              activateFullscreenOnMobile();
-            })
-            .catch((error) => {
-              console.error("Autoplay failed:", error);
-              ReactGA.event(GA4_EVENTS.VIDEO_LOAD_ERROR, {
-                video_title: videos[currentVideo].title,
-                video_index: currentVideo,
-                device_type: isMobile() ? "mobile" : "desktop",
-                error_type: "autoplay_failed",
-                page_name: "video_player",
-              });
-            })
-            .finally(() => {
-              setShouldAutoPlay(false);
-            });
-        }
+        setIsLoading(false);
+        setError("Erreur d'initialisation de la vidéo.");
       }
     }
   }, [shouldAutoPlay, currentVideo, videos, isMobile]);
@@ -314,6 +301,8 @@ const VideoPlayer: React.FC = () => {
       setIsPlaying(false);
       setShouldAutoPlay(autoPlay);
       setHasTrackedEngagement(false);
+      setIsLoading(true);
+      setError(null);
 
       ReactGA.event(GA4_EVENTS.VIDEO_SWITCH, {
         video_title: videos[index].title,
@@ -328,10 +317,13 @@ const VideoPlayer: React.FC = () => {
         const handleCanPlay = () => {
           if (videoRef.current) {
             setStartTime();
-            videoRef.current.removeEventListener("canplay", handleCanPlay);
+            videoRef.current.removeEventListener(
+              "canplaythrough",
+              handleCanPlay
+            );
           }
         };
-        videoRef.current.addEventListener("canplay", handleCanPlay);
+        videoRef.current.addEventListener("canplaythrough", handleCanPlay);
       }
     },
     [videos, isMobile, setStartTime]
@@ -349,6 +341,7 @@ const VideoPlayer: React.FC = () => {
 
   const handleVideoEnded = useCallback(() => {
     setIsPlaying(false);
+    setIsLoading(false);
     ReactGA.event(GA4_EVENTS.VIDEO_COMPLETION, {
       video_title: videos[currentVideo].title,
       video_index: currentVideo,
@@ -514,16 +507,18 @@ const VideoPlayer: React.FC = () => {
 
   useEffect(() => {
     if (videoRef.current && !isInitialized) {
+      setIsLoading(true);
       const video = videoRef.current;
       if (video.readyState >= 2) {
         setStartTime();
       } else {
         const handleInitialLoad = () => {
           setStartTime();
-          video.removeEventListener("loadeddata", handleInitialLoad);
+          video.removeEventListener("canplaythrough", handleInitialLoad);
         };
-        video.addEventListener("loadeddata", handleInitialLoad);
-        return () => video.removeEventListener("loadeddata", handleInitialLoad);
+        video.addEventListener("canplaythrough", handleInitialLoad);
+        return () =>
+          video.removeEventListener("canplaythrough", handleInitialLoad);
       }
     }
   }, [isInitialized, setStartTime]);
@@ -573,15 +568,26 @@ const VideoPlayer: React.FC = () => {
           onMouseMove={handleMouseMove}
           onMouseLeave={() => isPlaying && setShowControls(false)}
         >
+          {isLoading && (
+            <div className="video-player__loading" aria-live="polite">
+              Chargement...
+            </div>
+          )}
+          {error && (
+            <div className="video-player__error" aria-live="assertive">
+              {error}
+            </div>
+          )}
           <video
             ref={videoRef}
             src={videos[currentVideo].url}
+            poster={videos[currentVideo].thumbnail}
             className="video-player__video"
             onTimeUpdate={handleTimeUpdate}
             onLoadedMetadata={handleLoadedMetadata}
             onEnded={handleVideoEnded}
             onClick={togglePlay}
-            preload="metadata"
+            preload="auto"
             playsInline
             muted={isMuted}
             webkit-playsinline="true"
@@ -589,7 +595,7 @@ const VideoPlayer: React.FC = () => {
             aria-label={`Vidéo: ${videos[currentVideo].title}`}
           >
             <source src={videos[currentVideo].url} type="video/mp4" />
-            Your browser does not support the video tag.
+            Votre navigateur ne supporte pas la lecture de vidéos.
           </video>
 
           <div
@@ -794,7 +800,7 @@ const VideoPlayer: React.FC = () => {
               : "Afficher la liste de lecture"
           }
         >
-          {showPlaylist ? "Masåquer" : "Voir plus"}
+          {showPlaylist ? "Masquer" : "Voir plus"}
         </button>
       </div>
     </div>

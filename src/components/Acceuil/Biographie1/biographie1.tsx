@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useMemo,
+} from "react";
 import { Users, Utensils } from "lucide-react";
 import AnimatedSection from "../AnimatedSection/AnimatedSection";
 import "./biographie1.scss";
@@ -6,71 +12,158 @@ import "./biographie1.scss";
 const Biographie1: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [hasBeenTriggered, setHasBeenTriggered] = useState(false);
-  const [titleAnimationPlayed, setTitleAnimationPlayed] = useState(false); // Nouveau state
-  const [imagesLoaded, setImagesLoaded] = useState(0);
+  const [titleAnimationPlayed, setTitleAnimationPlayed] = useState(false);
+  const [imagesLoaded, setImagesLoaded] = useState<{ [key: number]: boolean }>(
+    {}
+  );
+  const [imageErrors, setImageErrors] = useState<{ [key: number]: boolean }>(
+    {}
+  );
   const [isMobile, setIsMobile] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const imageTimeoutsRef = useRef<{ [key: number]: NodeJS.Timeout }>({});
 
-  const imageUrls = [
-    "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/interieur-1.jpg",
-    "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/interieur-2.jpg",
-  ];
+  // Mémoïsation des URLs d'images
+  const imageUrls = useMemo(
+    () => [
+      "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/interieur-1.jpg",
+      "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/interieur-2.jpg",
+    ],
+    []
+  );
 
-  const checkIsMobile = () => window.innerWidth <= 768;
+  // Fonction de vérification mobile optimisée
+  const checkIsMobile = useCallback(() => window.innerWidth <= 768, []);
 
-  const resetAnimation = () => {
+  // Throttle pour les events de resize
+  const throttle = useCallback((func: Function, limit: number) => {
+    let inThrottle: boolean;
+    return function (this: any, ...args: any[]) {
+      if (!inThrottle) {
+        func.apply(this, args);
+        inThrottle = true;
+        setTimeout(() => (inThrottle = false), limit);
+      }
+    };
+  }, []);
+
+  // Reset optimisé
+  const resetAnimation = useCallback(() => {
     setIsVisible(false);
     setHasBeenTriggered(false);
-    // Ne pas reset titleAnimationPlayed pour garder l'animation jouée
-  };
+  }, []);
 
-  const startAnimation = () => {
+  // Start animation optimisé
+  const startAnimation = useCallback(() => {
     if (!hasBeenTriggered) {
       setIsVisible(true);
       setHasBeenTriggered(true);
-      // Marquer l'animation du titre comme jouée
       if (!titleAnimationPlayed) {
         setTitleAnimationPlayed(true);
       }
     }
-  };
+  }, [hasBeenTriggered, titleAnimationPlayed]);
 
+  // Gestion du resize avec throttle
   useEffect(() => {
-    const handleResize = () => setIsMobile(checkIsMobile());
+    const throttledResize = throttle(() => setIsMobile(checkIsMobile()), 100);
     setIsMobile(checkIsMobile());
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+    window.addEventListener("resize", throttledResize);
+    return () => window.removeEventListener("resize", throttledResize);
+  }, [checkIsMobile, throttle]);
 
+  // Système de préchargement d'images amélioré avec timeout et fallback
   useEffect(() => {
     const preloadImages = () => {
-      let loadedCount = 0;
-      imageUrls.forEach((url) => {
+      imageUrls.forEach((url, index) => {
+        // Timeout de sécurité pour éviter les blocages infinis
+        imageTimeoutsRef.current[index] = setTimeout(() => {
+          console.warn(`Image ${index} timeout - affichage forcé`);
+          setImagesLoaded((prev) => ({ ...prev, [index]: true }));
+        }, 8000); // 8 secondes max
+
         const img = new Image();
+
         img.onload = () => {
-          loadedCount++;
-          setImagesLoaded(loadedCount);
-          console.log(`Image loaded: ${url}`);
+          // Nettoyer le timeout
+          if (imageTimeoutsRef.current[index]) {
+            clearTimeout(imageTimeoutsRef.current[index]);
+            delete imageTimeoutsRef.current[index];
+          }
+
+          setImagesLoaded((prev) => ({ ...prev, [index]: true }));
+          setImageErrors((prev) => ({ ...prev, [index]: false }));
         };
+
         img.onerror = () => {
-          loadedCount++;
-          setImagesLoaded(loadedCount);
-          console.error(`Failed to load image: ${url}`);
+          console.error(`Erreur de chargement pour l'image ${index}:`, url);
+
+          // Nettoyer le timeout
+          if (imageTimeoutsRef.current[index]) {
+            clearTimeout(imageTimeoutsRef.current[index]);
+            delete imageTimeoutsRef.current[index];
+          }
+
+          setImageErrors((prev) => ({ ...prev, [index]: true }));
+          setImagesLoaded((prev) => ({ ...prev, [index]: true })); // Marquer comme "chargé" même en erreur
         };
+
+        // Optimisations d'image
+        img.decoding = "async";
+        img.loading = "lazy";
+        img.crossOrigin = "anonymous"; // Pour éviter les erreurs CORS
         img.src = url;
       });
     };
 
-    preloadImages();
-  }, []);
-
-  useEffect(() => {
+    // Observer pour démarrer le préchargement quand la section est proche
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          startAnimation();
+          preloadImages();
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+      // Nettoyer tous les timeouts
+      Object.values(imageTimeoutsRef.current).forEach((timeout) => {
+        clearTimeout(timeout);
+      });
+      imageTimeoutsRef.current = {};
+    };
+  }, [imageUrls]);
+
+  // IntersectionObserver optimisé
+  useEffect(() => {
+    // Nettoyer l'observer précédent
+    if (observerRef.current) {
+      observerRef.current.disconnect();
+    }
+
+    observerRef.current = new IntersectionObserver(
+      ([entry]) => {
+        // Utiliser requestIdleCallback si disponible
+        const scheduleUpdate = (callback: () => void) => {
+          if (window.requestIdleCallback) {
+            window.requestIdleCallback(callback, { timeout: 100 });
+          } else {
+            requestAnimationFrame(callback);
+          }
+        };
+
+        if (entry.isIntersecting) {
+          scheduleUpdate(startAnimation);
         } else if (hasBeenTriggered) {
-          resetAnimation();
+          scheduleUpdate(resetAnimation);
         }
       },
       {
@@ -80,11 +173,16 @@ const Biographie1: React.FC = () => {
       }
     );
 
-    if (sectionRef.current) observer.observe(sectionRef.current);
+    if (sectionRef.current) {
+      observerRef.current.observe(sectionRef.current);
+    }
+
     return () => {
-      if (sectionRef.current) observer.unobserve(sectionRef.current);
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
     };
-  }, [hasBeenTriggered]);
+  }, [hasBeenTriggered, startAnimation, resetAnimation]);
 
   return (
     <section
@@ -190,28 +288,51 @@ const Biographie1: React.FC = () => {
               <figure
                 key={index}
                 className={`biographie__image-container ${
-                  imagesLoaded > index ? "loaded" : ""
-                }`}
+                  imagesLoaded[index] ? "loaded" : ""
+                } ${imageErrors[index] ? "error" : ""}`}
               >
-                {imagesLoaded <= index && (
+                {!imagesLoaded[index] && (
                   <div
                     className="biographie__image-placeholder"
                     aria-hidden="true"
                   >
                     <div className="biographie__image-skeleton"></div>
+                    <p className="biographie__loading-text">Chargement...</p>
                   </div>
                 )}
-                <img
-                  src={url}
-                  alt={`Intérieur du restaurant Rosi Trattoria avec décoration Street Art ${
-                    index === 0 ? "- vue d'ensemble" : "- ambiance chaleureuse"
-                  }`}
-                  className="biographie__image"
-                  decoding="async"
-                  loading="lazy"
-                  width="600"
-                  height="400"
-                />
+
+                {imageErrors[index] ? (
+                  <div className="biographie__image-error">
+                    <div className="biographie__error-icon">📷</div>
+                    <p className="biographie__error-text">
+                      Image temporairement indisponible
+                    </p>
+                  </div>
+                ) : (
+                  <img
+                    src={url}
+                    alt={`Intérieur du restaurant Rosi Trattoria avec décoration Street Art ${
+                      index === 0
+                        ? "- vue d'ensemble"
+                        : "- ambiance chaleureuse"
+                    }`}
+                    className="biographie__image"
+                    decoding="async"
+                    loading="lazy"
+                    width="600"
+                    height="400"
+                    onLoad={() => {
+                      setImagesLoaded((prev) => ({ ...prev, [index]: true }));
+                      setImageErrors((prev) => ({ ...prev, [index]: false }));
+                    }}
+                    onError={() => {
+                      console.error(`Erreur finale pour l'image ${index}`);
+                      setImageErrors((prev) => ({ ...prev, [index]: true }));
+                      setImagesLoaded((prev) => ({ ...prev, [index]: true }));
+                    }}
+                  />
+                )}
+
                 <figcaption className="sr-only">
                   {index === 0
                     ? "Vue d'ensemble de notre salle avec décoration Street Art unique"

@@ -56,6 +56,7 @@ body {
 
 // Wrapper to center the player
 .video-player-wrapper {
+  padding-bottom: 50px;
   min-height: 100vh;
   min-height: -webkit-fill-available;
   display: flex;
@@ -75,7 +76,7 @@ body {
   }
 }
 
-// Main component - CENTRÉ SUR DESKTOP
+// Main component
 .video-player {
   padding-top: 100px;
   width: 100%;
@@ -86,14 +87,12 @@ body {
   position: relative;
   box-sizing: border-box;
 
-  // Centrage sur desktop avec largeur maximale
   @media (min-width: 1024px) {
-    max-width: 1400px; // Largeur maximale du lecteur
-    margin: 0 auto; // Centre le lecteur
-    width: 95%; // Laisse un peu d'espace sur les côtés
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 95%;
   }
 
-  // Main content - AMÉLIORÉ pour le centrage
   &__content {
     position: relative;
     display: flex;
@@ -101,48 +100,41 @@ body {
     max-width: 100%;
     box-sizing: border-box;
 
-    // Desktop - alignement centré
     @media (min-width: 1024px) {
       align-items: flex-start;
-      justify-content: center; // Centre le contenu
-      gap: 0; // Pas d'espace entre vidéo et playlist
+      justify-content: center;
+      gap: 0;
     }
 
-    // Mobile reste centré
     @media (max-width: 1023px) {
       align-items: center;
       justify-content: center;
     }
   }
 
-  // Main video player - LARGEUR CONTRÔLÉE
   &__main {
     position: relative;
     background: var(--bg-dark);
     box-sizing: border-box;
     @include transition(flex);
 
-    // Desktop - largeur fixe optimale
     @media (min-width: 1024px) {
-      width: 900px; // Largeur fixe pour la vidéo
-      flex: 0 0 900px; // Pas de croissance/rétrécissement
+      width: 900px;
+      flex: 0 0 900px;
       max-width: 900px;
     }
 
-    // Tablette
     @media (min-width: 768px) and (max-width: 1023px) {
       width: 100%;
       flex: 1;
     }
 
-    // Mobile
     @media (max-width: 767px) {
       width: 100%;
       flex: 1;
     }
   }
 
-  // Video element - ASPECT RATIO CONTRÔLÉ
   &__video {
     width: 100%;
     height: auto;
@@ -151,52 +143,48 @@ body {
     cursor: pointer;
     display: block;
     max-width: 100%;
+    background: black; // Fallback for black screen issue
     -webkit-playsinline: true;
 
-    // Sur desktop, maintient les proportions parfaites
     @media (min-width: 1024px) {
       border-radius: 0;
-      height: 506px; // Hauteur calculée pour 900px de largeur en 16:9
+      height: 506px;
     }
   }
 
-  // Playlist hint
-  &__playlist-hint {
+  &__error {
+    @include flex-center;
     position: absolute;
-    top: 50%;
-    right: 1rem;
-    transform: translateY(-50%);
-    z-index: 12;
-
-    @media (max-width: 768px) {
-      display: none;
-    }
-  }
-
-  &__playlist-hint-btn {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    inset: 0;
     background: rgba(0, 0, 0, 0.8);
     color: var(--text-white);
-    border: none;
-    padding: 0.75rem 1rem;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    font-size: 0.875rem;
-    font-weight: 500;
-    @include transition();
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    animation: slide-in-hint 0.5s ease-out;
+    font-size: 1.125rem;
+    z-index: 20;
+    padding: 1rem;
+    text-align: center;
+  }
 
-    &:hover {
-      background: var(--primary-blue);
-      transform: scale(1.05);
+  &__loading {
+    @include flex-center;
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    color: var(--text-white);
+    font-size: 1.125rem;
+    z-index: 20;
+
+    &::after {
+      content: "";
+      width: 2rem;
+      height: 2rem;
+      border: 2px solid transparent;
+      border-top: 2px solid var(--primary-blue);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-left: 1rem;
     }
   }
 
-  // Video controls
   &__controls {
     position: absolute;
     left: 0;
@@ -219,7 +207,6 @@ body {
     margin: 0 0 1rem 0;
   }
 
-  // Progress bar
   &__progress {
     width: 100%;
     height: 0.5rem;
@@ -262,7 +249,6 @@ body {
     @include transition(opacity);
   }
 
-  // Controls row
   &__controls-row {
     display: flex;
     align-items: center;
@@ -276,7 +262,6 @@ body {
     gap: 1rem;
   }
 
-  // Buttons
   &__btn {
     color: var(--text-white);
     background: transparent;
@@ -330,7 +315,6 @@ body {
     }
   }
 
-  // Volume
   &__volume {
     display: flex;
     align-items: center;
@@ -342,25 +326,22 @@ body {
     accent-color: var(--primary-blue);
   }
 
-  // Time
   &__time {
     color: var(--text-white);
     font-size: 0.875rem;
   }
 
-  // Playlist - ALIGNEMENT PARFAIT À DROITE
   &__playlist {
     background: black;
     @include transition(transform);
     position: relative;
     z-index: 10;
 
-    // Desktop - alignement parfait à droite de la vidéo
     @media (min-width: 1024px) {
       position: static;
-      width: 320px; // Largeur fixe pour la playlist
-      flex: 0 0 320px; // Pas de croissance/rétrécissement
-      height: 506px; // Même hauteur que la vidéo
+      width: 320px;
+      flex: 0 0 320px;
+      height: 506px;
       min-height: 506px;
       max-height: 506px;
       transform: translateX(0);
@@ -375,7 +356,6 @@ body {
       }
     }
 
-    // Mobile - reste inchangé
     @media (max-width: 1023px) {
       position: absolute;
       right: 0;
@@ -386,25 +366,6 @@ body {
 
       &--visible {
         transform: translateX(0);
-      }
-    }
-
-    &--minimized {
-      width: 4rem;
-
-      .video-player__playlist-title,
-      .video-player__playlist-item-content {
-        display: none;
-      }
-
-      .video-player__playlist-item {
-        justify-content: center;
-        padding: 0.5rem;
-      }
-
-      .video-player__thumbnail {
-        margin-bottom: 0;
-        height: 3rem;
       }
     }
   }
@@ -425,20 +386,13 @@ body {
     font-size: 0.875rem;
   }
 
-  &__playlist-actions {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
   &__playlist-content {
     color: var(--primary-blue);
     overflow-y: auto;
     padding-bottom: 1rem;
 
-    // Hauteur adaptée sur desktop - prend toute la hauteur disponible
     @media (min-width: 1024px) {
-      height: calc(506px - 60px); // Hauteur totale moins header
+      height: calc(506px - 60px);
       max-height: calc(506px - 60px);
     }
 
@@ -447,7 +401,6 @@ body {
     }
   }
 
-  // Playlist items
   &__playlist-item {
     padding: 1rem;
     cursor: pointer;
@@ -489,7 +442,6 @@ body {
     -webkit-box-orient: vertical;
     overflow: hidden;
 
-    // Active state
     .video-player__playlist-item--active & {
       color: var(--primary-blue);
       font-weight: 600;
@@ -502,7 +454,7 @@ body {
     margin: 0;
   }
 
-  .video-player__thumbnail-image {
+  &__thumbnail-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -514,7 +466,7 @@ body {
     }
   }
 
-  .video-player__thumbnail-fallback {
+  &__thumbnail-fallback {
     background: linear-gradient(135deg, #449df0, #ec008c);
     display: flex;
     align-items: center;
@@ -527,7 +479,6 @@ body {
     border-radius: 4px;
   }
 
-  // Thumbnail
   &__thumbnail {
     width: 4rem;
     height: 2.5rem;
@@ -545,7 +496,6 @@ body {
     background: rgba(0, 0, 0, 0.2);
   }
 
-  // Toggle mobile
   &__mobile-toggle {
     display: none;
     padding: 1rem;
@@ -556,7 +506,6 @@ body {
     }
   }
 
-  // Fullscreen styles
   &--fullscreen {
     position: fixed !important;
     top: 0 !important;
@@ -597,7 +546,6 @@ body {
     }
   }
 
-  // Responsive
   @media (max-width: 1024px) {
     &__playlist {
       width: 18rem;
@@ -660,10 +608,6 @@ body {
         max-height: 55vh;
         transform: none;
         opacity: 1;
-      }
-
-      &--minimized {
-        width: 100%;
       }
     }
 
@@ -805,7 +749,6 @@ body {
   }
 }
 
-// Styles spécifiques pour le plein écran natif
 :fullscreen .video-player,
 :-webkit-full-screen .video-player,
 :-moz-full-screen .video-player,
@@ -894,7 +837,6 @@ video:-webkit-full-screen {
   }
 }
 
-// Custom animations
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -925,39 +867,6 @@ video:-webkit-full-screen {
   }
 }
 
-@keyframes pulse-subtle {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.8;
-  }
-}
-
-@keyframes pulse-playing {
-  0%,
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.1);
-    opacity: 0.8;
-  }
-}
-
-@keyframes slide-in-hint {
-  from {
-    opacity: 0;
-    transform: translateY(-50%) translateX(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(-50%) translateX(0);
-  }
-}
-
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -976,19 +885,16 @@ video:-webkit-full-screen {
   animation: pulse 2s infinite;
 }
 
-// Styles pour cacher la scrollbar de la playlist
 .video-player__playlist-content {
-  // Cacher la scrollbar sur desktop
   @media (min-width: 1024px) {
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* Internet Explorer et Edge */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 
     &::-webkit-scrollbar {
-      display: none; /* Chrome, Safari, Edge */
+      display: none;
     }
   }
 
-  // Garder une scrollbar personnalisée sur mobile/tablette
   @media (max-width: 1023px) {
     &::-webkit-scrollbar {
       width: 6px;
@@ -1018,27 +924,6 @@ video:-webkit-full-screen {
   outline-offset: 2px;
 }
 
-.video-player__loading {
-  @include flex-center;
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.8);
-  color: var(--text-white);
-  font-size: 1.125rem;
-  z-index: 20;
-
-  &::after {
-    content: "";
-    width: 2rem;
-    height: 2rem;
-    border: 2px solid transparent;
-    border-top: 2px solid var(--primary-blue);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin-left: 1rem;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .video-player {
     * {
@@ -1048,6 +933,7 @@ video:-webkit-full-screen {
     }
   }
 }
+
 .sr-only {
   position: absolute;
   width: 1px;

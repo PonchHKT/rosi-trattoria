@@ -10,17 +10,12 @@ interface HomeVideoSectionProps {
 
 // Événements GA4 optimisés avec convention snake_case
 const GA4_EVENTS = {
-  // Événements d'engagement utilisateur
   VIDEO_ENGAGEMENT: "accueil_video_engagement",
   PAGE_SCROLL_PAST_HERO: "accueil_section_scroll_past",
-
-  // Actions utilisateur significatives
   RESERVATION_CLICK: "accueil_reservation_click",
   MENU_VIEW_CLICK: "accueil_menu_view_click",
   DISTRIBUTOR_MODAL_OPEN: "accueil_distributor_modal_open",
   CLICK_COLLECT_REDIRECT: "accueil_click_collect_redirect",
-
-  // Erreurs techniques critiques
   VIDEO_LOAD_ERROR: "accueil_video_error",
 };
 
@@ -42,7 +37,7 @@ const HomeVideoSection: React.FC<HomeVideoSectionProps> = ({
 
   const navigate = useNavigate();
 
-  // Configuration Cloudinary (inchangée)
+  // Configuration Cloudinary
   const CLOUDINARY_CONFIG = {
     cloudName: "dc5jx2yo7",
     publicId: "nlqz6yqlcffaf4h5mudk",
@@ -96,13 +91,14 @@ const HomeVideoSection: React.FC<HomeVideoSectionProps> = ({
     }.jpg`;
   }, [isMobile]);
 
-  // Détection mobile optimisée
+  // Détection mobile optimisée - synchrone au premier rendu
   useEffect(() => {
+    // Détection immédiate au premier rendu
+    setIsMobile(window.innerWidth <= 768);
+
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768);
     };
-
-    checkMobile();
 
     if (window.ResizeObserver) {
       const resizeObserver = new ResizeObserver(checkMobile);
@@ -114,20 +110,20 @@ const HomeVideoSection: React.FC<HomeVideoSectionProps> = ({
     }
   }, []);
 
-  // Intersection Observer pour engagement vidéo
+  // Intersection Observer pour engagement vidéo - ne bloque pas le rendu initial
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsIntersecting(true);
 
-          // Démarrer timer d'engagement - tracking après 3 secondes de visibilité
+          // Démarrer timer d'engagement
           if (!hasTrackedVideoEngagement) {
             engagementTimerRef.current = setTimeout(() => {
               ReactGA.event(GA4_EVENTS.VIDEO_ENGAGEMENT, {
                 page_name: pageName,
                 device_type: isMobile ? "mobile" : "desktop",
-                engagement_duration: 3000, // 3 secondes
+                engagement_duration: 3000,
               });
               setHasTrackedVideoEngagement(true);
             }, 3000);
@@ -137,17 +133,21 @@ const HomeVideoSection: React.FC<HomeVideoSectionProps> = ({
         }
       },
       {
-        threshold: 0.5, // 50% de la vidéo visible
+        threshold: 0.5,
         rootMargin: "0px",
       }
     );
 
-    const currentElement = document.querySelector(".home-video-section");
-    if (currentElement) {
-      observer.observe(currentElement);
-    }
+    // Utiliser un timeout pour éviter de bloquer le premier rendu
+    const timeoutId = setTimeout(() => {
+      const currentElement = document.querySelector(".home-video-section");
+      if (currentElement) {
+        observer.observe(currentElement);
+      }
+    }, 100);
 
     return () => {
+      clearTimeout(timeoutId);
       observer.disconnect();
       if (engagementTimerRef.current) {
         clearTimeout(engagementTimerRef.current);
@@ -155,25 +155,22 @@ const HomeVideoSection: React.FC<HomeVideoSectionProps> = ({
     };
   }, [hasTrackedVideoEngagement, pageName, isMobile]);
 
-  // Chargement conditionnel de la vidéo
+  // Chargement différé de la vidéo - ne bloque pas le contenu principal
   useEffect(() => {
     if (isIntersecting) {
-      const delay = isMobile ? 0 : 200;
+      const delay = isMobile ? 500 : 1000; // Délai plus long pour permettre au contenu de se charger
       const timer = setTimeout(() => setShouldLoadVideo(true), delay);
       return () => clearTimeout(timer);
     }
   }, [isIntersecting, isMobile]);
 
-  // Gestion des événements vidéo optimisée
+  // Gestion des événements vidéo
   const handleVideoLoad = useCallback(() => {
     setIsVideoLoaded(true);
-    // Supprimé : tracking automatique du chargement (pas de valeur business)
   }, []);
 
   const handleVideoError = useCallback(() => {
     console.warn("Erreur de chargement vidéo");
-
-    // Tracking uniquement des erreurs critiques
     ReactGA.event(GA4_EVENTS.VIDEO_LOAD_ERROR, {
       page_name: pageName,
       device_type: isMobile ? "mobile" : "desktop",
@@ -181,8 +178,7 @@ const HomeVideoSection: React.FC<HomeVideoSectionProps> = ({
     });
   }, [pageName, isMobile]);
 
-  // Supprimé : handleVideoPlay (redondant avec l'engagement timer)
-
+  // Logique vidéo différée
   useEffect(() => {
     if (!shouldLoadVideo) return;
 
@@ -267,7 +263,6 @@ const HomeVideoSection: React.FC<HomeVideoSectionProps> = ({
 
   const closeModal = useCallback(() => {
     setIsModalOpen(false);
-    // Supprimé : tracking de fermeture modal (pas de valeur business significative)
   }, []);
 
   // Tracking scroll optimisé avec debounce
@@ -277,13 +272,12 @@ const HomeVideoSection: React.FC<HomeVideoSectionProps> = ({
     const handleScroll = () => {
       if (hasTrackedScrollPast) return;
 
-      // Debounce pour éviter les multiples déclenchements
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
         const heroSection = document.querySelector(".home-video-section");
         if (heroSection) {
           const rect = heroSection.getBoundingClientRect();
-          const isScrolledPast = rect.bottom < window.innerHeight * 0.2; // 20% de la section visible
+          const isScrolledPast = rect.bottom < window.innerHeight * 0.2;
 
           if (isScrolledPast) {
             ReactGA.event(GA4_EVENTS.PAGE_SCROLL_PAST_HERO, {
@@ -296,19 +290,27 @@ const HomeVideoSection: React.FC<HomeVideoSectionProps> = ({
             window.removeEventListener("scroll", handleScroll);
           }
         }
-      }, 150); // Debounce de 150ms
+      }, 150);
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    // Délai pour éviter d'impacter le rendu initial
+    const timeoutId = setTimeout(() => {
+      window.addEventListener("scroll", handleScroll, { passive: true });
+    }, 1000);
+
     return () => {
+      clearTimeout(timeoutId);
       window.removeEventListener("scroll", handleScroll);
       clearTimeout(scrollTimeout);
     };
   }, [pageName, isMobile, hasTrackedScrollPast]);
 
+  // Calculer le mobile status directement pour éviter les re-rendus
+  const isMobileDevice = window.innerWidth <= 768;
+
   return (
     <section className="home-video-section">
-      {/* Arrière-plan temporaire pendant le chargement vidéo */}
+      {/* Arrière-plan statique - toujours visible pour LCP */}
       <div
         className="video-placeholder"
         style={{
@@ -317,40 +319,7 @@ const HomeVideoSection: React.FC<HomeVideoSectionProps> = ({
         }}
       />
 
-      {shouldLoadVideo && (
-        <video
-          ref={videoRef}
-          className={`background-video ${isVideoLoaded ? "loaded" : "loading"}`}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload={isMobile ? "metadata" : "none"}
-          poster={getCloudinaryPosterUrl()}
-          aria-label="Vidéo de présentation du restaurant Rosi Trattoria"
-        >
-          <source
-            src={getCloudinaryVideoUrl(
-              "mp4",
-              isMobile ? "auto:low" : "auto:good"
-            )}
-            type="video/mp4"
-          />
-          <source
-            src={getCloudinaryVideoUrl(
-              "webm",
-              isMobile ? "auto:low" : "auto:good"
-            )}
-            type="video/webm"
-          />
-          <p>
-            Découvrez l'ambiance chaleureuse de Rosi Trattoria, votre restaurant
-            italien bio situé à Brive-la-Gaillarde. Une cuisine authentique dans
-            un cadre convivial.
-          </p>
-        </video>
-      )}
-
+      {/* Logo - priorité élevée pour LCP */}
       <div className="logo-container">
         <img
           src="/images/logo/rositrattorialogo.png"
@@ -364,9 +333,10 @@ const HomeVideoSection: React.FC<HomeVideoSectionProps> = ({
         />
       </div>
 
+      {/* Contenu principal - rendu immédiat sans conditions */}
       <div className="content">
         <h1 className="slogan">
-          {isMobile ? (
+          {isMobileDevice ? (
             <>
               Du bon, du bio, de la joie,
               <br />
@@ -391,7 +361,7 @@ const HomeVideoSection: React.FC<HomeVideoSectionProps> = ({
             />
           </svg>
           <span className="address-text">
-            11 Prom. des Tilleuls{isMobile ? <br /> : ","} 19100
+            11 Prom. des Tilleuls{isMobileDevice ? <br /> : ","} 19100
             Brive-la-Gaillarde
           </span>
         </address>
@@ -446,6 +416,41 @@ const HomeVideoSection: React.FC<HomeVideoSectionProps> = ({
           </button>
         </nav>
       </div>
+
+      {/* Vidéo chargée en différé */}
+      {shouldLoadVideo && (
+        <video
+          ref={videoRef}
+          className={`background-video ${isVideoLoaded ? "loaded" : "loading"}`}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="none"
+          poster={getCloudinaryPosterUrl()}
+          aria-label="Vidéo de présentation du restaurant Rosi Trattoria"
+        >
+          <source
+            src={getCloudinaryVideoUrl(
+              "mp4",
+              isMobile ? "auto:low" : "auto:good"
+            )}
+            type="video/mp4"
+          />
+          <source
+            src={getCloudinaryVideoUrl(
+              "webm",
+              isMobile ? "auto:low" : "auto:good"
+            )}
+            type="video/webm"
+          />
+          <p>
+            Découvrez l'ambiance chaleureuse de Rosi Trattoria, votre restaurant
+            italien bio situé à Brive-la-Gaillarde. Une cuisine authentique dans
+            un cadre convivial.
+          </p>
+        </video>
+      )}
 
       <ComingSoonModal isOpen={isModalOpen} onClose={closeModal} />
 

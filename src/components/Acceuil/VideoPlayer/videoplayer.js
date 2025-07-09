@@ -7,15 +7,12 @@ import ReactGA from "react-ga4";
 import "./videoplayer.scss";
 // Optimized GA4 events with snake_case convention
 const GA4_EVENTS = {
-    // User engagement events
     VIDEO_PLAY_START: "videoplayer_play_start",
     VIDEO_COMPLETION: "videoplayer_completion",
     VIDEO_ENGAGEMENT: "videoplayer_engagement",
-    // Significant user actions
     VIDEO_SWITCH: "videoplayer_switch",
     PLAYLIST_TOGGLE: "videoplayer_playlist_toggle",
     FULLSCREEN_TOGGLE: "videoplayer_fullscreen_toggle",
-    // Critical technical errors
     VIDEO_LOAD_ERROR: "videoplayer_load_error",
 };
 const VideoPlayer = () => {
@@ -31,6 +28,8 @@ const VideoPlayer = () => {
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [shouldAutoPlay, setShouldAutoPlay] = useState(false);
     const [hasTrackedEngagement, setHasTrackedEngagement] = useState(false);
+    const [isLoading, setIsLoading] = useState(true); // New loading state
+    const [error, setError] = useState(null); // New error state
     const videoRef = useRef(null);
     const playerRef = useRef(null);
     const controlsTimeoutRef = useRef(null);
@@ -88,10 +87,13 @@ const VideoPlayer = () => {
                 setIsPlaying(false);
             }
             else {
+                setIsLoading(true);
                 videoRef.current
                     .play()
                     .then(() => {
                     setIsPlaying(true);
+                    setIsLoading(false);
+                    setError(null);
                     ReactGA.event(GA4_EVENTS.VIDEO_PLAY_START, {
                         video_title: videos[currentVideo].title,
                         video_index: currentVideo,
@@ -114,6 +116,8 @@ const VideoPlayer = () => {
                 })
                     .catch((error) => {
                     console.error("Play failed:", error);
+                    setIsLoading(false);
+                    setError("Impossible de lire la vidéo. Veuillez réessayer.");
                     ReactGA.event(GA4_EVENTS.VIDEO_LOAD_ERROR, {
                         video_title: videos[currentVideo].title,
                         video_index: currentVideo,
@@ -148,23 +152,31 @@ const VideoPlayer = () => {
     const handleLoadedMetadata = useCallback(() => {
         if (videoRef.current) {
             setDuration(videoRef.current.duration);
+            setIsLoading(false);
         }
     }, []);
-    const handleVideoError = useCallback(() => {
+    const handleVideoError = useCallback((e) => {
+        const errorMessage = e.target?.error?.message || "Unknown video error";
+        setError("Erreur de chargement de la vidéo. Veuillez réessayer.");
+        setIsLoading(false);
+        console.error("Video error:", errorMessage);
         ReactGA.event(GA4_EVENTS.VIDEO_LOAD_ERROR, {
             video_title: videos[currentVideo].title,
             video_index: currentVideo,
             device_type: isMobile() ? "mobile" : "desktop",
             error_type: "video_load_failed",
+            error_message: errorMessage,
             page_name: "video_player",
         });
     }, [currentVideo, videos, isMobile]);
     const setStartTime = useCallback(() => {
         if (videoRef.current && videoRef.current.readyState >= 2) {
             try {
-                videoRef.current.currentTime = 0.01;
-                setCurrentTime(0.01);
+                videoRef.current.currentTime = 0;
+                setCurrentTime(0);
                 setIsInitialized(true);
+                setIsLoading(false);
+                setError(null);
                 if (shouldAutoPlay) {
                     videoRef.current
                         .play()
@@ -180,6 +192,8 @@ const VideoPlayer = () => {
                     })
                         .catch((error) => {
                         console.error("Autoplay failed:", error);
+                        setError("Impossible de lire automatiquement la vidéo.");
+                        setIsLoading(false);
                         ReactGA.event(GA4_EVENTS.VIDEO_LOAD_ERROR, {
                             video_title: videos[currentVideo].title,
                             video_index: currentVideo,
@@ -195,36 +209,8 @@ const VideoPlayer = () => {
             }
             catch (error) {
                 console.warn("Could not set start time:", error);
-                videoRef.current.currentTime = 0;
-                setCurrentTime(0);
-                setIsInitialized(true);
-                if (shouldAutoPlay) {
-                    videoRef.current
-                        .play()
-                        .then(() => {
-                        setIsPlaying(true);
-                        ReactGA.event(GA4_EVENTS.VIDEO_PLAY_START, {
-                            video_title: videos[currentVideo].title,
-                            video_index: currentVideo,
-                            device_type: isMobile() ? "mobile" : "desktop",
-                            page_name: "video_player",
-                        });
-                        activateFullscreenOnMobile();
-                    })
-                        .catch((error) => {
-                        console.error("Autoplay failed:", error);
-                        ReactGA.event(GA4_EVENTS.VIDEO_LOAD_ERROR, {
-                            video_title: videos[currentVideo].title,
-                            video_index: currentVideo,
-                            device_type: isMobile() ? "mobile" : "desktop",
-                            error_type: "autoplay_failed",
-                            page_name: "video_player",
-                        });
-                    })
-                        .finally(() => {
-                        setShouldAutoPlay(false);
-                    });
-                }
+                setIsLoading(false);
+                setError("Erreur d'initialisation de la vidéo.");
             }
         }
     }, [shouldAutoPlay, currentVideo, videos, isMobile]);
@@ -276,6 +262,8 @@ const VideoPlayer = () => {
         setIsPlaying(false);
         setShouldAutoPlay(autoPlay);
         setHasTrackedEngagement(false);
+        setIsLoading(true);
+        setError(null);
         ReactGA.event(GA4_EVENTS.VIDEO_SWITCH, {
             video_title: videos[index].title,
             video_index: index,
@@ -288,10 +276,10 @@ const VideoPlayer = () => {
             const handleCanPlay = () => {
                 if (videoRef.current) {
                     setStartTime();
-                    videoRef.current.removeEventListener("canplay", handleCanPlay);
+                    videoRef.current.removeEventListener("canplaythrough", handleCanPlay);
                 }
             };
-            videoRef.current.addEventListener("canplay", handleCanPlay);
+            videoRef.current.addEventListener("canplaythrough", handleCanPlay);
         }
     }, [videos, isMobile, setStartTime]);
     const nextVideo = useCallback(() => {
@@ -304,6 +292,7 @@ const VideoPlayer = () => {
     }, [currentVideo, videos.length, changeVideo]);
     const handleVideoEnded = useCallback(() => {
         setIsPlaying(false);
+        setIsLoading(false);
         ReactGA.event(GA4_EVENTS.VIDEO_COMPLETION, {
             video_title: videos[currentVideo].title,
             video_index: currentVideo,
@@ -457,6 +446,7 @@ const VideoPlayer = () => {
     }, [isInitialized, handleVideoError, setStartTime]);
     useEffect(() => {
         if (videoRef.current && !isInitialized) {
+            setIsLoading(true);
             const video = videoRef.current;
             if (video.readyState >= 2) {
                 setStartTime();
@@ -464,10 +454,10 @@ const VideoPlayer = () => {
             else {
                 const handleInitialLoad = () => {
                     setStartTime();
-                    video.removeEventListener("loadeddata", handleInitialLoad);
+                    video.removeEventListener("canplaythrough", handleInitialLoad);
                 };
-                video.addEventListener("loadeddata", handleInitialLoad);
-                return () => video.removeEventListener("loadeddata", handleInitialLoad);
+                video.addEventListener("canplaythrough", handleInitialLoad);
+                return () => video.removeEventListener("canplaythrough", handleInitialLoad);
             }
         }
     }, [isInitialized, setStartTime]);
@@ -496,7 +486,7 @@ const VideoPlayer = () => {
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, [showPlaylist]);
-    return (_jsxs("div", { ref: playerRef, className: `video-player ${isFullscreen ? "video-player--fullscreen" : ""}`, role: "application", "aria-label": "Lecteur vid\u00E9o Rosi Trattoria", children: [_jsxs("div", { className: "video-player__content", children: [_jsxs("div", { className: `video-player__main ${showPlaylist ? "video-player__main--with-playlist" : ""}`, onMouseMove: handleMouseMove, onMouseLeave: () => isPlaying && setShowControls(false), children: [_jsxs("video", { ref: videoRef, src: videos[currentVideo].url, className: "video-player__video", onTimeUpdate: handleTimeUpdate, onLoadedMetadata: handleLoadedMetadata, onEnded: handleVideoEnded, onClick: togglePlay, preload: "metadata", playsInline: true, muted: isMuted, "webkit-playsinline": "true", "x-webkit-airplay": "allow", "aria-label": `Vidéo: ${videos[currentVideo].title}`, children: [_jsx("source", { src: videos[currentVideo].url, type: "video/mp4" }), "Your browser does not support the video tag."] }), _jsxs("div", { className: `video-player__controls ${showControls ? "video-player__controls--visible" : ""}`, role: "toolbar", "aria-label": "Contr\u00F4les de lecture vid\u00E9o", children: [_jsx("h2", { className: "video-player__current-title", children: videos[currentVideo].title }), _jsx("div", { className: "video-player__progress", onClick: handleSeek, role: "slider", "aria-label": "Barre de progression de la vid\u00E9o", "aria-valuemin": 0, "aria-valuemax": duration, "aria-valuenow": currentTime, "aria-valuetext": `${formatTime(currentTime)} sur ${formatTime(duration)}`, tabIndex: 0, children: _jsx("div", { className: "video-player__progress-bar", style: { width: `${(currentTime / duration) * 100}%` }, children: _jsx("div", { className: "video-player__progress-handle" }) }) }), _jsxs("div", { className: "video-player__controls-row", children: [_jsxs("div", { className: "video-player__controls-left", children: [_jsx("button", { onClick: prevVideo, className: "video-player__btn video-player__btn--icon", "aria-label": "Vid\u00E9o pr\u00E9c\u00E9dente", title: "Vid\u00E9o pr\u00E9c\u00E9dente", children: _jsx(SkipBack, { size: 24 }) }), _jsx("button", { onClick: togglePlay, className: "video-player__btn video-player__btn--play", "aria-label": isPlaying ? "Mettre en pause" : "Lire la vidéo", title: isPlaying ? "Mettre en pause" : "Lire la vidéo", children: isPlaying ? _jsx(Pause, { size: 24 }) : _jsx(Play, { size: 24 }) }), _jsx("button", { onClick: nextVideo, className: "video-player__btn video-player__btn--icon", "aria-label": "Vid\u00E9o suivante", title: "Vid\u00E9o suivante", children: _jsx(SkipForward, { size: 24 }) }), _jsxs("div", { className: "video-player__volume", children: [_jsx("button", { onClick: toggleMute, className: "video-player__btn video-player__btn--small", "aria-label": isMuted ? "Activer le son" : "Couper le son", title: isMuted ? "Activer le son" : "Couper le son", children: isMuted ? _jsx(VolumeX, { size: 20 }) : _jsx(Volume2, { size: 20 }) }), _jsx("label", { htmlFor: "volume-slider", className: "sr-only", children: "Volume" }), _jsx("input", { id: "volume-slider", type: "range", min: "0", max: "1", step: "0.1", value: volume, onChange: handleVolumeChange, className: "video-player__volume-slider", "aria-label": `Volume: ${Math.round(volume * 100)}%`, title: `Volume: ${Math.round(volume * 100)}%` })] }), _jsxs("span", { className: "video-player__time", "aria-live": "polite", children: [formatTime(currentTime), " / ", formatTime(duration)] })] }), _jsx("div", { className: "video-player__controls-right", children: _jsx("button", { onClick: toggleFullscreen, className: "video-player__btn video-player__btn--small", "aria-label": isFullscreen ? "Quitter le plein écran" : "Plein écran", title: isFullscreen ? "Quitter le plein écran" : "Plein écran", children: _jsx(Maximize, { size: 20 }) }) })] })] })] }), _jsxs("div", { className: `video-player__playlist ${showPlaylist ? "video-player__playlist--visible" : ""}`, role: "region", "aria-label": "Liste de lecture", children: [_jsx("div", { className: "video-player__playlist-header", children: _jsxs("h3", { className: "video-player__playlist-title", children: ["Vid\u00E9os (", videos.length, ")"] }) }), _jsx("div", { className: "video-player__playlist-content", role: "list", "aria-label": "Liste des vid\u00E9os disponibles", children: videos.map((video, index) => (_jsxs("div", { onClick: () => changeVideo(index, true), className: `video-player__playlist-item ${currentVideo === index
+    return (_jsxs("div", { ref: playerRef, className: `video-player ${isFullscreen ? "video-player--fullscreen" : ""}`, role: "application", "aria-label": "Lecteur vid\u00E9o Rosi Trattoria", children: [_jsxs("div", { className: "video-player__content", children: [_jsxs("div", { className: `video-player__main ${showPlaylist ? "video-player__main--with-playlist" : ""}`, onMouseMove: handleMouseMove, onMouseLeave: () => isPlaying && setShowControls(false), children: [isLoading && (_jsx("div", { className: "video-player__loading", "aria-live": "polite", children: "Chargement..." })), error && (_jsx("div", { className: "video-player__error", "aria-live": "assertive", children: error })), _jsxs("video", { ref: videoRef, src: videos[currentVideo].url, poster: videos[currentVideo].thumbnail, className: "video-player__video", onTimeUpdate: handleTimeUpdate, onLoadedMetadata: handleLoadedMetadata, onEnded: handleVideoEnded, onClick: togglePlay, preload: "auto", playsInline: true, muted: isMuted, "webkit-playsinline": "true", "x-webkit-airplay": "allow", "aria-label": `Vidéo: ${videos[currentVideo].title}`, children: [_jsx("source", { src: videos[currentVideo].url, type: "video/mp4" }), "Votre navigateur ne supporte pas la lecture de vid\u00E9os."] }), _jsxs("div", { className: `video-player__controls ${showControls ? "video-player__controls--visible" : ""}`, role: "toolbar", "aria-label": "Contr\u00F4les de lecture vid\u00E9o", children: [_jsx("h2", { className: "video-player__current-title", children: videos[currentVideo].title }), _jsx("div", { className: "video-player__progress", onClick: handleSeek, role: "slider", "aria-label": "Barre de progression de la vid\u00E9o", "aria-valuemin": 0, "aria-valuemax": duration, "aria-valuenow": currentTime, "aria-valuetext": `${formatTime(currentTime)} sur ${formatTime(duration)}`, tabIndex: 0, children: _jsx("div", { className: "video-player__progress-bar", style: { width: `${(currentTime / duration) * 100}%` }, children: _jsx("div", { className: "video-player__progress-handle" }) }) }), _jsxs("div", { className: "video-player__controls-row", children: [_jsxs("div", { className: "video-player__controls-left", children: [_jsx("button", { onClick: prevVideo, className: "video-player__btn video-player__btn--icon", "aria-label": "Vid\u00E9o pr\u00E9c\u00E9dente", title: "Vid\u00E9o pr\u00E9c\u00E9dente", children: _jsx(SkipBack, { size: 24 }) }), _jsx("button", { onClick: togglePlay, className: "video-player__btn video-player__btn--play", "aria-label": isPlaying ? "Mettre en pause" : "Lire la vidéo", title: isPlaying ? "Mettre en pause" : "Lire la vidéo", children: isPlaying ? _jsx(Pause, { size: 24 }) : _jsx(Play, { size: 24 }) }), _jsx("button", { onClick: nextVideo, className: "video-player__btn video-player__btn--icon", "aria-label": "Vid\u00E9o suivante", title: "Vid\u00E9o suivante", children: _jsx(SkipForward, { size: 24 }) }), _jsxs("div", { className: "video-player__volume", children: [_jsx("button", { onClick: toggleMute, className: "video-player__btn video-player__btn--small", "aria-label": isMuted ? "Activer le son" : "Couper le son", title: isMuted ? "Activer le son" : "Couper le son", children: isMuted ? _jsx(VolumeX, { size: 20 }) : _jsx(Volume2, { size: 20 }) }), _jsx("label", { htmlFor: "volume-slider", className: "sr-only", children: "Volume" }), _jsx("input", { id: "volume-slider", type: "range", min: "0", max: "1", step: "0.1", value: volume, onChange: handleVolumeChange, className: "video-player__volume-slider", "aria-label": `Volume: ${Math.round(volume * 100)}%`, title: `Volume: ${Math.round(volume * 100)}%` })] }), _jsxs("span", { className: "video-player__time", "aria-live": "polite", children: [formatTime(currentTime), " / ", formatTime(duration)] })] }), _jsx("div", { className: "video-player__controls-right", children: _jsx("button", { onClick: toggleFullscreen, className: "video-player__btn video-player__btn--small", "aria-label": isFullscreen ? "Quitter le plein écran" : "Plein écran", title: isFullscreen ? "Quitter le plein écran" : "Plein écran", children: _jsx(Maximize, { size: 20 }) }) })] })] })] }), _jsxs("div", { className: `video-player__playlist ${showPlaylist ? "video-player__playlist--visible" : ""}`, role: "region", "aria-label": "Liste de lecture", children: [_jsx("div", { className: "video-player__playlist-header", children: _jsxs("h3", { className: "video-player__playlist-title", children: ["Vid\u00E9os (", videos.length, ")"] }) }), _jsx("div", { className: "video-player__playlist-content", role: "list", "aria-label": "Liste des vid\u00E9os disponibles", children: videos.map((video, index) => (_jsxs("div", { onClick: () => changeVideo(index, true), className: `video-player__playlist-item ${currentVideo === index
                                         ? "video-player__playlist-item--active"
                                         : ""}`, role: "listitem", tabIndex: 0, "aria-label": `${video.title} - ${currentVideo === index
                                         ? "En cours de lecture"
@@ -516,6 +506,6 @@ const VideoPlayer = () => {
                         ? "Masquer la liste de lecture"
                         : "Afficher la liste de lecture", title: showPlaylist
                         ? "Masquer la liste de lecture"
-                        : "Afficher la liste de lecture", children: showPlaylist ? "Masåquer" : "Voir plus" }) })] }));
+                        : "Afficher la liste de lecture", children: showPlaylist ? "Masquer" : "Voir plus" }) })] }));
 };
 export default VideoPlayer;
