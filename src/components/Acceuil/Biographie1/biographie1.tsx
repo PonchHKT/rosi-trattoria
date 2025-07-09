@@ -210,16 +210,16 @@ const Biographie1: React.FC = () => {
                     PASSION
                   </span>
                   <span className="biographie__title-word">ET</span>
-                  <span className="biographie__title-word">L'</span>
+
                   <span className="biographie__title-word biographie__title-word--accent">
-                    EXIGENCE
+                    L' EXIGENCE
                   </span>
                 </h1>
                 <p className="biographie__title-accent" role="doc-subtitle">
                   <span className="biographie__title-accent-word">MÈNENT</span>
-                  <span className="biographie__title-accent-word">À</span>
+                  <span className="biographie__title-accent-word">À L'</span>
                   <span className="biographie__title-accent-word biographie__title-accent-word--highlight">
-                    L'EXCELLENCE
+                    EXCELLENCE
                   </span>
                 </p>
               </hgroup>

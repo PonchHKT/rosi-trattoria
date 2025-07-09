@@ -48,12 +48,18 @@
 
 .biographie__header {
   text-align: center;
-  margin-bottom: 80px;
+  margin-bottom: 0; /* Reduced from 80px to remove gap */
 }
 
 .biographie__title-wrapper {
   position: relative;
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .biographie__title {
@@ -67,37 +73,36 @@
   flex-direction: column;
   gap: 0.5rem;
   text-align: center;
-  min-height: 200px;
   justify-content: center;
   width: 100%;
-  max-width: 900px;
   margin: 0 auto;
+  padding-bottom: 20px;
 }
 
 .biographie__title-main {
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
   gap: 0.5rem 1rem;
   margin: 0;
   font-size: inherit;
   font-weight: inherit;
   color: #000000 !important;
   line-height: inherit;
-
-  // Éviter la coupure après l'apostrophe
-  word-break: keep-all;
-  overflow-wrap: normal;
+  width: 100%;
+  text-align: center;
 }
 
 .biographie__title-word {
   display: inline-block;
   color: #000000 !important;
-  white-space: nowrap; // Empêche la coupure des mots
+  white-space: nowrap;
 
   // Grouper "L'" avec "EXIGENCE"
   &:nth-child(4) {
     // "L'"
-    margin-right: 0.2rem; // Rapprocher de "EXIGENCE"
+    margin-right: 0.2rem;
   }
 
   &--accent {
@@ -121,15 +126,18 @@
 .biographie__title-accent {
   color: #000000 !important;
   font-weight: 500;
-  // Augmenter la taille de "MÈNENT À L'EXCELLENCE"
-  font-size: clamp(1.2rem, 3vw, 1.5rem); // Beaucoup plus grand
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
   letter-spacing: 0.05em;
   margin-top: 1rem;
   text-transform: uppercase;
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
   gap: 0.5rem;
   line-height: 1.2;
+  width: 100%;
+  text-align: center;
 }
 
 .biographie__title-accent-word {
@@ -154,8 +162,9 @@
   font-weight: 500;
   color: #000000 !important;
   box-shadow: var(--shadow-light);
-  margin-top: 20px;
+  margin-top: 12px; // Réduit de 20px à 12px
   justify-content: center;
+  align-self: center;
 }
 
 .biographie__title-badge-icon {
@@ -170,15 +179,17 @@
 
 .biographie__section-header {
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 20px;
 }
 
 .biographie__subtitle-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 24px;
+  margin-bottom: 0; /* Reduced from 24px to remove gap */
   gap: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .biographie__decorative-line {
@@ -288,10 +299,10 @@
   padding: 40px 32px;
   text-align: center;
   transition: all var(--transition-medium);
-  box-shadow: var(--shadow-light);
+
   position: relative;
   overflow: hidden;
-  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px -50px 36px -28px inset;
 
   &--indoor .biographie__capacity-icon {
     color: var(--primary-blue) !important;
@@ -633,33 +644,36 @@
     padding: 0 16px;
   }
 
+  .biographie__title-wrapper {
+    padding: 0 16px;
+  }
+
   .biographie__title {
     font-size: clamp(1.8rem, 6vw, 2.5rem);
-    min-height: 160px;
     gap: 0.8rem;
   }
 
   .biographie__title-main {
     gap: 0.3rem 0.8rem;
+    justify-content: center;
+    text-align: center;
   }
 
   .biographie__title-accent {
-    // Taille plus grande sur mobile aussi
     font-size: clamp(1rem, 4vw, 1.2rem);
     gap: 0.3rem;
+    justify-content: center;
+    text-align: center;
   }
 
   .biographie__title-word {
     &:nth-child(4) {
-      // "L'"
       margin-right: 0.1rem;
     }
   }
 
   .biographie__title-badge {
-    position: static;
-    margin-top: 20px;
-    align-self: center;
+    margin-top: 8px; // Réduit encore plus sur mobile
     padding: 6px 10px;
     font-size: clamp(0.65rem, 2vw, 0.7rem);
   }
@@ -671,6 +685,7 @@
 
   .biographie__subtitle-container {
     gap: 16px;
+    margin-bottom: 0; /* Ensure no gap on mobile */
   }
 
   .biographie__decorative-line {
@@ -766,23 +781,30 @@
     padding: 0 12px;
   }
 
+  .biographie__title-wrapper {
+    padding: 0 12px;
+  }
+
   .biographie__title {
     font-size: clamp(1.5rem, 7vw, 2rem);
-    min-height: 140px;
     gap: 0.6rem;
   }
 
   .biographie__title-main {
     gap: 0.2rem 0.6rem;
+    justify-content: center;
+    text-align: center;
   }
 
   .biographie__title-accent {
-    // Encore plus grand sur très petit écran
     font-size: clamp(0.9rem, 4.5vw, 1.1rem);
     gap: 0.2rem;
+    justify-content: center;
+    text-align: center;
   }
 
   .biographie__title-badge {
+    margin-top: 6px; // Encore plus réduit sur très petit écran
     padding: 5px 8px;
     font-size: clamp(0.6rem, 2.5vw, 0.65rem);
   }
@@ -790,6 +812,10 @@
   .biographie__title-badge-icon {
     width: 10px;
     height: 10px;
+  }
+
+  .biographie__subtitle-container {
+    margin-bottom: 0; /* Ensure no gap on small screens */
   }
 
   .biographie__subtitle {
