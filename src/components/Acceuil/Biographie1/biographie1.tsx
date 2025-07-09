@@ -238,8 +238,16 @@ const Biographie1: React.FC = () => {
             <div className="biographie__subtitle-container">
               <div className="biographie__decorative-line biographie__decorative-line--left"></div>
               <div className="biographie__pizza-icon">
-                <span className="biographie__pizza-emoji">🍕</span>
-                <div className="biographie__pizza-glow"></div>
+                <svg
+                  className="biographie__flag-svg"
+                  viewBox="0 0 900 600"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-label="Drapeau italien"
+                >
+                  <rect width="300" height="600" fill="#009246" />
+                  <rect x="300" width="300" height="600" fill="#FFFFFF" />
+                  <rect x="600" width="300" height="600" fill="#CE2B38" />
+                </svg>
               </div>
               <div className="biographie__decorative-line biographie__decorative-line--right"></div>
             </div>
@@ -322,6 +330,35 @@ const Biographie1: React.FC = () => {
           </div>
         </AnimatedSection>
 
+        <AnimatedSection animationType="fade-in-scale" delay={500}>
+          <div className="biographie__quote-section">
+            <div className="biographie__quote-container">
+              <blockquote
+                className="biographie__quote"
+                cite="https://www.rosi-trattoria.com"
+              >
+                <span className="biographie__quote-mark biographie__quote-mark--open">
+                  "
+                </span>
+                Nous proposons des{" "}
+                <strong className="biographie__quote-highlight">
+                  pizzas délicieuses aux saveurs originales
+                </strong>
+                . Vous pouvez les apprécier <em>sur place</em> ou les{" "}
+                <em>emporter</em>.
+                <span className="biographie__quote-mark biographie__quote-mark--close">
+                  "
+                </span>
+              </blockquote>
+              <div className="biographie__quote-decoration">
+                <div className="biographie__quote-dot"></div>
+                <div className="biographie__quote-dot"></div>
+                <div className="biographie__quote-dot"></div>
+              </div>
+            </div>
+          </div>
+        </AnimatedSection>
+
         <AnimatedSection animationType="fade-in-scale" delay={400}>
           <div
             className="biographie__images"
@@ -390,35 +427,6 @@ const Biographie1: React.FC = () => {
                 </figcaption>
               </figure>
             ))}
-          </div>
-        </AnimatedSection>
-
-        <AnimatedSection animationType="fade-in-scale" delay={500}>
-          <div className="biographie__quote-section">
-            <div className="biographie__quote-container">
-              <blockquote
-                className="biographie__quote"
-                cite="https://www.rosi-trattoria.com"
-              >
-                <span className="biographie__quote-mark biographie__quote-mark--open">
-                  "
-                </span>
-                Nous proposons des{" "}
-                <strong className="biographie__quote-highlight">
-                  pizzas délicieuses aux saveurs originales
-                </strong>
-                . Vous pouvez les apprécier <em>sur place</em> ou les{" "}
-                <em>emporter</em>.
-                <span className="biographie__quote-mark biographie__quote-mark--close">
-                  "
-                </span>
-              </blockquote>
-              <div className="biographie__quote-decoration">
-                <div className="biographie__quote-dot"></div>
-                <div className="biographie__quote-dot"></div>
-                <div className="biographie__quote-dot"></div>
-              </div>
-            </div>
           </div>
         </AnimatedSection>
 

@@ -291,12 +291,19 @@ const Navbar = () => {
                   to={item.path}
                   className={`navbar__mobile-link ${
                     isActiveLink(item.path) ? "navbar__mobile-link--active" : ""
+                  } ${
+                    item.path === "/carte" ? "navbar__mobile-link--carte" : ""
                   }`}
                   onClick={() => handleLinkClick(item.label, item.path)}
                   title={item.title}
                   role="menuitem"
                   aria-current={isActiveLink(item.path) ? "page" : undefined}
                   tabIndex={isOpen ? 0 : -1}
+                  style={
+                    item.path === "/carte"
+                      ? { backgroundColor: "var(--primary-pink)" }
+                      : {}
+                  }
                 >
                   <span className="navbar__mobile-link-text">{item.label}</span>
                   <span className="navbar__mobile-link-line"></span>
