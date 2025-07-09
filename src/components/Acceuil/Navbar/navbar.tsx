@@ -280,33 +280,12 @@ const Navbar = () => {
 
         <nav className="navbar__mobile-nav" role="navigation">
           <ul className="navbar__mobile-list" role="menubar">
-            {/* Lien Réservation - uniquement visible en mobile */}
-            <li
-              className="navbar__mobile-item"
-              role="none"
-              style={{ "--item-index": 0 } as React.CSSProperties}
-            >
-              <a
-                href="https://bookings.zenchef.com/results?rid=356394&fullscreen=1"
-                className="navbar__mobile-link navbar__mobile-link--reservation"
-                onClick={handleReservationClick}
-                title="Réserver une table en ligne"
-                role="menuitem"
-                tabIndex={isOpen ? 0 : -1}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <span className="navbar__mobile-link-text">Réservation</span>
-                <span className="navbar__mobile-link-line"></span>
-              </a>
-            </li>
-
             {navItems.map((item, index) => (
               <li
                 key={index}
                 className="navbar__mobile-item"
                 role="none"
-                style={{ "--item-index": index + 1 } as React.CSSProperties}
+                style={{ "--item-index": index } as React.CSSProperties}
               >
                 <Link
                   to={item.path}
@@ -324,6 +303,28 @@ const Navbar = () => {
                 </Link>
               </li>
             ))}
+
+            {/* Lien Réservation en dernier avec background jaune */}
+            <li
+              className="navbar__mobile-item"
+              role="none"
+              style={{ "--item-index": navItems.length } as React.CSSProperties}
+            >
+              <a
+                href="https://bookings.zenchef.com/results?rid=356394&fullscreen=1"
+                className="navbar__mobile-link navbar__mobile-link--reservation"
+                onClick={handleReservationClick}
+                title="Réserver une table en ligne"
+                role="menuitem"
+                tabIndex={isOpen ? 0 : -1}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ backgroundColor: "#ffd506" }}
+              >
+                <span className="navbar__mobile-link-text">Réservation</span>
+                <span className="navbar__mobile-link-line"></span>
+              </a>
+            </li>
           </ul>
         </nav>
       </div>
