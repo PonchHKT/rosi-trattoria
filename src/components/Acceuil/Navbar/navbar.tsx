@@ -10,6 +10,7 @@ const GA4_EVENTS = {
   LINK_CLICK: "navbar_link_click",
   PHONE_CLICK: "navbar_phone_click",
   MENU_CLOSE: "navbar_menu_close",
+  RESERVATION_CLICK: "navbar_reservation_click",
 };
 
 const Navbar = () => {
@@ -78,6 +79,16 @@ const Navbar = () => {
     });
   };
 
+  const handleReservationClick = () => {
+    setIsOpen(false);
+
+    ReactGA.event(GA4_EVENTS.RESERVATION_CLICK, {
+      page_name: location.pathname,
+      external_url:
+        "https://bookings.zenchef.com/results?rid=356394&fullscreen=1",
+    });
+  };
+
   const handlePhoneCall = () => {
     ReactGA.event(GA4_EVENTS.PHONE_CLICK, {
       page_name: location.pathname,
@@ -137,8 +148,9 @@ const Navbar = () => {
   ];
 
   const isActiveLink = (path: string) => {
+    // Ne jamais afficher "Accueil" comme actif
     if (path === "/") {
-      return location.pathname === "/";
+      return false;
     }
     return location.pathname === path;
   };
@@ -254,7 +266,7 @@ const Navbar = () => {
       >
         <div className="navbar__mobile-header">
           <h2 id="mobile-menu-title" className="navbar__mobile-title">
-            Rosi Trattoria
+            Bio, Locale & Fait Maison
           </h2>
           <button
             className="navbar__close-btn"
@@ -268,12 +280,33 @@ const Navbar = () => {
 
         <nav className="navbar__mobile-nav" role="navigation">
           <ul className="navbar__mobile-list" role="menubar">
+            {/* Lien Réservation - uniquement visible en mobile */}
+            <li
+              className="navbar__mobile-item"
+              role="none"
+              style={{ "--item-index": 0 } as React.CSSProperties}
+            >
+              <a
+                href="https://bookings.zenchef.com/results?rid=356394&fullscreen=1"
+                className="navbar__mobile-link navbar__mobile-link--reservation"
+                onClick={handleReservationClick}
+                title="Réserver une table en ligne"
+                role="menuitem"
+                tabIndex={isOpen ? 0 : -1}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span className="navbar__mobile-link-text">Réservation</span>
+                <span className="navbar__mobile-link-line"></span>
+              </a>
+            </li>
+
             {navItems.map((item, index) => (
               <li
                 key={index}
                 className="navbar__mobile-item"
                 role="none"
-                style={{ "--item-index": index } as React.CSSProperties}
+                style={{ "--item-index": index + 1 } as React.CSSProperties}
               >
                 <Link
                   to={item.path}
