@@ -15,7 +15,7 @@ const CONFIG = {
   baseUrl: "https://www.rosi-trattoria.com",
 };
 
-// Configuration des breadcrumbs unifiée
+// Configuration des breadcrumbs
 const BREADCRUMB_CONFIG = {
   "/": {
     breadcrumbs: [
@@ -64,7 +64,7 @@ const BREADCRUMB_CONFIG = {
   },
 };
 
-// Liste des vidéos (extraite du composant VideoPlayer)
+// Liste des vidéos
 const VIDEOS = [
   {
     title: "Présentation de Rosi Trattoria",
@@ -73,7 +73,7 @@ const VIDEOS = [
       "https://www.rosi-trattoria.com/images/thumbnails/presentation-rosi-trattoria.png",
     description:
       "Découvrez Rosi Trattoria, une pizzeria italienne authentique à Brive-la-Gaillarde, avec des pizzas napolitaines bio et locales.",
-    duration: "PT1M30S", // Durée estimée, ajustez selon la vidéo réelle
+    duration: "PT1M30S",
     uploadDate: "2025-06-23",
   },
   {
@@ -83,7 +83,7 @@ const VIDEOS = [
       "https://www.rosi-trattoria.com/images/thumbnails/la-forracia-chez-rosi.png",
     description:
       "Apprenez comment Rosi Trattoria prépare sa focaccia artisanale avec des ingrédients bio et locaux.",
-    duration: "PT1M45S", // Durée estimée, ajustez selon la vidéo réelle
+    duration: "PT1M45S",
     uploadDate: "2025-06-23",
   },
   {
@@ -93,7 +93,7 @@ const VIDEOS = [
       "https://www.rosi-trattoria.com/images/thumbnails/pates-fraiche-rosi.png",
     description:
       "Découvrez la préparation des pâtes fraîches chez Rosi Trattoria, un savoir-faire italien authentique.",
-    duration: "PT2M0S", // Durée estimée, ajustez selon la vidéo réelle
+    duration: "PT2M0S",
     uploadDate: "2025-06-23",
   },
   {
@@ -103,7 +103,7 @@ const VIDEOS = [
       "https://www.rosi-trattoria.com/images/thumbnails/secrets-de-la-pate-rosi.png",
     description:
       "Les secrets de la pâte à pizza parfaite de Rosi Trattoria, levée pendant 48 heures.",
-    duration: "PT1M50S", // Durée estimée, ajustez selon la vidéo réelle
+    duration: "PT1M50S",
     uploadDate: "2025-06-23",
   },
   {
@@ -113,7 +113,7 @@ const VIDEOS = [
       "https://www.rosi-trattoria.com/images/thumbnails/teglia-et-foraccia-de-rosi.png",
     description:
       "Découvrez la téglia et la focaccia uniques de Rosi Trattoria, préparées avec soin.",
-    duration: "PT1M40S", // Durée estimée, ajustez selon la vidéo réelle
+    duration: "PT1M40S",
     uploadDate: "2025-06-23",
   },
   {
@@ -123,7 +123,7 @@ const VIDEOS = [
       "https://www.rosi-trattoria.com/images/thumbnails/rosi-capri.png",
     description:
       "Un voyage culinaire inspiré de Capri avec les saveurs de Rosi Trattoria.",
-    duration: "PT1M55S", // Durée estimée, ajustez selon la vidéo réelle
+    duration: "PT1M55S",
     uploadDate: "2025-06-23",
   },
   {
@@ -133,7 +133,7 @@ const VIDEOS = [
       "https://www.rosi-trattoria.com/images/thumbnails/tiramisu-de-rosi.png",
     description:
       "Découvrez le tiramisu authentique préparé par Rosi Trattoria, un dessert italien classique.",
-    duration: "PT1M20S", // Durée estimée, ajustez selon la vidéo réelle
+    duration: "PT1M20S",
     uploadDate: "2025-06-23",
   },
   {
@@ -143,55 +143,12 @@ const VIDEOS = [
       "https://www.rosi-trattoria.com/images/thumbnails/les-cocktails-rosi.png",
     description:
       "Découvrez les cocktails signature de Rosi Trattoria, parfaits pour accompagner votre repas.",
-    duration: "PT1M25S", // Durée estimée, ajustez selon la vidéo réelle
+    duration: "PT1M25S",
     uploadDate: "2025-06-23",
   },
 ];
 
-// Fonction utilitaire pour générer le JSON-LD des breadcrumbs
-function generateBreadcrumbJsonLd(path) {
-  const config = BREADCRUMB_CONFIG[path];
-  if (!config || !config.breadcrumbs) {
-    return null;
-  }
-
-  return {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: config.breadcrumbs.map((breadcrumb) => ({
-      "@type": "ListItem",
-      position: breadcrumb.position,
-      name: breadcrumb.name,
-      item: breadcrumb.url,
-    })),
-  };
-}
-
-// Fonction pour générer le JSON-LD des VideoObject
-function generateVideoJsonLd() {
-  return VIDEOS.map((video, index) => ({
-    "@context": "https://schema.org",
-    "@type": "VideoObject",
-    name: video.title,
-    description: video.description,
-    thumbnailUrl: video.thumbnail,
-    contentUrl: video.url,
-    uploadDate: video.uploadDate,
-    duration: video.duration,
-    publisher: {
-      "@type": "Organization",
-      name: "Rosi Trattoria",
-      logo: {
-        "@type": "ImageObject",
-        url: `${CONFIG.baseUrl}/images/logo/og-image.jpg`,
-      },
-    },
-    isFamilyFriendly: true,
-    inLanguage: "fr-FR",
-  }));
-}
-
-// Routes cohérentes avec slashes finaux (sauf accueil)
+// Configuration des routes
 const routes = [
   {
     path: "/",
@@ -204,21 +161,8 @@ const routes = [
     keywords:
       "pizzeria Brive, pizza napolitaine bio, restaurant italien fait maison, trattoria Brive-la-Gaillarde",
     priority: 1.0,
-    changefreq: "daily",
-    lastmod: new Date().toISOString().split("T")[0],
-  },
-  {
-    path: "/carte/",
-    canonical: "/carte/",
-    directory: "carte",
-    title: "Notre Carte - Pizzas Napolitaines Bio | Rosi Trattoria Brive",
-    description:
-      "Découvrez notre carte de pizzas napolitaines artisanales, faites maison avec des produits bio et locaux. Pâtes levées 48h, cuisson au feu de bois.",
-    keywords:
-      "carte pizzas napolitaines, menu restaurant italien Brive, pizza bio fait maison",
-    priority: 0.9,
     changefreq: "weekly",
-    lastmod: "2025-06-23",
+    lastmod: new Date().toISOString().split("T")[0],
   },
   {
     path: "/nos-valeurs/",
@@ -231,7 +175,20 @@ const routes = [
       "valeurs restaurant bio, cuisine italienne artisanale, produits locaux Brive",
     priority: 0.8,
     changefreq: "monthly",
-    lastmod: "2025-06-23",
+    lastmod: "2025-01-15",
+  },
+  {
+    path: "/carte/",
+    canonical: "/carte/",
+    directory: "carte",
+    title: "Notre Carte - Pizzas Napolitaines Bio | Rosi Trattoria Brive",
+    description:
+      "Découvrez notre carte de pizzas napolitaines artisanales, faites maison avec des produits bio et locaux. Pâtes levées 48h, cuisson au feu de bois.",
+    keywords:
+      "carte pizzas napolitaines, menu restaurant italien Brive, pizza bio fait maison",
+    priority: 0.9,
+    changefreq: "weekly",
+    lastmod: "2025-01-15",
   },
   {
     path: "/recrutement/",
@@ -257,17 +214,168 @@ const routes = [
       "contact pizzeria Brive, réservation restaurant italien, adresse Rosi Trattoria",
     priority: 0.6,
     changefreq: "monthly",
-    lastmod: "2025-06-23",
+    lastmod: "2025-01-15",
   },
 ];
 
-// Fonction pour injecter les meta tags SEO avec breadcrumbs et VideoObject
+// Configuration spéciale pour la page 404
+const page404Config = {
+  path: "/404/",
+  canonical: "/404/",
+  directory: "404",
+  title: "Page non trouvée - Erreur 404 | Rosi Trattoria",
+  description:
+    "La page que vous cherchez n'existe pas ou a été déplacée. Retournez à l'accueil de Rosi Trattoria, votre pizzeria italienne à Brive-la-Gaillarde.",
+  keywords: "erreur 404, page non trouvée, pizzeria Brive",
+  priority: 0.1,
+  changefreq: "yearly",
+  lastmod: "2025-01-15",
+};
+
+// Génération du .htaccess
+function generateHtaccess() {
+  return `# Configuration simplifiée pour Rosi Trattoria
+RewriteEngine On
+
+# Force HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+# Force www
+RewriteCond %{HTTP_HOST} ^rosi-trattoria\.com$ [NC]
+RewriteRule ^(.*)$ https://www.rosi-trattoria.com/$1 [R=301,L]
+
+# Redirection SPA - toutes les routes vers index.html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/sitemap\.xml$
+RewriteCond %{REQUEST_URI} !^/robots\.txt$
+RewriteRule . /index.html [L]
+
+# Headers de cache basiques
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/html "access plus 1 hour"
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+</IfModule>`;
+}
+
+// Génération du sitemap
+function generateSitemap() {
+  const mainUrls = routes
+    .map((route) => {
+      return `  <url>
+    <loc>${CONFIG.baseUrl}${route.canonical}</loc>
+    <lastmod>${route.lastmod}</lastmod>
+    <changefreq>${route.changefreq}</changefreq>
+    <priority>${route.priority}</priority>
+  </url>`;
+    })
+    .join("\n");
+
+  const redirectUrls = Object.keys(REDIRECTS)
+    .map((oldFile) => {
+      return `  <url>
+    <loc>${CONFIG.baseUrl}/${oldFile}</loc>
+    <lastmod>${new Date().toISOString().split("T")[0]}</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.1</priority>
+  </url>`;
+    })
+    .join("\n");
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+${mainUrls}
+${redirectUrls}
+</urlset>`;
+}
+
+// Génération du robots.txt
+function generateRobotsTxt() {
+  return `User-agent: *
+Allow: /
+
+# Sitemap principal
+Sitemap: ${CONFIG.baseUrl}/sitemap.xml
+
+# Optimisations spécifiques pour les moteurs de recherche
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: facebookexternalhit
+Allow: /
+
+# Bloquer les dossiers techniques
+Disallow: /assets/
+Disallow: /static/
+Disallow: /*.json$`;
+}
+
+// Génération du JSON-LD des breadcrumbs
+function generateBreadcrumbJsonLd(path) {
+  const config = BREADCRUMB_CONFIG[path];
+  if (!config || !config.breadcrumbs) {
+    return null;
+  }
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: config.breadcrumbs.map((breadcrumb) => ({
+      "@type": "ListItem",
+      position: breadcrumb.position,
+      name: breadcrumb.name,
+      item: breadcrumb.url,
+    })),
+  };
+}
+
+// Génération du JSON-LD des VideoObject
+function generateVideoJsonLd() {
+  return VIDEOS.map((video) => ({
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    name: video.title,
+    description: video.description,
+    thumbnailUrl: video.thumbnail,
+    contentUrl: video.url,
+    uploadDate: video.uploadDate,
+    duration: video.duration,
+    publisher: {
+      "@type": "Organization",
+      name: "Rosi Trattoria",
+      logo: {
+        "@type": "ImageObject",
+        url: `${CONFIG.baseUrl}/images/logo/og-image.jpg`,
+      },
+    },
+    isFamilyFriendly: true,
+    inLanguage: "fr-FR",
+  }));
+}
+
+// Injection des meta tags SEO
 function injectSEOMeta(html, route) {
   const dom = new JSDOM(html);
   const document = dom.window.document;
   const head = document.head;
 
-  // Supprimer les meta tags existants pour éviter tout conflit
+  // Supprimer les meta tags existants
   const existingMetas = head.querySelectorAll(
     'meta[name="description"], meta[name="keywords"], title, link[rel="canonical"], script[type="application/ld+json"]'
   );
@@ -560,127 +668,19 @@ function injectSEOMeta(html, route) {
   return dom.serialize();
 }
 
-// Génération du sitemap
-function generateSitemap() {
-  // URLs principales
-  const mainUrls = routes
-    .map((route) => {
-      return `  <url>
-    <loc>${CONFIG.baseUrl}${route.canonical}</loc>
-    <lastmod>${route.lastmod}</lastmod>
-    <changefreq>${route.changefreq}</changefreq>
-    <priority>${route.priority}</priority>
-  </url>`;
-    })
-    .join("\n");
-
-  // URLs de redirection (pour les QR codes)
-  const redirectUrls = Object.keys(REDIRECTS)
-    .map((oldFile) => {
-      return `  <url>
-    <loc>${CONFIG.baseUrl}/${oldFile}</loc>
-    <lastmod>${new Date().toISOString().split("T")[0]}</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.1</priority>
-  </url>`;
-    })
-    .join("\n");
-
-  return `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${mainUrls}
-${redirectUrls}
-</urlset>`;
-}
-
-// Génération du robots.txt
-function generateRobotsTxt() {
-  return `User-agent: *
-Allow: /
-
-Sitemap: ${CONFIG.baseUrl}/sitemap.xml
-
-# Optimisations pour les moteurs de recherche
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
-
-# Pas d'indexation des dossiers techniques
-Disallow: /static/
-Disallow: /assets/
-Disallow: /*.json$`;
-}
-
-// Génération du .htaccess
-function generateHtaccess() {
-  return `<IfModule mod_rewrite.c>
- RewriteEngine On
-
- # Force HTTPS
- RewriteCond %{HTTPS} !=on
- RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-
- # Force www
- RewriteCond %{HTTP_HOST} ^rosi-trattoria\.com$ [NC]
- RewriteRule ^(.*)$ https://www.rosi-trattoria.com/$1 [R=301,L]
-
- # Add trailing slash for main pages (seulement si pas de fichier)
- RewriteCond %{REQUEST_FILENAME} !-f
- RewriteCond %{REQUEST_FILENAME} !-d
- RewriteRule ^(nos-valeurs|carte|recrutement|contact)$ /$1/ [R=301,L]
-
- # Fallback pour SPA - permettre les fichiers .html physiques
- RewriteCond %{REQUEST_FILENAME} !-f
- RewriteCond %{REQUEST_FILENAME} !-d
- RewriteCond %{REQUEST_URI} !\.(css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|pdf|xml|json|txt)$ [NC]
- RewriteRule . /index.html [L]
-</IfModule>
-
-# Configuration des headers pour SEO et performances
-<IfModule mod_headers.c>
- # Cache control
- Header always set Cache-Control "public, max-age=31536000" "expr=%{REQUEST_URI} =~ /\.(css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2)$/"
- Header always set Cache-Control "public, max-age=3600" "expr=%{REQUEST_URI} =~ /\.(html|xml|txt)$/"
- 
- # Security headers
- Header always set X-Content-Type-Options nosniff
- Header always set X-Frame-Options DENY
- Header always set Referrer-Policy "strict-origin-when-cross-origin"
-</IfModule>
-
-# Configuration MIME types
-<IfModule mod_mime.c>
- AddType application/javascript .js
- AddType text/css .css
-</IfModule>`;
-}
-
-function checkFilePermissions() {
-  console.log("🔍 Vérification des permissions...");
-
-  routes.forEach((route) => {
-    if (route.directory) {
-      const filePath = path.join(CONFIG.distDir, route.directory, "index.html");
-      try {
-        const stats = fs.statSync(filePath);
-        console.log(
-          `📄 ${route.path}: ${stats.mode.toString(8)} (${stats.size} bytes)`
-        );
-      } catch (error) {
-        console.error(`❌ Erreur lecture ${route.path}:`, error.message);
-      }
-    }
-  });
+// Fonction de test pour vérifier la génération
+function testGeneration() {
+  console.log("=== TEST .HTACCESS ===");
+  console.log(generateHtaccess());
+  console.log("\n=== TEST SITEMAP ===");
+  console.log(generateSitemap());
+  console.log("\n=== TEST ROBOTS.TXT ===");
+  console.log(generateRobotsTxt());
 }
 
 // Fonction principale de prerender
 async function prerenderForIONOS() {
-  console.log("🚀 Démarrage du prerender pour IONOS...");
+  console.log("🚀 Démarrage du prerender optimisé pour IONOS...");
 
   try {
     // Lire le fichier HTML de base
@@ -690,7 +690,7 @@ async function prerenderForIONOS() {
     }
     const baseHtml = fs.readFileSync(indexPath, "utf8");
 
-    // Générer les pages avec SEO et breadcrumbs
+    // Générer les pages principales avec SEO optimisé
     for (const route of routes) {
       console.log(`📄 Génération de la page: ${route.path}`);
       const optimizedHtml = injectSEOMeta(baseHtml, route);
@@ -708,10 +708,19 @@ async function prerenderForIONOS() {
       }
     }
 
+    // Générer la page 404
+    console.log(`📄 Génération de la page 404: ${page404Config.path}`);
+    const html404 = injectSEOMeta(baseHtml, page404Config);
+    const dir404 = path.join(CONFIG.distDir, page404Config.directory);
+    fs.mkdirSync(dir404, { recursive: true });
+    const filePath404 = path.join(dir404, "index.html");
+    fs.writeFileSync(filePath404, html404, "utf8");
+    console.log(`✅ Page 404 générée: ${filePath404}`);
+
     // Générer le sitemap
     const sitemap = generateSitemap();
     fs.writeFileSync(path.join(CONFIG.distDir, "sitemap.xml"), sitemap, "utf8");
-    console.log("🗺️ Sitemap généré");
+    console.log("🗺️ Sitemap optimisé généré");
 
     // Générer robots.txt
     const robotsTxt = generateRobotsTxt();
@@ -725,8 +734,9 @@ async function prerenderForIONOS() {
     // Générer .htaccess
     const htaccess = generateHtaccess();
     fs.writeFileSync(path.join(CONFIG.distDir, ".htaccess"), htaccess, "utf8");
-    console.log("⚙️ .htaccess généré");
+    console.log("⚙️ .htaccess simplifié généré");
 
+    // Générer les redirections HTML
     console.log("🔄 Génération des fichiers de redirection HTML...");
     for (const [oldFile, newPath] of Object.entries(REDIRECTS)) {
       const htmlContent = generateRedirectHTML(oldFile, newPath);
@@ -735,7 +745,16 @@ async function prerenderForIONOS() {
       console.log(`✅ Redirection créée: ${oldFile} → ${newPath}`);
     }
 
-    console.log("🎉 Prerender terminé avec succès !");
+    console.log("🎉 Prerender optimisé terminé avec succès !");
+    console.log("\n📊 Résumé des pages générées:");
+    routes.forEach((route) => {
+      console.log(
+        `   • ${CONFIG.baseUrl}${route.canonical} (priorité: ${route.priority})`
+      );
+    });
+    console.log(
+      `   • ${CONFIG.baseUrl}${page404Config.canonical} (page 404 - non indexée)`
+    );
   } catch (error) {
     console.error("❌ Erreur lors du prerender:", error.message);
     process.exit(1);

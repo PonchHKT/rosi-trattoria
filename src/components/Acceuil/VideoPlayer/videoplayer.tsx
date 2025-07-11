@@ -65,7 +65,7 @@ const VideoPlayer: React.FC = () => {
     },
     {
       title: "Les pâtes fraiche de Rosi",
-      url: "https://pub-c0cb6a1e942a4d729260f30a324399aecomponent.r2.dev/Vid%C3%A9o%20Rosi/rosipatefraiche.mp4",
+      url: "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/rosipatefraiche.mp4",
       thumbnail: "/images/thumbnails/pates-fraiche-rosi.png",
     },
     {

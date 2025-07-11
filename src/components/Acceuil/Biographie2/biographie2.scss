@@ -3,8 +3,8 @@
 .restaurant-bio {
   padding-bottom: 50px;
   font-family: "Open Sans", sans-serif;
-  background: #fff;
-  color: #333;
+  background: #0a0a0a;
+  color: #e0e0e0;
 
   // Header en pleine largeur avec background du four à dôme
   .bio-header {
@@ -22,7 +22,7 @@
     background-repeat: no-repeat;
     background-clip: border-box;
 
-    // Overlay clair avec opacité
+    // Overlay sombre avec opacité
     &::before {
       content: "";
       position: absolute;
@@ -30,12 +30,12 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(255, 255, 255, 0.7);
+      background: rgba(10, 10, 10, 0.8);
       backdrop-filter: blur(2px);
       z-index: 1;
     }
 
-    // Fade blanc vers l'intérieur en haut
+    // Fade noir vers l'intérieur en haut
     &::after {
       content: "";
       position: absolute;
@@ -45,16 +45,16 @@
       height: 81px;
       background: linear-gradient(
         to bottom,
-        #fff 0%,
-        rgba(255, 255, 255, 0.8) 30%,
-        rgba(255, 255, 255, 0.4) 60%,
+        #0a0a0a 0%,
+        rgba(10, 10, 10, 0.8) 30%,
+        rgba(10, 10, 10, 0.4) 60%,
         transparent 100%
       );
       z-index: 2;
       pointer-events: none;
     }
 
-    // Fade blanc vers l'intérieur en bas
+    // Fade noir vers l'intérieur en bas
     .bio-header-fade-bottom {
       position: absolute;
       bottom: -1px;
@@ -63,9 +63,9 @@
       height: 81px;
       background: linear-gradient(
         to top,
-        #fff 0%,
-        rgba(255, 255, 255, 0.8) 30%,
-        rgba(255, 255, 255, 0.4) 60%,
+        #0a0a0a 0%,
+        rgba(10, 10, 10, 0.8) 30%,
+        rgba(10, 10, 10, 0.4) 60%,
         transparent 100%
       );
       z-index: 2;
@@ -86,10 +86,10 @@
     font-family: "Playfair Display", serif;
     font-size: clamp(2.5rem, 5vw, 4rem);
     font-weight: 700;
-    color: #1a1a1a;
+    color: #ffffff;
     margin-bottom: 1.5rem;
     line-height: 1.2;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
     letter-spacing: -0.02em;
 
     // Animation de fade-in
@@ -105,10 +105,10 @@
 
   .bio-subtitle {
     font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-    color: #555;
+    color: #b0b0b0;
     font-weight: 300;
     margin: 0;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
     letter-spacing: 0.02em;
 
     // Animation de fade-in avec délai
@@ -177,7 +177,7 @@
   .bio-text {
     font-size: 1.1rem;
     line-height: 1.8;
-    color: #444;
+    color: #d0d0d0;
 
     p {
       margin: 0 0 1.5rem 0;
@@ -188,13 +188,13 @@
     }
 
     strong {
-      color: #1a1a1a;
+      color: #ffffff;
       font-weight: 600;
     }
   }
 
   .bio-highlight {
-    background: rgba(0, 0, 0, 0.05);
+    background: rgba(255, 255, 255, 0.08);
     border-left: 4px solid #e91e63;
     padding: 1.5rem;
     border-radius: 0 8px 8px 0;
@@ -203,32 +203,32 @@
     margin-top: 1.5rem;
 
     &:hover {
-      background: rgba(0, 0, 0, 0.08);
+      background: rgba(255, 255, 255, 0.12);
       transform: translateX(5px);
     }
 
     p {
       margin: 0;
       font-size: 1.1rem;
-      color: #444;
+      color: #d0d0d0;
     }
 
     strong {
-      color: #1a1a1a;
+      color: #ffffff;
       font-weight: 700;
     }
   }
 
   .bio-pascal {
-    color: #b8860b !important;
+    color: #ffd700 !important;
     font-family: "Playfair Display", serif;
     font-size: 1.3em;
     font-weight: 700 !important;
-    text-shadow: 0 0 10px rgba(184, 134, 11, 0.3);
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
     transition: all 0.3s ease;
 
     &:hover {
-      text-shadow: 0 0 15px rgba(184, 134, 11, 0.6);
+      text-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
     }
   }
 
@@ -241,9 +241,9 @@
     height: 300px;
     border-radius: 8px;
     object-fit: cover;
-    border: 2px solid #ccc;
+    border: 2px solid #333;
     transition: all 0.3s ease;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
 
     // Classe spécifique pour la photo de Pascal
     &--pascal {
@@ -252,8 +252,8 @@
 
     &:hover {
       transform: scale(1.02);
-      border-color: #999;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+      border-color: #666;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8);
     }
   }
 

@@ -114,12 +114,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     
-    <!-- ⭐ AJOUT MANQUANT : Chargement des polices Google Fonts (CRITIQUE pour LCP) -->
+    <!-- ⭐ Chargement des polices Google Fonts avec display=swap pour éviter FOIT -->
     <link href="https://fonts.googleapis.com/css2?family=Pacifico:wght@400&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
     
-    <!-- Preload de la police critique du titre (ULTRA PRIORITÉ) -->
-    <link rel="preload" href="https://fonts.gstatic.com/s/pacifico/v22/FwZY7-Qmy14u9lezJ96A4sijpFu_.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- Preload uniquement si la police est utilisée immédiatement au-dessus du fold -->
+    <!-- SUPPRIMÉ : le preload spécifique du fichier woff2 qui causait l'erreur -->
     
     <!-- Autres preconnect -->
     <link rel="preconnect" href="https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev" />

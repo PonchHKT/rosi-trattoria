@@ -13,9 +13,84 @@ const GA4_EVENTS = {
   RESERVATION_CLICK: "navbar_reservation_click",
 };
 
+// Composant LoadingBar
+const LoadingBar = ({
+  isLoading = false,
+  progress = 0,
+  autoProgress = false,
+  duration = 1500,
+  color = "pink",
+}) => {
+  const [currentProgress, setCurrentProgress] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    if (isLoading) {
+      setIsVisible(true);
+      setCurrentProgress(0);
+
+      if (autoProgress) {
+        // Animation automatique avec progression plus fluide
+        const startTime = Date.now();
+        const interval = setInterval(() => {
+          const elapsed = Date.now() - startTime;
+          const progressPercent = Math.min((elapsed / duration) * 100, 100);
+
+          setCurrentProgress(progressPercent);
+
+          if (progressPercent >= 100) {
+            clearInterval(interval);
+            setTimeout(() => {
+              setIsVisible(false);
+              setCurrentProgress(0);
+            }, 200);
+          }
+        }, 16); // ~60fps
+
+        return () => clearInterval(interval);
+      } else {
+        // Progression manuelle
+        setCurrentProgress(progress);
+      }
+    } else {
+      // Terminer immédiatement si isLoading devient false
+      setCurrentProgress(100);
+      setTimeout(() => {
+        setIsVisible(false);
+        setCurrentProgress(0);
+      }, 200);
+    }
+  }, [isLoading, progress, autoProgress, duration]);
+
+  const getColorClass = () => {
+    switch (color) {
+      case "green":
+        return "loading-bar--green";
+      case "blue":
+        return "loading-bar--blue";
+      default:
+        return "loading-bar--pink";
+    }
+  };
+
+  return (
+    <div
+      className={`loading-bar ${
+        !isVisible ? "loading-bar--hidden" : ""
+      } ${getColorClass()}`}
+    >
+      <div
+        className="loading-bar__progress"
+        style={{ width: `${Math.min(currentProgress, 100)}%` }}
+      />
+    </div>
+  );
+};
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
   const lastToggleTime = useRef(0);
   const toggleDebounceMs = 300;
@@ -45,6 +120,18 @@ const Navbar = () => {
     };
   }, [isOpen, isAnimating]);
 
+  // Déclencher le loading bar lors des changements de page
+  useEffect(() => {
+    setIsLoading(true);
+
+    // Simuler un délai de chargement de page
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1200);
+
+    return () => clearTimeout(timer);
+  }, [location.pathname]);
+
   const toggleNavbar = () => {
     const now = Date.now();
     if (now - lastToggleTime.current < toggleDebounceMs) {
@@ -71,6 +158,7 @@ const Navbar = () => {
 
   const handleLinkClick = (linkLabel: string, linkPath: string) => {
     setIsOpen(false);
+    setIsLoading(true);
 
     ReactGA.event(GA4_EVENTS.LINK_CLICK, {
       page_name: location.pathname,
@@ -245,6 +333,14 @@ const Navbar = () => {
             </div>
           </div>
         </nav>
+
+        {/* Barre de chargement - Positionnée en bas de la navbar */}
+        <LoadingBar
+          isLoading={isLoading}
+          autoProgress={true}
+          duration={1200}
+          color="pink"
+        />
       </header>
 
       {/* Overlay avec effet de flou */}

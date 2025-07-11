@@ -35,8 +35,8 @@
 
 .footer {
   position: relative;
-  background: #ffffff;
-  color: #333333;
+  background: #0a0a0a;
+  color: #ffffff;
   overflow: hidden;
 
   &__top-border {
@@ -53,7 +53,7 @@
     position: relative;
     max-width: 1400px;
     margin: 0 auto;
-    padding: 4rem 1.5rem;
+    padding: 4rem 1.5rem 0;
   }
 
   &__grid {
@@ -124,7 +124,7 @@
   }
 
   &__description {
-    color: #666666;
+    color: #cccccc;
     line-height: 1.6;
     text-align: center;
     max-width: 300px;
@@ -140,7 +140,7 @@
   &__social-title {
     font-size: 1.125rem;
     font-weight: 600;
-    color: #1a1a1a;
+    color: #ffffff;
     margin: 0;
     text-align: center;
   }
@@ -240,7 +240,7 @@
   &__section-title {
     font-size: 1.25rem;
     font-weight: 600;
-    color: #1a1a1a;
+    color: #ffffff;
     margin: 0 0 1.5rem 0;
     text-align: center;
 
@@ -322,16 +322,16 @@
     flex-direction: column;
     justify-content: flex-start;
     flex: 1;
-    color: #555555;
+    color: #cccccc;
     min-width: 0;
 
     a {
-      color: #555555;
+      color: #cccccc;
       text-decoration: none;
       transition: color 0.2s ease;
 
       &:hover {
-        color: #1a1a1a;
+        color: #ffffff;
       }
     }
   }
@@ -423,7 +423,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 0.5rem 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 
     &:last-child {
       border-bottom: none;
@@ -439,14 +439,14 @@
 
   &__hours-day {
     font-weight: 600;
-    color: #1a1a1a;
+    color: #ffffff;
     flex-shrink: 0;
     min-width: 60%;
     max-width: 70%;
   }
 
   &__hours-time {
-    color: #555555;
+    color: #cccccc;
     text-align: right;
     flex-shrink: 0;
 
@@ -456,7 +456,7 @@
   }
 
   &__hours-closed {
-    color: #888888;
+    color: #999999;
     font-style: italic;
     text-align: right;
     flex-shrink: 0;
@@ -490,7 +490,7 @@
   }
 
   &__nav-link {
-    color: #555555;
+    color: #cccccc;
     text-decoration: none;
     transition: all 0.2s ease;
     padding: 0.25rem 0;
@@ -503,8 +503,16 @@
   }
 
   &__bottom {
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
     padding-top: 2rem;
+    padding-bottom: 2rem;
+    // Fond noir complet pour la section bottom
+    background: #000000;
+    // Étendre le fond sur toute la largeur
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+    padding-left: calc(50vw - 50%);
+    padding-right: calc(50vw - 50%);
   }
 
   &__bottom-content {
@@ -512,6 +520,9 @@
     flex-direction: column;
     align-items: center;
     gap: 1rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
 
     @media (min-width: 768px) {
       flex-direction: row;
@@ -520,7 +531,7 @@
   }
 
   &__copyright {
-    color: #888888;
+    color: #999999;
     font-size: 0.875rem;
     margin: 0;
     text-align: center;
@@ -543,7 +554,7 @@
   }
 
   &__legal-link {
-    color: #888888;
+    color: #999999;
     text-decoration: none;
     transition: color 0.2s ease;
 

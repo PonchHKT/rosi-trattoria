@@ -1,18 +1,18 @@
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=2wap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap");
 
 :root {
-  --text-primary: #000000 !important;
-  --text-secondary: #374151;
-  --background-white: #ffffff;
-  --background-gray: #f9fafb;
-  --border-light: #e5e7eb;
-  --border-medium: #d1d5db;
+  --text-primary: #ffffff !important;
+  --text-secondary: #e5e7eb;
+  --background-black: #000000;
+  --background-dark: #111111;
+  --border-light: #374151;
+  --border-medium: #4b5563;
   --accent-gold: #d4af37;
-  --primary-blue: #3b82f6;
-  --primary-pink: #ec4899;
-  --shadow-light: 0 1px 3px rgba(0, 0, 0, 0.1);
-  --shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --shadow-strong: 0 10px 25px rgba(0, 0, 0, 0.15);
+  --primary-blue: #60a5fa;
+  --primary-pink: #f472b6;
+  --shadow-light: 0 1px 3px rgba(255, 255, 255, 0.1);
+  --shadow-medium: 0 4px 6px rgba(255, 255, 255, 0.1);
+  --shadow-strong: 0 10px 25px rgba(255, 255, 255, 0.15);
   --radius-small: 8px;
   --radius-medium: 12px;
   --radius-large: 16px;
@@ -28,24 +28,19 @@
 .biographie {
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     sans-serif;
-  background: var(--background-white);
-  color: #000000 !important;
+  background: var(--background-black);
   min-height: 100vh;
   padding: 80px 0 100px;
   position: relative;
   margin-top: -100px;
   z-index: 200;
-
-  * {
-    color: inherit !important;
-  }
 }
 
 .biographie__container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 24px;
-  color: #000000 !important;
+  color: #ffffff !important;
 }
 
 .biographie__header {
@@ -68,7 +63,7 @@
   font-family: "Playfair Display", serif;
   font-size: clamp(2.5rem, 4vw, 4rem);
   font-weight: 600;
-  color: #000000 !important;
+  color: #ffffff !important;
   letter-spacing: -0.02em;
   line-height: 1.1;
   display: flex;
@@ -90,7 +85,7 @@
   margin: 0;
   font-size: inherit;
   font-weight: inherit;
-  color: #000000 !important;
+  color: #ffffff !important;
   line-height: inherit;
   width: 100%;
   text-align: center;
@@ -98,7 +93,7 @@
 
 .biographie__title-word {
   display: inline-block;
-  color: #000000 !important;
+  color: #ffffff !important;
   white-space: nowrap;
 
   &:nth-child(4) {
@@ -106,7 +101,7 @@
   }
 
   &--accent {
-    color: #000000 !important;
+    color: #ffffff !important;
     font-weight: 700;
     position: relative;
 
@@ -116,15 +111,15 @@
       bottom: -4px;
       left: 0;
       right: 0;
-      height: 2px;
+      height: 3px;
       background: var(--accent-gold);
-      opacity: 0.3;
+      opacity: 0.4;
     }
   }
 }
 
 .biographie__title-accent {
-  color: #000000 !important;
+  color: #ffffff !important;
   font-weight: 500;
   font-size: clamp(1.2rem, 3vw, 1.5rem);
   letter-spacing: 0.05em;
@@ -141,32 +136,32 @@
 }
 
 .biographie__title-accent-word {
-  color: #000000 !important;
+  color: #ffffff !important;
   white-space: nowrap;
 
   &--highlight {
-    color: #000000 !important;
+    color: #ffffff !important;
     font-weight: 600;
   }
 }
 
 .biographie__title-badge {
-  background: var(--background-gray);
+  background: var(--background-dark);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-medium);
   padding: 8px 12px;
   display: flex;
   align-items: center;
-  justify-content: center; /* Centre le contenu à l'intérieur */
+  justify-content: center;
   gap: 6px;
   font-size: clamp(0.7rem, 1.5vw, 0.75rem);
   font-weight: 500;
-  color: #000000 !important;
+  color: #ffffff !important;
   box-shadow: var(--shadow-light);
-  margin: 12px auto 0; /* Centrer horizontalement avec margin auto */
-  width: fit-content; /* Ajuster la largeur au contenu */
-  max-width: 200px; /* Limiter la largeur maximale */
-  text-align: center; /* Centrer le texte */
+  margin: 12px auto 0;
+  width: fit-content;
+  max-width: 200px;
+  text-align: center;
 }
 
 .biographie__title-badge-icon {
@@ -176,7 +171,7 @@
 }
 
 .biographie__title-badge-text {
-  color: #000000 !important;
+  color: #ffffff !important;
 }
 
 .biographie__section-header {
@@ -224,8 +219,8 @@
 
 .biographie__pizza-icon {
   font-size: 1.5rem;
-  color: #000000 !important;
-  background: var(--background-gray);
+  color: #ffffff !important;
+  background: var(--background-dark);
   border: 1px solid var(--border-light);
   border-radius: 50%;
   width: 48px;
@@ -245,7 +240,7 @@
   font-family: "Playfair Display", serif;
   font-size: clamp(1.5rem, 3vw, 2.25rem);
   font-weight: 500;
-  color: #000000 !important;
+  color: #ffffff !important;
   margin: 0;
   text-align: center;
   line-height: 1.3;
@@ -275,7 +270,7 @@
 .biographie__text {
   font-size: clamp(1rem, 2.5vw, 1.125rem);
   line-height: 1.7;
-  color: #000000 !important;
+  color: #ffffff !important;
   margin-bottom: 1.5rem;
 
   &:last-child {
@@ -284,7 +279,7 @@
 }
 
 .biographie__text-highlight {
-  color: #000000 !important;
+  color: #ffffff !important;
   font-weight: 600;
 }
 
@@ -296,7 +291,7 @@
 }
 
 .biographie__capacity-card {
-  background: var(--background-white);
+  background: var(--background-dark);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-large);
   padding: 40px 32px;
@@ -304,14 +299,22 @@
   transition: all var(--transition-medium);
   position: relative;
   overflow: hidden;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  box-shadow: rgba(255, 255, 255, 0.1) 0px 2px 8px 0px;
 
-  &--indoor .biographie__capacity-icon {
-    color: var(--primary-blue) !important;
+  &--indoor {
+    .biographie__capacity-icon {
+      svg {
+        color: var(--primary-pink) !important;
+      }
+    }
   }
 
-  &--outdoor .biographie__capacity-icon {
-    color: var(--primary-pink) !important;
+  &--outdoor {
+    .biographie__capacity-icon {
+      svg {
+        color: var(--primary-blue) !important;
+      }
+    }
   }
 }
 
@@ -322,7 +325,7 @@
   align-items: center;
   width: 72px;
   height: 72px;
-  background: var(--background-gray);
+  background: var(--background-black);
   border: 1px solid var(--border-light);
   border-radius: 50%;
 }
@@ -331,14 +334,14 @@
   font-family: "Playfair Display", serif;
   font-size: clamp(2rem, 5vw, 2.5rem);
   font-weight: 700;
-  color: #000000 !important;
+  color: #ffffff !important;
   margin: 0 0 8px 0;
   line-height: 1;
 }
 
 .biographie__capacity-label {
   font-size: clamp(0.8rem, 2vw, 0.875rem);
-  color: #000000 !important;
+  color: #ffffff !important;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: 500;
@@ -348,12 +351,12 @@
 
 .biographie__capacity-desc {
   font-size: clamp(0.9rem, 2vw, 1rem);
-  color: #000000 !important;
+  color: #ffffff !important;
   line-height: 1.5;
   margin: 0;
 
   strong {
-    color: #000000 !important;
+    color: #ffffff !important;
     font-weight: 600;
   }
 }
@@ -372,7 +375,7 @@
   box-shadow: var(--shadow-medium);
   transition: transform var(--transition-medium);
   height: 300px;
-  background: var(--background-gray);
+  background: var(--background-dark);
   border: 1px solid var(--border-light);
 
   &:hover {
@@ -381,7 +384,7 @@
   }
 
   &.error {
-    background: var(--background-gray);
+    background: var(--background-dark);
     border: 1px dashed var(--border-medium);
   }
 }
@@ -401,7 +404,7 @@
   font-size: clamp(0.8rem, 2vw, 0.875rem);
   font-weight: 500;
   letter-spacing: 0.02em;
-  color: white !important;
+  color: #ffffff !important;
 }
 
 .biographie__image {
@@ -423,7 +426,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: var(--background-gray);
+  background: var(--background-dark);
   border-radius: var(--radius-large);
 }
 
@@ -447,7 +450,7 @@
 }
 
 .biographie__loading-text {
-  color: #000000 !important;
+  color: #ffffff !important;
   font-size: clamp(0.8rem, 2vw, 0.875rem);
   font-weight: 500;
   text-align: center;
@@ -464,7 +467,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: var(--background-gray);
+  background: var(--background-dark);
   border-radius: var(--radius-large);
   z-index: 3;
 }
@@ -473,11 +476,11 @@
   font-size: 2rem;
   margin-bottom: 12px;
   opacity: 0.5;
-  color: #000000 !important;
+  color: #ffffff !important;
 }
 
 .biographie__error-text {
-  color: #000000 !important;
+  color: #ffffff !important;
   font-size: clamp(0.8rem, 2vw, 0.875rem);
   text-align: center;
   margin: 0;
@@ -501,7 +504,7 @@
   font-family: "Playfair Display", serif;
   font-style: italic;
   font-size: clamp(1.1rem, 2.5vw, 1.25rem);
-  color: #000000 !important;
+  color: #ffffff !important;
   margin: 0;
   line-height: 1.6;
   position: relative;
@@ -528,7 +531,7 @@
 }
 
 .biographie__quote-highlight {
-  color: #000000 !important;
+  color: #ffffff !important;
   font-weight: 600;
   font-style: normal;
 }
@@ -559,7 +562,7 @@
 
 .biographie__cta-button {
   background: #ffd506 !important;
-  color: black !important;
+  color: #000000 !important;
   border: none;
   padding: 16px 48px;
   border-radius: var(--radius-medium);
@@ -583,13 +586,13 @@
 }
 
 .biographie__cta-button-text {
-  color: black !important;
+  color: #000000 !important;
 }
 
 .biographie__cta-subtitle {
   margin-top: 16px;
   font-size: clamp(0.8rem, 2vw, 0.875rem);
-  color: #000000 !important;
+  color: #ffffff !important;
   font-weight: 500;
   margin-bottom: 0;
 }
@@ -610,7 +613,7 @@
 @media (max-width: 768px) {
   .biographie {
     padding: 60px 0 80px;
-    margin-top: -80px; /* Réduire le chevauchement sur mobile */
+    margin-top: -80px;
   }
 
   .biographie__container {
@@ -622,7 +625,7 @@
   }
 
   .biographie__title {
-    font-size: clamp(1.8rem, 6vw, 2.5rem);
+    font-size: clamp(2.2rem, 8vw, 3rem);
     gap: 0.8rem;
   }
 
@@ -633,7 +636,7 @@
   }
 
   .biographie__title-accent {
-    font-size: clamp(1rem, 4vw, 1.2rem);
+    font-size: clamp(1.3rem, 5vw, 1.6rem);
     gap: 0.3rem;
     justify-content: center;
     text-align: center;
@@ -642,6 +645,13 @@
   .biographie__title-word {
     &:nth-child(4) {
       margin-right: 0.1rem;
+    }
+
+    &--accent {
+      &::after {
+        height: 4px;
+        opacity: 0.5;
+      }
     }
   }
 
@@ -698,6 +708,11 @@
   .biographie__capacity-icon {
     width: 60px;
     height: 60px;
+
+    svg {
+      width: 28px;
+      height: 28px;
+    }
   }
 
   .biographie__capacity-number {
@@ -749,7 +764,7 @@
 @media (max-width: 480px) {
   .biographie {
     padding: 40px 0 60px;
-    margin-top: -60px; /* Réduire encore sur petit mobile */
+    margin-top: -60px;
   }
 
   .biographie__container {
@@ -761,7 +776,7 @@
   }
 
   .biographie__title {
-    font-size: clamp(1.5rem, 7vw, 2rem);
+    font-size: clamp(2rem, 9vw, 2.8rem);
     gap: 0.6rem;
   }
 
@@ -772,10 +787,19 @@
   }
 
   .biographie__title-accent {
-    font-size: clamp(0.9rem, 4.5vw, 1.1rem);
+    font-size: clamp(1.2rem, 6vw, 1.5rem);
     gap: 0.2rem;
     justify-content: center;
     text-align: center;
+  }
+
+  .biographie__title-word {
+    &--accent {
+      &::after {
+        height: 5px;
+        opacity: 0.6;
+      }
+    }
   }
 
   .biographie__title-badge {
@@ -810,6 +834,11 @@
   .biographie__capacity-icon {
     width: 50px;
     height: 50px;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
   }
 
   .biographie__capacity-number {
@@ -856,19 +885,16 @@
   will-change: transform;
 }
 
-/* Specific white text exceptions */
-.biographie__image-overlay-content,
-.biographie__image-overlay-text,
-.biographie__cta-button,
-.biographie__cta-button-text {
-  color: black !important;
-}
-
-/* Gold accent exceptions */
+/* Exceptions pour les couleurs spécifiques */
 .biographie__title-badge-icon,
 .biographie__image-overlay-icon,
 .biographie__quote-mark {
   color: var(--accent-gold) !important;
+}
+
+.biographie__cta-button,
+.biographie__cta-button-text {
+  color: #000000 !important;
 }
 
 /* Hover states on mobile */

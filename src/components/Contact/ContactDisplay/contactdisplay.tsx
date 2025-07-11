@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import emailjs from "@emailjs/browser";
 import ReCAPTCHA from "react-google-recaptcha";
-import ReactGA from "react-ga4"; // Import Google Analytics
+import ReactGA from "react-ga4";
 import "./contactdisplay.scss";
 
 const ContactDisplay: React.FC = () => {
@@ -16,28 +16,27 @@ const ContactDisplay: React.FC = () => {
   const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
   const [recaptchaError, setRecaptchaError] = useState<string>("");
 
-  // États pour la protection anti-spam
+  // États pour la protection anti-spam (cachés à l'utilisateur)
   const [dernierEnvoi, setDernierEnvoi] = useState<number>(0);
   const [nombreEnvois, setNombreEnvois] = useState<number>(0);
-  const [tempsAttente, setTempsAttente] = useState<number>(0);
   const [honeypot, setHoneypot] = useState<string>("");
   const [tempsDebutFormulaire, setTempsDebutFormulaire] = useState<number>(0);
 
   const formRef = useRef<HTMLFormElement>(null);
   const recaptchaRef = useRef<ReCAPTCHA>(null);
 
-  // Configuration anti-spam - Modifiée pour 1 message toutes les 30 minutes
-  const DELAI_MINIMUM = 1800000; // 30 minutes entre chaque envoi (30 * 60 * 1000)
-  const LIMITE_ENVOIS_HEURE = 1; // Max 1 envoi par 30 minutes
-  const TEMPS_MIN_REMPLISSAGE = 10000; // Minimum 10 secondes pour remplir le formulaire
+  // Configuration anti-spam - 30 minutes entre chaque envoi (caché)
+  const DELAI_MINIMUM = 1800000; // 30 minutes
+  const LIMITE_ENVOIS_HEURE = 1;
+  const TEMPS_MIN_REMPLISSAGE = 10000; // 10 secondes
 
-  // Configuration reCAPTCHA - Fixed for client-side
+  // Configuration reCAPTCHA
   const RECAPTCHA_SITE_KEY =
     import.meta.env.VITE_RECAPTCHA_SITE_KEY ||
     "6Lci8WkrAAAAANN_t2CvAUffkWLACJl73-PfAKCD";
 
   useEffect(() => {
-    // Google Analytics - Track page view for contact page
+    // Google Analytics
     ReactGA.send({
       hitType: "pageview",
       page: "/contact",
@@ -55,7 +54,6 @@ const ContactDisplay: React.FC = () => {
 
       if (envoissStockes) {
         const envois = JSON.parse(envoissStockes);
-        // Filtrer les envois des dernières 30 minutes
         const maintenant = Date.now();
         const envoisDernieres30Min = envois.filter(
           (timestamp: number) => maintenant - timestamp < DELAI_MINIMUM
@@ -70,20 +68,7 @@ const ContactDisplay: React.FC = () => {
       console.warn("Erreur lors de la lecture du localStorage:", error);
     }
 
-    // Marquer le début du remplissage du formulaire
     setTempsDebutFormulaire(Date.now());
-
-    // Décompte pour le délai d'attente
-    const interval = setInterval(() => {
-      const maintenant = Date.now();
-      const tempsRestant = Math.max(
-        0,
-        DELAI_MINIMUM - (maintenant - dernierEnvoi)
-      );
-      setTempsAttente(tempsRestant);
-    }, 1000);
-
-    return () => clearInterval(interval);
   }, [dernierEnvoi]);
 
   const gererChangementInput = (
@@ -94,7 +79,6 @@ const ContactDisplay: React.FC = () => {
       [e.target.name]: e.target.value,
     });
 
-    // Google Analytics - Track form interaction
     ReactGA.event({
       action: "form_interact",
       category: "Contact Form",
@@ -106,7 +90,6 @@ const ContactDisplay: React.FC = () => {
     setRecaptchaToken(token);
     setRecaptchaError("");
 
-    // Google Analytics - Track reCAPTCHA completion
     if (token) {
       ReactGA.event({
         action: "recaptcha_completed",
@@ -122,7 +105,6 @@ const ContactDisplay: React.FC = () => {
     );
     setRecaptchaToken(null);
 
-    // Google Analytics - Track reCAPTCHA error
     ReactGA.event({
       action: "recaptcha_error",
       category: "Contact Form",
@@ -134,7 +116,6 @@ const ContactDisplay: React.FC = () => {
     setRecaptchaToken(null);
     setRecaptchaError("Le reCAPTCHA a expiré. Veuillez le refaire.");
 
-    // Google Analytics - Track reCAPTCHA expiration
     ReactGA.event({
       action: "recaptcha_expired",
       category: "Contact Form",
@@ -149,9 +130,8 @@ const ContactDisplay: React.FC = () => {
   const validerAntiSpam = (): { valide: boolean; message: string } => {
     const maintenant = Date.now();
 
-    // Vérifier le honeypot (champ caché)
+    // Vérifier le honeypot
     if (honeypot.length > 0) {
-      // Google Analytics - Track spam attempt
       ReactGA.event({
         action: "spam_detected",
         category: "Contact Form",
@@ -159,11 +139,11 @@ const ContactDisplay: React.FC = () => {
       });
       return {
         valide: false,
-        message: "Détection de spam - formulaire rejeté.",
+        message: "Une erreur s'est produite. Veuillez réessayer.",
       };
     }
 
-    // Vérifier le temps minimum de remplissage
+    // Temps minimum de remplissage
     if (maintenant - tempsDebutFormulaire < TEMPS_MIN_REMPLISSAGE) {
       return {
         valide: false,
@@ -172,27 +152,23 @@ const ContactDisplay: React.FC = () => {
       };
     }
 
-    // Vérifier le délai entre les envois (30 minutes)
+    // Délai entre envois (caché)
     if (maintenant - dernierEnvoi < DELAI_MINIMUM) {
-      const tempsRestantMin = Math.ceil(
-        (DELAI_MINIMUM - (maintenant - dernierEnvoi)) / 60000
-      );
       return {
         valide: false,
-        message: `Veuillez patienter ${tempsRestantMin} minute(s) avant d'envoyer un nouveau message.`,
+        message: "Veuillez patienter avant d'envoyer un nouveau message.",
       };
     }
 
-    // Vérifier la limite d'envois (1 par 30 minutes)
+    // Limite d'envois (caché)
     if (nombreEnvois >= LIMITE_ENVOIS_HEURE) {
       return {
         valide: false,
-        message:
-          "Limite d'envois atteinte. Veuillez réessayer dans 30 minutes.",
+        message: "Trop de messages envoyés. Veuillez réessayer plus tard.",
       };
     }
 
-    // Vérifications de contenu basiques
+    // Vérifications spam
     const messageWords = formData.message.toLowerCase().split(" ");
     const spamKeywords = [
       "viagra",
@@ -208,7 +184,6 @@ const ContactDisplay: React.FC = () => {
     );
 
     if (hasSpamKeywords) {
-      // Google Analytics - Track spam content
       ReactGA.event({
         action: "spam_detected",
         category: "Contact Form",
@@ -220,13 +195,13 @@ const ContactDisplay: React.FC = () => {
       };
     }
 
-    // Vérifier la répétition excessive de caractères
+    // Répétition excessive
     const hasExcessiveRepetition = /(.)\1{4,}/.test(formData.message);
     if (hasExcessiveRepetition) {
       return { valide: false, message: "Format de message non valide." };
     }
 
-    // Vérifier si le message est trop court ou trop générique
+    // Message trop court
     if (formData.message.trim().length < 10) {
       return {
         valide: false,
@@ -240,14 +215,13 @@ const ContactDisplay: React.FC = () => {
   const envoyerEmail = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Google Analytics - Track form submission attempt
     ReactGA.event({
       action: "form_submit_attempt",
       category: "Contact Form",
       label: "Form Submission Started",
     });
 
-    // Vérification du reCAPTCHA
+    // Vérification reCAPTCHA
     if (!recaptchaToken) {
       setMessageStatut("Veuillez compléter le reCAPTCHA.");
       ReactGA.event({
@@ -279,8 +253,8 @@ const ContactDisplay: React.FC = () => {
         from_email: formData.email,
         phone: formData.telephone,
         message: formData.message,
-        "g-recaptcha-response": recaptchaToken, // Clé spécifique pour EmailJS
-        timestamp: new Date().toISOString(), // Horodatage pour traçabilité
+        "g-recaptcha-response": recaptchaToken,
+        timestamp: new Date().toISOString(),
       };
 
       await emailjs.send(
@@ -290,27 +264,27 @@ const ContactDisplay: React.FC = () => {
         "d0C2DCxhev8b3vXks"
       );
 
-      // Mettre à jour les données anti-spam
+      // Mise à jour anti-spam
       const maintenant = Date.now();
       setDernierEnvoi(maintenant);
 
       try {
         localStorage.setItem("dernierEnvoiContact", maintenant.toString());
-
         const envoissStockes = localStorage.getItem("envoissContact");
         const envois = envoissStockes ? JSON.parse(envoissStockes) : [];
         envois.push(maintenant);
         localStorage.setItem("envoissContact", JSON.stringify(envois));
         setNombreEnvois(envois.length);
       } catch (error) {
-        console.warn("Erreur lors de la sauvegarde dans localStorage:", error);
+        console.warn("Erreur localStorage:", error);
       }
 
-      setMessageStatut("Message envoyé avec succès !");
+      setMessageStatut(
+        "Message envoyé avec succès ! Nous vous répondrons rapidement."
+      );
       setFormData({ nom: "", email: "", telephone: "", message: "" });
       setRecaptchaToken(null);
 
-      // Reset du formulaire et du reCAPTCHA
       if (formRef.current) {
         formRef.current.reset();
       }
@@ -318,10 +292,8 @@ const ContactDisplay: React.FC = () => {
         recaptchaRef.current.reset();
       }
 
-      // Redémarrer le compteur de temps de remplissage
       setTempsDebutFormulaire(Date.now());
 
-      // Google Analytics - Track successful form submission
       ReactGA.event({
         action: "form_submit_success",
         category: "Contact Form",
@@ -329,7 +301,6 @@ const ContactDisplay: React.FC = () => {
         value: 1,
       });
 
-      // Google Analytics - Track conversion
       ReactGA.event({
         action: "contact_conversion",
         category: "Conversions",
@@ -340,7 +311,6 @@ const ContactDisplay: React.FC = () => {
       setMessageStatut("Erreur lors de l'envoi. Veuillez réessayer.");
       console.error("Erreur EmailJS:", error);
 
-      // Google Analytics - Track form submission error
       ReactGA.event({
         action: "form_submit_error",
         category: "Contact Form",
@@ -351,8 +321,12 @@ const ContactDisplay: React.FC = () => {
     }
   };
 
+  // Vérifier si on peut envoyer (logique anti-spam cachée)
+  const maintenant = Date.now();
   const peutEnvoyer =
-    recaptchaToken && tempsAttente === 0 && nombreEnvois < LIMITE_ENVOIS_HEURE;
+    recaptchaToken &&
+    maintenant - dernierEnvoi >= DELAI_MINIMUM &&
+    nombreEnvois < LIMITE_ENVOIS_HEURE;
 
   return (
     <main className="contact-container" role="main">
@@ -382,7 +356,6 @@ const ContactDisplay: React.FC = () => {
             </span>
           </div>
 
-          {/* Données structurées invisibles pour le restaurant */}
           <div
             style={{ display: "none" }}
             itemScope
@@ -415,20 +388,50 @@ const ContactDisplay: React.FC = () => {
               Nous vous répondrons dans les plus brefs délais
             </p>
 
-            {/* Affichage des limitations actives */}
-            {(tempsAttente > 0 || nombreEnvois >= LIMITE_ENVOIS_HEURE) && (
-              <div className="rate-limit-info" role="alert">
-                {tempsAttente > 0 && (
+            {/* Avertissement réservations */}
+            <div className="reservation-notice" role="alert">
+              <div className="notice-content">
+                <span className="notice-icon">ℹ️</span>
+                <div className="notice-text">
+                  <strong>Pour vos réservations :</strong>
                   <p>
-                    ⏱️ Prochain envoi possible dans{" "}
-                    {Math.ceil(tempsAttente / 60000)} minute(s)
+                    Utilisez notre{" "}
+                    <a
+                      href="https://bookings.zenchef.com/results?rid=356394&fullscreen=1"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="reservation-link"
+                      onClick={() => {
+                        ReactGA.event({
+                          action: "reservation_link_click",
+                          category: "Reservations",
+                          label: "ZenChef Link Clicked",
+                        });
+                      }}
+                    >
+                      système de réservation en ligne
+                    </a>{" "}
+                    ou appelez-nous au{" "}
+                    <a
+                      href="tel:+33544314447"
+                      className="reservation-link"
+                      onClick={() => {
+                        ReactGA.event({
+                          action: "phone_click_reservation",
+                          category: "Reservations",
+                          label: "Phone Number Clicked for Reservation",
+                        });
+                      }}
+                    >
+                      05 44 31 44 47
+                    </a>
                   </p>
-                )}
-                {nombreEnvois >= LIMITE_ENVOIS_HEURE && (
-                  <p>⚠️ Limite d'envois atteinte (1 message par 30 minutes)</p>
-                )}
+                  <small>
+                    Ce formulaire est uniquement pour vos questions générales.
+                  </small>
+                </div>
               </div>
-            )}
+            </div>
 
             <form
               ref={formRef}
@@ -438,7 +441,7 @@ const ContactDisplay: React.FC = () => {
               aria-label="Formulaire de contact restaurant Rosi Trattoria"
               noValidate
             >
-              {/* Honeypot - champ caché pour piéger les bots */}
+              {/* Honeypot */}
               <input
                 type="text"
                 name="website"
@@ -472,7 +475,7 @@ const ContactDisplay: React.FC = () => {
                   />
                   <label htmlFor="nom">Nom complet *</label>
                   <div id="nom-help" className="sr-only">
-                    Saisissez votre nom complet pour la réservation
+                    Saisissez votre nom complet
                   </div>
                 </div>
 
@@ -508,7 +511,7 @@ const ContactDisplay: React.FC = () => {
                 />
                 <label htmlFor="telephone">Téléphone</label>
                 <div id="tel-help" className="sr-only">
-                  Numéro de téléphone optionnel pour vous contacter
+                  Numéro de téléphone optionnel
                 </div>
               </div>
 
@@ -525,12 +528,11 @@ const ContactDisplay: React.FC = () => {
                 />
                 <label htmlFor="message">Message *</label>
                 <div id="message-help" className="sr-only">
-                  Votre message : réservation, question ou demande spéciale
-                  (minimum 10 caractères)
+                  Votre message ou question (minimum 10 caractères)
                 </div>
               </div>
 
-              {/* Section reCAPTCHA avec gestion d'erreur améliorée */}
+              {/* reCAPTCHA en français */}
               <div
                 className="recaptcha-container"
                 role="group"
@@ -543,6 +545,7 @@ const ContactDisplay: React.FC = () => {
                   onErrored={gererErreurRecaptcha}
                   onExpired={gererExpirationRecaptcha}
                   theme="dark"
+                  hl="fr"
                   aria-label="Captcha de vérification anti-spam"
                 />
                 {recaptchaError && (
@@ -561,13 +564,9 @@ const ContactDisplay: React.FC = () => {
                 aria-describedby="submit-help"
               >
                 {envoiEnCours ? "Envoi en cours..." : "Envoyer le message"}
-                {nombreEnvois > 0 && nombreEnvois < LIMITE_ENVOIS_HEURE && (
-                  <span className="send-count"> ({nombreEnvois}/1)</span>
-                )}
               </button>
               <div id="submit-help" className="sr-only">
-                Envoyer votre message à Rosi Trattoria. Réponse sous 2 heures en
-                période d'ouverture.
+                Envoyer votre message à Rosi Trattoria
               </div>
 
               {messageStatut && (
@@ -585,7 +584,7 @@ const ContactDisplay: React.FC = () => {
           </div>
         </section>
 
-        {/* Section carte avec iframe mise à jour */}
+        {/* Section carte - iframe normale sans filtre sombre */}
         <section className="map-section" aria-labelledby="location-title">
           <h2 id="location-title" className="sr-only">
             Localisation et informations de contact
@@ -603,7 +602,7 @@ const ContactDisplay: React.FC = () => {
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Carte de localisation de Rosi Trattoria à Brive-la-Gaillarde, 11 Promenade des Tilleuls"
+              title="Carte de localisation de Rosi Trattoria à Brive-la-Gaillarde"
               aria-label="Carte Google Maps montrant l'emplacement de Rosi Trattoria"
             />
           </div>
@@ -662,9 +661,8 @@ const ContactDisplay: React.FC = () => {
                 <a
                   href="tel:+33544314447"
                   itemProp="telephone"
-                  aria-label="Appeler Rosi Trattoria au 05 44 31 44 47 pour réserver"
+                  aria-label="Appeler Rosi Trattoria"
                   onClick={() => {
-                    // Google Analytics - Track phone click
                     ReactGA.event({
                       action: "phone_click",
                       category: "Contact",
@@ -697,7 +695,6 @@ const ContactDisplay: React.FC = () => {
                   itemProp="email"
                   aria-label="Envoyer un email à Rosi Trattoria"
                   onClick={() => {
-                    // Google Analytics - Track email click
                     ReactGA.event({
                       action: "email_click",
                       category: "Contact",
@@ -710,7 +707,6 @@ const ContactDisplay: React.FC = () => {
               </div>
             </div>
 
-            {/* Métadonnées cachées pour le SEO */}
             <meta itemProp="name" content="Rosi Trattoria" />
             <meta itemProp="servesCuisine" content="Italian" />
             <meta itemProp="priceRange" content="€€" />

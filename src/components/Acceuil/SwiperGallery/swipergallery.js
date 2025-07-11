@@ -1,4 +1,4 @@
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { jsx as _jsx } from "react/jsx-runtime";
 import React, { useRef, useCallback, useMemo, useState, useEffect, } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectCoverflow } from "swiper/modules";
@@ -215,7 +215,7 @@ const SwiperGallery = ({ pageName = "Accueil", }) => {
             stretch: 0,
             depth: 100,
             modifier: 1,
-            slideShadows: true,
+            slideShadows: false, // Disable slide shadows
         },
         loop: true,
         centeredSlides: true,
@@ -240,7 +240,7 @@ const SwiperGallery = ({ pageName = "Accueil", }) => {
                     stretch: 0,
                     depth: 0,
                     modifier: 1,
-                    slideShadows: false,
+                    slideShadows: false, // Disable slide shadows
                 },
                 autoplay: false,
             },
@@ -254,7 +254,7 @@ const SwiperGallery = ({ pageName = "Accueil", }) => {
                     stretch: 0,
                     depth: 0,
                     modifier: 1,
-                    slideShadows: false,
+                    slideShadows: false, // Disable slide shadows
                 },
                 autoplay: {
                     delay: 5000,
@@ -273,7 +273,7 @@ const SwiperGallery = ({ pageName = "Accueil", }) => {
                     stretch: 0,
                     depth: 80,
                     modifier: 1,
-                    slideShadows: true,
+                    slideShadows: false, // Disable slide shadows
                 },
                 autoplay: {
                     delay: 4500,
@@ -292,7 +292,7 @@ const SwiperGallery = ({ pageName = "Accueil", }) => {
                     stretch: 0,
                     depth: 100,
                     modifier: 1,
-                    slideShadows: true,
+                    slideShadows: false, // Disable slide shadows
                 },
                 autoplay: {
                     delay: 4000,
@@ -354,24 +354,24 @@ const SwiperGallery = ({ pageName = "Accueil", }) => {
         `;
         }
     }, [pageName]);
-    return (_jsx("div", { className: "gallery-container", children: _jsx("div", { className: "gallery-wrapper", children: _jsx(Swiper, { ...swiperConfig, onSwiper: onSwiper, children: slides.map((slide, index) => (_jsxs(SwiperSlide, { children: [_jsx("div", { className: "swiper-slide-overlay" }), isMobile ? (_jsx("img", { src: slide.src, alt: slide.alt, title: slide.title, className: "swiper-image", style: {
-                                cursor: "pointer",
+    return (_jsx("div", { className: "gallery-container", children: _jsx("div", { className: "gallery-wrapper", children: _jsx(Swiper, { ...swiperConfig, onSwiper: onSwiper, children: slides.map((slide, index) => (_jsx(SwiperSlide, { children: isMobile ? (_jsx("img", { src: slide.src, alt: slide.alt, title: slide.title, className: "swiper-image", style: {
+                            cursor: "pointer",
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                        }, onClick: () => handleSlideClick(slide.id), onError: (e) => handleImageError(slide, e) })) : (_jsx(LazyLoadImage, { src: slide.src, alt: slide.alt, title: slide.title, className: "swiper-image", effect: "opacity", wrapperClassName: "lazy-load-image-wrapper", style: {
+                            cursor: "pointer",
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                        }, onClick: () => handleSlideClick(slide.id), threshold: 50, visibleByDefault: index < 5, placeholder: _jsx("div", { style: {
                                 width: "100%",
                                 height: "100%",
-                                objectFit: "cover",
-                            }, onClick: () => handleSlideClick(slide.id), onError: (e) => handleImageError(slide, e) })) : (_jsx(LazyLoadImage, { src: slide.src, alt: slide.alt, title: slide.title, className: "swiper-image", effect: "opacity", wrapperClassName: "lazy-load-image-wrapper", style: {
-                                cursor: "pointer",
-                                width: "100%",
-                                height: "100%",
-                                objectFit: "cover",
-                            }, onClick: () => handleSlideClick(slide.id), threshold: 50, visibleByDefault: index < 5, placeholder: _jsx("div", { style: {
-                                    width: "100%",
-                                    height: "100%",
-                                    backgroundColor: "#f5f5f5",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    color: "#999",
-                                }, children: _jsx("div", { children: "Chargement..." }) }), onError: (e) => handleImageError(slide, e) }))] }, slide.id))) }) }) }));
+                                backgroundColor: "#f5f5f5",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                color: "#999",
+                            }, children: _jsx("div", { children: "Chargement..." }) }), onError: (e) => handleImageError(slide, e) })) }, slide.id))) }) }) }));
 };
 export default React.memo(SwiperGallery);

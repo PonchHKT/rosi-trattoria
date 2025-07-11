@@ -1,19 +1,22 @@
-// Variables
+// Variables - Thème Sombre
 $brand-green: #00af87;
 $google-blue: #4285f4;
 $google-yellow: #ffc107;
 $tripadvisor-green: #00aa6c; // Couleur officielle TripAdvisor
-$background: #ffffff;
-$text-dark: #333333;
-$text-muted: #666666;
+$background: #0a0a0a; // Nouveau fond sombre
+$background-card: #1a1a1a; // Fond des cartes
+$text-dark: #ffffff; // Texte principal en blanc
+$text-muted: #b0b0b0; // Texte secondaire en gris clair
+$text-secondary: #d0d0d0; // Texte intermédiaire
+$border-color: #333333; // Bordures sombres
 $border-radius: 20px;
-$shadow-light: 0 4px 12px rgba(0, 0, 0, 0.08);
-$shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
+$shadow-light: 0 4px 12px rgba(0, 0, 0, 0.3);
+$shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
 
 // Mixins pour les étoiles
 @mixin star-base {
   font-size: 18px;
-  color: #cccccc;
+  color: #444444; // Étoiles vides plus sombres
   transition: all 0.2s ease;
   line-height: 1;
   user-select: none;
@@ -44,7 +47,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
 
   // Header
   .widget-header {
-    padding: 24px 32px;
+    padding: 50px 32px;
     text-align: center;
     background: $background;
 
@@ -54,8 +57,6 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
       align-items: center;
       margin-bottom: 20px;
       padding: 12px;
-      background: $background;
-      box-shadow: $shadow-subtle;
 
       .tripadvisor-section,
       .google-section {
@@ -80,9 +81,11 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
           max-height: 36px;
           opacity: 0.95;
           transition: opacity 0.2s ease;
+          filter: brightness(1.2); // Éclaircir le logo pour le fond sombre
 
           &:hover {
             opacity: 1;
+            filter: brightness(1.4);
           }
         }
       }
@@ -152,7 +155,8 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
         background: linear-gradient(
           90deg,
           transparent,
-          rgba(0, 0, 0, 0.1),
+          rgba(255, 255, 255, 0.1),
+          // Shimmer blanc sur fond sombre
           transparent
         );
         background-size: 200% 100%;
@@ -180,7 +184,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
       }
 
       &.empty {
-        color: #cccccc;
+        color: #444444;
       }
 
       &:hover {
@@ -201,7 +205,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
       }
 
       &.empty {
-        color: #cccccc;
+        color: #444444;
       }
 
       &:hover {
@@ -222,7 +226,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
       }
 
       &.empty {
-        color: #cccccc;
+        color: #444444;
       }
     }
   }
@@ -245,7 +249,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
       }
 
       &.empty {
-        color: #cccccc;
+        color: #444444;
       }
 
       &:hover {
@@ -279,7 +283,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
   .review-item {
     display: flex;
     flex-direction: column;
-    background: $background;
+    background: $background-card;
     padding: 24px 32px;
     width: 100%;
     max-width: 1400px;
@@ -288,6 +292,12 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     margin: 0 auto;
     box-shadow: $shadow-subtle;
+    border: 1px solid $border-color;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    }
 
     .review-content {
       flex: 1;
@@ -304,6 +314,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
       width: 100%;
       margin-bottom: 12px;
       padding-bottom: 10px;
+      border-bottom: 1px solid $border-color;
 
       .review-meta {
         .review-date {
@@ -325,7 +336,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
             }
 
             &.empty {
-              color: #cccccc;
+              color: #444444;
             }
           }
         }
@@ -334,7 +345,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
 
     .review-text {
       font-size: 15px;
-      color: $text-dark;
+      color: $text-secondary;
       line-height: 1.5;
       margin-bottom: 16px;
       letter-spacing: -0.1px;
@@ -345,10 +356,12 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
 
       &::before {
         content: '"';
+        color: $text-muted;
       }
 
       &::after {
         content: '"';
+        color: $text-muted;
       }
     }
 
@@ -374,6 +387,11 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
 
         .contributions {
           font-weight: 500;
+        }
+
+        .review-source {
+          color: $text-muted;
+          font-size: 12px;
         }
       }
     }
@@ -403,11 +421,11 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
 
   .error {
     .error-icon {
-      color: #e74c3c;
+      color: #ff6b6b; // Rouge plus doux pour le thème sombre
     }
 
     p {
-      color: #e74c3c;
+      color: #ff6b6b;
     }
   }
 
@@ -572,7 +590,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
   }
 }
 
-// Bouton "Laisser un avis"
+// Bouton "Laisser un avis" - Thème sombre
 .leave-review-btn {
   margin-top: 30px;
   display: inline-flex;
@@ -580,7 +598,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
   gap: 8px;
   padding: 12px 50px;
   margin-bottom: 16px;
-  background: var(--primary-pink);
+  background: var(--primary-blue);
   color: white;
   border: none;
   border-radius: 5px;
@@ -665,16 +683,16 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
   }
 }
 
-// Variante alternative avec style plus moderne
+// Variante alternative avec style plus moderne - Thème sombre
 .leave-review-btn-alt {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 12px 24px;
   margin-bottom: 16px;
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.1);
   color: $text-dark;
-  border: 2px solid rgba(0, 0, 0, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
   font-size: 16px;
   font-weight: 500;
@@ -685,10 +703,10 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
   position: relative;
 
   &:hover {
-    background: rgba(0, 0, 0, 0.2);
-    border-color: rgba(0, 0, 0, 0.4);
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
     transform: translateY(-1px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
   }
 
   &:active {
@@ -720,7 +738,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
   }
 }
 
-// Section SEO discrète
+// Section SEO discrète - Thème sombre
 .seo-reviews-section {
   margin-top: 0;
   padding: 0;
@@ -730,7 +748,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
   .seo-content {
     .seo-text {
       font-size: 1px;
-      color: $background; // Blanc sur blanc = invisible
+      color: $background; // Noir sur noir = invisible
       margin: 0;
       padding: 0;
       line-height: 1px;
@@ -740,7 +758,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
 
     .seo-reviews-hidden {
       font-size: 1px;
-      color: $background; // Blanc sur blanc
+      color: $background; // Noir sur noir
       line-height: 1px;
       height: 1px;
       overflow: hidden;
@@ -754,7 +772,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
         time,
         span {
           font-size: 1px;
-          color: $background; // Texte blanc sur fond blanc
+          color: $background; // Texte noir sur fond noir
           margin: 0;
           padding: 0;
         }

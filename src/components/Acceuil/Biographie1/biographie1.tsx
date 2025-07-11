@@ -77,10 +77,12 @@ const Biographie1: React.FC = () => {
   useEffect(() => {
     const preloadImages = () => {
       imageUrls.forEach((url, index) => {
+        // Timeout plus long pour éviter les faux positifs
         imageTimeoutsRef.current[index] = setTimeout(() => {
-          console.warn(`Image ${index} timeout - affichage forcé`);
+          // Ne pas logger comme erreur, juste marquer comme chargé
           setImagesLoaded((prev) => ({ ...prev, [index]: true }));
-        }, 8000);
+          // Ne pas marquer comme erreur, laisser l'image se charger normalement
+        }, 15000); // 15 secondes au lieu de 8
 
         const img = new Image();
 
@@ -106,10 +108,14 @@ const Biographie1: React.FC = () => {
           setImagesLoaded((prev) => ({ ...prev, [index]: true }));
         };
 
+        // Optimisations de chargement
         img.decoding = "async";
         img.loading = "lazy";
         img.crossOrigin = "anonymous";
-        img.src = url;
+
+        // Ajouter un cache buster si nécessaire
+        const cacheBuster = Date.now();
+        img.src = `${url}?t=${cacheBuster}`;
       });
     };
 
@@ -210,7 +216,6 @@ const Biographie1: React.FC = () => {
                     PASSION
                   </span>
                   <span className="biographie__title-word">ET</span>
-
                   <span className="biographie__title-word biographie__title-word--accent">
                     L' EXIGENCE
                   </span>
@@ -229,6 +234,10 @@ const Biographie1: React.FC = () => {
 
         <AnimatedSection animationType="fade-in-scale" delay={150}>
           <div className="biographie__section-header">
+            <div className="biographie__title-badge">
+              <Award className="biographie__title-badge-icon" />
+              <span className="biographie__title-badge-text">Depuis 2020</span>
+            </div>
             <div className="biographie__subtitle-container">
               <div className="biographie__decorative-line biographie__decorative-line--left"></div>
               <div className="biographie__pizza-icon">
@@ -245,6 +254,7 @@ const Biographie1: React.FC = () => {
               </div>
               <div className="biographie__decorative-line biographie__decorative-line--right"></div>
             </div>
+
             <h2 className="biographie__subtitle">
               Le plaisir de manger <span className="text-blue">Italien</span>{" "}
               dans un cadre <span className="text-pink">atypique</span>
@@ -280,86 +290,6 @@ const Biographie1: React.FC = () => {
         </AnimatedSection>
 
         <AnimatedSection animationType="fade-in-scale" delay={300}>
-          <div
-            className="biographie__capacity-section"
-            role="region"
-            aria-labelledby="capacity-title"
-          >
-            <h3 id="capacity-title" className="sr-only">
-              Capacité d'accueil du restaurant
-            </h3>
-
-            <article className="biographie__capacity-card biographie__capacity-card--indoor">
-              <div className="biographie__capacity-icon">
-                <Users size={32} />
-                <div className="biographie__capacity-icon-bg"></div>
-              </div>
-              <div className="biographie__capacity-content">
-                <h4 className="biographie__capacity-number">50</h4>
-                <span className="biographie__capacity-label">
-                  places à l'intérieur
-                </span>
-                <p className="biographie__capacity-desc">
-                  Idéal pour <strong>repas d'affaires</strong> ou privés dans un{" "}
-                  <strong>cadre intime</strong>.
-                </p>
-              </div>
-            </article>
-
-            <article className="biographie__capacity-card biographie__capacity-card--outdoor">
-              <div className="biographie__capacity-icon">
-                <Utensils size={32} />
-                <div className="biographie__capacity-icon-bg"></div>
-              </div>
-              <div className="biographie__capacity-content">
-                <h4 className="biographie__capacity-number">100</h4>
-                <span className="biographie__capacity-label">
-                  places en terrasse
-                </span>
-                <p className="biographie__capacity-desc">
-                  Profitez de l'extérieur quand le temps le permet.
-                </p>
-              </div>
-            </article>
-          </div>
-        </AnimatedSection>
-
-        <AnimatedSection animationType="fade-in-scale" delay={500}>
-          <div className="biographie__quote-section">
-            <div className="biographie__quote-container">
-              <blockquote
-                className="biographie__quote"
-                cite="https://www.rosi-trattoria.com"
-              >
-                <span className="biographie__quote-mark biographie__quote-mark--open">
-                  "
-                </span>
-                Toutes nos{" "}
-                <strong className="biographie__quote-highlight">
-                  pizzas sont préparées à la main
-                </strong>{" "}
-                avec des ingrédients frais, pour un goût unique à savourer sur
-                place ou à <em>emporter</em>.
-                <span className="biographie__quote-mark biographie__quote-mark--close">
-                  "
-                </span>
-              </blockquote>
-              <div className="biographie__quote-decoration">
-                <div className="biographie__quote-dot"></div>
-                <div className="biographie__quote-dot"></div>
-                <div className="biographie__quote-dot"></div>
-              </div>
-              <div className="biographie__title-badge">
-                <Award className="biographie__title-badge-icon" />
-                <span className="biographie__title-badge-text">
-                  Depuis 2020
-                </span>
-              </div>
-            </div>
-          </div>
-        </AnimatedSection>
-
-        <AnimatedSection animationType="fade-in-scale" delay={400}>
           <div
             className="biographie__images"
             role="img"
@@ -418,6 +348,80 @@ const Biographie1: React.FC = () => {
                 </figcaption>
               </figure>
             ))}
+          </div>
+        </AnimatedSection>
+
+        <AnimatedSection animationType="fade-in-scale" delay={500}>
+          <div className="biographie__quote-section">
+            <div className="biographie__quote-container">
+              <blockquote
+                className="biographie__quote"
+                cite="https://www.rosi-trattoria.com"
+              >
+                <span className="biographie__quote-mark biographie__quote-mark--open">
+                  "
+                </span>
+                Toutes nos{" "}
+                <strong className="biographie__quote-highlight">
+                  pizzas sont préparées à la main
+                </strong>{" "}
+                avec des ingrédients frais, pour un goût unique à savourer sur
+                place ou à <em>emporter</em>.
+                <span className="biographie__quote-mark biographie__quote-mark--close">
+                  "
+                </span>
+              </blockquote>
+              <div className="biographie__quote-decoration">
+                <div className="biographie__quote-dot"></div>
+                <div className="biographie__quote-dot"></div>
+                <div className="biographie__quote-dot"></div>
+              </div>
+            </div>
+          </div>
+        </AnimatedSection>
+
+        <AnimatedSection animationType="fade-in-scale" delay={400}>
+          <div
+            className="biographie__capacity-section"
+            role="region"
+            aria-labelledby="capacity-title"
+          >
+            <h3 id="capacity-title" className="sr-only">
+              Capacité d'accueil du restaurant
+            </h3>
+
+            <article className="biographie__capacity-card biographie__capacity-card--outdoor">
+              <div className="biographie__capacity-icon">
+                <Users size={32} />
+                <div className="biographie__capacity-icon-bg"></div>
+              </div>
+              <div className="biographie__capacity-content">
+                <h4 className="biographie__capacity-number">50</h4>
+                <span className="biographie__capacity-label">
+                  places à l'intérieur
+                </span>
+                <p className="biographie__capacity-desc">
+                  Idéal pour <strong>repas d'affaires</strong> ou privés dans un{" "}
+                  <strong>cadre intime</strong>.
+                </p>
+              </div>
+            </article>
+
+            <article className="biographie__capacity-card biographie__capacity-card--indoor">
+              <div className="biographie__capacity-icon">
+                <Utensils size={32} />
+                <div className="biographie__capacity-icon-bg"></div>
+              </div>
+              <div className="biographie__capacity-content">
+                <h4 className="biographie__capacity-number">100</h4>
+                <span className="biographie__capacity-label">
+                  places en terrasse
+                </span>
+                <p className="biographie__capacity-desc">
+                  Profitez de l'extérieur quand le temps le permet.
+                </p>
+              </div>
+            </article>
           </div>
         </AnimatedSection>
 

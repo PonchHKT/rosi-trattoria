@@ -25,14 +25,16 @@
 
 /* Global styles */
 html {
-  font-size: 16px; /* Base font size for rem units */
-  scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+  font-size: 16px;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  background-color: white;
+  background-color: #0a0a0a;
   color: var(--text-light);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -77,12 +79,6 @@ body {
 
 ::-webkit-scrollbar-corner {
   background: var(--scrollbar-track);
-}
-
-/* Pour Firefox */
-html {
-  scrollbar-width: thin;
-  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }
 
 /* Styles personnalisés pour les éléments avec overflow */
@@ -146,11 +142,11 @@ ol {
 a {
   text-decoration: none;
   color: var(--primary-blue);
-}
 
-a:hover {
-  color: var(--primary-pink);
-  transition: color 0.3s ease;
+  &:hover {
+    color: var(--primary-pink);
+    transition: color 0.3s ease;
+  }
 }
 
 /* Ensure images are responsive */
@@ -169,7 +165,7 @@ img {
 
 /* Demo content pour tester la scrollbar */
 .demo-content {
-  height: 200vh; /* Force le scroll */
+  height: 200vh;
   background: linear-gradient(
     45deg,
     var(--background-dark) 0%,
@@ -179,7 +175,7 @@ img {
   padding: 2rem;
 }
 
-/* Responsive design pour la scrollbar */
+/* Responsive design */
 @media (max-width: 768px) {
   ::-webkit-scrollbar {
     width: 8px;
