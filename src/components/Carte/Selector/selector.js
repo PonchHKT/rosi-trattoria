@@ -1,36 +1,65 @@
-import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
+import { jsxs as _jsxs, jsx as _jsx, Fragment as _Fragment } from "react/jsx-runtime";
 import { useState, useEffect, useRef } from "react";
-import { Document, Page, pdfjs } from "react-pdf";
-import { UtensilsCrossed, ShoppingBag, ChevronDown, Download, } from "lucide-react";
+import { UtensilsCrossed, ShoppingBag, ChevronDown, Download, Calendar, } from "lucide-react";
 import ReactGA from "react-ga4";
-import "react-pdf/dist/esm/Page/AnnotationLayer.css";
-import "react-pdf/dist/esm/Page/TextLayer.css";
 import "./selector.scss";
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 const GA4_EVENTS = {
     DROPDOWN_OPEN: "carte_dropdown_open",
     MENU_SELECT: "carte_menu_select",
     PDF_DISPLAY: "carte_pdf_display",
     PDF_DOWNLOAD: "carte_pdf_download",
     PDF_ERROR: "carte_pdf_error",
+    BACK_TO_HOURS: "carte_back_to_hours",
 };
-const Selector = ({ onMenuSelect, className, showPdf = true, onPdfToggle, selectedMenu: parentSelectedMenu, pageName = "Unknown Page", }) => {
-    const [numPages, setNumPages] = useState(null);
-    const [pageWidth, setPageWidth] = useState(800);
+const Selector = ({ onMenuSelect, className, showPdf = true, onPdfToggle, selectedMenu: parentSelectedMenu, pageName = "Unknown Page", onBackToHours, }) => {
     const [selectedMenu, setSelectedMenu] = useState("");
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [pdfLoaded, setPdfLoaded] = useState(false);
+    const [imagesLoaded, setImagesLoaded] = useState(false);
     const [internalShowPdf, setInternalShowPdf] = useState(showPdf);
     const [loadingOffset, setLoadingOffset] = useState(false);
+    const [imageLoadErrors, setImageLoadErrors] = useState(new Set());
     const lastDropdownTime = useRef(0);
-    const dropdownDebounceMs = 1000; // 1 second debounce
+    const dropdownDebounceMs = 1000;
     const containerRef = useRef(null);
     const dropdownRef = useRef(null);
     const loadingTimeoutRef = useRef(null);
     const isMobile = () => window.innerWidth < 768;
-    const getLoadingDelay = () => {
-        return isMobile() ? 7000 : 9000;
+    const getMenuImages = (menuType) => {
+        if (menuType === "sur_place") {
+            return Array.from({ length: 11 }, (_, i) => `https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/cartesurplace/surplacepage${i + 1}.jpg`);
+        }
+        else if (menuType === "a_emporter") {
+            return Array.from({ length: 2 }, (_, i) => `https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/carteaemporter/emporterpage${i + 1}.jpg`);
+        }
+        return [];
+    };
+    const getTotalPages = (menuType) => {
+        return menuType === "sur_place" ? 11 : 2;
+    };
+    const handleBackToHours = () => {
+        setSelectedMenu("");
+        setInternalShowPdf(false);
+        setImagesLoaded(false);
+        setIsLoading(false);
+        setLoadingOffset(false);
+        setDropdownOpen(false); // Close dropdown when going back to hours
+        if (loadingTimeoutRef.current) {
+            clearTimeout(loadingTimeoutRef.current);
+        }
+        ReactGA.event(GA4_EVENTS.BACK_TO_HOURS, {
+            page_name: pageName,
+            previous_menu: selectedMenu,
+        });
+        if (onBackToHours) {
+            onBackToHours();
+        }
+        if (onPdfToggle) {
+            onPdfToggle(false);
+        }
+        if (onMenuSelect) {
+            onMenuSelect("");
+        }
     };
     const handleMenuLoad = (menuType) => {
         const startTime = Date.now();
@@ -38,11 +67,11 @@ const Selector = ({ onMenuSelect, className, showPdf = true, onPdfToggle, select
             page_name: pageName,
             menu_type: menuType === "sur_place" ? "dine_in" : "takeaway",
         });
-        setNumPages(null);
-        setPdfLoaded(false);
+        setImagesLoaded(false);
         setInternalShowPdf(true);
         setIsLoading(true);
         setLoadingOffset(true);
+        setImageLoadErrors(new Set());
         if (loadingTimeoutRef.current) {
             clearTimeout(loadingTimeoutRef.current);
         }
@@ -52,18 +81,37 @@ const Selector = ({ onMenuSelect, className, showPdf = true, onPdfToggle, select
         if (onPdfToggle) {
             onPdfToggle(true);
         }
-        if (menuType === "a_emporter") {
-            setIsLoading(false);
-            setLoadingOffset(false);
-        }
-        else {
-            const loadingDelay = getLoadingDelay();
-            loadingTimeoutRef.current = setTimeout(() => {
-                const loadTime = Date.now() - startTime;
+        // Précharger les images
+        const images = getMenuImages(menuType);
+        let loadedCount = 0;
+        const totalImages = images.length;
+        const checkAllLoaded = () => {
+            if (loadedCount === totalImages) {
                 setIsLoading(false);
                 setLoadingOffset(false);
-            }, loadingDelay);
-        }
+                setImagesLoaded(true);
+            }
+        };
+        images.forEach((src, index) => {
+            const img = new Image();
+            img.onload = () => {
+                loadedCount++;
+                checkAllLoaded();
+            };
+            img.onerror = () => {
+                setImageLoadErrors((prev) => new Set(prev).add(src));
+                loadedCount++;
+                checkAllLoaded();
+            };
+            img.src = src;
+        });
+        // Timeout de sécurité
+        const loadingDelay = isMobile() ? 3000 : 2000;
+        loadingTimeoutRef.current = setTimeout(() => {
+            setIsLoading(false);
+            setLoadingOffset(false);
+            setImagesLoaded(true);
+        }, loadingDelay);
     };
     const handleMenuSelect = (menuType) => {
         setSelectedMenu(menuType);
@@ -84,16 +132,6 @@ const Selector = ({ onMenuSelect, className, showPdf = true, onPdfToggle, select
         setDropdownOpen(!dropdownOpen);
     };
     useEffect(() => {
-        const updateWidth = () => {
-            if (containerRef.current) {
-                setPageWidth(containerRef.current.offsetWidth - 40);
-            }
-        };
-        updateWidth();
-        window.addEventListener("resize", updateWidth, { passive: true });
-        return () => window.removeEventListener("resize", updateWidth);
-    }, []);
-    useEffect(() => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current &&
                 !dropdownRef.current.contains(event.target)) {
@@ -111,8 +149,7 @@ const Selector = ({ onMenuSelect, className, showPdf = true, onPdfToggle, select
                 handleMenuLoad(parentSelectedMenu);
             }
             else {
-                setNumPages(null);
-                setPdfLoaded(false);
+                setImagesLoaded(false);
                 setInternalShowPdf(false);
                 setIsLoading(false);
                 setLoadingOffset(false);
@@ -125,8 +162,7 @@ const Selector = ({ onMenuSelect, className, showPdf = true, onPdfToggle, select
     useEffect(() => {
         setInternalShowPdf(showPdf);
         if (!showPdf) {
-            setNumPages(null);
-            setPdfLoaded(false);
+            setImagesLoaded(false);
             setIsLoading(false);
             setLoadingOffset(false);
             if (loadingTimeoutRef.current) {
@@ -135,14 +171,14 @@ const Selector = ({ onMenuSelect, className, showPdf = true, onPdfToggle, select
         }
     }, [showPdf]);
     useEffect(() => {
-        if (pdfLoaded && !isLoading && internalShowPdf && selectedMenu) {
+        if (imagesLoaded && !isLoading && internalShowPdf && selectedMenu) {
             ReactGA.event(GA4_EVENTS.PDF_DISPLAY, {
                 page_name: pageName,
                 menu_type: selectedMenu === "sur_place" ? "dine_in" : "takeaway",
-                num_pages: numPages || 0,
+                num_pages: getTotalPages(selectedMenu),
             });
         }
-    }, [pdfLoaded, isLoading, internalShowPdf, selectedMenu, numPages, pageName]);
+    }, [imagesLoaded, isLoading, internalShowPdf, selectedMenu, pageName]);
     useEffect(() => {
         return () => {
             if (loadingTimeoutRef.current) {
@@ -151,10 +187,12 @@ const Selector = ({ onMenuSelect, className, showPdf = true, onPdfToggle, select
         };
     }, []);
     const getPdfFile = () => {
-        if (selectedMenu === "sur_place")
+        if (selectedMenu === "sur_place") {
             return "/carterositrattoria.pdf";
-        if (selectedMenu === "a_emporter")
+        }
+        else if (selectedMenu === "a_emporter") {
             return "/carterositrattoriaemporter.pdf";
+        }
         return null;
     };
     const handleDownloadPdf = () => {
@@ -193,25 +231,18 @@ const Selector = ({ onMenuSelect, className, showPdf = true, onPdfToggle, select
     const getSelectedMenuInfo = () => {
         return getMenuOptions().find((option) => option.value === selectedMenu);
     };
-    const handleDocumentLoadSuccess = ({ numPages }) => {
-        setNumPages(numPages);
-        setPdfLoaded(true);
-    };
-    const handleDocumentError = (error) => {
-        ReactGA.event(GA4_EVENTS.PDF_ERROR, {
-            page_name: pageName,
-            menu_type: selectedMenu === "sur_place" ? "dine_in" : "takeaway",
-            error_message: error.message,
-        });
-        console.error("PDF loading error:", error);
-    };
-    const renderPages = () => {
-        if (!numPages)
+    const renderAllMenuPages = () => {
+        if (!selectedMenu || !imagesLoaded)
             return null;
-        const mobile = isMobile();
-        return (_jsx("div", { className: "pdf-page-grid", children: Array.from({ length: numPages }, (_, i) => (_jsx("div", { className: "pdf-page-container", "data-page": i + 1, children: _jsx(Page, { pageNumber: i + 1, width: pageWidth, renderTextLayer: !mobile, renderAnnotationLayer: false, renderMode: "canvas", className: "pdf-page", loading: _jsx("div", { className: "page-loading", children: "Chargement..." }) }) }, i + 1))) }));
+        const images = getMenuImages(selectedMenu);
+        return (_jsx("div", { className: "menu-pages-container", children: images.map((imageSrc, index) => {
+                if (imageLoadErrors.has(imageSrc)) {
+                    return (_jsx("div", { className: "menu-page-error", children: _jsxs("p", { children: ["Erreur lors du chargement de la page ", index + 1] }) }, index));
+                }
+                return (_jsx("div", { className: `menu-page-wrapper ${selectedMenu === "a_emporter" ? "takeaway-menu" : ""}`, children: _jsx("img", { src: imageSrc, alt: `Menu page ${index + 1}`, className: "menu-page-image", loading: "lazy" }) }, index));
+            }) }));
     };
     const selectedMenuInfo = getSelectedMenuInfo();
-    return (_jsxs("div", { className: `selector-container ${className || ""}`, ref: containerRef, children: [_jsxs("div", { className: "selector-header", children: [_jsx(UtensilsCrossed, { className: "header-icon", size: 24 }), _jsx("h2", { children: "Notre Carte" })] }), _jsxs("div", { className: "selector-content", children: [selectedMenu && isLoading && (_jsx("div", { className: "document-loading", children: _jsxs("div", { className: "loading-content", children: [_jsx("div", { className: "loading-spinner" }), _jsxs("span", { className: "loading-announcement", children: ["Chargement en cours...", _jsx("br", {}), _jsx("small", { children: "Nous optimisons la qualit\u00E9 du fichier, merci de patienter un instant" })] })] }) })), selectedMenu && !isLoading && internalShowPdf && (_jsx("div", { className: "download-section", children: _jsxs("span", { className: "download-link", onClick: handleDownloadPdf, children: [_jsx(Download, { className: "download-icon", size: 18 }), _jsx("span", { children: "T\u00E9l\u00E9charger en PDF" })] }) })), _jsxs("div", { className: "dropdown-container", ref: dropdownRef, children: [_jsxs("div", { className: `dropdown-trigger ${selectedMenu ? "selected" : ""}`, onClick: handleDropdownToggle, children: [_jsx("div", { className: "dropdown-trigger-content", children: selectedMenu && selectedMenuInfo ? (_jsxs(_Fragment, { children: [_jsx(selectedMenuInfo.icon, { className: "service-icon", size: 20 }), _jsxs("div", { className: "service-info", children: [_jsx("span", { className: "service-label", children: selectedMenuInfo.label }), _jsx("span", { className: "service-description", children: selectedMenuInfo.description })] }), selectedMenuInfo.hasDiscount && (_jsx("span", { className: "discount-badge", children: "Tarifs r\u00E9duits" }))] })) : (_jsx(_Fragment, { children: _jsx("div", { className: "service-info", children: _jsx("span", { className: "service-label", children: "Choisissez une carte" }) }) })) }), _jsx(ChevronDown, { className: `dropdown-arrow ${dropdownOpen ? "open" : ""}`, size: 20 })] }), _jsx("div", { className: `dropdown-menu ${dropdownOpen ? "open" : ""}`, children: getMenuOptions().map((option) => (_jsxs("div", { className: "dropdown-option", onClick: () => handleMenuSelect(option.value), children: [_jsx(option.icon, { className: "service-icon", size: 20 }), _jsxs("div", { className: "service-info", children: [_jsx("span", { className: "service-label", children: option.label }), _jsx("span", { className: "service-description", children: option.description })] }), option.hasDiscount && (_jsx("span", { className: "discount-badge", children: "Tarifs r\u00E9duits" }))] }, option.value))) })] })] }), selectedMenu && internalShowPdf && (_jsx("div", { className: `pdf-section ${loadingOffset ? "loading-offset" : ""}`, children: _jsx(Document, { file: getPdfFile(), onLoadSuccess: handleDocumentLoadSuccess, onLoadError: handleDocumentError, loading: null, children: renderPages() }, `${selectedMenu}-${Date.now()}`) })), numPages && pdfLoaded && !isMobile() && internalShowPdf && (_jsxs("div", { className: "page-indicator", children: [numPages, " page", numPages > 1 ? "s" : ""] }))] }));
+    return (_jsxs("div", { className: `selector-container ${className || ""}`, ref: containerRef, children: [_jsxs("div", { className: "selector-content", children: [selectedMenu && isLoading && (_jsx("div", { className: "document-loading", children: _jsxs("div", { className: "loading-content", children: [_jsx("div", { className: "loading-spinner" }), _jsxs("span", { className: "loading-announcement", children: ["Chargement du menu en cours...", _jsx("br", {}), _jsx("small", { children: "Nous pr\u00E9parons votre carte, merci de patienter un instant" })] })] }) })), _jsxs("div", { className: "dropdown-container", ref: dropdownRef, children: [_jsxs("div", { className: `dropdown-trigger ${selectedMenu ? "selected" : ""}`, onClick: handleDropdownToggle, children: [_jsx("div", { className: "dropdown-trigger-content", children: selectedMenu && selectedMenuInfo ? (_jsxs(_Fragment, { children: [_jsx(selectedMenuInfo.icon, { className: "service-icon", size: 20 }), _jsxs("div", { className: "service-info", children: [_jsx("span", { className: "service-label", children: selectedMenuInfo.label }), _jsx("span", { className: "service-description", children: selectedMenuInfo.description })] }), selectedMenuInfo.hasDiscount && (_jsx("span", { className: "discount-badge", children: "Tarifs r\u00E9duits" }))] })) : (_jsx(_Fragment, { children: _jsx("div", { className: "service-info", children: _jsx("span", { className: "service-label", children: "S\u00E9lectionnez une carte" }) }) })) }), _jsx(ChevronDown, { className: `dropdown-arrow ${dropdownOpen ? "open" : ""}`, size: 20 })] }), _jsxs("div", { className: `dropdown-menu ${dropdownOpen ? "open" : ""}`, children: [getMenuOptions().map((option) => (_jsxs("div", { className: "dropdown-option", onClick: () => handleMenuSelect(option.value), children: [_jsx(option.icon, { className: "service-icon", size: 20 }), _jsxs("div", { className: "service-info", children: [_jsx("span", { className: "service-label", children: option.label }), _jsx("span", { className: "service-description", children: option.description })] }), option.hasDiscount && (_jsx("span", { className: "discount-badge", children: "Tarifs r\u00E9duits" }))] }, option.value))), selectedMenu && (_jsxs("div", { className: "dropdown-option show-hours-option", onClick: handleBackToHours, children: [_jsx(Calendar, { className: "service-icon", size: 20 }), _jsxs("div", { className: "service-info", children: [_jsx("span", { className: "service-label", children: "Afficher les horaires" }), _jsx("span", { className: "service-description", children: "Voir nos heures d'ouverture" })] })] }))] })] }), selectedMenu && !isLoading && internalShowPdf && (_jsx("div", { className: "download-section", children: _jsxs("button", { className: "download-button", onClick: handleDownloadPdf, children: [_jsx(Download, { className: "download-icon", size: 18 }), _jsx("span", { children: "T\u00E9l\u00E9charger" })] }) }))] }), selectedMenu && internalShowPdf && (_jsx("div", { className: `menu-section ${loadingOffset ? "loading-offset" : ""}`, children: renderAllMenuPages() }))] }));
 };
 export default Selector;

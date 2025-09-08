@@ -91,6 +91,35 @@ const ReviewWidget: React.FC<ReviewWidgetProps> = ({
         page_name: pageName,
         review_count: slider.track.details.slides.length,
       });
+
+      // Aggressively override Keen Slider's height calculation
+      const forceHeight = () => {
+        if (slider.container) {
+          // Remove any fixed height set by Keen Slider
+          slider.container.style.height = "auto";
+
+          // Get the active slide
+          const activeSlide =
+            slider.container.querySelector(".keen-slider__slide--active") ||
+            slider.container.querySelector(".keen-slider__slide");
+
+          if (activeSlide) {
+            const reviewItem = activeSlide.querySelector(".review-item");
+            if (reviewItem) {
+              // Force container height to match active slide content
+              const contentHeight = reviewItem.scrollHeight;
+              slider.container.style.height = `${contentHeight}px`;
+            }
+          }
+        }
+      };
+
+      // Force immediately and with delays to override Keen Slider's initialization
+      forceHeight();
+      setTimeout(forceHeight, 10);
+      setTimeout(forceHeight, 50);
+      setTimeout(forceHeight, 100);
+      setTimeout(forceHeight, 200);
     },
     slideChanged(slider) {
       const currentSlide = slider.track.details.rel;
@@ -113,6 +142,34 @@ const ReviewWidget: React.FC<ReviewWidgetProps> = ({
           reviews_viewed: reviewsViewed.size,
         });
       }
+
+      // Réinitialiser les styles des étoiles pour éviter l'accumulation
+      document
+        .querySelectorAll(".google-star, .tripadvisor-star")
+        .forEach((star) => {
+          star.classList.remove("hovered");
+        });
+
+      // Aggressively force height recalculation on slide change
+      const forceSlideHeight = () => {
+        if (slider.container) {
+          const activeSlide = slider.container.querySelector(
+            ".keen-slider__slide--active"
+          );
+          if (activeSlide) {
+            const reviewItem = activeSlide.querySelector(".review-item");
+            if (reviewItem) {
+              const contentHeight = reviewItem.scrollHeight;
+              slider.container.style.height = `${contentHeight}px`;
+            }
+          }
+        }
+      };
+
+      // Force immediately and with slight delay
+      forceSlideHeight();
+      setTimeout(forceSlideHeight, 10);
+      setTimeout(forceSlideHeight, 100);
     },
   });
 
@@ -376,12 +433,84 @@ const ReviewWidget: React.FC<ReviewWidgetProps> = ({
   useEffect(() => {
     if (reviews.length > 0 && !loading) {
       startAutoSlide();
+
+      // Force height recalculation after reviews load
+      setTimeout(() => {
+        if (instanceRef.current) {
+          const slider = instanceRef.current;
+          const activeSlide =
+            slider.container.querySelector(".keen-slider__slide--active") ||
+            slider.container.querySelector(".keen-slider__slide");
+          if (activeSlide) {
+            const slideHeight = activeSlide.scrollHeight;
+            slider.container.style.height = `${slideHeight}px`;
+          }
+        }
+      }, 200);
     }
 
     return () => {
       stopAutoSlide();
     };
   }, [reviews, loading, isPaused]);
+
+  // Function to recalculate slider height
+  const recalculateSliderHeight = () => {
+    if (instanceRef.current) {
+      const slider = instanceRef.current;
+      const activeSlide =
+        slider.container.querySelector(".keen-slider__slide--active") ||
+        slider.container.querySelector(".keen-slider__slide");
+      if (activeSlide) {
+        const reviewItem = activeSlide.querySelector(".review-item");
+        if (reviewItem) {
+          const contentHeight = reviewItem.scrollHeight;
+          slider.container.style.height = `${contentHeight}px`;
+        }
+      }
+    }
+  };
+
+  // Set up MutationObserver to continuously override Keen Slider height
+  useEffect(() => {
+    if (instanceRef.current) {
+      const slider = instanceRef.current;
+
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (
+            mutation.type === "attributes" &&
+            mutation.attributeName === "style"
+          ) {
+            const target = mutation.target as HTMLElement;
+            if (target.classList.contains("keen-slider")) {
+              // Override any height that Keen Slider tries to set
+              setTimeout(() => {
+                recalculateSliderHeight();
+              }, 10);
+            }
+          }
+        });
+      });
+
+      observer.observe(slider.container, {
+        attributes: true,
+        attributeFilter: ["style"],
+      });
+
+      return () => observer.disconnect();
+    }
+  }, [reviews]);
+
+  // Handle window resize
+  useEffect(() => {
+    const handleResize = () => {
+      setTimeout(recalculateSliderHeight, 100);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Gestionnaires d'événements pour pause/reprise
   const handleMouseEnter = () => {
@@ -446,6 +575,8 @@ const ReviewWidget: React.FC<ReviewWidgetProps> = ({
         key={i}
         className={`google-star ${i < rating ? "filled" : "empty"}`}
         aria-label={`${i + 1} étoile${i > 0 ? "s" : ""}`}
+        onMouseEnter={(e) => e.currentTarget.classList.add("hovered")}
+        onMouseLeave={(e) => e.currentTarget.classList.remove("hovered")}
       >
         ★
       </span>
@@ -458,6 +589,8 @@ const ReviewWidget: React.FC<ReviewWidgetProps> = ({
         key={i}
         className={`tripadvisor-star ${i < rating ? "filled" : "empty"}`}
         aria-label={`${i + 1} étoile${i > 0 ? "s" : ""}`}
+        onMouseEnter={(e) => e.currentTarget.classList.add("hovered")}
+        onMouseLeave={(e) => e.currentTarget.classList.remove("hovered")}
       >
         ●
       </span>

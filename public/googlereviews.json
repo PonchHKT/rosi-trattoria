@@ -1,667 +1,9 @@
 [
   {
-    "name": "Stéphane Cortequisse",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSURoaHNlWWNBEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIDhhseYcA%7C0cKQ3_PlWkw%7C?hl=fr",
-    "stars": 5,
-    "text": "Comme toujours super moment",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Petra Wegman",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25CbU9HRXhXakJFZEZKaWNFbzVNbWhZYTJaRFNXYxAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CAIQACodChtycF9oOnBmOGExWjBEdFJicEo5MmhYa2ZDSWc%7C0cKFpM3odj4%7C?hl=fr",
-    "stars": 5,
-    "text": "Parfait, zeer uitgebreide kaart, zelfs voor vegetariërs. Hier komen we zeker terug!",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Mélissa N.",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25SRmNDMVFVR2h6T1V4eFFuZExkVmxoV25SUlVrRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CAIQACodChtycF9oOnRFcC1QUGhzOUxxQndLdVlhWnRRUkE%7C0cJkdS8bg7M%7C?hl=fr",
-    "stars": 5,
-    "text": "Excellente pizzeria sur Brive ! Plusieurs pizzas testées, jamais déçue !\nLes produits utilisés sont de qualité ++ !\nMention spéciale à une des serveuses (elle travaille souvent en terrasse) qui est particulièrement sympathique et qui connaît son job !",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Claire Pannetier",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25WeWIwb3RlblZVTUZOUmEzRllXRFoxYzI1RFEwRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CAIQACodChtycF9oOnVyb0otenVUMFNRa3FYWDZ1c25DQ0E%7C0cIO-IXINCZ%7C?hl=fr",
-    "stars": 5,
-    "text": "Rien à dire , jamais déçu.",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Pauline Jrn",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VPVFF1ZFNPbnNpOG1BRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEOTQudSOnsi8mAE%7CCgwI-syxwgYQwIme5QI%7C?hl=fr",
-    "stars": 5,
-    "text": "Comme toujours un 5 étoiles. Nous nous sommes régalés ! Merci pour l’accueil",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Philippe FRUGIER",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VPWEc0TnoyODdXQzlRRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEOXG4Nz287WC9QE%7CCgwIo9awwgYQsJyk9wE%7C?hl=fr",
-    "stars": 5,
-    "text": "Excellente pizzas dans une ambiance conviviale et amicale. Service parfait. Rien à ajouter.",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Christian Beral",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VKeTRfWUNoaE9hMkxnEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEJy4_YChhOa2Lg%7CCgsItZWrwgYQsLLsKA%7C?hl=fr",
-    "stars": 5,
-    "text": "Personnel très sympa. Pizzas excellentes. Que demander de plus.",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Dubesset Sorenza",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VPRHVzdWlYeDR1VUJnEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEODusuiXx4uUBg%7CCgwI26GmwgYQyOG-xAM%7C?hl=fr",
-    "stars": 5,
-    "text": "Très bonne adresse. Bonne cuisine et bonne ambiance ! Le service est chaleureux Terrasse agréable",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Nath Adr",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VLblQ1ZEtyb29ISlZnEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEKnT5dKrooHJVg%7CCgsIqL-iwgYQ6MbZBQ%7C?hl=fr",
-    "stars": 5,
-    "text": "Au top du top !",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "pierre gaudin",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VKRDJuNk9TNHV5b2VREAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEJD2n6OS4uyoeQ%7CCgwIp8uhwgYQqJi2-wE%7C?hl=fr",
-    "stars": 5,
-    "text": "Déjeuner professionnel, de passage.\nUn grand choix de pizza, deux diamètres proposés, pour les gourmands et les moins gourmands.\nJ'ai pris une \"petite\"Reine, un classique ... pour voir...  Parfaite !! Rien à redire, des produits frais pleins de goût, copieuse sans trop et ce contraste chaud / frais !! Un régal vraiment.\nÇa manque un peu de plats \"Trattoria\" juste pour faire mon difficile, j'y étais venu dans l'idée de me faire des raviolis. Je ne regrette pas qu'il n'y en ait pas eu ....\nBon service et bonne ambiance",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Laeti Lili",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VMemI5ZXU0LW9uQnVnRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKELzb9eu4-onBugE%7CCgsIlpSfwgYQ6KO8WA%7C?hl=fr",
-    "stars": 5,
-    "text": "Excellent moment passé au Rosie Trattoria, les pizzas sont de grande qualité.",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Sabine Martins",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSURHaGNqUmZnEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIDGhcjRfg%7CCgwI6NCbwgYQiI7FxwI%7C?hl=fr",
-    "stars": 5,
-    "text": "Excellent restaurant, pizzas très réussies avec une pâte d'exception, dans un décor moderne et chaleureux. L'accueil très agréable de l'équipe ainsi que des gérants. On veut y retourner pour essayer les lasagnes et d'autres produits qui nous ont donné envie ! Je recommande sans hésiter !",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "thomas barras",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2pOdmIybFBWbXBYVUVZM1JVOUlhR3d5UTBWeU0wRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CAIQACodChtycF9oOjNvb2lPVmpXUEY3RU9IaGwyQ0VyM0E%7C0cGhcsqF2QD%7C?hl=fr",
-    "stars": 5,
-    "text": "Lieu très sympathique, avec un accueil très chaleureux, on a très bien mangé c’était excellent.",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Paola Margossian",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2tJd1NHNTFkaTF3V2paeFVrODFlamRJZERob1UyYxAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CAIQACodChtycF9oOkIwSG51di1wWjZxUk81ejdIdDhoU2c%7C0cGcCh6CShZ%7C?hl=fr",
-    "stars": 5,
-    "text": "La cuisine comme d'habitude toujours aussi bonne et genereuse. Il y avait un peu d'attente ce jour et on nous a offert une bouteille de vin et les digestifs (6 personnes)\nLe personnel accueillant on y reviendra (déjà 3 fois)\nN'oubliez pas d'aller faire sonner la cloche 🛎 🛎 🛎",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Pauline Rigaut",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VMdVg5NFd2OWNlMW5BRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKELuX94Wv9ce1nAE%7CCgwI6M2WwgYQ6LSykQE%7C?hl=fr",
-    "stars": 5,
-    "text": "Des serveuses au top un grand merci à elles ☺️",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "W Purple",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VOdXNnb1hOa29iUXBnRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKENusgoXNkobQpgE%7CCgwImbyWwgYQ2PS27AI%7C?hl=fr",
-    "stars": 5,
-    "text": "Les pizzas sont délicieuses : on voit que la pâte est légère et a été faite maison. Le service est parfait. Je recommande ce restaurant.",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Jean-René Baudet",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT21WbFNsZEpRMjVIWkZOSWR6aDFkVVpoVmxCb1IyYxAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CAIQACodChtycF9oOmVlSldJQ25HZFNIdzh1dUZhVlBoR2c%7C0cGAE22somW%7C?hl=fr",
-    "stars": 5,
-    "text": "Bon accueil . les pizzas sont excellentes et généreuses,  les serveurs  et serveuses sont très sympas .",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "VERONIQUE MAUVY",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSUN2eUlfQkV3EAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgICvyI_BEw%7C0cG54X6i84b%7C?hl=fr",
-    "stars": 5,
-    "text": "Excellent accueil, service et pizzas délicieuses.\nNous recommandons sans hésiter.",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Gwendoline Buisson",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VLV3Z4LVBCNF9mUnVBRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEKWvx-PB4_fRuAE%7CCgsI_t6QwgYQiPj2Iw%7C?hl=fr",
-    "stars": 5,
-    "text": "Encore une très bonne soirée, on s'est régalées. Les petites serviettes étaient parfaites. Un service dans la bonne humeur, du délicieux dans l'assiette, que vouloir de plus !",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Romain JANUARIO-COLY",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VPYW8xTmlsNkppakpREAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEOao1Nil6JijJQ%7CCgwIvZmLwgYQsKqEjgI%7C?hl=fr",
-    "stars": 5,
-    "text": "Sans aucun doute la meilleure pizzeria de Brive ! Les pizzas sont délicieuses, avec une pâte parfaite et des ingrédients de très bonne qualité. Mention spéciale à la serveuse, toujours souriante et aux petits soins. Une adresse incontournable ! Toutefois, pensez bien à réserver car le restaurant est souvent complet du fait de sa renommée. 🍕",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "baillet jean yves",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VNYVIzWTdJaTVDbDFBRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEMaR3Y7Ii5Cl1AE%7C0cEihfDMUFM%7C?hl=fr",
-    "stars": 5,
-    "text": "Très bien, je recommande",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Corine RIGUET",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnSUREdGRtcmlRRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIDDtdmriQE%7C0cEPJRTmwLs%7C?hl=fr",
-    "stars": 5,
-    "text": "C'est génial ! Venez entre amis , en famille. Vous dégusterez des pizzas, des pâtes comme nul part ailleurs. Les desserts... vous oublierez de parler\nMerci encore merci à l'équipe,  à Pascal et Gwen . La petite surprise anniversaire m'a beaucoup touchée\nBravo pour toute l'attention témoignée à vos clients.",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "BIRON Magali",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSUM5NVBUN0hREAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIC95PT7HQ%7CCgwI7-LrwQYQ-M_xzwM%7C?hl=fr",
-    "stars": 5,
-    "text": "Un accueil chaleureux  une cuisine excellente  a l écoute des clients pour problème allergique Nous y reviendrons avec plaisir . Le personnel au top et hesitez a vous défouler dans leurs toilettes 🤣🤣",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "THIERRY VINCENT",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VNanZsc25scy1TNmF3EAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEMjvlsnls-S6aw%7CCgwI-tTqwQYQkNjHgAE%7C?hl=fr",
-    "stars": 5,
-    "text": "Je suis venu manger avec ma fille, l'accueil est parfait. Le service est chaleureux. Pizza et pâtes sont excellentes. Une pizzeria que je recommande fortement",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "camille Legros",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTURJNE83ZFdREAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDI4O7dWQ%7CCgwIrMHqwQYQoOy8mAE%7C?hl=fr",
-    "stars": 5,
-    "text": "Un service et une cuisine toujours au top ,un accueil chaleureux ,on est toujours bien chez Rosi Trattoria 😍",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "MaryChris MAS",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VLTzlqLVNud0lyaEdBEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEKO9j-SnwIrhGA%7CCgwI7PTowQYQwIO43QI%7C?hl=fr",
-    "stars": 5,
-    "text": "Excellentes pizzas maison !",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
     "name": "sylvie moncoutie",
     "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25abVowTlhUazFTVG1RMlJsaG1aV2hMUmxCbVYyYxAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CAIQACodChtycF9oOnZmZ0NXTk1STmQ2RlhmZWhLRlBmV2c%7C0cDOT_HDjA2%7C?hl=fr",
     "stars": 5,
     "text": "Personnel adorable , accueillant ....les pizzas sont excellentes.\nNous étions une bande de 10 copines, nous avons été servies sans trop d’attente malgré la salle bond\nJe recommande vivement 👍🎉",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Lodewijk Paardenkooper",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VMLWV1NzNTMGVHSHJnRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEL-eu73S0eGHrgE%7CCgwI8OPlwQYQwNjy2QM%7C?hl=fr",
-    "stars": 5,
-    "text": "Wij waren er om 19.00 uur. Niemand was er. Daarna ‘s stroomde het terecht vol. Wij zaten buiten en werden snel en aardig bediend. De planche was heerlijk en de truffel pasta verrukkelijk. Gemakkelijk parkeren er tegenover bovendien.",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Jean-Gilles Nolorgues",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnSURWdDVqZy1BRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIDVt5jg-AE%7CCgwI14ziwQYQwIPh_AE%7C?hl=fr",
-    "stars": 5,
-    "text": "Tout est parfait",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Christelle JANICOT",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJZlI0OXFrNElMUjFnRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEIfR49qk4ILR1gE%7CCgwI3PfhwQYQiOm8rwM%7C?hl=fr",
-    "stars": 5,
-    "text": "Nous étions venu pour un anniversaire et tout était TOP !\nNous avons pris pizzas et pâtes. Rien à dire sauf : délicieux et copieux 😋\nLa \"suprise\" au moment du dessert était géniale 🍨🎂🎶😃\nQuant aux toilettes... Du jamais vu 🪩🕺🏼\nOn reviendra sans faute pour d'autres plats",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Isabelle Larivet",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VQelQ3X0RoOEpiT0hREAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEPzT7_Dh8JbOHQ%7CCgwIot_hwQYQuJjjywE%7C?hl=fr",
-    "stars": 5,
-    "text": "Accueil chaleureux, serveurs agréables et pétillants, plats copieux et excellents , on a passé un très bon moment chez vous",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "ROUSSELIE CHRYSTELE",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VQN2RubzZValp6Skx3EAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEP7dno6UjZzJLw%7CCgwI_sjhwQYQ6ILCqgI%7C?hl=fr",
-    "stars": 5,
-    "text": "C'est parfait !",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Romain Jos",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnSUR4Mk03WHRRRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIDx2M7XtQE%7CCgwIpprgwQYQ8ICOsgI%7C?hl=fr",
-    "stars": 5,
-    "text": "Comme toujours c’était parfait",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Fabien Fougeron",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VKdkNzNXZTcnVxRTd3RRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEJvCs5vSruqE7wE%7CCgwI--7fwQYQwI34jAM%7C?hl=fr",
-    "stars": 5,
-    "text": "C’était parfait ! Merci",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Melanie Pommier",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSUN4MFlmNUhnEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgICx0Yf5Hg%7CCgwI7PHWwQYQkMKMngM%7C?hl=fr",
-    "stars": 5,
-    "text": "Toujours un régal de venir 😍",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Rémi Valibus",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSURtMk11QVVREAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIDm2MuAUQ%7CCgwIovfRwQYQqNSPqwI%7C?hl=fr",
-    "stars": 5,
-    "text": "Toujours un accueil et repas au top, quel plaisir de passer un moment dans votre établissement !\nVos sourires et cette équipe qui prend du plaisir au travail …\nMerci 😊",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "mel b",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2xwdk1VaENVVEpUTjNWclZIWjJhM0JVYTNFM1ltYxAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CAIQACodChtycF9oOlpvMUhCUTJTN3VrVHZ2a3BUa3E3Ymc%7C0cC6X1mAkct%7C?hl=fr",
-    "stars": 5,
-    "text": "On m’avait conseillé votre établissement.\nEt je ne suis pas déçue, une véritable pizza 5 fromages, généreuse et fondante, pleine de saveur.\nLes serveuses toute agréable. Je reviendrai en famille la prochaine fois pour faire découvrir votre établissement à mes proches et que l’on se régale tous ensemble.\nÀ très bientôt.",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Steve Rodgers",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VPQ2s5SVdNa0lMRHlRRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEOCk9IWMkILDyQE%7CCgsI16nMwQYQiNfnAg%7C?hl=fr",
-    "stars": 5,
-    "text": "Super au top comme d’habitude",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Véronique Deve",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VNbXE3S2VWcGZpV01BEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEMmq7KeVpfiWMA%7CCgsIsfXLwQYQyKX4ag%7C?hl=fr",
-    "stars": 5,
-    "text": "Super accueil, et repas délicieux",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "vahé M",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VLR0FvTE9RbHNUa0pnEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEKGAoLOQlsTkJg%7CCgwIke7GwQYQ8OKVhgM%7C?hl=fr",
-    "stars": 5,
-    "text": "Super restaurant avec un personnel au top",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Stéphanie Marques",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJenR0UE9OdDdPbUdREAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEIzttPONt7OmGQ%7CCgsIy-zBwQYQ2LfJLQ%7C?hl=fr",
-    "stars": 5,
-    "text": "Un régal,  serveuse souriante et de bon conseil.\nMention spéciale pour l ambiance des wc !!!!\n🕺🎉🪩🦒",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "myriam girroy",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSUNubjd6Y0pREAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgICnn7zcJQ%7CCgwI7KTAwQYQ0MSJ_AI%7C?hl=fr",
-    "stars": 5,
-    "text": "Toujours un plaisir de venir. Je ne suis pas une habituée mais je ne suis jamais déçue.  Nos amis ont ete ravis. Ne changez rien",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Stella Joaquin",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VNT21uSUtTLVplMm53RRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEMOmnIKS-Ze2nwE%7CCgwIurC9wQYQuPvl5gI%7C?hl=fr",
-    "stars": 5,
-    "text": "Très bon rapport qualité prix pour la formule du midi. Personnel à l'écoute de sa clientèle.",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Cédric Garnier",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VQSFlqcjNjNHZHZmF3EAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEPHYjr3c4vGfaw%7CCgwIx4S8wQYQgKn9rQI%7C?hl=fr",
-    "stars": 5,
-    "text": "Personnel très sympa, et pizzas délicieuses !",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Cédric DURANDAL",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VPbVQ3ZnFCeTlhdXJRRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEOmT7fqBy9aurQE%7CCgsIlv-7wQYQkO2SPA%7C?hl=fr",
-    "stars": 5,
-    "text": "Très bon accueil et très très bonnes pizza. C'est tellement bon qu'il est conseillé de réserver. Excellent",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Bastien Fouré",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VMbTY3T0RaOG9IZVdBEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKELm67ODZ8oHeWA%7CCgwIv7a4wQYQ6KHikQE%7C?hl=fr",
-    "stars": 5,
-    "text": "Ça fait longtemps que javais pas mangé une aussi bonne pizza. La pate est incroyable il faut y aller 😍",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Christelle Barriere",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VQV0FsYS1VNGI2ampnRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEPWAla-U4b6jjgE%7CCgwImpS4wQYQwJ6nswM%7C?hl=fr",
-    "stars": 5,
-    "text": "Très bonne pizzeria !!!! La qualité est au rdv et les conseils des serveuses sont top !!!!!!",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Sandrine Tetenoire",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VLV0g5dERjbHVHeTdnRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEKWH9tDcluGy7gE%7CCgwI-eu1wQYQ-KiG-gI%7C?hl=fr",
-    "stars": 5,
-    "text": "Un peu chère mais excellente pizzas",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "leon frimousse",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VNdmx2WnlXd2ZLVlhnEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEMvlvZyWwfKVXg%7CCgwIudy1wQYQsIHF7AI%7C?hl=fr",
-    "stars": 5,
-    "text": "Très bon accueil, cuisine de qualité, jamais déçu",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Véronique ALARY",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VMXzV4ZnZfbnFLMjBnRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEL_5xfv_nqK20gE%7CCgwI7aiywQYQ2JeTiAE%7C?hl=fr",
-    "stars": 5,
-    "text": "Une mention spéciale pour Isaure notre serveuse hors paire\nPlats rien a dire tout est frais et bon 2 ème expérience pour ma part et 1ère pour mon amie qui a bcp apprécié le lieu et le repas\nUne adresse incontournable à ne pas rater sur Brive\nJe recommande à 200% 👍🏻😉😀",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Stéphane DAVID",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VLX0c2YXJ0OGVQcEFREAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEK_G6art8ePpAQ%7CCgwIl4yywQYQoK2Z-wI%7C?hl=fr",
-    "stars": 5,
-    "text": "Excellent le tout",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Antoine B.",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VOVGk0ZVdlLW9IczNnRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKENTi4eWe-oHs3gE%7CCgwIreCswQYQ-OeNxwI%7C?hl=fr",
-    "stars": 5,
-    "text": "Superbes pizzas, très bonne ambiance et service au top !",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "erick dessans",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VQanRfZm5UMUxmMldnEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEPjt_fnT1Lf2Wg%7CCgsIx4OrwQYQ2O6cKA%7C?hl=fr",
-    "stars": 5,
-    "text": "Un vrai restaurant Italien. Les pizzas sont sublimes, le service impeccable et sympathique.  La rançon du succès, il faut réserver.",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "TAHAY Nathalie",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VMQy0zYjc2N2N6RUpBEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKELC-3b767czEJA%7CCgoIzY-owQYQ2OZt%7C?hl=fr",
-    "stars": 5,
-    "text": "Formidable moment passé,cuisine italienne merveilleuse 😍",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Philippe Kupczak",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSURqaTYtNFJREAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIDji6-4RQ%7CCgwIqYemwQYQ-JuVsQI%7C?hl=fr",
-    "stars": 5,
-    "text": "La meilleure pizzeria de la région !!!!",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Vincent Leymarie",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSURtcjlYdURnEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIDmr9XuDg%7CCgwItYGmwQYQqJytwAM%7C?hl=fr",
-    "stars": 5,
-    "text": "Très bon accueil,  des produits frais délicieux,  la délicate attention au dessert , nous ont ravis. Nous reviendrons déguster d'autres plats.",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "ptite007 July",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VQakxrZjNkajh2Y0lBEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEPjLkf3dj8vcIA%7CCgsI2pSiwQYQyKjlcA%7C?hl=fr",
-    "stars": 5,
-    "text": "Super! On a déjeuné en terrasse, nos papilles ont été enchantées comme d'habitude. Merci à Isaure pour son sourire et sa bonne humeur!",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Aénor PONS",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSUN4MHVEOFdBEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgICx0uD8WA%7CCgwI2YihwQYQgL7p3gE%7C?hl=fr",
-    "stars": 5,
-    "text": "Excellente adresse, ambiance très sympathique, équipe au top!",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Sandrine DESMAZES",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VPMmt2SkNybEtmVE1BEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEO2kvJCrlKfTMA%7CCgwIjdygwQYQuKLVlAI%7C?hl=fr",
-    "stars": 5,
-    "text": "Nous avons passé un agréable moment. L’ambiance et le cadre sont très sympa. Le personnel est très professionnel. Un merci tout particulier à Isaure pour sa gentillesse, sa spontanéité et son sourire. Nous reviendrons.",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Jacqueline Hosteins",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnSURXcWVib3N3RRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIDWqeboswE%7CCgwIt_6cwQYQkOu9nQE%7C?hl=fr",
-    "stars": 5,
-    "text": "Plateau de charcuterie italienne très bon\nEt c'est avec plaisir que la serveuse nous a mis la girafe près de nous",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "ERIC ZAVRAS",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSURwaWFDakJnEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIDpiaCjBg%7CCgwIwdWcwQYQwPiU3AI%7C?hl=fr",
-    "stars": 5,
-    "text": "Tout est bon et l'accueil est au top. La meilleure pizzeria de Brive incontestablement",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Sébastien Gallot et Alwena Baguet",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VQeVIxSV9pd282NXRRRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEPyR1I_iwo65tQE%7CCgwI94iWwQYQ0OvjswE%7C?hl=fr",
-    "stars": 5,
-    "text": "Très bon accueil, très bonne cuisine, très bonne ambiance !",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Delphine Goudal",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSUM1djZYclNREAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIC5v6XrSQ%7CCgsIkO2QwQYQ-OzLHA%7C?hl=fr",
-    "stars": 5,
-    "text": "Parfait comme d'habitude !!",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-
-  {
-    "name": "joël chabrier",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VLNjgyT2pUcTZUMGNnEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEK682OjTq6T0cg%7CCgsIyouNwQYQiJy8CQ%7C?hl=fr",
-    "stars": 5,
-    "text": "Très bonne cuisin bon accueil",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "PASCAL GREGET",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VMX3BqWTZGeU1LYkRREAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEL_pjY6FyMKbDQ%7CCgsI1MWMwQYQ6I-rUg%7C?hl=fr",
-    "stars": 5,
-    "text": "Très bel endroit où nous nous sommes arrêtés pour déjeuner.\nTrès bonne cuisine service rapide avec une originalité quand vous allez au Wc 😂😂 à recommandé",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "brunet meryl",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VMdTR4YURzM0thc0ZBEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKELu4xaDs3KasFA%7CCgwIq6-MwQYQ8JLs5AI%7C?hl=fr",
-    "stars": 5,
-    "text": "Parfaite ambiance idéal quand on est en couple ou bien entre amis ou en famille. L'accueil formidable et les serveurs très agréables.",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Marie AUDRERIE",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnSURuM29PU2tnRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIDn3oOSkgE%7CCgwI5eeHwQYQkIvCpgE%7C?hl=fr",
-    "stars": 5,
-    "text": "Les meilleures pizzas de Brive.\nL’accueil, le service, le personnel, les propriétaires, ALL  IS  PERFECT\nTout est TOP",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Céline Fourches",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnSURIcE9xX3pnRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIDHpOq_zgE%7CCgwIidmHwQYQsLf6_gI%7C?hl=fr",
-    "stars": 5,
-    "text": "À découvrir absolument ! Toujours un plaisir des papilles.",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Stephanie Tarif",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnSURiX2UtNGtnRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIDb_e-4kgE%7CCgwIlJOEwQYQ2K6G6AI%7C?hl=fr",
-    "stars": 5,
-    "text": "Le meilleur restaurant italien 😋",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Thomas Gilles",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VPWEJnNzZpNzhDR3JRRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEOXBg76i78CGrQE%7CCgsI_syDwQYQwLOZaA%7C?hl=fr",
-    "stars": 5,
-    "text": "L ambiance est au beau fixe dans ce resto,excellent, sans compter les très bonnes pizza que nous avons pu déguster, bravo à toute l'équipe, je recommande +++",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Nat He",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VLem9sb25CdUt1YzBnRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEKzolonBuKuc0gE%7CCgsIoub-wAYQ-Jy-RQ%7C?hl=fr",
-    "stars": 5,
-    "text": "Bien",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Aurore Méry",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VQdlVxUDZZbjRLelVnEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEPvUqP6Yn4KzUg%7CCgwIg-H-wAYQ8KG69gE%7C?hl=fr",
-    "stars": 5,
-    "text": "Nous avons pris une pizza Carbonara et une Diabolicca … elle est parfaite pour les habitués au piquant.\nTrès bon service\nDu personnel extrêmement souriant\nDes pizzas à base de produits frais et de qualité\nVous pouvez y venir les yeux fermés",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Patrick Jean",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VOYl80cXlRMFo3S01REAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKENb_4qyQ0Z7KMQ%7CCgwIjPH9wAYQqIum4wI%7C?hl=fr",
-    "stars": 5,
-    "text": "Service très attentif, agréable. Ambiance agréable,  surtout les toilettes :une discothèque en se soulageant-)...Pizza correcte sàne plus,  glace vraiment bonne",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Goitre Paola",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VPaW5rOGl1eDQ3RUd3EAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEOink8iux47EGw%7CCgwItqb9wAYQ4K7d_AE%7C?hl=fr",
-    "stars": 5,
-    "text": "Nous avons passé un excellent moment de l’apéritif au dessert . Tout était très bon et le personnel très sympathique et attentionné .",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Laure DAHMOUN",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnTUNBdk9PUWlBRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCAvOOQiAE%7CCgwIiJb9wAYQ2NzsswI%7C?hl=fr",
-    "stars": 5,
-    "text": "Les pizzas sont excellentes avec des produits frais.le petit bémol serait qu'elles étaient un peu froides .\nLe service était au top,Isaure est  très agréable et souriante et nous a très bien orientées.\nUne adresse à garder",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Marion Laporte",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VPdWRsb2V3dmNXbWJBEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEOudloewvcWmbA%7CCgwI7sr7wAYQgMbm6QI%7C?hl=fr",
-    "stars": 5,
-    "text": "Une bonne pizza\nUne équipe sympa\nTrès bonne soirée",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-
-  {
-    "name": "Céline BOISSERIE",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnSUM5bExLZnFRRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIC9lLKfqQE%7CCgwI1J_4wAYQkNu6gQI%7C?hl=fr",
-    "stars": 5,
-    "text": "Restaurant agréable, personnel super accueillant, toujours très bon et parfois même un peu trop copieux",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Sandrine R",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VOdTdfdm1zNWZUU2hBRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKENu7_vms5fTShAE%7CCgsIkY7xwAYQiIbRPA%7C?hl=fr",
-    "stars": 5,
-    "text": "Excellent restaurant avec un bon choix de plats.\nAmbiance sympa.\nJe rêvais de goûter la Tartuffo, c'est fait et cette pizza est excellente.",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Maud LETINEVEZ",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VNYnY1UFNTcTRHTkRBEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEMbv5PSSq4GNDA%7CCgsI8uHtwAYQiNSMdA%7C?hl=fr",
-    "stars": 5,
-    "text": "Expérience agréable,  bonne cuisine, bonne ambiance. A refaire bien sur.",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Isabelle Davenel",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VNZUxnWmY5cWVEQUtREAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEMeLgZf9qeDAKQ%7CCgwIoInswAYQqKnU-gI%7C?hl=fr",
-    "stars": 5,
-    "text": "Excellente pizzéria dans le centre de Brive, en face des Halles Georges Brassens. de délicieuses pizza sur place mais aussi à emporter. Je tiens à souligner la gentillesse et la bonne humeur de la serveuse, merci beaucoup\nTrès jolie déco, il faut visiter les toilettes",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Charlotte Htvt",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJWGNfclhBa3BDYkpREAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEIXc_rXAkpCbJQ%7CCgwIoMjkwAYQyOSuyQM%7C?hl=fr",
-    "stars": 5,
-    "text": "Nous avons passé un très bon moment dans ce restaurant. Les plats sont délicieux et les serveurs très agréables. Je recommande !",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "So",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTUNZLWVTTU1nEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCY-eSMMg%7CCgwIwKvjwAYQ8NXH2wI%7C?hl=fr",
-    "stars": 5,
-    "text": "Très bonne pizerria",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Nath",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSUNicWN6blVREAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgICbqcznUQ%7CCgwI5ZjjwAYQ0JP1mAI%7C?hl=fr",
-    "stars": 5,
-    "text": "Toujours top 👍 rien à rajouter !!!\nOn revient 😉",
     "title": "Rosi Trattoria",
     "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
   },
@@ -674,1578 +16,12 @@
     "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
   },
   {
-    "name": "Frog",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnTUNZcWVTZTN3RRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCYqeSe3wE%7CCgwIiOzhwAYQ6JyDxwM%7C?hl=fr",
-    "stars": 5,
-    "text": "Je vais essayé faire court,cela fait plusieurs fois que nous venons a table ou à emporter .\n\n- Le pizzaiolo au top ,sa pâte et ces pizze napolitaine sont très très bien préparées ,je conseille fortement la pistacchio ,une tuerie 🤪 et Grazie 1000 pour  la recette du levain qu'il m'a conseillé 🤟🇮🇹✌️.-\n- les cannoli au citron  sont délicieux,pâte frite  et croustillante ce qui n'est pas le cas ds tout les resto 🇮🇹.\n-  Le service impeccable,malgres le monde elles ont  gérer de ouf, enchaînés 2 ou 3  services d'affilés en gardant la pêche et le sourire  ce n'est pas facile ,même si c'est leurs boulot 👍.\n-  l'ambiance nikel sauf que : J'EN PEUX PLUS D'ENTENDRE LA CHANSSON DE TOTO COTUGNO 🤣🤣😂. ma grand mère l'écoutait 300 fois par jours quand j'étais petit .\n- Les toilettes je vous laisse découvrir par vous même 🤣,moi la prochaine fois je mangerais mon dessert dedans 😂.\n\nBref !! A faire et a refaire\n\n🇮🇹FORZA ITALIA 🇮🇹",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Sabrina Tondo",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnTUNZd2VqbHFBRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCYwejlqAE%7CCgwI3OrewAYQyMOe1QI%7C?hl=fr",
-    "stars": 5,
-    "text": "De passage en voyage, nous avons appelé en route pour retirer 2 pizzas au passage. Accueil tél et sur place très sympathique. Pizza succulentes avec de bons produits italiens comme on aime. Petit arrêt aux sanitaires obligé ! 😁 Top ambiance ! Grazie mille.",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Toto TATA",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnTUNZN29ueDV3RRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCY7onx5wE%7CCgwIir_dwAYQkPCYigI%7C?hl=fr",
-    "stars": 5,
-    "text": "Belle recommandation de l’Hotel Le Quercy\nSuperbes pizza et lasagnes maisons\nPersonnel gentil (merci Gwen et Le Chef)\nForte affluence qui peut allonger l’attente des plats … mais cela en vaut la peine\nSalle ou terrasse au choix\nMerci à vous\n(Denis-Annie ; Versailles)",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Emilie Millot",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnTUNZLW95eGpBRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCY-oyxjAE%7CCgwItsXZwAYQqIr2hgE%7C?hl=fr",
-    "stars": 5,
-    "text": "Belle découverte une ambiance sympathique avec une bande son des années 70 américaines tout en sobriété vous entrez dans une atmosphère avec une ambiance chaleureuse que le personnel nous fait ressentir dès notre entrée, au niveau des différents plats tout y est frais et très bon.\nSans aucun doute une très bonne adresse  merci à vous.",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Chrystelle D",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnTUNZdW9MNnh3RRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCYuoL6xwE%7CCgwI-ZfZwAYQuKTjoAE%7C?hl=fr",
-    "stars": 5,
-    "text": "Première fois dans ce restaurant , tout était excellent !\nÀ refaire",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Victor Pa",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTUNZMnU3QUlBEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCY2u7AIA%7CCgwIrfDYwAYQgNe1rwM%7C?hl=fr",
-    "stars": 5,
-    "text": "Excellent restaurant, j'ai passé un bon moment. J'ai hâte de revenir.",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Nathalie DONKER",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTUNZaXBfWlZnEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCYip_ZVg%7CCgwIwp_XwAYQoNOW2QM%7C?hl=fr",
-    "stars": 5,
-    "text": "Comme toujours un accueil chaleureux et convivial autour de bonnes assiettes.",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Charlotte De Nayer",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnTUNZb29pRG53RRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCYooiDnwE%7CCgwIoMfUwAYQ4MeAsQM%7C?hl=fr",
-    "stars": 5,
-    "text": "J'ai pris une pizza végétarienne en 22cm, celle ci était tellement bien fournie que je n'ai même pas eu à finir mes croutes. Miam miam",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Faby Mcg",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTUNZX0p1dkpnEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCY_JuvJg%7CCgwIydLTwAYQ-MXzkAE%7C?hl=fr",
-    "stars": 5,
-    "text": "Recommandée par notre hôtel, la trattoria ne nous a pas déçue, bien au contraire. Copieux et bon. Nous avons opté pour les grandes salades et l’assiette de charcuterie à partager. Parfait",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Christian",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTURvNS15aExnEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDo5-yhLg%7CCgsI64zPwAYQgIfnTA%7C?hl=fr",
-    "stars": 5,
-    "text": "Très satisfait de notre repas",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Delphine Bugeat",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSUNwcWRLeFp3EAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgICpqdKxZw%7CCgwI89fNwAYQkJXD6gE%7C?hl=fr",
-    "stars": 5,
-    "text": "Excellentes pizzas 🍕",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Rousseau Marine-Océane",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnTUNZLUpibDJBRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCY-Jbl2AE%7CCgwIl8DMwAYQ4KSQ-AI%7C?hl=fr",
-    "stars": 5,
-    "text": "Super accueil, une serveuse adorable et chaleureuse. Les pizzas étaient excellentes ! Ravie d’avoir enfin pu tester la version restaurant (je prend tout le temps à emporter!)",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Delphine Ravel",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnSURSN0t6Y21nRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIDR7KzcmgE%7CCgsItPHBwAYQ-MXSHg%7C?hl=fr",
-    "stars": 5,
-    "text": "Une Ambiance unique. Dès notre arrivée nous avons ressenti cette ambiance chaleureuse conviviale vraiment rare et surtout sur Brive… la gentillesse des serveurs, des pizzaiolos une très très bonne adresse.\nSans oublier le principal pour nous les pizzas et là, l’extase même en Italie pas sûr d’en avoir mangé d’aussi bonnes.\nFraîcheur des produits et la pâte la PÂTE.\nBref Super nous nous sommes régalés nous étions 4, nous nous sommes sentis vraiment très bien.\nNous recommanderons cette adresse sans aucune hésitation.\nUn grand bravo.\nDelphine",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Serge Villeneuve",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTURvMl9yU093EAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDo2_rSOw%7CCgsI7efBwAYQwKHTLQ%7C?hl=fr",
-    "stars": 5,
-    "text": "Malgré plusieurs expériences dans ce lieu c'est toujours un plaisir à tous les niveaux\nBravo pour cette constance dans la qualité",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Clément Poulvélarie",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnSUNoN19qZ2d3RRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgICh7_jggwE%7CCgwI--a8wAYQyL2tqgE%7C?hl=fr",
-    "stars": 5,
-    "text": "Toujours au top !",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Sylvaine Voudon",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnTURvellHTzVBRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDozYGO5AE%7CCgwI4e64wAYQ0IiagAI%7C?hl=fr",
-    "stars": 5,
-    "text": "Ras très bon rapport qualité prix . Le passage au toilettes est très dansant",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Benedicte Barrau",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTURvemJ5QlJREAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDozbyBRQ%7CCgwI_OK4wAYQyMOrpwI%7C?hl=fr",
-    "stars": 5,
-    "text": "Restaurant très sympa tant sur l’ambiance et les plats ; la serveuse est fort sympathique ; elle a beaucoup d’humour\nOn a passé un agréable moment",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Gilles Hustaix",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTURvNmNMNlFBEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDo6cL6QA%7CCgwI2fSywAYQwP6BuwE%7C?hl=fr",
-    "stars": 5,
-    "text": "Une grande table italienne en plein Brive ! Tout est délicieux dans un endroit très agréable et un personnel très sympathique !!",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
     "name": "Regis Garel",
     "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnTURvdm9XVndBRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDovoWVwAE%7CCgwIn86twAYQyLGq0AM%7C?hl=fr",
     "stars": 4,
     "text": "Bonne cuisine mais service un peu long avec des éléments oubliés qui ont dû être réclamé s. Sinon table proche de l'entrée à éviter à cause des courants d'air. Toilettes fun qui sont à visiter.",
     "title": "Rosi Trattoria",
     "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Aurelien Tessiaut",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnTURvN3NuTnl3RRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDo7snNywE%7CCgwI_6OswAYQ2Oej2AI%7C?hl=fr",
-    "stars": 5,
-    "text": "Ambiance et repas excellent :-) service au top et les pizzas un pur régal :-)\nEt j’ai adoré la mini discothèque dans les toilettes :-)",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Anaïs SOULIER",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSURkbFk2NUV3EAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIDdlY65Ew%7CCgwIuNmpwAYQ-KOrjQI%7C?hl=fr",
-    "stars": 5,
-    "text": "Comme d'habitude,\nService top, ambiance chaleureuse et très bon repas.\nPassage 2 fois en 1 semaine, c'est pour dire si on aime 😂🥰",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Paulette Casse",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnTURvbHR5YXBnRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDoltyapgE%7CCgwInfWowAYQgJupkwI%7C?hl=fr",
-    "stars": 5,
-    "text": "Tout était parfait et nos invités séduits.",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "L G",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTURvNW9UM1F3EAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDo5oT3Qw%7CCgwIjseowAYQoOeY6gE%7C?hl=fr",
-    "stars": 5,
-    "text": "Cadre très agréable, service impeccable, pizza et pâtes délicieuses. Merci à toutes l'équipe pour ce très bon moment. Nous reviendrons !",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Marie-pierre Rouffanche",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSURmbW9xQUdBEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIDfmoqAGA%7CCgsI3JejwAYQ2OKXKw%7C?hl=fr",
-    "stars": 5,
-    "text": "Tout est parfait !",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Céline Boutin",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTURvdE5MMWRnEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDotNL1dg%7CCgwIuZudwAYQwKCtmAI%7C?hl=fr",
-    "stars": 5,
-    "text": "La meilleure pizza que j'ai mangée et le service au top!",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "cécile lavergne",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnSUMyeWNXSGd3RRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIC2ycWHgwE%7CCgwI7eyXwAYQuKmXlwM%7C?hl=fr",
-    "stars": 5,
-    "text": "Pizzas succulentes,  accueil chaleureux.",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Mika",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnTUNvbWZEYl9nRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMComfDb_gE%7CCgwIj_KUwAYQqIHCvwI%7C?hl=fr",
-    "stars": 5,
-    "text": "Nous avons passé un super moment en famille. L’ambiance et le service parfait pour s’évader du quotidien (n’oubliez pas de passer aux toilettes ;) Les pizzas sont excellentes avec des bons produits qui ont du goût et on peut rajouter d’ingrédients selon nos préférences. À refaire sans modération ! On va certainement revenir.",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Emilie Ferrand",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnTUNvdF9qa3lRRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCot_jkyQE%7CCgsI1cCUwAYQ0KqIJA%7C?hl=fr",
-    "stars": 5,
-    "text": "Super resto au centre de Brive ! Très accueillants, ambiance chaleureuse, conviviale. Des serveurs attentionnés ( ils avaient prévu un grand espace à l’annonce de ma venue avec ma chienne que finalement j’ai laissée en maison, ils étaient déçus 😅)\nCuisine tout aussi chaleureuse, gourmande et moderne !\nJ’y reviendrai avec plaisir ( et avec ma chienne 😂)",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "denis CHARLANNE",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTUNvMjZfeUhBEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCo26_yHA%7CCgwI-aOSwAYQyNyrvQM%7C?hl=fr",
-    "stars": 5,
-    "text": "Un accueil, une cuisine exceptionnelle\nToujours hate d’y revenir",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Step stephane (“Steph”)",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTUNvMDczVlVBEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCo073VUA%7CCgsIqsqPwAYQgLmGSw%7C?hl=fr",
-    "stars": 5,
-    "text": "Super pizzeria, pizzas originales les  produits sont de qualité la pâte super bonne comme on aime.\nservice attentionné..\nBelle découverte.",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Philippe ANDRE",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTUNvazZLdVlBEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCok6KuYA%7CCgsIm5aPwAYQwMnZbA%7C?hl=fr",
-    "stars": 5,
-    "text": "Toujours un moment très agréable, pizzas excellentes, un régal! tout est parfait\nMerci à l'équipe!!!",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "C F",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTUNvM1kzck1BEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCo3Y3rMA%7CCgwIpLuNwAYQ8KKIzAI%7C?hl=fr",
-    "stars": 5,
-    "text": "Très beau restaurant et très belle ambiance mais surtout des pizzas excellentes avec une pâte croustillante. Vraiment top.",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Salinas Jean Marie",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnTUNvMlpQZGl3RRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCo2ZPdiwE%7CCgwIpNqIwAYQ6JXutQI%7C?hl=fr",
-    "stars": 5,
-    "text": "Super restaurant accueillant professionnel tout le personnel à l écoute les patrons très souriant  les plats et les pizzas sont excellentes merci à tous merci à Fred et tous les autres nous reviendrons avec plaisir",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Herve Bringout",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTUNveHF2aUJnEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCoxqviBg%7CCgwIm97_vwYQ2K7VpwE%7C?hl=fr",
-    "stars": 5,
-    "text": "Très bonne pizza Acceuil très sympa :)",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Gladys Legrain",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTUNvX0lUc0VBEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCo_ITsEA%7CCgwIr775vwYQ6NXp-AE%7C?hl=fr",
-    "stars": 5,
-    "text": "Excellent!\nLes serveurs sont super sympa !\nLa nourriture est bonne et de qualité\nTout est parfait",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Chloé H",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTUNvM0xxM1ZREAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCo3Lq3VQ%7CCgwI5_L4vwYQ-Jjl7QE%7C?hl=fr",
-    "stars": 5,
-    "text": "Enfin du choix pour les végétarien•nes ! Merci 🙏🏻 j’ai aimé la gourmandise de la mini pizza à la Buffala et l’originalité de celle à la poire et au gorgonzola même si elle manquait légèrement de garniture comparé à l’autre dont la sauce avait bcp de crémeux.",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Patricia Gomez",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnSUNQbklLMHR3RRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgICPnIK0twE%7CCgwI4Mj0vwYQ4LXougM%7C?hl=fr",
-    "stars": 5,
-    "text": "Une mention spéciale à la serveuse merci pour votre sourire votre disponibilité et votre réactivité. Super soirée d'anniversaire",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Léa VASSEUR",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnTUNvc055NzhBRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCosNy78AE%7CCgwIyZH0vwYQ8KPU-AI%7C?hl=fr",
-    "stars": 5,
-    "text": "Je viens régulièrement à la Rosi Trattoria, et c’est toujours un plaisir. L’équipe est aux petits soins, la cuisine savoureuse, et l’ambiance conviviale. Nous y avons récemment fêté l’anniversaire de ma petite sœur : une jolie chanson accompagnée d’une bougie a rendu le moment encore plus spécial.\n\nSi vous cherchez une bonne adresse à Brive, ne cherchez plus : poussez la porte de la Rosi !",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "paul milliiot",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnTURJdmFpeTZBRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDIvaiy6AE%7CCgwI74rpvwYQ6MiG0gI%7C?hl=fr",
-    "stars": 5,
-    "text": "Exellent, en prenant l'apetif spritz et en mangeant leurs pizza j'avais l'impression de me revoir à Rôme, tout aussi decilieux, on voit la cuisine faire leurs pâtes eux même , magnifique décor et jolie ambiance, leq serveurs et serveuses très gentil, j'ai trouvé mon restaurant italien préféré de brives",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  
-  {
-    "name": "Sandrine Rivassou",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTURJMHZQTWJREAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDI0vPMbQ%7CCgwI493fvwYQ2J3T7AI%7C?hl=fr",
-    "stars": 5,
-    "text": "Ma pizzeria préférée de Brive\nAmbiance cosy\nServeuse top\nCuisine pâtes ou pizza excellente",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Pascal Bergès",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnTURJNGVyM3BRRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDI4er3pQE%7CCgwI3MPfvwYQ6OmlxAI%7C?hl=fr",
-    "stars": 5,
-    "text": "Que demander de plus, une terrasse, le soleil. Le bonheur!!!",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Johanna Pochet",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnTURJMXA3WTVnRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDI1p7Y5gE%7CCgwIy4bavwYQuLuM7wI%7C?hl=fr",
-    "stars": 5,
-    "text": "Petits et grands, on adore. Tout est réuni pour passer un délicieux moment.\nMerci pour votre bonne humeur",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "isabelle leymarie",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnTURJaHNyYWhnRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDIhsrahgE%7CCgwIxbbYvwYQqLul4QE%7C?hl=fr",
-    "stars": 5,
-    "text": "Les pizzas sont excellentes.\nLe service est dynamique et très à l’écoute. Un duo idéal pour passer un très bon moment.",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Yann Duval",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnTURJaXF1MDJ3RRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDIiqu02wE%7CCgsIi-PVvwYQ2LD5Ag%7C?hl=fr",
-    "stars": 5,
-    "text": "Très bonnes pizzas. Le service était rapide et excellent, la carte fournie et tout était excellent. Les pizzas étaient bien garnies et pas sèches du tout. Le dessert était très bon et les toilettes sont à ne pas manquer, sourire garanti ! Je recommande vivement",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Sébastien Aschbacher",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTURJOHJ1Q1FREAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDI8ruCQQ%7CCgwIgb7VvwYQuMaWpQI%7C?hl=fr",
-    "stars": 5,
-    "text": "Ma cantine suite à une semaine sur Brive !!! Pizzaiolo formé par un grand maître pizzaiolo !!! J’ai adoré !!! La pâte et garniture extra !!! Le service bien plus que sympathique… rien à redire ! Bien au contraire. J’ai même testé les pâtes👌",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "Myriam Jeradi",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTURJa3ZYV0F3EAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDIkvXWAw%7CCgwImcLUvwYQyPCFiAE%7C?hl=fr",
-    "stars": 5,
-    "text": "La pâte des pizzas est délicieuse. L'accueil est top!! L'accent italien en plus... Nous reviendrons bien sûr 🤗",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "laetitia soulier",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnTURJeExQOHBRRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDIxLP8pQE%7CCgwImufNvwYQiKDUwAI%7C?hl=fr",
-    "stars": 5,
-    "text": "Parfait !!",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "name": "clarisse bertin",
-    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTUNJMmM3ZU5BEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCI2c7eNA%7CCgwI8ajLvwYQuPKP2gI%7C?hl=fr",
-    "stars": 5,
-    "text": "Hyper copieux et les prix sont raisonnables, c’est vraiment une très bonne adresse !",
-    "title": "Rosi Trattoria",
-    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
-  },
-  {
-    "title": "2 eme avis toujours enthousiaste !!!!!",
-    "rating": 5,
-    "travelDate": "2025-06",
-    "publishedDate": "2025-06-09",
-    "text": "2eme visite pour nous, et toujours un accueil aussi chaleureux et sympathique malgré une arrivée tardive (21:15). Nous avons été bien reçus, et servis rapidement. Les pizzas sont savoureuses et généreuses, le personnel souriant et agréable !",
-    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r1011872509-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-    "user": {
-      "userId": "12080584D7DB9A2F42DA403FDAC02C29",
-      "name": "Famille P",
-      "contributions": {
-        "totalContributions": 2,
-        "helpfulVotes": 0
-      },
-      "username": "806famillep",
-      "userLocation": null,
-      "avatar": {
-        "id": "452391174",
-        "width": 1200,
-        "height": 1200,
-        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/f6/f1/06/default-avatar-2020-18.jpg"
-      },
-      "link": "www.tripadvisor.com/Profile/806famillep"
-    },
-    "ownerResponse": null,
-    "placeInfo": {
-      "id": "23792112",
-      "name": "Rosi Trattoria",
-      "rating": 4.8,
-      "numberOfReviews": 326,
-      "locationString": "Brive-la-Gaillarde, Correze, Nouvelle-Aquitaine",
-      "latitude": 45.163227,
-      "longitude": 1.532872,
-      "webUrl": "https://www.tripadvisor.com/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-      "website": "http://Rosi-trattoria.com",
-      "address": "11 Promenade Des Tilleuls, 19100 Brive-la-Gaillarde France",
-      "addressObj": {
-        "street1": "11 Promenade Des Tilleuls",
-        "street2": null,
-        "city": "Brive-la-Gaillarde",
-        "state": null,
-        "country": "France",
-        "postalcode": "19100"
-      },
-      "ratingHistogram": {
-        "count1": 3,
-        "count2": 6,
-        "count3": 6,
-        "count4": 23,
-        "count5": 288
-      }
-    }
-  },
-  {
-    "title": "Délicieux",
-    "rating": 5,
-    "travelDate": "2025-06",
-    "publishedDate": "2025-06-05",
-    "text": "C'est parfait, les pizzas sont vraiment délicieuses. Je recommande d'y aller, peut être réservé avant, il y a vite du monde.",
-    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r1011195452-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-    "user": {
-      "userId": "DBF5B150AAA2D62852D105674CB65DFE",
-      "name": "Daydream59423320021",
-      "contributions": {
-        "totalContributions": 1,
-        "helpfulVotes": 0
-      },
-      "username": "Daydream59423320021",
-      "userLocation": null,
-      "avatar": {
-        "id": "452391546",
-        "width": 1200,
-        "height": 1200,
-        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/f6/f2/7a/default-avatar-2020-25.jpg"
-      },
-      "link": "www.tripadvisor.com/Profile/Daydream59423320021"
-    },
-    "ownerResponse": null,
-    "placeInfo": {
-      "id": "23792112",
-      "name": "Rosi Trattoria",
-      "rating": 4.8,
-      "numberOfReviews": 326,
-      "locationString": "Brive-la-Gaillarde, Correze, Nouvelle-Aquitaine",
-      "latitude": 45.163227,
-      "longitude": 1.532872,
-      "webUrl": "https://www.tripadvisor.com/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-      "website": "http://Rosi-trattoria.com",
-      "address": "11 Promenade Des Tilleuls, 19100 Brive-la-Gaillarde France",
-      "addressObj": {
-        "street1": "11 Promenade Des Tilleuls",
-        "street2": null,
-        "city": "Brive-la-Gaillarde",
-        "state": null,
-        "country": "France",
-        "postalcode": "19100"
-      },
-      "ratingHistogram": {
-        "count1": 3,
-        "count2": 6,
-        "count3": 6,
-        "count4": 23,
-        "count5": 288
-      }
-    }
-  },
-  {
-    "title": "Excellente pizzeria !",
-    "rating": 5,
-    "travelDate": "2025-05",
-    "publishedDate": "2025-05-30",
-    "text": "Excellente Pizzeria ! Personnel dynamique et souriant. Des pizzas avec des produits frais, du goût et une pâte parfaite.",
-    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r1010275685-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-    "user": {
-      "userId": "E9A196579827443C9E11FF0F5884CEFB",
-      "name": "Camper55016157178",
-      "contributions": {
-        "totalContributions": 1,
-        "helpfulVotes": 0
-      },
-      "username": "Camper55016157178",
-      "userLocation": null,
-      "avatar": {
-        "id": "452391546",
-        "width": 1200,
-        "height": 1200,
-        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/f6/f2/7a/default-avatar-2020-25.jpg"
-      },
-      "link": "www.tripadvisor.com/Profile/Camper55016157178"
-    },
-    "ownerResponse": null,
-    "placeInfo": {
-      "id": "23792112",
-      "name": "Rosi Trattoria",
-      "rating": 4.8,
-      "numberOfReviews": 326,
-      "locationString": "Brive-la-Gaillarde, Correze, Nouvelle-Aquitaine",
-      "latitude": 45.163227,
-      "longitude": 1.532872,
-      "webUrl": "https://www.tripadvisor.com/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-      "website": "http://Rosi-trattoria.com",
-      "address": "11 Promenade Des Tilleuls, 19100 Brive-la-Gaillarde France",
-      "addressObj": {
-        "street1": "11 Promenade Des Tilleuls",
-        "street2": null,
-        "city": "Brive-la-Gaillarde",
-        "state": null,
-        "country": "France",
-        "postalcode": "19100"
-      },
-      "ratingHistogram": {
-        "count1": 3,
-        "count2": 6,
-        "count3": 6,
-        "count4": 23,
-        "count5": 288
-      }
-    }
-  },
-  {
-    "title": "Excellent à tous les niveaux.",
-    "rating": 5,
-    "travelDate": "2025-05",
-    "publishedDate": "2025-05-29",
-    "text": "J’ai découvert ce endroit pour mon anniversaire. J’adore la deco du restaurant. Le service est parfait et l’équipe très agréable, j’ai eu droit à la bougie et joyeux anniversaire en chant et musique.\nLes carbonara sont top \nLes pizzas, pâte un peu épaisse pour moi, mais elles sont très bonnes \nTrès bien garnies.\nUn grand merci et on reviendra",
-    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r1010154326-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-    "user": {
-      "userId": "6AD3AE7482006703B3782192067FDCF3",
-      "name": "Yannick L",
-      "contributions": {
-        "totalContributions": 95,
-        "helpfulVotes": 54
-      },
-      "username": "yannickl662",
-      "userLocation": {
-        "shortName": "Brive-la-Gaillarde",
-        "name": "Brive-la-Gaillarde, France",
-        "id": "196612"
-      },
-      "avatar": {
-        "id": "452387558",
-        "width": 1200,
-        "height": 1200,
-        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/f6/e2/e6/default-avatar-2020-45.jpg"
-      },
-      "link": "www.tripadvisor.com/Profile/yannickl662"
-    },
-    "ownerResponse": null,
-    "placeInfo": {
-      "id": "23792112",
-      "name": "Rosi Trattoria",
-      "rating": 4.8,
-      "numberOfReviews": 326,
-      "locationString": "Brive-la-Gaillarde, Correze, Nouvelle-Aquitaine",
-      "latitude": 45.163227,
-      "longitude": 1.532872,
-      "webUrl": "https://www.tripadvisor.com/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-      "website": "http://Rosi-trattoria.com",
-      "address": "11 Promenade Des Tilleuls, 19100 Brive-la-Gaillarde France",
-      "addressObj": {
-        "street1": "11 Promenade Des Tilleuls",
-        "street2": null,
-        "city": "Brive-la-Gaillarde",
-        "state": null,
-        "country": "France",
-        "postalcode": "19100"
-      },
-      "ratingHistogram": {
-        "count1": 3,
-        "count2": 6,
-        "count3": 6,
-        "count4": 23,
-        "count5": 288
-      }
-    }
-  },
-  {
-    "title": "Un voyage en Italie",
-    "rating": 5,
-    "travelDate": "2025-05",
-    "publishedDate": "2025-05-27",
-    "text": "En transit du Sud vers le nord, nous avons fait un stop ici pour dîner. Ce fut un incroyable voyage en Italie! Assis au comptoir devant les artistes de la cuisine, nous avons vu la pizza se préparer devant nos yeux de A à Z. Du grand art qui n’a d’égal que la gentillesse des pizzaiolo.",
-    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r1009900194-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-    "user": {
-      "userId": "80A80EB595BC6F22FDFDC73FE18ECE98",
-      "name": "Gaillot78",
-      "contributions": {
-        "totalContributions": 141,
-        "helpfulVotes": 37
-      },
-      "username": "Gaillot78",
-      "userLocation": {
-        "shortName": "Rambouillet",
-        "name": "Rambouillet, France",
-        "id": "1055982"
-      },
-      "avatar": {
-        "id": "107802389",
-        "width": 1024,
-        "height": 1024,
-        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/06/6c/ef/15/gaillot78.jpg"
-      },
-      "link": "www.tripadvisor.com/Profile/Gaillot78"
-    },
-    "ownerResponse": null,
-    "placeInfo": {
-      "id": "23792112",
-      "name": "Rosi Trattoria",
-      "rating": 4.8,
-      "numberOfReviews": 326,
-      "locationString": "Brive-la-Gaillarde, Correze, Nouvelle-Aquitaine",
-      "latitude": 45.163227,
-      "longitude": 1.532872,
-      "webUrl": "https://www.tripadvisor.com/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-      "website": "http://Rosi-trattoria.com",
-      "address": "11 Promenade Des Tilleuls, 19100 Brive-la-Gaillarde France",
-      "addressObj": {
-        "street1": "11 Promenade Des Tilleuls",
-        "street2": null,
-        "city": "Brive-la-Gaillarde",
-        "state": null,
-        "country": "France",
-        "postalcode": "19100"
-      },
-      "ratingHistogram": {
-        "count1": 3,
-        "count2": 6,
-        "count3": 6,
-        "count4": 23,
-        "count5": 288
-      }
-    }
-  },
-  {
-    "title": "excellent mais musique trop forte",
-    "rating": 5,
-    "travelDate": "2025-05",
-    "publishedDate": "2025-05-24",
-    "text": "pizza excellentes  service impeccable \n\nun petit bémol: la musique trop forte à l'intérieur\n\naccueil  parfait tout est fait pour réjouir le client",
-    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r1008944096-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-    "user": {
-      "userId": "420FDE1D697B1BFA7E8C11AC497B15B5",
-      "name": "Pascale T",
-      "contributions": {
-        "totalContributions": 2,
-        "helpfulVotes": 0
-      },
-      "username": "343pascalet",
-      "userLocation": null,
-      "avatar": null,
-      "link": "www.tripadvisor.com/Profile/343pascalet"
-    },
-    "ownerResponse": null,
-    "placeInfo": {
-      "id": "23792112",
-      "name": "Rosi Trattoria",
-      "rating": 4.8,
-      "numberOfReviews": 326,
-      "locationString": "Brive-la-Gaillarde, Correze, Nouvelle-Aquitaine",
-      "latitude": 45.163227,
-      "longitude": 1.532872,
-      "webUrl": "https://www.tripadvisor.com/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-      "website": "http://Rosi-trattoria.com",
-      "address": "11 Promenade Des Tilleuls, 19100 Brive-la-Gaillarde France",
-      "addressObj": {
-        "street1": "11 Promenade Des Tilleuls",
-        "street2": null,
-        "city": "Brive-la-Gaillarde",
-        "state": null,
-        "country": "France",
-        "postalcode": "19100"
-      },
-      "ratingHistogram": {
-        "count1": 3,
-        "count2": 6,
-        "count3": 6,
-        "count4": 23,
-        "count5": 288
-      }
-    }
-  },
-  {
-    "title": "Super moment",
-    "rating": 5,
-    "travelDate": "2025-05",
-    "publishedDate": "2025-05-22",
-    "text": "⭐️⭐️⭐️⭐️⭐️\nSuper expérience au restaurant Rosi !\nLa cuisine est excellente, le cadre agréable… mais le vrai coup de cœur, c’est la serveuse Isaure !\nTOPISSIME du début à la fin : accueillante, souriante, ultra pro et super attentionnée.\nElle a clairement rendu notre repas encore plus agréable. Merci Isaure, et bravo à toute l’équipe ! 🙌🍽️",
-    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r1008735501-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-    "user": {
-      "userId": "3E21524F788C3589E528E50AB62A679A",
-      "name": "Connector49161720724",
-      "contributions": {
-        "totalContributions": 1,
-        "helpfulVotes": 0
-      },
-      "username": "Connector49161720724",
-      "userLocation": null,
-      "avatar": {
-        "id": "452390416",
-        "width": 1200,
-        "height": 1200,
-        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/f6/ee/10/default-avatar-2020-8.jpg"
-      },
-      "link": "www.tripadvisor.com/Profile/Connector49161720724"
-    },
-    "ownerResponse": null,
-    "placeInfo": {
-      "id": "23792112",
-      "name": "Rosi Trattoria",
-      "rating": 4.8,
-      "numberOfReviews": 326,
-      "locationString": "Brive-la-Gaillarde, Correze, Nouvelle-Aquitaine",
-      "latitude": 45.163227,
-      "longitude": 1.532872,
-      "webUrl": "https://www.tripadvisor.com/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-      "website": "http://Rosi-trattoria.com",
-      "address": "11 Promenade Des Tilleuls, 19100 Brive-la-Gaillarde France",
-      "addressObj": {
-        "street1": "11 Promenade Des Tilleuls",
-        "street2": null,
-        "city": "Brive-la-Gaillarde",
-        "state": null,
-        "country": "France",
-        "postalcode": "19100"
-      },
-      "ratingHistogram": {
-        "count1": 3,
-        "count2": 6,
-        "count3": 6,
-        "count4": 23,
-        "count5": 288
-      }
-    }
-  },
-  {
-    "title": "Parfait",
-    "rating": 5,
-    "travelDate": "2025-05",
-    "publishedDate": "2025-05-20",
-    "text": "Un très bon établissement très commercial et très bon. Accueil super sympathique et produit de très bonne qualité.\nJe recommande à 100% !",
-    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r1008464719-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-    "user": {
-      "userId": "0425481891C20770E3BD20813272C940",
-      "name": "Traveler30704641482",
-      "contributions": {
-        "totalContributions": 1,
-        "helpfulVotes": 0
-      },
-      "username": "Traveler30704641482",
-      "userLocation": null,
-      "avatar": {
-        "id": "452387929",
-        "width": 1200,
-        "height": 1200,
-        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/f6/e4/59/default-avatar-2020-49.jpg"
-      },
-      "link": "www.tripadvisor.com/Profile/Traveler30704641482"
-    },
-    "ownerResponse": null,
-    "placeInfo": {
-      "id": "23792112",
-      "name": "Rosi Trattoria",
-      "rating": 4.8,
-      "numberOfReviews": 326,
-      "locationString": "Brive-la-Gaillarde, Correze, Nouvelle-Aquitaine",
-      "latitude": 45.163227,
-      "longitude": 1.532872,
-      "webUrl": "https://www.tripadvisor.com/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-      "website": "http://Rosi-trattoria.com",
-      "address": "11 Promenade Des Tilleuls, 19100 Brive-la-Gaillarde France",
-      "addressObj": {
-        "street1": "11 Promenade Des Tilleuls",
-        "street2": null,
-        "city": "Brive-la-Gaillarde",
-        "state": null,
-        "country": "France",
-        "postalcode": "19100"
-      },
-      "ratingHistogram": {
-        "count1": 3,
-        "count2": 6,
-        "count3": 6,
-        "count4": 23,
-        "count5": 288
-      }
-    }
-  },
-  {
-    "title": "Favorable, j'aime les gens et la gentillesse",
-    "rating": 5,
-    "travelDate": "2025-05",
-    "publishedDate": "2025-05-20",
-    "text": "Endroit sympa. Venue plusieurs fois Très bonnes pizzas.  Super tiramissu . Uhuh. Très bonne restauration certes mais aussi \nIsaure est particulièrement dans son élément, compétence,  gentillesse,  humour à gogo,  sourire 😃  qu'est-ce que fait du bien! Josie.",
-    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r1008461429-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-    "user": {
-      "userId": "2A6930A7DBC457825263379130037D07",
-      "name": "josie Grasset",
-      "contributions": {
-        "totalContributions": 11,
-        "helpfulVotes": 0
-      },
-      "username": "575josianeg",
-      "userLocation": null,
-      "avatar": {
-        "id": "452391513",
-        "width": 1200,
-        "height": 1200,
-        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/f6/f2/59/default-avatar-2020-24.jpg"
-      },
-      "link": "www.tripadvisor.com/Profile/575josianeg"
-    },
-    "ownerResponse": null,
-    "placeInfo": {
-      "id": "23792112",
-      "name": "Rosi Trattoria",
-      "rating": 4.8,
-      "numberOfReviews": 326,
-      "locationString": "Brive-la-Gaillarde, Correze, Nouvelle-Aquitaine",
-      "latitude": 45.163227,
-      "longitude": 1.532872,
-      "webUrl": "https://www.tripadvisor.com/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-      "website": "http://Rosi-trattoria.com",
-      "address": "11 Promenade Des Tilleuls, 19100 Brive-la-Gaillarde France",
-      "addressObj": {
-        "street1": "11 Promenade Des Tilleuls",
-        "street2": null,
-        "city": "Brive-la-Gaillarde",
-        "state": null,
-        "country": "France",
-        "postalcode": "19100"
-      },
-      "ratingHistogram": {
-        "count1": 3,
-        "count2": 6,
-        "count3": 6,
-        "count4": 23,
-        "count5": 288
-      }
-    }
-  },
-  {
-    "title": "Super pizzeria",
-    "rating": 5,
-    "travelDate": "2025-05",
-    "publishedDate": "2025-05-20",
-    "text": "Des produits de qualité, une pâte à pizza exceptionnelle, chantilly maison pour les gourmands, personnel très sympa et efficace ; petit clin d'oeil, à propos des toilettes \"toniques\" ...",
-    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r1008401470-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-    "user": {
-      "userId": "191DA0FBEB49FEF2706D2BAFBB039616",
-      "name": "DB46",
-      "contributions": {
-        "totalContributions": 11,
-        "helpfulVotes": 46
-      },
-      "username": "DB-LePech",
-      "userLocation": null,
-      "avatar": {
-        "id": "452388955",
-        "width": 1200,
-        "height": 1200,
-        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/f6/e8/5b/default-avatar-2020-61.jpg"
-      },
-      "link": "www.tripadvisor.com/Profile/DB-LePech"
-    },
-    "ownerResponse": null,
-    "placeInfo": {
-      "id": "23792112",
-      "name": "Rosi Trattoria",
-      "rating": 4.8,
-      "numberOfReviews": 326,
-      "locationString": "Brive-la-Gaillarde, Correze, Nouvelle-Aquitaine",
-      "latitude": 45.163227,
-      "longitude": 1.532872,
-      "webUrl": "https://www.tripadvisor.com/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-      "website": "http://Rosi-trattoria.com",
-      "address": "11 Promenade Des Tilleuls, 19100 Brive-la-Gaillarde France",
-      "addressObj": {
-        "street1": "11 Promenade Des Tilleuls",
-        "street2": null,
-        "city": "Brive-la-Gaillarde",
-        "state": null,
-        "country": "France",
-        "postalcode": "19100"
-      },
-      "ratingHistogram": {
-        "count1": 3,
-        "count2": 6,
-        "count3": 6,
-        "count4": 23,
-        "count5": 288
-      }
-    }
-  },
-  {
-    "title": "Resto au top",
-    "rating": 5,
-    "travelDate": "2025-05",
-    "publishedDate": "2025-05-09",
-    "text": "Je vous conseille la serveuse Isaure. Gentille agréable et souriante nous avons passé un agréable moment. Elle reste à l’écoute et répond aux besoins des clients",
-    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r1006580307-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-    "user": {
-      "userId": "A0F9F2D67394E88B012EE4729347B6A4",
-      "name": "Romane P",
-      "contributions": {
-        "totalContributions": 1,
-        "helpfulVotes": 0
-      },
-      "username": "70romanep",
-      "userLocation": null,
-      "avatar": {
-        "id": "452361217",
-        "width": 1200,
-        "height": 1200,
-        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/f6/7c/01/default-avatar-2020-5.jpg"
-      },
-      "link": "www.tripadvisor.com/Profile/70romanep"
-    },
-    "ownerResponse": null,
-    "placeInfo": {
-      "id": "23792112",
-      "name": "Rosi Trattoria",
-      "rating": 4.8,
-      "numberOfReviews": 326,
-      "locationString": "Brive-la-Gaillarde, Correze, Nouvelle-Aquitaine",
-      "latitude": 45.163227,
-      "longitude": 1.532872,
-      "webUrl": "https://www.tripadvisor.com/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-      "website": "http://Rosi-trattoria.com",
-      "address": "11 Promenade Des Tilleuls, 19100 Brive-la-Gaillarde France",
-      "addressObj": {
-        "street1": "11 Promenade Des Tilleuls",
-        "street2": null,
-        "city": "Brive-la-Gaillarde",
-        "state": null,
-        "country": "France",
-        "postalcode": "19100"
-      },
-      "ratingHistogram": {
-        "count1": 3,
-        "count2": 6,
-        "count3": 6,
-        "count4": 23,
-        "count5": 288
-      }
-    }
-  },
-  {
-    "title": "Très bon restaurant italien",
-    "rating": 5,
-    "travelDate": "2025-05",
-    "publishedDate": "2025-05-07",
-    "text": "Excellente pizza 🍕 très bon accueil et un grand merci à Isaure qui est de très bon conseil et très agréable 😄je recommande",
-    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r1006324477-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-    "user": {
-      "userId": "FB3B870BD34DF66F27759639F6A5FA95",
-      "name": "Sylvie P",
-      "contributions": {
-        "totalContributions": 1,
-        "helpfulVotes": 0
-      },
-      "username": "sylviepA8923CN",
-      "userLocation": null,
-      "avatar": {
-        "id": "452388586",
-        "width": 1200,
-        "height": 1200,
-        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/f6/e6/ea/default-avatar-2020-54.jpg"
-      },
-      "link": "www.tripadvisor.com/Profile/sylviepA8923CN"
-    },
-    "ownerResponse": null,
-    "placeInfo": {
-      "id": "23792112",
-      "name": "Rosi Trattoria",
-      "rating": 4.8,
-      "numberOfReviews": 326,
-      "locationString": "Brive-la-Gaillarde, Correze, Nouvelle-Aquitaine",
-      "latitude": 45.163227,
-      "longitude": 1.532872,
-      "webUrl": "https://www.tripadvisor.com/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-      "website": "http://Rosi-trattoria.com",
-      "address": "11 Promenade Des Tilleuls, 19100 Brive-la-Gaillarde France",
-      "addressObj": {
-        "street1": "11 Promenade Des Tilleuls",
-        "street2": null,
-        "city": "Brive-la-Gaillarde",
-        "state": null,
-        "country": "France",
-        "postalcode": "19100"
-      },
-      "ratingHistogram": {
-        "count1": 3,
-        "count2": 6,
-        "count3": 6,
-        "count4": 23,
-        "count5": 288
-      }
-    }
-  },
-  {
-    "title": "Très bonne pizza ",
-    "rating": 5,
-    "travelDate": "2025-05",
-    "publishedDate": "2025-05-07",
-    "text": "Très bonne pizza. \n\nPate travaillée et ingrédients de qualité.\n\nPersonnel sympathique.\nPensez à réserver \nJ'y reviendrai.\n\n     ",
-    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r1006306552-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-    "user": {
-      "userId": "B17F4560D7B67040D310692407C0E687",
-      "name": "Christian C",
-      "contributions": {
-        "totalContributions": 2,
-        "helpfulVotes": 4
-      },
-      "username": "ChristianC4282",
-      "userLocation": null,
-      "avatar": {
-        "id": "452391546",
-        "width": 1200,
-        "height": 1200,
-        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/f6/f2/7a/default-avatar-2020-25.jpg"
-      },
-      "link": "www.tripadvisor.com/Profile/ChristianC4282"
-    },
-    "ownerResponse": null,
-    "placeInfo": {
-      "id": "23792112",
-      "name": "Rosi Trattoria",
-      "rating": 4.8,
-      "numberOfReviews": 326,
-      "locationString": "Brive-la-Gaillarde, Correze, Nouvelle-Aquitaine",
-      "latitude": 45.163227,
-      "longitude": 1.532872,
-      "webUrl": "https://www.tripadvisor.com/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-      "website": "http://Rosi-trattoria.com",
-      "address": "11 Promenade Des Tilleuls, 19100 Brive-la-Gaillarde France",
-      "addressObj": {
-        "street1": "11 Promenade Des Tilleuls",
-        "street2": null,
-        "city": "Brive-la-Gaillarde",
-        "state": null,
-        "country": "France",
-        "postalcode": "19100"
-      },
-      "ratingHistogram": {
-        "count1": 3,
-        "count2": 6,
-        "count3": 6,
-        "count4": 23,
-        "count5": 288
-      }
-    }
-  },
-  {
-    "title": "Notre cantine",
-    "rating": 5,
-    "travelDate": "2025-05",
-    "publishedDate": "2025-05-06",
-    "text": "Notre cantine lors d’une virée à Brive ! \nDes plats savoureux , des produits de qualité , des pizzas variées , des salades à tomber ! \nAjoutez à cela : une déco originale, un service agréable et une addition raisonnable : tout est parfait",
-    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r1006190926-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-    "user": {
-      "userId": "649567F607909819631517160C212F1D",
-      "name": "Memeduquercy",
-      "contributions": {
-        "totalContributions": 401,
-        "helpfulVotes": 244
-      },
-      "username": "Memeduquercy",
-      "userLocation": {
-        "shortName": "Le Montat",
-        "name": "Le Montat, France",
-        "id": "5001321"
-      },
-      "avatar": {
-        "id": "464754801",
-        "width": 450,
-        "height": 450,
-        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1b/b3/98/71/caption.jpg"
-      },
-      "link": "www.tripadvisor.com/Profile/Memeduquercy"
-    },
-    "ownerResponse": null,
-    "placeInfo": {
-      "id": "23792112",
-      "name": "Rosi Trattoria",
-      "rating": 4.8,
-      "numberOfReviews": 326,
-      "locationString": "Brive-la-Gaillarde, Correze, Nouvelle-Aquitaine",
-      "latitude": 45.163227,
-      "longitude": 1.532872,
-      "webUrl": "https://www.tripadvisor.com/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-      "website": "http://Rosi-trattoria.com",
-      "address": "11 Promenade Des Tilleuls, 19100 Brive-la-Gaillarde France",
-      "addressObj": {
-        "street1": "11 Promenade Des Tilleuls",
-        "street2": null,
-        "city": "Brive-la-Gaillarde",
-        "state": null,
-        "country": "France",
-        "postalcode": "19100"
-      },
-      "ratingHistogram": {
-        "count1": 3,
-        "count2": 6,
-        "count3": 6,
-        "count4": 23,
-        "count5": 288
-      }
-    }
-  },
-  {
-    "title": "Excellente adresse italienne à Brive",
-    "rating": 5,
-    "travelDate": "2025-05",
-    "publishedDate": "2025-05-01",
-    "text": "Très belle expérience : Planche avec des beaux produits et pizza Tartuffo, couverte de truffes, de jambon et une burrata à tomber, pâte fine moelleuse et croustillante. Personnel très professionnel, motivé et souriant. Nous recommandons (il faut réserver !)",
-    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r1005401428-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-    "user": {
-      "userId": "084290A022E637491372D0E37CFE9A6C",
-      "name": "sylsibille",
-      "contributions": {
-        "totalContributions": 4,
-        "helpfulVotes": 1
-      },
-      "username": "sylsibille",
-      "userLocation": {
-        "shortName": "Lyon",
-        "name": "Lyon, France",
-        "id": "187265"
-      },
-      "avatar": {
-        "id": "452391715",
-        "width": 1200,
-        "height": 1200,
-        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/f6/f3/23/default-avatar-2020-28.jpg"
-      },
-      "link": "www.tripadvisor.com/Profile/sylsibille"
-    },
-    "ownerResponse": null,
-    "placeInfo": {
-      "id": "23792112",
-      "name": "Rosi Trattoria",
-      "rating": 4.8,
-      "numberOfReviews": 326,
-      "locationString": "Brive-la-Gaillarde, Correze, Nouvelle-Aquitaine",
-      "latitude": 45.163227,
-      "longitude": 1.532872,
-      "webUrl": "https://www.tripadvisor.com/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-      "website": "http://Rosi-trattoria.com",
-      "address": "11 Promenade Des Tilleuls, 19100 Brive-la-Gaillarde France",
-      "addressObj": {
-        "street1": "11 Promenade Des Tilleuls",
-        "street2": null,
-        "city": "Brive-la-Gaillarde",
-        "state": null,
-        "country": "France",
-        "postalcode": "19100"
-      },
-      "ratingHistogram": {
-        "count1": 3,
-        "count2": 6,
-        "count3": 6,
-        "count4": 23,
-        "count5": 288
-      }
-    }
-  },
-  {
-    "title": "MERCI !",
-    "rating": 5,
-    "travelDate": "2025-04",
-    "publishedDate": "2025-04-24",
-    "text": "Cadre très agréable et chaleureux, accueil sympathique, service impeccable, pizza et pâtes délicieuses, sans oublier les beignets de fleurs de courgettes. Cerise sur le gâteau : les toilettes disco 🤩. Merci à toute l'équipe! Nous reviendrons !",
-    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r1004079994-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-    "user": {
-      "userId": "680970426D16CB23BFACE0BB28415D62",
-      "name": "Lauryla",
-      "contributions": {
-        "totalContributions": 53,
-        "helpfulVotes": 38
-      },
-      "username": "laurenced953",
-      "userLocation": {
-        "shortName": "Lyon",
-        "name": "Lyon, France",
-        "id": "187265"
-      },
-      "avatar": {
-        "id": "402755760",
-        "width": 1027,
-        "height": 1027,
-        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/18/01/90/b0/avatar.jpg"
-      },
-      "link": "www.tripadvisor.com/Profile/laurenced953"
-    },
-    "ownerResponse": null,
-    "placeInfo": {
-      "id": "23792112",
-      "name": "Rosi Trattoria",
-      "rating": 4.8,
-      "numberOfReviews": 326,
-      "locationString": "Brive-la-Gaillarde, Correze, Nouvelle-Aquitaine",
-      "latitude": 45.163227,
-      "longitude": 1.532872,
-      "webUrl": "https://www.tripadvisor.com/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-      "website": "http://Rosi-trattoria.com",
-      "address": "11 Promenade Des Tilleuls, 19100 Brive-la-Gaillarde France",
-      "addressObj": {
-        "street1": "11 Promenade Des Tilleuls",
-        "street2": null,
-        "city": "Brive-la-Gaillarde",
-        "state": null,
-        "country": "France",
-        "postalcode": "19100"
-      },
-      "ratingHistogram": {
-        "count1": 3,
-        "count2": 6,
-        "count3": 6,
-        "count4": 23,
-        "count5": 288
-      }
-    }
-  },
-  {
-    "title": "1ere place briviste méritée !",
-    "rating": 5,
-    "travelDate": "2025-04",
-    "publishedDate": "2025-04-23",
-    "text": "Si vous voulez déguster de bons produits et rapidement vous êtes où il faut ! \nLes pizzas sont excellentes. La pâte est ni trop épaisse, ni trop fine. Il y a un choix varié de pizzas pour tous les goûts. \nLe service est ultra rapide et de qualité. \nLa pizzeria Briviste mérite sa première place sur Tripadvisor",
-    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r1003999184-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-    "user": {
-      "userId": "3341A8512F390F225A28A49A71F253B1",
-      "name": "igonnet robin",
-      "contributions": {
-        "totalContributions": 31,
-        "helpfulVotes": 0
-      },
-      "username": "Go43523636680",
-      "userLocation": {
-        "shortName": "Beziers",
-        "name": "Beziers, France",
-        "id": "196600"
-      },
-      "avatar": {
-        "id": "452390144",
-        "width": 1200,
-        "height": 1200,
-        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/f6/ed/00/default-avatar-2020-4.jpg"
-      },
-      "link": "www.tripadvisor.com/Profile/Go43523636680"
-    },
-    "ownerResponse": null,
-    "placeInfo": {
-      "id": "23792112",
-      "name": "Rosi Trattoria",
-      "rating": 4.8,
-      "numberOfReviews": 326,
-      "locationString": "Brive-la-Gaillarde, Correze, Nouvelle-Aquitaine",
-      "latitude": 45.163227,
-      "longitude": 1.532872,
-      "webUrl": "https://www.tripadvisor.com/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-      "website": "http://Rosi-trattoria.com",
-      "address": "11 Promenade Des Tilleuls, 19100 Brive-la-Gaillarde France",
-      "addressObj": {
-        "street1": "11 Promenade Des Tilleuls",
-        "street2": null,
-        "city": "Brive-la-Gaillarde",
-        "state": null,
-        "country": "France",
-        "postalcode": "19100"
-      },
-      "ratingHistogram": {
-        "count1": 3,
-        "count2": 6,
-        "count3": 6,
-        "count4": 23,
-        "count5": 288
-      }
-    }
-  },
-  {
-    "title": "Une très bonne adresse !",
-    "rating": 5,
-    "travelDate": "2025-04",
-    "publishedDate": "2025-04-19",
-    "text": "Personnel très agréable et des pizzas excellentes ! Nous avons passé un très bon moment et nous reviendrons avec plaisir !",
-    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r1003341473-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-    "user": {
-      "userId": "29880B1F95828A4A0B9DD4252E4B6698",
-      "name": "Christelle D",
-      "contributions": {
-        "totalContributions": 8,
-        "helpfulVotes": 3
-      },
-      "username": "O7911BOchristelled",
-      "userLocation": null,
-      "avatar": {
-        "id": "452389492",
-        "width": 1200,
-        "height": 1200,
-        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/f6/ea/74/default-avatar-2020-68.jpg"
-      },
-      "link": "www.tripadvisor.com/Profile/O7911BOchristelled"
-    },
-    "ownerResponse": null,
-    "placeInfo": {
-      "id": "23792112",
-      "name": "Rosi Trattoria",
-      "rating": 4.8,
-      "numberOfReviews": 326,
-      "locationString": "Brive-la-Gaillarde, Correze, Nouvelle-Aquitaine",
-      "latitude": 45.163227,
-      "longitude": 1.532872,
-      "webUrl": "https://www.tripadvisor.com/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-      "website": "http://Rosi-trattoria.com",
-      "address": "11 Promenade Des Tilleuls, 19100 Brive-la-Gaillarde France",
-      "addressObj": {
-        "street1": "11 Promenade Des Tilleuls",
-        "street2": null,
-        "city": "Brive-la-Gaillarde",
-        "state": null,
-        "country": "France",
-        "postalcode": "19100"
-      },
-      "ratingHistogram": {
-        "count1": 3,
-        "count2": 6,
-        "count3": 6,
-        "count4": 23,
-        "count5": 288
-      }
-    }
-  },
-  {
-    "title": "Bon rapport qualité prix",
-    "rating": 5,
-    "travelDate": "2025-04",
-    "publishedDate": "2025-04-19",
-    "text": "Très bonne trattoria avec des bons produits des pizzas incroyable et un excellent accueil et service agréable souriant ,",
-    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r1003306198-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-    "user": {
-      "userId": "33D887DE36ED90AB9B759DC5519F3BF6",
-      "name": "Dubois",
-      "contributions": {
-        "totalContributions": 4,
-        "helpfulVotes": 2
-      },
-      "username": "1962tours",
-      "userLocation": null,
-      "avatar": {
-        "id": "452391441",
-        "width": 1200,
-        "height": 1200,
-        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/f6/f2/11/default-avatar-2020-23.jpg"
-      },
-      "link": "www.tripadvisor.com/Profile/1962tours"
-    },
-    "ownerResponse": null,
-    "placeInfo": {
-      "id": "23792112",
-      "name": "Rosi Trattoria",
-      "rating": 4.8,
-      "numberOfReviews": 326,
-      "locationString": "Brive-la-Gaillarde, Correze, Nouvelle-Aquitaine",
-      "latitude": 45.163227,
-      "longitude": 1.532872,
-      "webUrl": "https://www.tripadvisor.com/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-      "website": "http://Rosi-trattoria.com",
-      "address": "11 Promenade Des Tilleuls, 19100 Brive-la-Gaillarde France",
-      "addressObj": {
-        "street1": "11 Promenade Des Tilleuls",
-        "street2": null,
-        "city": "Brive-la-Gaillarde",
-        "state": null,
-        "country": "France",
-        "postalcode": "19100"
-      },
-      "ratingHistogram": {
-        "count1": 3,
-        "count2": 6,
-        "count3": 6,
-        "count4": 23,
-        "count5": 288
-      }
-    }
-  },
-  {
-    "title": "Retau au top",
-    "rating": 5,
-    "travelDate": "2025-04",
-    "publishedDate": "2025-04-17",
-    "text": "Cuisine extra , produits frais et bien travaillés , personnel au top et tres sympa, ça fait plaisir de voir des gens qui connaissent et qui aiment leur metier, je recommande a 100%, mention spéciale pour les toilettes 😉",
-    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r1003097226-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-    "user": {
-      "userId": "1B6A225B309EB7960C88184F1FE25B9F",
-      "name": "Cyril C",
-      "contributions": {
-        "totalContributions": 2,
-        "helpfulVotes": 0
-      },
-      "username": "CyrilC500",
-      "userLocation": {
-        "shortName": "Biel",
-        "name": "Biel, Switzerland",
-        "id": "188054"
-      },
-      "avatar": {
-        "id": "452391908",
-        "width": 1200,
-        "height": 1200,
-        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/f6/f3/e4/default-avatar-2020-30.jpg"
-      },
-      "link": "www.tripadvisor.com/Profile/CyrilC500"
-    },
-    "ownerResponse": null,
-    "placeInfo": {
-      "id": "23792112",
-      "name": "Rosi Trattoria",
-      "rating": 4.8,
-      "numberOfReviews": 326,
-      "locationString": "Brive-la-Gaillarde, Correze, Nouvelle-Aquitaine",
-      "latitude": 45.163227,
-      "longitude": 1.532872,
-      "webUrl": "https://www.tripadvisor.com/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-      "website": "http://Rosi-trattoria.com",
-      "address": "11 Promenade Des Tilleuls, 19100 Brive-la-Gaillarde France",
-      "addressObj": {
-        "street1": "11 Promenade Des Tilleuls",
-        "street2": null,
-        "city": "Brive-la-Gaillarde",
-        "state": null,
-        "country": "France",
-        "postalcode": "19100"
-      },
-      "ratingHistogram": {
-        "count1": 3,
-        "count2": 6,
-        "count3": 6,
-        "count4": 23,
-        "count5": 288
-      }
-    }
-  },
-  {
-    "title": "Enfin une bonne pizza ",
-    "rating": 5,
-    "travelDate": "2025-04",
-    "publishedDate": "2025-04-17",
-    "text": "Excellentes pizzas, la pâte est épaisse sur les côtés et délicieuse, l'assaisonnement est parfait. Le service est aimable. ",
-    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r1003083693-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-    "user": {
-      "userId": "01120A0AA5FC5967F7AA93DDB302639A",
-      "name": "Claire M",
-      "contributions": {
-        "totalContributions": 8,
-        "helpfulVotes": 0
-      },
-      "username": "clairemK6984UX",
-      "userLocation": null,
-      "avatar": {
-        "id": "102900883",
-        "width": 50,
-        "height": 50,
-        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/06/22/24/93/claire-m.jpg"
-      },
-      "link": "www.tripadvisor.com/Profile/clairemK6984UX"
-    },
-    "ownerResponse": null,
-    "placeInfo": {
-      "id": "23792112",
-      "name": "Rosi Trattoria",
-      "rating": 4.8,
-      "numberOfReviews": 326,
-      "locationString": "Brive-la-Gaillarde, Correze, Nouvelle-Aquitaine",
-      "latitude": 45.163227,
-      "longitude": 1.532872,
-      "webUrl": "https://www.tripadvisor.com/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-      "website": "http://Rosi-trattoria.com",
-      "address": "11 Promenade Des Tilleuls, 19100 Brive-la-Gaillarde France",
-      "addressObj": {
-        "street1": "11 Promenade Des Tilleuls",
-        "street2": null,
-        "city": "Brive-la-Gaillarde",
-        "state": null,
-        "country": "France",
-        "postalcode": "19100"
-      },
-      "ratingHistogram": {
-        "count1": 3,
-        "count2": 6,
-        "count3": 6,
-        "count4": 23,
-        "count5": 288
-      }
-    }
-  },
-  {
-    "title": "Une très belle surprise, un accueil au top 👌",
-    "rating": 5,
-    "travelDate": "2025-04",
-    "publishedDate": "2025-04-12",
-    "text": "Malgré une arrivée tardive (21:45), et sans réservation, nous avons été accueillis avec sourire et bienveillance, le restaurant étant complet, nous avons été installés en terrasse, sous le store banne avec des plaids. Le service agréable et dans la bonne humeur nous a fait oublier le temps pluvieux ! Les pizzas sont excellentes et le dessert « plaisir à partager » est top 👍 ! Nous ouvrons dans quelques jours un hébergement saisonnier en centre-ville, et c’est une adresse que nous recommanderons à nos voyageurs !\nMerci pour tout : qualité de l’accueil et des plats servis !",
-    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r1002131280-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-    "user": {
-      "userId": "12080584D7DB9A2F42DA403FDAC02C29",
-      "name": "Famille P",
-      "contributions": {
-        "totalContributions": 2,
-        "helpfulVotes": 0
-      },
-      "username": "806famillep",
-      "userLocation": null,
-      "avatar": {
-        "id": "452391174",
-        "width": 1200,
-        "height": 1200,
-        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/f6/f1/06/default-avatar-2020-18.jpg"
-      },
-      "link": "www.tripadvisor.com/Profile/806famillep"
-    },
-    "ownerResponse": null,
-    "placeInfo": {
-      "id": "23792112",
-      "name": "Rosi Trattoria",
-      "rating": 4.8,
-      "numberOfReviews": 326,
-      "locationString": "Brive-la-Gaillarde, Correze, Nouvelle-Aquitaine",
-      "latitude": 45.163227,
-      "longitude": 1.532872,
-      "webUrl": "https://www.tripadvisor.com/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
-      "website": "http://Rosi-trattoria.com",
-      "address": "11 Promenade Des Tilleuls, 19100 Brive-la-Gaillarde France",
-      "addressObj": {
-        "street1": "11 Promenade Des Tilleuls",
-        "street2": null,
-        "city": "Brive-la-Gaillarde",
-        "state": null,
-        "country": "France",
-        "postalcode": "19100"
-      },
-      "ratingHistogram": {
-        "count1": 3,
-        "count2": 6,
-        "count3": 6,
-        "count4": 23,
-        "count5": 288
-      }
-    }
   },
   {
     "title": "Miam miam",
@@ -2301,41 +77,445 @@
     }
   },
   {
-    "title": "Toujours aussi délicieux",
+    "name": "Faby Mcg",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTUNZX0p1dkpnEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCY_JuvJg%7CCgwIydLTwAYQ-MXzkAE%7C?hl=fr",
+    "stars": 5,
+    "text": "Recommandée par notre hôtel, la trattoria ne nous a pas déçue, bien au contraire. Copieux et bon. Nous avons opté pour les grandes salades et l’assiette de charcuterie à partager. Parfait",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "title": "Super pizzeria",
     "rating": 5,
-    "travelDate": "2025-02",
-    "publishedDate": "2025-02-20",
-    "text": "C’est toujours aussi bon, je conseille vivement la pizza étoile avec sa merveilleuse odeur de truffes qui vous met l’eau à la bouche à peine l’assiette posée sur la table ! Nous ne nous lassons pas de cette pizza !",
-    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r994697182-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
+    "travelDate": "2025-05",
+    "publishedDate": "2025-05-20",
+    "text": "Des produits de qualité, une pâte à pizza exceptionnelle, chantilly maison pour les gourmands, personnel très sympa et efficace ; petit clin d'oeil, à propos des toilettes \"toniques\" ...",
+    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r1008401470-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
     "user": {
-      "userId": "63EE2A84EEC43AB41E138BF1BFA11F6D",
-      "name": "Occitane",
+      "userId": "191DA0FBEB49FEF2706D2BAFBB039616",
+      "name": "DB46",
       "contributions": {
-        "totalContributions": 63,
-        "helpfulVotes": 10
+        "totalContributions": 11,
+        "helpfulVotes": 46
       },
-      "username": "Rox24370",
-      "userLocation": {
-        "shortName": "Souillac",
-        "name": "Souillac, France",
-        "id": "207345"
-      },
+      "username": "DB-LePech",
+      "userLocation": null,
       "avatar": {
-        "id": "446647848",
-        "width": 1024,
-        "height": 1024,
-        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/9f/4e/28/terremer46.jpg"
+        "id": "452388955",
+        "width": 1200,
+        "height": 1200,
+        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/f6/e8/5b/default-avatar-2020-61.jpg"
       },
-      "link": "www.tripadvisor.com/Profile/Rox24370"
+      "link": "www.tripadvisor.com/Profile/DB-LePech"
     },
-    "ownerResponse": {
-      "id": "996355923",
-      "text": "Bonjour ☺️\n\nUn immense merci pour votre fidélité et votre superbe retour ! Nous sommes ravis de savoir que chaque visite chez nous est un plaisir pour vous. La pizza étoile à la truffe est effectivement une de nos spécialités, et savoir qu’elle vous régale à chaque fois nous comble de joie !\nVotre recommandation est précieuse, et c’est grâce à des clients comme vous que nous avons le bonheur de partager notre passion chaque jour. Hâte de vous retrouver pour une nouvelle expérience gourmande !\nGrazie mille 🙏🏼\nL’équipe Rosi ☺️🦒🍕",
-      "lang": "fr",
-      "publishedDate": "2025-03-02",
-      "responder": "Rosi Trattoria",
-      "connectionToSubject": "Propriétaire"
+    "ownerResponse": null,
+    "placeInfo": {
+      "id": "23792112",
+      "name": "Rosi Trattoria",
+      "rating": 4.8,
+      "numberOfReviews": 326,
+      "locationString": "Brive-la-Gaillarde, Correze, Nouvelle-Aquitaine",
+      "latitude": 45.163227,
+      "longitude": 1.532872,
+      "webUrl": "https://www.tripadvisor.com/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
+      "website": "http://Rosi-trattoria.com",
+      "address": "11 Promenade Des Tilleuls, 19100 Brive-la-Gaillarde France",
+      "addressObj": {
+        "street1": "11 Promenade Des Tilleuls",
+        "street2": null,
+        "city": "Brive-la-Gaillarde",
+        "state": null,
+        "country": "France",
+        "postalcode": "19100"
+      },
+      "ratingHistogram": {
+        "count1": 3,
+        "count2": 6,
+        "count3": 6,
+        "count4": 23,
+        "count5": 288
+      }
+    }
+  },
+  {
+    "name": "Gwendoline Buisson",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VLV3Z4LVBCNF9mUnVBRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEKWvx-PB4_fRuAE%7CCgsI_t6QwgYQiPj2Iw%7C?hl=fr",
+    "stars": 5,
+    "text": "Encore une très bonne soirée, on s'est régalées. Les petites serviettes étaient parfaites. Un service dans la bonne humeur, du délicieux dans l'assiette, que vouloir de plus !",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Rousseau Marine-Océane",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnTUNZLUpibDJBRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCY-Jbl2AE%7CCgwIl8DMwAYQ4KSQ-AI%7C?hl=fr",
+    "stars": 5,
+    "text": "Super accueil, une serveuse adorable et chaleureuse. Les pizzas étaient excellentes ! Ravie d’avoir enfin pu tester la version restaurant (je prend tout le temps à emporter!)",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Rémi Valibus",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSURtMk11QVVREAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIDm2MuAUQ%7CCgwIovfRwQYQqNSPqwI%7C?hl=fr",
+    "stars": 5,
+    "text": "Toujours un accueil et repas au top, quel plaisir de passer un moment dans votre établissement !\nVos sourires et cette équipe qui prend du plaisir au travail …\nMerci 😊",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Patrick Jean",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VOYl80cXlRMFo3S01REAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKENb_4qyQ0Z7KMQ%7CCgwIjPH9wAYQqIum4wI%7C?hl=fr",
+    "stars": 5,
+    "text": "Service très attentif, agréable. Ambiance agréable,  surtout les toilettes :une discothèque en se soulageant-)...Pizza correcte sàne plus,  glace vraiment bonne",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "title": "Resto au top",
+    "rating": 5,
+    "travelDate": "2025-05",
+    "publishedDate": "2025-05-09",
+    "text": "Je vous conseille la serveuse Isaure. Gentille agréable et souriante nous avons passé un agréable moment. Elle reste à l’écoute et répond aux besoins des clients",
+    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r1006580307-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
+    "user": {
+      "userId": "A0F9F2D67394E88B012EE4729347B6A4",
+      "name": "Romane P",
+      "contributions": {
+        "totalContributions": 1,
+        "helpfulVotes": 0
+      },
+      "username": "70romanep",
+      "userLocation": null,
+      "avatar": {
+        "id": "452361217",
+        "width": 1200,
+        "height": 1200,
+        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/f6/7c/01/default-avatar-2020-5.jpg"
+      },
+      "link": "www.tripadvisor.com/Profile/70romanep"
     },
+    "ownerResponse": null,
+    "placeInfo": {
+      "id": "23792112",
+      "name": "Rosi Trattoria",
+      "rating": 4.8,
+      "numberOfReviews": 326,
+      "locationString": "Brive-la-Gaillarde, Correze, Nouvelle-Aquitaine",
+      "latitude": 45.163227,
+      "longitude": 1.532872,
+      "webUrl": "https://www.tripadvisor.com/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
+      "website": "http://Rosi-trattoria.com",
+      "address": "11 Promenade Des Tilleuls, 19100 Brive-la-Gaillarde France",
+      "addressObj": {
+        "street1": "11 Promenade Des Tilleuls",
+        "street2": null,
+        "city": "Brive-la-Gaillarde",
+        "state": null,
+        "country": "France",
+        "postalcode": "19100"
+      },
+      "ratingHistogram": {
+        "count1": 3,
+        "count2": 6,
+        "count3": 6,
+        "count4": 23,
+        "count5": 288
+      }
+    }
+  },
+  {
+    "name": "THIERRY VINCENT",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VNanZsc25scy1TNmF3EAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEMjvlsnls-S6aw%7CCgwI-tTqwQYQkNjHgAE%7C?hl=fr",
+    "stars": 5,
+    "text": "Je suis venu manger avec ma fille, l'accueil est parfait. Le service est chaleureux. Pizza et pâtes sont excellentes. Une pizzeria que je recommande fortement",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Thomas Gilles",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VPWEJnNzZpNzhDR3JRRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEOXBg76i78CGrQE%7CCgsI_syDwQYQwLOZaA%7C?hl=fr",
+    "stars": 5,
+    "text": "L ambiance est au beau fixe dans ce resto,excellent, sans compter les très bonnes pizza que nous avons pu déguster, bravo à toute l'équipe, je recommande +++",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "PASCAL GREGET",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VMX3BqWTZGeU1LYkRREAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEL_pjY6FyMKbDQ%7CCgsI1MWMwQYQ6I-rUg%7C?hl=fr",
+    "stars": 5,
+    "text": "Très bel endroit où nous nous sommes arrêtés pour déjeuner.\nTrès bonne cuisine service rapide avec une originalité quand vous allez au Wc 😂😂 à recommandé",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Benedicte Barrau",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTURvemJ5QlJREAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDozbyBRQ%7CCgwI_OK4wAYQyMOrpwI%7C?hl=fr",
+    "stars": 5,
+    "text": "Restaurant très sympa tant sur l’ambiance et les plats ; la serveuse est fort sympathique ; elle a beaucoup d’humour\nOn a passé un agréable moment",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "title": "excellent mais musique trop forte",
+    "rating": 5,
+    "travelDate": "2025-05",
+    "publishedDate": "2025-05-24",
+    "text": "pizza excellentes  service impeccable \n\nun petit bémol: la musique trop forte à l'intérieur\n\naccueil  parfait tout est fait pour réjouir le client",
+    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r1008944096-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
+    "user": {
+      "userId": "420FDE1D697B1BFA7E8C11AC497B15B5",
+      "name": "Pascale T",
+      "contributions": {
+        "totalContributions": 2,
+        "helpfulVotes": 0
+      },
+      "username": "343pascalet",
+      "userLocation": null,
+      "avatar": null,
+      "link": "www.tripadvisor.com/Profile/343pascalet"
+    },
+    "ownerResponse": null,
+    "placeInfo": {
+      "id": "23792112",
+      "name": "Rosi Trattoria",
+      "rating": 4.8,
+      "numberOfReviews": 326,
+      "locationString": "Brive-la-Gaillarde, Correze, Nouvelle-Aquitaine",
+      "latitude": 45.163227,
+      "longitude": 1.532872,
+      "webUrl": "https://www.tripadvisor.com/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
+      "website": "http://Rosi-trattoria.com",
+      "address": "11 Promenade Des Tilleuls, 19100 Brive-la-Gaillarde France",
+      "addressObj": {
+        "street1": "11 Promenade Des Tilleuls",
+        "street2": null,
+        "city": "Brive-la-Gaillarde",
+        "state": null,
+        "country": "France",
+        "postalcode": "19100"
+      },
+      "ratingHistogram": {
+        "count1": 3,
+        "count2": 6,
+        "count3": 6,
+        "count4": 23,
+        "count5": 288
+      }
+    }
+  },
+  {
+    "name": "Vincent Leymarie",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSURtcjlYdURnEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIDmr9XuDg%7CCgwItYGmwQYQqJytwAM%7C?hl=fr",
+    "stars": 5,
+    "text": "Très bon accueil,  des produits frais délicieux,  la délicate attention au dessert , nous ont ravis. Nous reviendrons déguster d'autres plats.",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Sandrine R",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VOdTdfdm1zNWZUU2hBRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKENu7_vms5fTShAE%7CCgsIkY7xwAYQiIbRPA%7C?hl=fr",
+    "stars": 5,
+    "text": "Excellent restaurant avec un bon choix de plats.\nAmbiance sympa.\nJe rêvais de goûter la Tartuffo, c'est fait et cette pizza est excellente.",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Step stephane (“Steph”)",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTUNvMDczVlVBEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCo073VUA%7CCgsIqsqPwAYQgLmGSw%7C?hl=fr",
+    "stars": 5,
+    "text": "Super pizzeria, pizzas originales les  produits sont de qualité la pâte super bonne comme on aime.\nservice attentionné..\nBelle découverte.",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "title": "Parfait",
+    "rating": 5,
+    "travelDate": "2025-05",
+    "publishedDate": "2025-05-20",
+    "text": "Un très bon établissement très commercial et très bon. Accueil super sympathique et produit de très bonne qualité.\nJe recommande à 100% !",
+    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r1008464719-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
+    "user": {
+      "userId": "0425481891C20770E3BD20813272C940",
+      "name": "Traveler30704641482",
+      "contributions": {
+        "totalContributions": 1,
+        "helpfulVotes": 0
+      },
+      "username": "Traveler30704641482",
+      "userLocation": null,
+      "avatar": {
+        "id": "452387929",
+        "width": 1200,
+        "height": 1200,
+        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/f6/e4/59/default-avatar-2020-49.jpg"
+      },
+      "link": "www.tripadvisor.com/Profile/Traveler30704641482"
+    },
+    "ownerResponse": null,
+    "placeInfo": {
+      "id": "23792112",
+      "name": "Rosi Trattoria",
+      "rating": 4.8,
+      "numberOfReviews": 326,
+      "locationString": "Brive-la-Gaillarde, Correze, Nouvelle-Aquitaine",
+      "latitude": 45.163227,
+      "longitude": 1.532872,
+      "webUrl": "https://www.tripadvisor.com/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
+      "website": "http://Rosi-trattoria.com",
+      "address": "11 Promenade Des Tilleuls, 19100 Brive-la-Gaillarde France",
+      "addressObj": {
+        "street1": "11 Promenade Des Tilleuls",
+        "street2": null,
+        "city": "Brive-la-Gaillarde",
+        "state": null,
+        "country": "France",
+        "postalcode": "19100"
+      },
+      "ratingHistogram": {
+        "count1": 3,
+        "count2": 6,
+        "count3": 6,
+        "count4": 23,
+        "count5": 288
+      }
+    }
+  },
+  {
+    "name": "W Purple",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VOdXNnb1hOa29iUXBnRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKENusgoXNkobQpgE%7CCgwImbyWwgYQ2PS27AI%7C?hl=fr",
+    "stars": 5,
+    "text": "Les pizzas sont délicieuses : on voit que la pâte est légère et a été faite maison. Le service est parfait. Je recommande ce restaurant.",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "L G",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTURvNW9UM1F3EAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDo5oT3Qw%7CCgwIjseowAYQoOeY6gE%7C?hl=fr",
+    "stars": 5,
+    "text": "Cadre très agréable, service impeccable, pizza et pâtes délicieuses. Merci à toutes l'équipe pour ce très bon moment. Nous reviendrons !",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "ptite007 July",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VQakxrZjNkajh2Y0lBEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEPjLkf3dj8vcIA%7CCgsI2pSiwQYQyKjlcA%7C?hl=fr",
+    "stars": 5,
+    "text": "Super! On a déjeuné en terrasse, nos papilles ont été enchantées comme d'habitude. Merci à Isaure pour son sourire et sa bonne humeur!",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Charlotte De Nayer",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnTUNZb29pRG53RRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCYooiDnwE%7CCgwIoMfUwAYQ4MeAsQM%7C?hl=fr",
+    "stars": 5,
+    "text": "J'ai pris une pizza végétarienne en 22cm, celle ci était tellement bien fournie que je n'ai même pas eu à finir mes croutes. Miam miam",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Aurelien Tessiaut",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnTURvN3NuTnl3RRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDo7snNywE%7CCgwI_6OswAYQ2Oej2AI%7C?hl=fr",
+    "stars": 5,
+    "text": "Ambiance et repas excellent :-) service au top et les pizzas un pur régal :-)\nEt j’ai adoré la mini discothèque dans les toilettes :-)",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "brunet meryl",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VMdTR4YURzM0thc0ZBEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKELu4xaDs3KasFA%7CCgwIq6-MwQYQ8JLs5AI%7C?hl=fr",
+    "stars": 5,
+    "text": "Parfaite ambiance idéal quand on est en couple ou bien entre amis ou en famille. L'accueil formidable et les serveurs très agréables.",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Goitre Paola",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VPaW5rOGl1eDQ3RUd3EAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEOink8iux47EGw%7CCgwItqb9wAYQ4K7d_AE%7C?hl=fr",
+    "stars": 5,
+    "text": "Nous avons passé un excellent moment de l’apéritif au dessert . Tout était très bon et le personnel très sympathique et attentionné .",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "erick dessans",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VQanRfZm5UMUxmMldnEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEPjt_fnT1Lf2Wg%7CCgsIx4OrwQYQ2O6cKA%7C?hl=fr",
+    "stars": 5,
+    "text": "Un vrai restaurant Italien. Les pizzas sont sublimes, le service impeccable et sympathique.  La rançon du succès, il faut réserver.",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Anaïs SOULIER",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSURkbFk2NUV3EAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIDdlY65Ew%7CCgwIuNmpwAYQ-KOrjQI%7C?hl=fr",
+    "stars": 5,
+    "text": "Comme d'habitude,\nService top, ambiance chaleureuse et très bon repas.\nPassage 2 fois en 1 semaine, c'est pour dire si on aime 😂🥰",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Serge Villeneuve",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTURvMl9yU093EAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDo2_rSOw%7CCgsI7efBwAYQwKHTLQ%7C?hl=fr",
+    "stars": 5,
+    "text": "Malgré plusieurs expériences dans ce lieu c'est toujours un plaisir à tous les niveaux\nBravo pour cette constance dans la qualité",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "myriam girroy",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSUNubjd6Y0pREAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgICnn7zcJQ%7CCgwI7KTAwQYQ0MSJ_AI%7C?hl=fr",
+    "stars": 5,
+    "text": "Toujours un plaisir de venir. Je ne suis pas une habituée mais je ne suis jamais déçue.  Nos amis ont ete ravis. Ne changez rien",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Charlotte Htvt",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJWGNfclhBa3BDYkpREAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEIXc_rXAkpCbJQ%7CCgwIoMjkwAYQyOSuyQM%7C?hl=fr",
+    "stars": 5,
+    "text": "Nous avons passé un très bon moment dans ce restaurant. Les plats sont délicieux et les serveurs très agréables. Je recommande !",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Gilles Hustaix",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTURvNmNMNlFBEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDo6cL6QA%7CCgwI2fSywAYQwP6BuwE%7C?hl=fr",
+    "stars": 5,
+    "text": "Une grande table italienne en plein Brive ! Tout est délicieux dans un endroit très agréable et un personnel très sympathique !!",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Patricia Gomez",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnSUNQbklLMHR3RRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgICPnIK0twE%7CCgwI4Mj0vwYQ4LXougM%7C?hl=fr",
+    "stars": 5,
+    "text": "Une mention spéciale à la serveuse merci pour votre sourire votre disponibilité et votre réactivité. Super soirée d'anniversaire",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "title": "Très bonne pizza ",
+    "rating": 5,
+    "travelDate": "2025-05",
+    "publishedDate": "2025-05-07",
+    "text": "Très bonne pizza. \n\nPate travaillée et ingrédients de qualité.\n\nPersonnel sympathique.\nPensez à réserver \nJ'y reviendrai.\n\n     ",
+    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r1006306552-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
+    "user": {
+      "userId": "B17F4560D7B67040D310692407C0E687",
+      "name": "Christian C",
+      "contributions": {
+        "totalContributions": 2,
+        "helpfulVotes": 4
+      },
+      "username": "ChristianC4282",
+      "userLocation": null,
+      "avatar": {
+        "id": "452391546",
+        "width": 1200,
+        "height": 1200,
+        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/f6/f2/7a/default-avatar-2020-25.jpg"
+      },
+      "link": "www.tripadvisor.com/Profile/ChristianC4282"
+    },
+    "ownerResponse": null,
     "placeInfo": {
       "id": "23792112",
       "name": "Rosi Trattoria",
@@ -2429,37 +609,30 @@
     }
   },
   {
-    "title": "Restaurant parfait",
+    "title": "Délicieux",
     "rating": 5,
-    "travelDate": "2025-02",
-    "publishedDate": "2025-02-01",
-    "text": "Restaurants excellent service parfait avec de bonne recommandations un petit plus pour les WC disco. Carte attrayant pizza copieux et des planches à partager très complets, la carte des boissons est très intéressante notamment pour les produits locaux",
-    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r991860562-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
+    "travelDate": "2025-06",
+    "publishedDate": "2025-06-05",
+    "text": "C'est parfait, les pizzas sont vraiment délicieuses. Je recommande d'y aller, peut être réservé avant, il y a vite du monde.",
+    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r1011195452-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
     "user": {
-      "userId": "0666AC6ACFD6429A9B332BE6C8AE40FD",
-      "name": "FLORENT J",
+      "userId": "DBF5B150AAA2D62852D105674CB65DFE",
+      "name": "Daydream59423320021",
       "contributions": {
         "totalContributions": 1,
         "helpfulVotes": 0
       },
-      "username": "330florentj",
+      "username": "Daydream59423320021",
       "userLocation": null,
       "avatar": {
-        "id": "452390984",
+        "id": "452391546",
         "width": 1200,
         "height": 1200,
-        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/f6/f0/48/default-avatar-2020-15.jpg"
+        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/f6/f2/7a/default-avatar-2020-25.jpg"
       },
-      "link": "www.tripadvisor.com/Profile/330florentj"
+      "link": "www.tripadvisor.com/Profile/Daydream59423320021"
     },
-    "ownerResponse": {
-      "id": "992088624",
-      "text": "Bonjour Florent,\n\nUn grand merci pour votre retour ! Nous sommes ravis que vous ayez apprécié nos pizzas napolitaines faites avec amour, ainsi que le service et l’ambiance. 🤩🦒\n\nLa charcuterie italienne de chez Rovagnati, tranchée minute, est un de nos petits plus, et on est heureux qu’elle ait fait la différence pour vous.\n\nÀ très bientôt, et encore merci pour vos compliments !\n\nGrazie mille, merci et à très bientôt,\nGwen et Pascal 🦒🍕☺️",
-      "lang": "fr",
-      "publishedDate": "2025-02-03",
-      "responder": "Rosi Trattoria",
-      "connectionToSubject": "Propriétaire"
-    },
+    "ownerResponse": null,
     "placeInfo": {
       "id": "23792112",
       "name": "Rosi Trattoria",
@@ -2489,37 +662,30 @@
     }
   },
   {
-    "title": "A DEGUSTER ET A VISITER",
+    "title": "Très bon restaurant italien",
     "rating": 5,
-    "travelDate": "2025-01",
-    "publishedDate": "2025-01-06",
-    "text": "Nous avons passé un très bon moment apprécié gustativement mais pas que... L'endroit est calme bien décoré. L'accueil et Le service sont de qualité. Le détour aux toilettes est effectivement à faire! \nL'endroit est à conseiller fortement. Nous avions prévu ce repas le 31 décembre à midi. \nNous avons tout mangé, parfaitement digéré pour réveillonner le soir, Parfait! \nDes pizzas au top! \nUne carte parfaite!\nUn environnement calme malgré le monde!\nMerci, et au plaisir!",
-    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r987902922-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
+    "travelDate": "2025-05",
+    "publishedDate": "2025-05-07",
+    "text": "Excellente pizza 🍕 très bon accueil et un grand merci à Isaure qui est de très bon conseil et très agréable 😄je recommande",
+    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r1006324477-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
     "user": {
-      "userId": "5A9C96CD93899DF8799EA28CF5178699",
-      "name": "Connector15452083581",
+      "userId": "FB3B870BD34DF66F27759639F6A5FA95",
+      "name": "Sylvie P",
       "contributions": {
         "totalContributions": 1,
         "helpfulVotes": 0
       },
-      "username": "Connector15452083581",
+      "username": "sylviepA8923CN",
       "userLocation": null,
       "avatar": {
-        "id": "452389098",
+        "id": "452388586",
         "width": 1200,
         "height": 1200,
-        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/f6/e8/ea/default-avatar-2020-63.jpg"
+        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/f6/e6/ea/default-avatar-2020-54.jpg"
       },
-      "link": "www.tripadvisor.com/Profile/Connector15452083581"
+      "link": "www.tripadvisor.com/Profile/sylviepA8923CN"
     },
-    "ownerResponse": {
-      "id": "990008291",
-      "text": "Whaouuu 🥰\nUn immense merci pour ce magnifique retour qui nous fait chaud au cœur ! Nous sommes ravis que vous ayez passé un excellent moment chez nous. Notre objectif est toujours de faire vivre à nos clients une expérience mémorable, aussi bien gustative qu’atmosphérique.\n\nNous sommes heureux que vous ayez apprécié nos pizzas napolitaines au levain, notre cadre unique, et l’ambiance chaleureuse qui règne chez nous. C’est également un plaisir de savoir que tout était parfait pour votre déjeuner du 31 décembre.\n\nNous espérons vous accueillir à nouveau très bientôt pour d’autres belles dégustations.\n\nGrazie mille, merci et à très bientôt,\nGwen et Pascal 🦒🍕☺️",
-      "lang": "fr",
-      "publishedDate": "2025-01-20",
-      "responder": "Rosi Trattoria",
-      "connectionToSubject": "Propriétaire"
-    },
+    "ownerResponse": null,
     "placeInfo": {
       "id": "23792112",
       "name": "Rosi Trattoria",
@@ -2547,5 +713,817 @@
         "count5": 288
       }
     }
+  },
+  {
+    "name": "Isabelle Larivet",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VQelQ3X0RoOEpiT0hREAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEPzT7_Dh8JbOHQ%7CCgwIot_hwQYQuJjjywE%7C?hl=fr",
+    "stars": 5,
+    "text": "Accueil chaleureux, serveurs agréables et pétillants, plats copieux et excellents , on a passé un très bon moment chez vous",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "title": "Enfin une bonne pizza ",
+    "rating": 5,
+    "travelDate": "2025-04",
+    "publishedDate": "2025-04-17",
+    "text": "Excellentes pizzas, la pâte est épaisse sur les côtés et délicieuse, l'assaisonnement est parfait. Le service est aimable. ",
+    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r1003083693-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
+    "user": {
+      "userId": "01120A0AA5FC5967F7AA93DDB302639A",
+      "name": "Claire M",
+      "contributions": {
+        "totalContributions": 8,
+        "helpfulVotes": 0
+      },
+      "username": "clairemK6984UX",
+      "userLocation": null,
+      "avatar": {
+        "id": "102900883",
+        "width": 50,
+        "height": 50,
+        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/06/22/24/93/claire-m.jpg"
+      },
+      "link": "www.tripadvisor.com/Profile/clairemK6984UX"
+    },
+    "ownerResponse": null,
+    "placeInfo": {
+      "id": "23792112",
+      "name": "Rosi Trattoria",
+      "rating": 4.8,
+      "numberOfReviews": 326,
+      "locationString": "Brive-la-Gaillarde, Correze, Nouvelle-Aquitaine",
+      "latitude": 45.163227,
+      "longitude": 1.532872,
+      "webUrl": "https://www.tripadvisor.com/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
+      "website": "http://Rosi-trattoria.com",
+      "address": "11 Promenade Des Tilleuls, 19100 Brive-la-Gaillarde France",
+      "addressObj": {
+        "street1": "11 Promenade Des Tilleuls",
+        "street2": null,
+        "city": "Brive-la-Gaillarde",
+        "state": null,
+        "country": "France",
+        "postalcode": "19100"
+      },
+      "ratingHistogram": {
+        "count1": 3,
+        "count2": 6,
+        "count3": 6,
+        "count4": 23,
+        "count5": 288
+      }
+    }
+  },
+  {
+    "name": "C F",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTUNvM1kzck1BEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCo3Y3rMA%7CCgwIpLuNwAYQ8KKIzAI%7C?hl=fr",
+    "stars": 5,
+    "text": "Très beau restaurant et très belle ambiance mais surtout des pizzas excellentes avec une pâte croustillante. Vraiment top.",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "title": "Une très bonne adresse !",
+    "rating": 5,
+    "travelDate": "2025-04",
+    "publishedDate": "2025-04-19",
+    "text": "Personnel très agréable et des pizzas excellentes ! Nous avons passé un très bon moment et nous reviendrons avec plaisir !",
+    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r1003341473-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
+    "user": {
+      "userId": "29880B1F95828A4A0B9DD4252E4B6698",
+      "name": "Christelle D",
+      "contributions": {
+        "totalContributions": 8,
+        "helpfulVotes": 3
+      },
+      "username": "O7911BOchristelled",
+      "userLocation": null,
+      "avatar": {
+        "id": "452389492",
+        "width": 1200,
+        "height": 1200,
+        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/f6/ea/74/default-avatar-2020-68.jpg"
+      },
+      "link": "www.tripadvisor.com/Profile/O7911BOchristelled"
+    },
+    "ownerResponse": null,
+    "placeInfo": {
+      "id": "23792112",
+      "name": "Rosi Trattoria",
+      "rating": 4.8,
+      "numberOfReviews": 326,
+      "locationString": "Brive-la-Gaillarde, Correze, Nouvelle-Aquitaine",
+      "latitude": 45.163227,
+      "longitude": 1.532872,
+      "webUrl": "https://www.tripadvisor.com/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
+      "website": "http://Rosi-trattoria.com",
+      "address": "11 Promenade Des Tilleuls, 19100 Brive-la-Gaillarde France",
+      "addressObj": {
+        "street1": "11 Promenade Des Tilleuls",
+        "street2": null,
+        "city": "Brive-la-Gaillarde",
+        "state": null,
+        "country": "France",
+        "postalcode": "19100"
+      },
+      "ratingHistogram": {
+        "count1": 3,
+        "count2": 6,
+        "count3": 6,
+        "count4": 23,
+        "count5": 288
+      }
+    }
+  },
+  {
+    "title": "Excellente pizzeria !",
+    "rating": 5,
+    "travelDate": "2025-05",
+    "publishedDate": "2025-05-30",
+    "text": "Excellente Pizzeria ! Personnel dynamique et souriant. Des pizzas avec des produits frais, du goût et une pâte parfaite.",
+    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r1010275685-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
+    "user": {
+      "userId": "E9A196579827443C9E11FF0F5884CEFB",
+      "name": "Camper55016157178",
+      "contributions": {
+        "totalContributions": 1,
+        "helpfulVotes": 0
+      },
+      "username": "Camper55016157178",
+      "userLocation": null,
+      "avatar": {
+        "id": "452391546",
+        "width": 1200,
+        "height": 1200,
+        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/f6/f2/7a/default-avatar-2020-25.jpg"
+      },
+      "link": "www.tripadvisor.com/Profile/Camper55016157178"
+    },
+    "ownerResponse": null,
+    "placeInfo": {
+      "id": "23792112",
+      "name": "Rosi Trattoria",
+      "rating": 4.8,
+      "numberOfReviews": 326,
+      "locationString": "Brive-la-Gaillarde, Correze, Nouvelle-Aquitaine",
+      "latitude": 45.163227,
+      "longitude": 1.532872,
+      "webUrl": "https://www.tripadvisor.com/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
+      "website": "http://Rosi-trattoria.com",
+      "address": "11 Promenade Des Tilleuls, 19100 Brive-la-Gaillarde France",
+      "addressObj": {
+        "street1": "11 Promenade Des Tilleuls",
+        "street2": null,
+        "city": "Brive-la-Gaillarde",
+        "state": null,
+        "country": "France",
+        "postalcode": "19100"
+      },
+      "ratingHistogram": {
+        "count1": 3,
+        "count2": 6,
+        "count3": 6,
+        "count4": 23,
+        "count5": 288
+      }
+    }
+  },
+  {
+    "title": "Bon rapport qualité prix",
+    "rating": 5,
+    "travelDate": "2025-04",
+    "publishedDate": "2025-04-19",
+    "text": "Très bonne trattoria avec des bons produits des pizzas incroyable et un excellent accueil et service agréable souriant ,",
+    "url": "https://www.tripadvisor.com/ShowUserReviews-g196612-d23792112-r1003306198-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
+    "user": {
+      "userId": "33D887DE36ED90AB9B759DC5519F3BF6",
+      "name": "Dubois",
+      "contributions": {
+        "totalContributions": 4,
+        "helpfulVotes": 2
+      },
+      "username": "1962tours",
+      "userLocation": null,
+      "avatar": {
+        "id": "452391441",
+        "width": 1200,
+        "height": 1200,
+        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/f6/f2/11/default-avatar-2020-23.jpg"
+      },
+      "link": "www.tripadvisor.com/Profile/1962tours"
+    },
+    "ownerResponse": null,
+    "placeInfo": {
+      "id": "23792112",
+      "name": "Rosi Trattoria",
+      "rating": 4.8,
+      "numberOfReviews": 326,
+      "locationString": "Brive-la-Gaillarde, Correze, Nouvelle-Aquitaine",
+      "latitude": 45.163227,
+      "longitude": 1.532872,
+      "webUrl": "https://www.tripadvisor.com/Restaurant_Review-g196612-d23792112-Reviews-Rosi_Trattoria-Brive_la_Gaillarde_Correze_Nouvelle_Aquitaine.html",
+      "website": "http://Rosi-trattoria.com",
+      "address": "11 Promenade Des Tilleuls, 19100 Brive-la-Gaillarde France",
+      "addressObj": {
+        "street1": "11 Promenade Des Tilleuls",
+        "street2": null,
+        "city": "Brive-la-Gaillarde",
+        "state": null,
+        "country": "France",
+        "postalcode": "19100"
+      },
+      "ratingHistogram": {
+        "count1": 3,
+        "count2": 6,
+        "count3": 6,
+        "count4": 23,
+        "count5": 288
+      }
+    }
+  },
+  {
+    "name": "isabelle leymarie",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnTURJaHNyYWhnRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDIhsrahgE%7CCgwIxbbYvwYQqLul4QE%7C?hl=fr",
+    "stars": 5,
+    "text": "Les pizzas sont excellentes.\nLe service est dynamique et très à l’écoute. Un duo idéal pour passer un très bon moment.",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Marie AUDRERIE",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnSURuM29PU2tnRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIDn3oOSkgE%7CCgwI5eeHwQYQkIvCpgE%7C?hl=fr",
+    "stars": 5,
+    "text": "Les meilleures pizzas de Brive.\nL’accueil, le service, le personnel, les propriétaires, ALL  IS  PERFECT\nTout est TOP",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Jacqueline Hosteins",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnSURXcWVib3N3RRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIDWqeboswE%7CCgwIt_6cwQYQkOu9nQE%7C?hl=fr",
+    "stars": 5,
+    "text": "Plateau de charcuterie italienne très bon\nEt c'est avec plaisir que la serveuse nous a mis la girafe près de nous",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Myriam Jeradi",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTURJa3ZYV0F3EAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDIkvXWAw%7CCgwImcLUvwYQyPCFiAE%7C?hl=fr",
+    "stars": 5,
+    "text": "La pâte des pizzas est délicieuse. L'accueil est top!! L'accent italien en plus... Nous reviendrons bien sûr 🤗",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "camille Legros",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTURJNE83ZFdREAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDI4O7dWQ%7CCgwIrMHqwQYQoOy8mAE%7C?hl=fr",
+    "stars": 5,
+    "text": "Un service et une cuisine toujours au top ,un accueil chaleureux ,on est toujours bien chez Rosi Trattoria 😍",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Cédric DURANDAL",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VPbVQ3ZnFCeTlhdXJRRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEOmT7fqBy9aurQE%7CCgsIlv-7wQYQkO2SPA%7C?hl=fr",
+    "stars": 5,
+    "text": "Très bon accueil et très très bonnes pizza. C'est tellement bon qu'il est conseillé de réserver. Excellent",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Johanna Pochet",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnTURJMXA3WTVnRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDI1p7Y5gE%7CCgwIy4bavwYQuLuM7wI%7C?hl=fr",
+    "stars": 5,
+    "text": "Petits et grands, on adore. Tout est réuni pour passer un délicieux moment.\nMerci pour votre bonne humeur",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Jean-René Baudet",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT21WbFNsZEpRMjVIWkZOSWR6aDFkVVpoVmxCb1IyYxAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CAIQACodChtycF9oOmVlSldJQ25HZFNIdzh1dUZhVlBoR2c%7C0cGAE22somW%7C?hl=fr",
+    "stars": 5,
+    "text": "Bon accueil . les pizzas sont excellentes et généreuses,  les serveurs  et serveuses sont très sympas .",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Bastien Fouré",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VMbTY3T0RaOG9IZVdBEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKELm67ODZ8oHeWA%7CCgwIv7a4wQYQ6KHikQE%7C?hl=fr",
+    "stars": 5,
+    "text": "Ça fait longtemps que javais pas mangé une aussi bonne pizza. La pate est incroyable il faut y aller 😍",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Céline BOISSERIE",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnSUM5bExLZnFRRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIC9lLKfqQE%7CCgwI1J_4wAYQkNu6gQI%7C?hl=fr",
+    "stars": 5,
+    "text": "Restaurant agréable, personnel super accueillant, toujours très bon et parfois même un peu trop copieux",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Stéphanie Marques",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJenR0UE9OdDdPbUdREAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEIzttPONt7OmGQ%7CCgsIy-zBwQYQ2LfJLQ%7C?hl=fr",
+    "stars": 5,
+    "text": "Un régal,  serveuse souriante et de bon conseil.\nMention spéciale pour l ambiance des wc !!!!\n🕺🎉🪩🦒",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Philippe ANDRE",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTUNvazZLdVlBEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCok6KuYA%7CCgsIm5aPwAYQwMnZbA%7C?hl=fr",
+    "stars": 5,
+    "text": "Toujours un moment très agréable, pizzas excellentes, un régal! tout est parfait\nMerci à l'équipe!!!",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Dubesset Sorenza",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VPRHVzdWlYeDR1VUJnEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEODusuiXx4uUBg%7CCgwI26GmwgYQyOG-xAM%7C?hl=fr",
+    "stars": 5,
+    "text": "Très bonne adresse. Bonne cuisine et bonne ambiance ! Le service est chaleureux Terrasse agréable",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Gladys Legrain",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTUNvX0lUc0VBEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCo_ITsEA%7CCgwIr775vwYQ6NXp-AE%7C?hl=fr",
+    "stars": 5,
+    "text": "Excellent!\nLes serveurs sont super sympa !\nLa nourriture est bonne et de qualité\nTout est parfait",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "thomas barras",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2pOdmIybFBWbXBYVUVZM1JVOUlhR3d5UTBWeU0wRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CAIQACodChtycF9oOjNvb2lPVmpXUEY3RU9IaGwyQ0VyM0E%7C0cGhcsqF2QD%7C?hl=fr",
+    "stars": 5,
+    "text": "Lieu très sympathique, avec un accueil très chaleureux, on a très bien mangé c’était excellent.",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Stella Joaquin",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VNT21uSUtTLVplMm53RRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEMOmnIKS-Ze2nwE%7CCgwIurC9wQYQuPvl5gI%7C?hl=fr",
+    "stars": 5,
+    "text": "Très bon rapport qualité prix pour la formule du midi. Personnel à l'écoute de sa clientèle.",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Christelle Barriere",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VQV0FsYS1VNGI2ampnRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEPWAla-U4b6jjgE%7CCgwImpS4wQYQwJ6nswM%7C?hl=fr",
+    "stars": 5,
+    "text": "Très bonne pizzeria !!!! La qualité est au rdv et les conseils des serveuses sont top !!!!!!",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Philippe FRUGIER",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VPWEc0TnoyODdXQzlRRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEOXG4Nz287WC9QE%7CCgwIo9awwgYQsJyk9wE%7C?hl=fr",
+    "stars": 5,
+    "text": "Excellente pizzas dans une ambiance conviviale et amicale. Service parfait. Rien à ajouter.",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Sandrine Rivassou",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTURJMHZQTWJREAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDI0vPMbQ%7CCgwI493fvwYQ2J3T7AI%7C?hl=fr",
+    "stars": 5,
+    "text": "Ma pizzeria préférée de Brive\nAmbiance cosy\nServeuse top\nCuisine pâtes ou pizza excellente",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "ERIC ZAVRAS",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSURwaWFDakJnEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIDpiaCjBg%7CCgwIwdWcwQYQwPiU3AI%7C?hl=fr",
+    "stars": 5,
+    "text": "Tout est bon et l'accueil est au top. La meilleure pizzeria de Brive incontestablement",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "clarisse bertin",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTUNJMmM3ZU5BEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCI2c7eNA%7CCgwI8ajLvwYQuPKP2gI%7C?hl=fr",
+    "stars": 5,
+    "text": "Hyper copieux et les prix sont raisonnables, c’est vraiment une très bonne adresse !",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Petra Wegman",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25CbU9HRXhXakJFZEZKaWNFbzVNbWhZYTJaRFNXYxAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CAIQACodChtycF9oOnBmOGExWjBEdFJicEo5MmhYa2ZDSWc%7C0cKFpM3odj4%7C?hl=fr",
+    "stars": 5,
+    "text": "Parfait, zeer uitgebreide kaart, zelfs voor vegetariërs. Hier komen we zeker terug!",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "VERONIQUE MAUVY",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSUN2eUlfQkV3EAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgICvyI_BEw%7C0cG54X6i84b%7C?hl=fr",
+    "stars": 5,
+    "text": "Excellent accueil, service et pizzas délicieuses.\nNous recommandons sans hésiter.",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Laeti Lili",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VMemI5ZXU0LW9uQnVnRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKELzb9eu4-onBugE%7CCgsIlpSfwgYQ6KO8WA%7C?hl=fr",
+    "stars": 5,
+    "text": "Excellent moment passé au Rosie Trattoria, les pizzas sont de grande qualité.",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Nathalie DONKER",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTUNZaXBfWlZnEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCYip_ZVg%7CCgwIwp_XwAYQoNOW2QM%7C?hl=fr",
+    "stars": 5,
+    "text": "Comme toujours un accueil chaleureux et convivial autour de bonnes assiettes.",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Pauline Jrn",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VPVFF1ZFNPbnNpOG1BRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEOTQudSOnsi8mAE%7CCgwI-syxwgYQwIme5QI%7C?hl=fr",
+    "stars": 5,
+    "text": "Comme toujours un 5 étoiles. Nous nous sommes régalés ! Merci pour l’accueil",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Sylvaine Voudon",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnTURvellHTzVBRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDozYGO5AE%7CCgwI4e64wAYQ0IiagAI%7C?hl=fr",
+    "stars": 5,
+    "text": "Ras très bon rapport qualité prix . Le passage au toilettes est très dansant",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Maud LETINEVEZ",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VNYnY1UFNTcTRHTkRBEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEMbv5PSSq4GNDA%7CCgsI8uHtwAYQiNSMdA%7C?hl=fr",
+    "stars": 5,
+    "text": "Expérience agréable,  bonne cuisine, bonne ambiance. A refaire bien sur.",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Victor Pa",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTUNZMnU3QUlBEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCY2u7AIA%7CCgwIrfDYwAYQgNe1rwM%7C?hl=fr",
+    "stars": 5,
+    "text": "Excellent restaurant, j'ai passé un bon moment. J'ai hâte de revenir.",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Chrystelle D",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnTUNZdW9MNnh3RRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCYuoL6xwE%7CCgwI-ZfZwAYQuKTjoAE%7C?hl=fr",
+    "stars": 5,
+    "text": "Première fois dans ce restaurant , tout était excellent !\nÀ refaire",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "denis CHARLANNE",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTUNvMjZfeUhBEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCo26_yHA%7CCgwI-aOSwAYQyNyrvQM%7C?hl=fr",
+    "stars": 5,
+    "text": "Un accueil, une cuisine exceptionnelle\nToujours hate d’y revenir",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Christian Beral",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VKeTRfWUNoaE9hMkxnEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEJy4_YChhOa2Lg%7CCgsItZWrwgYQsLLsKA%7C?hl=fr",
+    "stars": 5,
+    "text": "Personnel très sympa. Pizzas excellentes. Que demander de plus.",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Aénor PONS",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSUN4MHVEOFdBEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgICx0uD8WA%7CCgwI2YihwQYQgL7p3gE%7C?hl=fr",
+    "stars": 5,
+    "text": "Excellente adresse, ambiance très sympathique, équipe au top!",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Pascal Bergès",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnTURJNGVyM3BRRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDI4er3pQE%7CCgwI3MPfvwYQ6OmlxAI%7C?hl=fr",
+    "stars": 5,
+    "text": "Que demander de plus, une terrasse, le soleil. Le bonheur!!!",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Sébastien Gallot et Alwena Baguet",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VQeVIxSV9pd282NXRRRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEPyR1I_iwo65tQE%7CCgwI94iWwQYQ0OvjswE%7C?hl=fr",
+    "stars": 5,
+    "text": "Très bon accueil, très bonne cuisine, très bonne ambiance !",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Céline Fourches",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnSURIcE9xX3pnRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIDHpOq_zgE%7CCgwIidmHwQYQsLf6_gI%7C?hl=fr",
+    "stars": 5,
+    "text": "À découvrir absolument ! Toujours un plaisir des papilles.",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "TAHAY Nathalie",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VMQy0zYjc2N2N6RUpBEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKELC-3b767czEJA%7CCgoIzY-owQYQ2OZt%7C?hl=fr",
+    "stars": 5,
+    "text": "Formidable moment passé,cuisine italienne merveilleuse 😍",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Antoine B.",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VOVGk0ZVdlLW9IczNnRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKENTi4eWe-oHs3gE%7CCgwIreCswQYQ-OeNxwI%7C?hl=fr",
+    "stars": 5,
+    "text": "Superbes pizzas, très bonne ambiance et service au top !",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Céline Boutin",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTURvdE5MMWRnEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDotNL1dg%7CCgwIuZudwAYQwKCtmAI%7C?hl=fr",
+    "stars": 5,
+    "text": "La meilleure pizza que j'ai mangée et le service au top!",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Marion Laporte",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VPdWRsb2V3dmNXbWJBEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEOudloewvcWmbA%7CCgwI7sr7wAYQgMbm6QI%7C?hl=fr",
+    "stars": 5,
+    "text": "Une bonne pizza\nUne équipe sympa\nTrès bonne soirée",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "leon frimousse",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VNdmx2WnlXd2ZLVlhnEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEMvlvZyWwfKVXg%7CCgwIudy1wQYQsIHF7AI%7C?hl=fr",
+    "stars": 5,
+    "text": "Très bon accueil, cuisine de qualité, jamais déçu",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Nath",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSUNicWN6blVREAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgICbqcznUQ%7CCgwI5ZjjwAYQ0JP1mAI%7C?hl=fr",
+    "stars": 5,
+    "text": "Toujours top 👍 rien à rajouter !!!\nOn revient 😉",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Pauline Rigaut",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VMdVg5NFd2OWNlMW5BRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKELuX94Wv9ce1nAE%7CCgwI6M2WwgYQ6LSykQE%7C?hl=fr",
+    "stars": 5,
+    "text": "Des serveuses au top un grand merci à elles ☺️",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Cédric Garnier",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VQSFlqcjNjNHZHZmF3EAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEPHYjr3c4vGfaw%7CCgwIx4S8wQYQgKn9rQI%7C?hl=fr",
+    "stars": 5,
+    "text": "Personnel très sympa, et pizzas délicieuses !",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Paulette Casse",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnTURvbHR5YXBnRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDoltyapgE%7CCgwInfWowAYQgJupkwI%7C?hl=fr",
+    "stars": 5,
+    "text": "Tout était parfait et nos invités séduits.",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "vahé M",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VLR0FvTE9RbHNUa0pnEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEKGAoLOQlsTkJg%7CCgwIke7GwQYQ8OKVhgM%7C?hl=fr",
+    "stars": 5,
+    "text": "Super restaurant avec un personnel au top",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "cécile lavergne",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnSUMyeWNXSGd3RRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIC2ycWHgwE%7CCgwI7eyXwAYQuKmXlwM%7C?hl=fr",
+    "stars": 5,
+    "text": "Pizzas succulentes,  accueil chaleureux.",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Philippe Kupczak",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSURqaTYtNFJREAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIDji6-4RQ%7CCgwIqYemwQYQ-JuVsQI%7C?hl=fr",
+    "stars": 5,
+    "text": "La meilleure pizzeria de la région !!!!",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Herve Bringout",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTUNveHF2aUJnEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCoxqviBg%7CCgwIm97_vwYQ2K7VpwE%7C?hl=fr",
+    "stars": 5,
+    "text": "Très bonne pizza Acceuil très sympa :)",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Sandrine Tetenoire",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VLV0g5dERjbHVHeTdnRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEKWH9tDcluGy7gE%7CCgwI-eu1wQYQ-KiG-gI%7C?hl=fr",
+    "stars": 5,
+    "text": "Un peu chère mais excellente pizzas",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Véronique Deve",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VNbXE3S2VWcGZpV01BEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEMmq7KeVpfiWMA%7CCgsIsfXLwQYQyKX4ag%7C?hl=fr",
+    "stars": 5,
+    "text": "Super accueil, et repas délicieux",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Stephanie Tarif",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnSURiX2UtNGtnRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIDb_e-4kgE%7CCgwIlJOEwQYQ2K6G6AI%7C?hl=fr",
+    "stars": 5,
+    "text": "Le meilleur restaurant italien 😋",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Romain Jos",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnSUR4Mk03WHRRRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIDx2M7XtQE%7CCgwIpprgwQYQ8ICOsgI%7C?hl=fr",
+    "stars": 5,
+    "text": "Comme toujours c’était parfait",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Melanie Pommier",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSUN4MFlmNUhnEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgICx0Yf5Hg%7CCgwI7PHWwQYQkMKMngM%7C?hl=fr",
+    "stars": 5,
+    "text": "Toujours un régal de venir 😍",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Steve Rodgers",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VPQ2s5SVdNa0lMRHlRRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEOCk9IWMkILDyQE%7CCgsI16nMwQYQiNfnAg%7C?hl=fr",
+    "stars": 5,
+    "text": "Super au top comme d’habitude",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "joël chabrier",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VLNjgyT2pUcTZUMGNnEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEK682OjTq6T0cg%7CCgsIyouNwQYQiJy8CQ%7C?hl=fr",
+    "stars": 5,
+    "text": "Très bonne cuisin bon accueil",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Christian",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTURvNS15aExnEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDo5-yhLg%7CCgsI64zPwAYQgIfnTA%7C?hl=fr",
+    "stars": 5,
+    "text": "Très satisfait de notre repas",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Stéphane Cortequisse",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSURoaHNlWWNBEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIDhhseYcA%7C0cKQ3_PlWkw%7C?hl=fr",
+    "stars": 5,
+    "text": "Comme toujours super moment",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "MaryChris MAS",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VLTzlqLVNud0lyaEdBEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEKO9j-SnwIrhGA%7CCgwI7PTowQYQwIO43QI%7C?hl=fr",
+    "stars": 5,
+    "text": "Excellentes pizzas maison !",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Delphine Goudal",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSUM1djZYclNREAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIC5v6XrSQ%7CCgsIkO2QwQYQ-OzLHA%7C?hl=fr",
+    "stars": 5,
+    "text": "Parfait comme d'habitude !!",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Claire Pannetier",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25WeWIwb3RlblZVTUZOUmEzRllXRFoxYzI1RFEwRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CAIQACodChtycF9oOnVyb0otenVUMFNRa3FYWDZ1c25DQ0E%7C0cIO-IXINCZ%7C?hl=fr",
+    "stars": 5,
+    "text": "Rien à dire , jamais déçu.",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "baillet jean yves",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VNYVIzWTdJaTVDbDFBRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEMaR3Y7Ii5Cl1AE%7C0cEihfDMUFM%7C?hl=fr",
+    "stars": 5,
+    "text": "Très bien, je recommande",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Fabien Fougeron",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VKdkNzNXZTcnVxRTd3RRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEJvCs5vSruqE7wE%7CCgwI--7fwQYQwI34jAM%7C?hl=fr",
+    "stars": 5,
+    "text": "C’était parfait ! Merci",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Delphine Bugeat",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSUNwcWRLeFp3EAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgICpqdKxZw%7CCgwI89fNwAYQkJXD6gE%7C?hl=fr",
+    "stars": 5,
+    "text": "Excellentes pizzas 🍕",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "So",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnTUNZLWVTTU1nEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMCY-eSMMg%7CCgwIwKvjwAYQ8NXH2wI%7C?hl=fr",
+    "stars": 5,
+    "text": "Très bonne pizerria",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Marie-pierre Rouffanche",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSURmbW9xQUdBEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIDfmoqAGA%7CCgsI3JejwAYQ2OKXKw%7C?hl=fr",
+    "stars": 5,
+    "text": "Tout est parfait !",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Stéphane DAVID",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VLX0c2YXJ0OGVQcEFREAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEK_G6art8ePpAQ%7CCgwIl4yywQYQoK2Z-wI%7C?hl=fr",
+    "stars": 5,
+    "text": "Excellent le tout",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Clément Poulvélarie",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnSUNoN19qZ2d3RRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgICh7_jggwE%7CCgwI--a8wAYQyL2tqgE%7C?hl=fr",
+    "stars": 5,
+    "text": "Toujours au top !",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Jean-Gilles Nolorgues",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnSURWdDVqZy1BRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgIDVt5jg-AE%7CCgwI14ziwQYQwIPh_AE%7C?hl=fr",
+    "stars": 5,
+    "text": "Tout est parfait",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Nath Adr",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VLblQ1ZEtyb29ISlZnEAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEKnT5dKrooHJVg%7CCgsIqL-iwgYQ6MbZBQ%7C?hl=fr",
+    "stars": 5,
+    "text": "Au top du top !",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "ROUSSELIE CHRYSTELE",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VQN2RubzZValp6Skx3EAE!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEP7dno6UjZzJLw%7CCgwI_sjhwQYQ6ILCqgI%7C?hl=fr",
+    "stars": 5,
+    "text": "C'est parfait !",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "laetitia soulier",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VJQ0FnTURJeExQOHBRRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEICAgMDIxLP8pQE%7CCgwImufNvwYQiKDUwAI%7C?hl=fr",
+    "stars": 5,
+    "text": "Parfait !!",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
+  },
+  {
+    "name": "Nat He",
+    "reviewUrl": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChdDSUhNMG9nS0VLem9sb25CdUt1YzBnRRAB!2m1!1s0x0:0xdd18d96369f9f106!3m1!1s2@1:CIHM0ogKEKzolonBuKuc0gE%7CCgsIoub-wAYQ-Jy-RQ%7C?hl=fr",
+    "stars": 5,
+    "text": "Bien",
+    "title": "Rosi Trattoria",
+    "url": "https://www.google.com/maps/search/?api=1&query=Rosi%20Trattoria&query_place_id=ChIJ418SDeCX-EcRBvH5aWPZGN0"
   }
 ]

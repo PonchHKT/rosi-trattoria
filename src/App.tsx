@@ -45,10 +45,11 @@ function App(): React.JSX.Element {
                 <HomeSectionVideo pageName="Accueil" />
               </div>
               <Biographie1 />
-              <SwiperGallery pageName="Accueil" />
+
               <VideoPlayer />
 
               <Biographie2 />
+              <SwiperGallery pageName="Accueil" />
               <ReviewWidget pageName="Accueil" />
             </>
           }

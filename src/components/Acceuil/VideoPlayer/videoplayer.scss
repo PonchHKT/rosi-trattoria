@@ -17,6 +17,7 @@
   --premium-dark: #1a1a1a;
   --premium-border: #333333;
   --premium-hover: #252525;
+  --next-component-bg: #0a0a0a; // Added for the fade target color
 }
 
 // Global fix for iOS and consistent rendering
@@ -69,9 +70,9 @@ body {
   background-color: #0a0a0a !important;
 }
 
-// Wrapper to fit the player content tightly
+// Wrapper to fit the player content tightly with fade effect
 .video-player-wrapper {
-  padding-bottom: 50px;
+  padding-bottom: 150px;
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -82,6 +83,23 @@ body {
   box-sizing: border-box;
   position: relative;
   z-index: 1;
+
+  // Fade effect at the bottom
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px; // Adjust height for the fade effect
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      var(--next-component-bg)
+    );
+    pointer-events: none; // Ensures the fade doesn't interfere with interactions
+    z-index: 2;
+  }
 
   @supports (-webkit-touch-callout: none) {
     background: #0a0a0a !important;
@@ -124,6 +142,9 @@ body {
       justify-content: center;
     }
   }
+
+  // ... (rest of the existing styles remain unchanged)
+  // Including all other classes like __main, __video, __controls, etc.
 
   &__main {
     position: relative;
@@ -637,7 +658,7 @@ body {
   &__mobile-toggle {
     display: none;
     padding: 1.5rem;
-    background: #0a0a0a;
+    background: black;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 
     @media (max-width: 768px) {

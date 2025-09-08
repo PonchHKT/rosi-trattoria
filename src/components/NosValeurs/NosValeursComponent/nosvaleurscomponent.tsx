@@ -29,7 +29,7 @@ const sectionsData: SectionData[] = [
   },
   {
     title: "Tomates San Marzano Authentiques",
-    text: "Nos tomates San Marzano, cultivées exclusivement dans le sol volcanique fertile entre Naples et Salerne, apportent cette saveur sucrée et acidulée caractéristique qui fait la renommée de la pizza napolitaine authentique.",
+    text: "Nos tomates San Marzano, cultivées exclusivement dans le sol volcanique fertile entre Naples et Salerne, apportent cette saveur sucrée et acidulée caractéristique qui fait la ночиée de la pizza napolitaine authentique.",
   },
   {
     title: "Boissons Artisanales Italiennes Bio",
@@ -124,49 +124,65 @@ const NosValeursComponent: React.FC = () => {
         </section>
 
         <article className="nos-valeurs__hero" role="banner">
-          <div className="nos-valeurs__pascal-showcase">
-            <div className="nos-valeurs__pascal-name-container">
-              <div className="nos-valeurs__pascal-title">
-                <span>Maître Pizzaïolo</span>
+          <div className="nos-valeurs__pascal-container">
+            <div className="nos-valeurs__text-container">
+              {/* Premier bloc de texte */}
+              <div className="nos-valeurs__intro-text nos-valeurs__intro-text--first">
+                <p className="nos-valeurs__intro-highlight">
+                  <span className="nos-valeurs__pascal-gold">Pascal</span> a
+                  suivi une formation d'excellence à l'école de John Bergh,
+                  double champion du monde de pizza napolitaine, afin de vous
+                  offrir une expérience gastronomique italienne authentique et
+                  éthique à Brive-la-Gaillarde.
+                </p>
               </div>
-              <h1 id="pascal-title" className="nos-valeurs__pascal-name">
-                Pascal Bellemain
-              </h1>
-            </div>
-            <div className="nos-valeurs__pascal-image-container">
-              <img
-                src="/images/pascal.jpg"
-                alt="Pascal Bellemain, maître pizzaïolo de Rosi Trattoria formé par John Bergh, champion du monde de pizza napolitaine"
-                className="nos-valeurs__pascal-image"
-                loading="eager"
-                width="400"
-                height="300"
-              />
-              <div className="nos-valeurs__image-overlay"></div>
-            </div>
-          </div>
 
-          <div className="nos-valeurs__intro-text">
-            <p className="nos-valeurs__intro-highlight">
-              <strong>
-                Pascal a suivi une formation d'excellence à l'école de John
-                Bergh, double champion du monde de pizza napolitaine
-              </strong>
-              , afin de vous offrir une expérience gastronomique italienne
-              authentique et éthique à Brive-la-Gaillarde.
-            </p>
+              {/* Photo de Pascal - Visible uniquement sur mobile entre les textes */}
+              <div className="nos-valeurs__pascal-image-wrapper nos-valeurs__pascal-image-wrapper--mobile">
+                <div className="nos-valeurs__pascal-image-container">
+                  <img
+                    src="/images/pascal.jpg"
+                    alt="Pascal Bellemain, maître pizzaïolo de Rosi Trattoria formé par John Bergh, champion du monde de pizza napolitaine"
+                    className="nos-valeurs__pascal-image"
+                    loading="eager"
+                    width="400"
+                    height="300"
+                  />
+                  <div className="nos-valeurs__image-overlay"></div>
+                </div>
+              </div>
 
-            <blockquote className="nos-valeurs__intro-body" cite="Pascal">
-              <p>
-                <strong>"</strong>Chez Rosi Trattoria, c'est pâte au levain
-                naturel maison pour une meilleure digestion. Je favorise au
-                maximum les petits producteurs locaux de Corrèze et utilise
-                majoritairement des produits issus de l'agriculture biologique
-                dans la confection de nos pizzas napolitaines authentiques, et
-                tout cela pour votre plus grand plaisir gastronomique.
-                <strong>"</strong>
-              </p>
-            </blockquote>
+              {/* Deuxième bloc de texte */}
+              <div className="nos-valeurs__intro-text nos-valeurs__intro-text--second">
+                <blockquote className="nos-valeurs__intro-body" cite="Pascal">
+                  <p>
+                    <strong>"</strong>Chez Rosi Trattoria, c'est pâte au levain
+                    naturel maison pour une meilleure digestion. Je favorise au
+                    maximum les petits producteurs locaux de Corrèze et utilise
+                    majoritairement des produits issus de l'agriculture
+                    biologique dans la confection de nos pizzas napolitaines
+                    authentiques, et tout cela pour votre plus grand plaisir
+                    gastronomique.
+                    <strong>"</strong>
+                  </p>
+                </blockquote>
+              </div>
+            </div>
+
+            {/* Photo de Pascal - Visible uniquement sur desktop à côté des textes */}
+            <div className="nos-valeurs__pascal-image-wrapper nos-valeurs__pascal-image-wrapper--desktop">
+              <div className="nos-valeurs__pascal-image-container">
+                <img
+                  src="/images/pascal.jpg"
+                  alt="Pascal Bellemain, maître pizzaïolo de Rosi Trattoria formé par John Bergh, champion du monde de pizza napolitaine"
+                  className="nos-valeurs__pascal-image"
+                  loading="eager"
+                  width="400"
+                  height="300"
+                />
+                <div className="nos-valeurs__image-overlay"></div>
+              </div>
+            </div>
           </div>
         </article>
 

@@ -1,17 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Document, Page, pdfjs } from "react-pdf";
 import {
   UtensilsCrossed,
   ShoppingBag,
   ChevronDown,
   Download,
+  Calendar,
 } from "lucide-react";
 import ReactGA from "react-ga4";
-import "react-pdf/dist/esm/Page/AnnotationLayer.css";
-import "react-pdf/dist/esm/Page/TextLayer.css";
 import "./selector.scss";
-
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 interface MenuOption {
   value: string;
@@ -28,6 +24,7 @@ interface SelectorProps {
   onPdfToggle?: (show: boolean) => void;
   selectedMenu?: string;
   pageName?: string;
+  onBackToHours?: () => void;
 }
 
 const GA4_EVENTS = {
@@ -36,6 +33,7 @@ const GA4_EVENTS = {
   PDF_DISPLAY: "carte_pdf_display",
   PDF_DOWNLOAD: "carte_pdf_download",
   PDF_ERROR: "carte_pdf_error",
+  BACK_TO_HOURS: "carte_back_to_hours",
 };
 
 const Selector: React.FC<SelectorProps> = ({
@@ -45,25 +43,76 @@ const Selector: React.FC<SelectorProps> = ({
   onPdfToggle,
   selectedMenu: parentSelectedMenu,
   pageName = "Unknown Page",
+  onBackToHours,
 }) => {
-  const [numPages, setNumPages] = useState<number | null>(null);
-  const [pageWidth, setPageWidth] = useState(800);
   const [selectedMenu, setSelectedMenu] = useState<string>("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [pdfLoaded, setPdfLoaded] = useState(false);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
   const [internalShowPdf, setInternalShowPdf] = useState(showPdf);
   const [loadingOffset, setLoadingOffset] = useState(false);
+  const [imageLoadErrors, setImageLoadErrors] = useState<Set<string>>(
+    new Set()
+  );
   const lastDropdownTime = useRef<number>(0);
-  const dropdownDebounceMs = 1000; // 1 second debounce
+  const dropdownDebounceMs = 1000;
   const containerRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const loadingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const isMobile = () => window.innerWidth < 768;
 
-  const getLoadingDelay = () => {
-    return isMobile() ? 7000 : 9000;
+  const getMenuImages = (menuType: string) => {
+    if (menuType === "sur_place") {
+      return Array.from(
+        { length: 11 },
+        (_, i) =>
+          `https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/cartesurplace/surplacepage${
+            i + 1
+          }.jpg`
+      );
+    } else if (menuType === "a_emporter") {
+      return Array.from(
+        { length: 2 },
+        (_, i) =>
+          `https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/carteaemporter/emporterpage${
+            i + 1
+          }.jpg`
+      );
+    }
+    return [];
+  };
+
+  const getTotalPages = (menuType: string) => {
+    return menuType === "sur_place" ? 11 : 2;
+  };
+
+  const handleBackToHours = () => {
+    setSelectedMenu("");
+    setInternalShowPdf(false);
+    setImagesLoaded(false);
+    setIsLoading(false);
+    setLoadingOffset(false);
+    setDropdownOpen(false); // Close dropdown when going back to hours
+
+    if (loadingTimeoutRef.current) {
+      clearTimeout(loadingTimeoutRef.current);
+    }
+
+    ReactGA.event(GA4_EVENTS.BACK_TO_HOURS, {
+      page_name: pageName,
+      previous_menu: selectedMenu,
+    });
+
+    if (onBackToHours) {
+      onBackToHours();
+    }
+    if (onPdfToggle) {
+      onPdfToggle(false);
+    }
+    if (onMenuSelect) {
+      onMenuSelect("");
+    }
   };
 
   const handleMenuLoad = (menuType: string) => {
@@ -74,11 +123,11 @@ const Selector: React.FC<SelectorProps> = ({
       menu_type: menuType === "sur_place" ? "dine_in" : "takeaway",
     });
 
-    setNumPages(null);
-    setPdfLoaded(false);
+    setImagesLoaded(false);
     setInternalShowPdf(true);
     setIsLoading(true);
     setLoadingOffset(true);
+    setImageLoadErrors(new Set());
 
     if (loadingTimeoutRef.current) {
       clearTimeout(loadingTimeoutRef.current);
@@ -92,17 +141,40 @@ const Selector: React.FC<SelectorProps> = ({
       onPdfToggle(true);
     }
 
-    if (menuType === "a_emporter") {
-      setIsLoading(false);
-      setLoadingOffset(false);
-    } else {
-      const loadingDelay = getLoadingDelay();
-      loadingTimeoutRef.current = setTimeout(() => {
-        const loadTime = Date.now() - startTime;
+    // Précharger les images
+    const images = getMenuImages(menuType);
+    let loadedCount = 0;
+    const totalImages = images.length;
+
+    const checkAllLoaded = () => {
+      if (loadedCount === totalImages) {
         setIsLoading(false);
         setLoadingOffset(false);
-      }, loadingDelay);
-    }
+        setImagesLoaded(true);
+      }
+    };
+
+    images.forEach((src, index) => {
+      const img = new Image();
+      img.onload = () => {
+        loadedCount++;
+        checkAllLoaded();
+      };
+      img.onerror = () => {
+        setImageLoadErrors((prev) => new Set(prev).add(src));
+        loadedCount++;
+        checkAllLoaded();
+      };
+      img.src = src;
+    });
+
+    // Timeout de sécurité
+    const loadingDelay = isMobile() ? 3000 : 2000;
+    loadingTimeoutRef.current = setTimeout(() => {
+      setIsLoading(false);
+      setLoadingOffset(false);
+      setImagesLoaded(true);
+    }, loadingDelay);
   };
 
   const handleMenuSelect = (menuType: string) => {
@@ -127,17 +199,6 @@ const Selector: React.FC<SelectorProps> = ({
   };
 
   useEffect(() => {
-    const updateWidth = () => {
-      if (containerRef.current) {
-        setPageWidth(containerRef.current.offsetWidth - 40);
-      }
-    };
-    updateWidth();
-    window.addEventListener("resize", updateWidth, { passive: true });
-    return () => window.removeEventListener("resize", updateWidth);
-  }, []);
-
-  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         dropdownRef.current &&
@@ -159,8 +220,7 @@ const Selector: React.FC<SelectorProps> = ({
       if (parentSelectedMenu) {
         handleMenuLoad(parentSelectedMenu);
       } else {
-        setNumPages(null);
-        setPdfLoaded(false);
+        setImagesLoaded(false);
         setInternalShowPdf(false);
         setIsLoading(false);
         setLoadingOffset(false);
@@ -174,8 +234,7 @@ const Selector: React.FC<SelectorProps> = ({
   useEffect(() => {
     setInternalShowPdf(showPdf);
     if (!showPdf) {
-      setNumPages(null);
-      setPdfLoaded(false);
+      setImagesLoaded(false);
       setIsLoading(false);
       setLoadingOffset(false);
       if (loadingTimeoutRef.current) {
@@ -185,14 +244,14 @@ const Selector: React.FC<SelectorProps> = ({
   }, [showPdf]);
 
   useEffect(() => {
-    if (pdfLoaded && !isLoading && internalShowPdf && selectedMenu) {
+    if (imagesLoaded && !isLoading && internalShowPdf && selectedMenu) {
       ReactGA.event(GA4_EVENTS.PDF_DISPLAY, {
         page_name: pageName,
         menu_type: selectedMenu === "sur_place" ? "dine_in" : "takeaway",
-        num_pages: numPages || 0,
+        num_pages: getTotalPages(selectedMenu),
       });
     }
-  }, [pdfLoaded, isLoading, internalShowPdf, selectedMenu, numPages, pageName]);
+  }, [imagesLoaded, isLoading, internalShowPdf, selectedMenu, pageName]);
 
   useEffect(() => {
     return () => {
@@ -203,8 +262,11 @@ const Selector: React.FC<SelectorProps> = ({
   }, []);
 
   const getPdfFile = () => {
-    if (selectedMenu === "sur_place") return "/carterositrattoria.pdf";
-    if (selectedMenu === "a_emporter") return "/carterositrattoriaemporter.pdf";
+    if (selectedMenu === "sur_place") {
+      return "/carterositrattoria.pdf";
+    } else if (selectedMenu === "a_emporter") {
+      return "/carterositrattoriaemporter.pdf";
+    }
     return null;
   };
 
@@ -248,39 +310,38 @@ const Selector: React.FC<SelectorProps> = ({
     return getMenuOptions().find((option) => option.value === selectedMenu);
   };
 
-  const handleDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
-    setNumPages(numPages);
-    setPdfLoaded(true);
-  };
+  const renderAllMenuPages = () => {
+    if (!selectedMenu || !imagesLoaded) return null;
 
-  const handleDocumentError = (error: Error) => {
-    ReactGA.event(GA4_EVENTS.PDF_ERROR, {
-      page_name: pageName,
-      menu_type: selectedMenu === "sur_place" ? "dine_in" : "takeaway",
-      error_message: error.message,
-    });
-    console.error("PDF loading error:", error);
-  };
-
-  const renderPages = () => {
-    if (!numPages) return null;
-    const mobile = isMobile();
+    const images = getMenuImages(selectedMenu);
 
     return (
-      <div className="pdf-page-grid">
-        {Array.from({ length: numPages }, (_, i) => (
-          <div key={i + 1} className="pdf-page-container" data-page={i + 1}>
-            <Page
-              pageNumber={i + 1}
-              width={pageWidth}
-              renderTextLayer={!mobile}
-              renderAnnotationLayer={false}
-              renderMode="canvas"
-              className="pdf-page"
-              loading={<div className="page-loading">Chargement...</div>}
-            />
-          </div>
-        ))}
+      <div className="menu-pages-container">
+        {images.map((imageSrc, index) => {
+          if (imageLoadErrors.has(imageSrc)) {
+            return (
+              <div key={index} className="menu-page-error">
+                <p>Erreur lors du chargement de la page {index + 1}</p>
+              </div>
+            );
+          }
+
+          return (
+            <div
+              key={index}
+              className={`menu-page-wrapper ${
+                selectedMenu === "a_emporter" ? "takeaway-menu" : ""
+              }`}
+            >
+              <img
+                src={imageSrc}
+                alt={`Menu page ${index + 1}`}
+                className="menu-page-image"
+                loading="lazy"
+              />
+            </div>
+          );
+        })}
       </div>
     );
   };
@@ -289,34 +350,19 @@ const Selector: React.FC<SelectorProps> = ({
 
   return (
     <div className={`selector-container ${className || ""}`} ref={containerRef}>
-      <div className="selector-header">
-        <UtensilsCrossed className="header-icon" size={24} />
-        <h2>Notre Carte</h2>
-      </div>
-
       <div className="selector-content">
         {selectedMenu && isLoading && (
           <div className="document-loading">
             <div className="loading-content">
               <div className="loading-spinner"></div>
               <span className="loading-announcement">
-                Chargement en cours...
+                Chargement du menu en cours...
                 <br />
                 <small>
-                  Nous optimisons la qualité du fichier, merci de patienter un
-                  instant
+                  Nous préparons votre carte, merci de patienter un instant
                 </small>
               </span>
             </div>
-          </div>
-        )}
-
-        {selectedMenu && !isLoading && internalShowPdf && (
-          <div className="download-section">
-            <span className="download-link" onClick={handleDownloadPdf}>
-              <Download className="download-icon" size={18} />
-              <span>Télécharger en PDF</span>
-            </span>
           </div>
         )}
 
@@ -344,7 +390,9 @@ const Selector: React.FC<SelectorProps> = ({
               ) : (
                 <>
                   <div className="service-info">
-                    <span className="service-label">Choisissez une carte</span>
+                    <span className="service-label">
+                      Sélectionnez une carte
+                    </span>
                   </div>
                 </>
               )}
@@ -374,27 +422,41 @@ const Selector: React.FC<SelectorProps> = ({
                 )}
               </div>
             ))}
+
+            {/* Option "Afficher les horaires" uniquement si un menu est sélectionné */}
+            {selectedMenu && (
+              <div
+                className="dropdown-option show-hours-option"
+                onClick={handleBackToHours}
+              >
+                <Calendar className="service-icon" size={20} />
+                <div className="service-info">
+                  <span className="service-label">Afficher les horaires</span>
+                  <span className="service-description">
+                    Voir nos heures d'ouverture
+                  </span>
+                </div>
+              </div>
+            )}
           </div>
         </div>
+
+        {/* Section de téléchargement PDF - MOVED BELOW DROPDOWN */}
+        {selectedMenu && !isLoading && internalShowPdf && (
+          <div className="download-section">
+            <button className="download-button" onClick={handleDownloadPdf}>
+              <Download className="download-icon" size={18} />
+              <span>Télécharger</span>
+            </button>
+          </div>
+        )}
       </div>
 
       {selectedMenu && internalShowPdf && (
-        <div className={`pdf-section ${loadingOffset ? "loading-offset" : ""}`}>
-          <Document
-            key={`${selectedMenu}-${Date.now()}`}
-            file={getPdfFile()}
-            onLoadSuccess={handleDocumentLoadSuccess}
-            onLoadError={handleDocumentError}
-            loading={null}
-          >
-            {renderPages()}
-          </Document>
-        </div>
-      )}
-
-      {numPages && pdfLoaded && !isMobile() && internalShowPdf && (
-        <div className="page-indicator">
-          {numPages} page{numPages > 1 ? "s" : ""}
+        <div
+          className={`menu-section ${loadingOffset ? "loading-offset" : ""}`}
+        >
+          {renderAllMenuPages()}
         </div>
       )}
     </div>

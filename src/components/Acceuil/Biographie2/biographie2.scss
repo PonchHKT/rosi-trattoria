@@ -3,7 +3,7 @@
 .restaurant-bio {
   padding-bottom: 50px;
   font-family: "Open Sans", sans-serif;
-  background: #0a0a0a;
+  background: black;
   color: #e0e0e0;
 
   // Header en pleine largeur avec background du four à dôme
@@ -11,7 +11,7 @@
     position: relative;
     width: 100vw;
     margin-left: calc(-50vw + 50%);
-    margin-top: -1px;
+    margin-top: 0; // Changé de -1px à 0
     min-height: 70vh;
     display: flex;
     align-items: center;
@@ -21,6 +21,7 @@
     background-position: center;
     background-repeat: no-repeat;
     background-clip: border-box;
+    overflow: hidden; // Ajouté pour éviter les débordements
 
     // Overlay sombre avec opacité
     &::before {
@@ -31,41 +32,38 @@
       right: 0;
       bottom: 0;
       background: rgba(10, 10, 10, 0.8);
-      backdrop-filter: blur(2px);
       z-index: 1;
     }
 
-    // Fade noir vers l'intérieur en haut
+    // Fade noir vers l'intérieur en haut - ajusté pour #0a0a0a
     &::after {
       content: "";
       position: absolute;
-      top: -1px;
+      top: 0;
       left: 0;
       right: 0;
-      height: 81px;
+      height: 80px;
       background: linear-gradient(
         to bottom,
         #0a0a0a 0%,
-        rgba(10, 10, 10, 0.8) 30%,
-        rgba(10, 10, 10, 0.4) 60%,
+        rgba(10, 10, 10, 0.7) 50%,
         transparent 100%
       );
       z-index: 2;
       pointer-events: none;
     }
 
-    // Fade noir vers l'intérieur en bas
+    // Fade noir vers l'intérieur en bas - MODIFIÉ pour aller vers full black
     .bio-header-fade-bottom {
       position: absolute;
-      bottom: -1px;
+      bottom: 0; // Changé de -1px à 0
       left: 0;
       right: 0;
-      height: 81px;
+      height: 80px;
       background: linear-gradient(
         to top,
-        #0a0a0a 0%,
-        rgba(10, 10, 10, 0.8) 30%,
-        rgba(10, 10, 10, 0.4) 60%,
+        #000000 0%,
+        #0a0a0a 50%,
         transparent 100%
       );
       z-index: 2;
@@ -92,15 +90,9 @@
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
     letter-spacing: -0.02em;
 
-    // Animation de fade-in
-    opacity: 0;
-    transform: translateY(50px);
-    transition: all 1s ease-out;
-
-    &.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    // SUPPRIMÉ : Animation de fade-in
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .bio-subtitle {
@@ -111,15 +103,9 @@
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
     letter-spacing: 0.02em;
 
-    // Animation de fade-in avec délai
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 1s ease-out 0.3s;
-
-    &.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    // SUPPRIMÉ : Animation de fade-in avec délai
+    opacity: 1;
+    transform: translateY(0);
   }
 
   // Contenu principal avec padding sur les côtés
@@ -198,7 +184,6 @@
     border-left: 4px solid #e91e63;
     padding: 1.5rem;
     border-radius: 0 8px 8px 0;
-    backdrop-filter: blur(10px);
     transition: all 0.3s ease;
     margin-top: 1.5rem;
 
@@ -305,20 +290,20 @@
   @media (max-width: 768px) {
     .bio-header {
       min-height: 60vh;
-      margin-top: -1px;
+      margin-top: 0; // Changé de -1px à 0
 
       .bio-header-content {
         padding: 1.5rem;
       }
 
       &::after {
-        top: -1px;
-        height: 61px;
+        top: 0;
+        height: 60px;
       }
 
       .bio-header-fade-bottom {
-        bottom: -1px;
-        height: 61px;
+        bottom: 0; // Changé de -1px à 0
+        height: 60px;
       }
     }
 
@@ -367,20 +352,20 @@
   @media (max-width: 480px) {
     .bio-header {
       min-height: 50vh;
-      margin-top: -1px;
+      margin-top: 0; // Changé de -1px à 0
 
       .bio-header-content {
         padding: 1rem;
       }
 
       &::after {
-        top: -1px;
-        height: 41px;
+        top: 0;
+        height: 40px;
       }
 
       .bio-header-fade-bottom {
-        bottom: -1px;
-        height: 41px;
+        bottom: 0; // Changé de -1px à 0
+        height: 40px;
       }
     }
 

@@ -2,13 +2,13 @@
 $brand-green: #00af87;
 $google-blue: #4285f4;
 $google-yellow: #ffc107;
-$tripadvisor-green: #00aa6c; // Couleur officielle TripAdvisor
-$background: #0a0a0a; // Nouveau fond sombre
-$background-card: #1a1a1a; // Fond des cartes
-$text-dark: #ffffff; // Texte principal en blanc
-$text-muted: #b0b0b0; // Texte secondaire en gris clair
-$text-secondary: #d0d0d0; // Texte intermédiaire
-$border-color: #333333; // Bordures sombres
+$tripadvisor-green: #00aa6c;
+$background: black;
+$background-card: #000000;
+$text-dark: #ffffff;
+$text-muted: #b0b0b0;
+$text-secondary: #d0d0d0;
+$border-color: #333333;
 $border-radius: 20px;
 $shadow-light: 0 4px 12px rgba(0, 0, 0, 0.3);
 $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
@@ -16,15 +16,14 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
 // Mixins pour les étoiles
 @mixin star-base {
   font-size: 18px;
-  color: #444444; // Étoiles vides plus sombres
-  transition: all 0.2s ease;
+  color: #444444;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
   line-height: 1;
   user-select: none;
 }
 
 @mixin star-filled($color) {
   color: $color;
-  transform: scale(1.05);
   text-shadow: 0 0 4px rgba($color, 0.3);
 }
 
@@ -49,7 +48,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
   .widget-header {
     padding: 50px 32px;
     text-align: center;
-    background: $background;
+    background: black;
 
     .brand-section {
       display: flex;
@@ -81,7 +80,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
           max-height: 36px;
           opacity: 0.95;
           transition: opacity 0.2s ease;
-          filter: brightness(1.2); // Éclaircir le logo pour le fond sombre
+          filter: brightness(1.2);
 
           &:hover {
             opacity: 1;
@@ -156,7 +155,6 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
           90deg,
           transparent,
           rgba(255, 255, 255, 0.1),
-          // Shimmer blanc sur fond sombre
           transparent
         );
         background-size: 200% 100%;
@@ -180,15 +178,15 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
       @include star-base;
 
       &.filled {
-        @include star-filled($google-yellow); // Jaune Google
+        @include star-filled($google-yellow);
       }
 
       &.empty {
         color: #444444;
       }
 
-      &:hover {
-        transform: scale(1.1);
+      &.hovered {
+        color: lighten($google-yellow, 10%);
       }
     }
   }
@@ -201,20 +199,20 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
       @include star-base;
 
       &.filled {
-        @include star-filled($tripadvisor-green); // Vert TripAdvisor
+        @include star-filled($tripadvisor-green);
       }
 
       &.empty {
         color: #444444;
       }
 
-      &:hover {
-        transform: scale(1.1);
+      &.hovered {
+        color: lighten($tripadvisor-green, 10%);
       }
     }
   }
 
-  // Étoiles génériques pour les avis individuels (Google uniquement)
+  // Étoiles génériques pour les avis individuels
   .rating {
     @include star-container;
 
@@ -222,11 +220,15 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
       @include star-base;
 
       &.filled {
-        @include star-filled($google-yellow); // Jaune Google
+        @include star-filled($google-yellow);
       }
 
       &.empty {
         color: #444444;
+      }
+
+      &.hovered {
+        color: lighten($google-yellow, 10%);
       }
     }
   }
@@ -252,8 +254,14 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
         color: #444444;
       }
 
-      &:hover {
-        transform: scale(1.1);
+      &.hovered {
+        &.google {
+          color: lighten($google-yellow, 10%);
+        }
+
+        &.tripadvisor {
+          color: lighten($tripadvisor-green, 10%);
+        }
       }
     }
   }
@@ -263,19 +271,62 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
     position: relative;
     padding: 0;
     overflow: hidden;
+    width: 100%;
+    height: auto !important; // Override any fixed height
 
-    .keen-slider {
-      overflow: hidden;
-      max-width: 100%;
-      height: auto;
+    // Ensure proper height adaptation
+    &:after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+  }
+
+  .keen-slider {
+    overflow: visible !important; // Allow content to dictate height
+    max-width: 100%;
+    height: auto !important; // Dynamic height
+    display: flex;
+    align-items: flex-start; // Align to top to avoid stretching
+    min-height: 0 !important; // Prevent minimum height constraints
+    transition: height 0.3s ease; // Smooth height transitions
+
+    // Multiple approaches to override height
+    &[style*="height"],
+    &[style*="Height"],
+    &.keen-slider[style] {
+      height: auto !important;
     }
 
-    .keen-slider__slide {
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      max-width: 100%;
-      height: auto;
+    // Force height to be auto always
+    &::after {
+      content: "";
+      display: block;
+      height: 0;
+      clear: both;
+    }
+  }
+
+  // High specificity override
+  .review-widget .keen-slider[style] {
+    height: auto !important;
+  }
+
+  .keen-slider__slide {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    max-width: 100%;
+    height: auto !important; // Force dynamic height
+    min-height: 0 !important; // Remove minimum height
+    flex: 0 0 100%; // Full width per slide
+    overflow: visible !important; // Ensure content isn't clipped
+
+    // Force content to determine height
+    & > * {
+      width: 100%;
+      height: auto !important;
+      min-height: 0 !important;
     }
   }
 
@@ -289,15 +340,17 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
     max-width: 1400px;
     box-sizing: border-box;
     border-radius: 12px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: box-shadow 0.2s ease;
     margin: 0 auto;
     box-shadow: $shadow-subtle;
     border: 1px solid $border-color;
+    height: auto !important; // Dynamic height
+    min-height: 0 !important; // Remove minimum height
+    overflow: visible; // Ensure content isn't clipped
 
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-    }
+    // Ensure the review item fits its content exactly
+    align-self: flex-start;
+    flex-shrink: 0;
 
     .review-content {
       flex: 1;
@@ -332,11 +385,15 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
             @include star-base;
 
             &.filled {
-              @include star-filled($google-yellow); // Jaune Google
+              @include star-filled($google-yellow);
             }
 
             &.empty {
               color: #444444;
+            }
+
+            &.hovered {
+              color: lighten($google-yellow, 10%);
             }
           }
         }
@@ -344,15 +401,18 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
     }
 
     .review-text {
-      font-size: 15px;
+      font-size: 15px !important;
       color: $text-secondary;
       line-height: 1.5;
       margin-bottom: 16px;
       letter-spacing: -0.1px;
-      font-weight: 400;
+      font-weight: 700;
       word-break: break-word;
       width: 100%;
       padding: 0 16px;
+      max-height: none !important; // Remove height restrictions
+      height: auto !important; // Dynamic height
+      overflow: visible !important; // Prevent clipping
 
       &::before {
         content: '"';
@@ -421,7 +481,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
 
   .error {
     .error-icon {
-      color: #ff6b6b; // Rouge plus doux pour le thème sombre
+      color: #ff6b6b;
     }
 
     p {
@@ -516,7 +576,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
       margin: 0 8px;
 
       .review-text {
-        font-size: 14px;
+        font-size: 14px !important;
         padding: 0;
       }
     }
@@ -584,7 +644,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
       margin: 0 4px;
 
       .review-text {
-        font-size: 13px;
+        font-size: 13px !important;
       }
     }
   }
@@ -611,26 +671,22 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
   position: relative;
   overflow: hidden;
 
-  // Effet de survol
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(66, 133, 244, 0.4);
   }
 
-  // Effet de clic
   &:active {
     transform: translateY(0);
     box-shadow: 0 2px 8px rgba(66, 133, 244, 0.3);
   }
 
-  // Animation de l'icône
   &:hover {
     .emoji-icon {
       animation: wiggle 0.5s ease-in-out;
     }
   }
 
-  // Effet de brillance au survol
   &::before {
     content: "";
     position: absolute;
@@ -651,7 +707,6 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
     left: 100%;
   }
 
-  // Responsive
   @media (max-width: 768px) {
     padding: 10px 20px;
     font-size: 15px;
@@ -731,7 +786,6 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
     margin: 0;
   }
 
-  // Centrer le bouton sur mobile
   @media (max-width: 768px) {
     align-items: center;
     text-align: center;
@@ -748,7 +802,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
   .seo-content {
     .seo-text {
       font-size: 1px;
-      color: $background; // Noir sur noir = invisible
+      color: $background;
       margin: 0;
       padding: 0;
       line-height: 1px;
@@ -758,7 +812,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
 
     .seo-reviews-hidden {
       font-size: 1px;
-      color: $background; // Noir sur noir
+      color: $background;
       line-height: 1px;
       height: 1px;
       overflow: hidden;
@@ -772,7 +826,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
         time,
         span {
           font-size: 1px;
-          color: $background; // Texte noir sur fond noir
+          color: $background;
           margin: 0;
           padding: 0;
         }

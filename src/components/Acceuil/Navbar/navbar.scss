@@ -537,6 +537,28 @@
       }
     }
 
+    &--reservation {
+      color: #000000 !important; // Texte noir pour le fond jaune
+
+      &:hover {
+        color: #000000 !important; // Maintenir le texte noir au hover
+        background: rgba(
+          255,
+          213,
+          6,
+          0.9
+        ); // Fond jaune légèrement transparent au hover
+
+        .navbar__mobile-link-line {
+          background-color: #000000; // Ligne noire au hover
+        }
+      }
+
+      .navbar__mobile-link-line {
+        background-color: #000000; // Ligne noire par défaut
+      }
+    }
+
     &:active {
       transform: translateX(8px) scale(0.98);
     }

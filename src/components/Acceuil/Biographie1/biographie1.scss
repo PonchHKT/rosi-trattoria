@@ -1,9 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap");
 
 :root {
-  --text-primary: #ffffff !important;
+  --text-primary: #ffffff;
   --text-secondary: #e5e7eb;
-  --background-black: #000000;
+  --background-black: #0a0a0a;
   --background-dark: #111111;
   --border-light: #374151;
   --border-medium: #4b5563;
@@ -16,9 +16,11 @@
   --radius-small: 8px;
   --radius-medium: 12px;
   --radius-large: 16px;
-  --transition-fast: 0.15s ease-out;
-  --transition-medium: 0.25s ease-out;
-  --transition-slow: 0.4s ease-out;
+  --transition-fast: 0.3s ease-out;
+  --transition-medium: 0.5s ease-out;
+  --transition-slow: 0.7s ease-out;
+  --animation-duration: 0.6s;
+  --animation-easing: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 * {
@@ -28,19 +30,20 @@
 .biographie {
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     sans-serif;
-  background: var(--background-black);
+  background: #0a0a0a;
   min-height: 100vh;
   padding: 80px 0 100px;
   position: relative;
   margin-top: -100px;
   z-index: 200;
+  overflow: hidden;
 }
 
 .biographie__container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 24px;
-  color: #ffffff !important;
+  color: var(--text-primary);
 }
 
 .biographie__header {
@@ -63,7 +66,7 @@
   font-family: "Playfair Display", serif;
   font-size: clamp(2.5rem, 4vw, 4rem);
   font-weight: 600;
-  color: #ffffff !important;
+  color: var(--text-primary);
   letter-spacing: -0.02em;
   line-height: 1.1;
   display: flex;
@@ -85,23 +88,24 @@
   margin: 0;
   font-size: inherit;
   font-weight: inherit;
-  color: #ffffff !important;
+  color: var(--text-primary);
   line-height: inherit;
-  width: 100%;
-  text-align: center;
 }
 
 .biographie__title-word {
   display: inline-block;
-  color: #ffffff !important;
+  color: var(--text-primary);
   white-space: nowrap;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
 
-  &:nth-child(4) {
-    margin-right: 0.2rem;
+  &.is-visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   &--accent {
-    color: #ffffff !important;
     font-weight: 700;
     position: relative;
 
@@ -119,7 +123,7 @@
 }
 
 .biographie__title-accent {
-  color: #ffffff !important;
+  color: var(--text-primary);
   font-weight: 500;
   font-size: clamp(1.2rem, 3vw, 1.5rem);
   letter-spacing: 0.05em;
@@ -130,17 +134,22 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 0.5rem;
-  line-height: 1.2;
-  width: 100%;
-  text-align: center;
 }
 
 .biographie__title-accent-word {
-  color: #ffffff !important;
+  color: var(--text-primary);
   white-space: nowrap;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+
+  &.is-visible {
+    opacity: 1;
+    transform: scale(1);
+  }
 
   &--highlight {
-    color: #ffffff !important;
+    color: var(--accent-gold);
     font-weight: 600;
   }
 }
@@ -156,37 +165,33 @@
   gap: 6px;
   font-size: clamp(0.7rem, 1.5vw, 0.75rem);
   font-weight: 500;
-  color: #ffffff !important;
+  color: var(--text-primary);
   box-shadow: var(--shadow-light);
   margin: 12px auto 0;
   width: fit-content;
   max-width: 200px;
-  text-align: center;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+
+  &.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .biographie__title-badge-icon {
   width: 14px;
   height: 14px;
-  color: var(--accent-gold) !important;
-}
-
-.biographie__title-badge-text {
-  color: #ffffff !important;
-}
-
-.biographie__section-header {
-  text-align: center;
-  margin-bottom: 20px;
+  color: var(--accent-gold);
 }
 
 .biographie__subtitle-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 0;
   gap: 20px;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding: 20px 0;
 }
 
 .biographie__decorative-line {
@@ -195,6 +200,12 @@
   background: var(--border-medium);
   border-radius: 1px;
   position: relative;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+
+  &.is-visible {
+    opacity: 1;
+  }
 
   &--left::after,
   &--right::after {
@@ -219,7 +230,7 @@
 
 .biographie__pizza-icon {
   font-size: 1.5rem;
-  color: #ffffff !important;
+  color: var(--text-primary);
   background: var(--background-dark);
   border: 1px solid var(--border-light);
   border-radius: 50%;
@@ -229,31 +240,56 @@
   align-items: center;
   justify-content: center;
   box-shadow: var(--shadow-light);
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+
+  &.is-visible {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .biographie__flag-svg {
   width: 24px;
   height: 24px;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+
+  &.is-visible {
+    opacity: 1;
+  }
+
+  rect {
+    transition: opacity var(--transition-fast);
+  }
 }
 
 .biographie__subtitle {
   font-family: "Playfair Display", serif;
   font-size: clamp(1.5rem, 3vw, 2.25rem);
   font-weight: 500;
-  color: #ffffff !important;
+  color: var(--text-primary);
   margin: 0;
   text-align: center;
   line-height: 1.3;
-  letter-spacing: -0.01em;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+
+  &.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .text-blue {
-  color: var(--primary-blue) !important;
+  color: var(--primary-blue);
   font-weight: 600;
 }
 
 .text-pink {
-  color: var(--primary-pink) !important;
+  color: var(--primary-pink);
   font-weight: 600;
 }
 
@@ -262,16 +298,19 @@
   margin-bottom: 80px;
 }
 
-.biographie__text-container {
-  max-width: 700px;
-  margin: 0 auto;
-}
-
 .biographie__text {
   font-size: clamp(1rem, 2.5vw, 1.125rem);
   line-height: 1.7;
-  color: #ffffff !important;
+  color: var(--text-primary);
   margin-bottom: 1.5rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+
+  &.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
   &:last-child {
     margin-bottom: 0;
@@ -279,7 +318,7 @@
 }
 
 .biographie__text-highlight {
-  color: #ffffff !important;
+  color: var(--accent-gold);
   font-weight: 600;
 }
 
@@ -296,25 +335,29 @@
   border-radius: var(--radius-large);
   padding: 40px 32px;
   text-align: center;
-  transition: all var(--transition-medium);
-  position: relative;
-  overflow: hidden;
-  box-shadow: rgba(255, 255, 255, 0.1) 0px 2px 8px 0px;
+  transition: transform var(--transition-medium),
+    box-shadow var(--transition-medium);
+  box-shadow: var(--shadow-light);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
 
-  &--indoor {
-    .biographie__capacity-icon {
-      svg {
-        color: var(--primary-pink) !important;
-      }
-    }
+  &.is-visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 
-  &--outdoor {
-    .biographie__capacity-icon {
-      svg {
-        color: var(--primary-blue) !important;
-      }
-    }
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-strong);
+  }
+
+  &--indoor .biographie__capacity-icon svg {
+    color: var(--primary-pink);
+  }
+
+  &--outdoor .biographie__capacity-icon svg {
+    color: var(--primary-blue);
   }
 }
 
@@ -334,14 +377,13 @@
   font-family: "Playfair Display", serif;
   font-size: clamp(2rem, 5vw, 2.5rem);
   font-weight: 700;
-  color: #ffffff !important;
-  margin: 0 0 8px 0;
-  line-height: 1;
+  color: var(--text-primary);
+  margin: 0 0 8px;
 }
 
 .biographie__capacity-label {
   font-size: clamp(0.8rem, 2vw, 0.875rem);
-  color: #ffffff !important;
+  color: var(--text-primary);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: 500;
@@ -351,12 +393,11 @@
 
 .biographie__capacity-desc {
   font-size: clamp(0.9rem, 2vw, 1rem);
-  color: #ffffff !important;
+  color: var(--text-primary);
   line-height: 1.5;
   margin: 0;
 
   strong {
-    color: #ffffff !important;
     font-weight: 600;
   }
 }
@@ -373,10 +414,17 @@
   border-radius: var(--radius-large);
   overflow: hidden;
   box-shadow: var(--shadow-medium);
-  transition: transform var(--transition-medium);
   height: 300px;
   background: var(--background-dark);
   border: 1px solid var(--border-light);
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+
+  &.is-visible {
+    opacity: 1;
+    transform: scale(1);
+  }
 
   &:hover {
     transform: scale(1.02);
@@ -387,24 +435,6 @@
     background: var(--background-dark);
     border: 1px dashed var(--border-medium);
   }
-}
-
-.biographie__image-container:hover .biographie__image-overlay-content {
-  transform: translateY(0);
-}
-
-.biographie__image-overlay-icon {
-  width: 24px;
-  height: 24px;
-  margin-bottom: 8px;
-  color: var(--accent-gold) !important;
-}
-
-.biographie__image-overlay-text {
-  font-size: clamp(0.8rem, 2vw, 0.875rem);
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  color: #ffffff !important;
 }
 
 .biographie__image {
@@ -441,16 +471,13 @@
 }
 
 @keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
+  to {
     transform: rotate(360deg);
   }
 }
 
 .biographie__loading-text {
-  color: #ffffff !important;
+  color: var(--text-primary);
   font-size: clamp(0.8rem, 2vw, 0.875rem);
   font-weight: 500;
   text-align: center;
@@ -469,18 +496,17 @@
   justify-content: center;
   background: var(--background-dark);
   border-radius: var(--radius-large);
-  z-index: 3;
 }
 
 .biographie__error-icon {
   font-size: 2rem;
   margin-bottom: 12px;
   opacity: 0.5;
-  color: #ffffff !important;
+  color: var(--text-primary);
 }
 
 .biographie__error-text {
-  color: #ffffff !important;
+  color: var(--text-primary);
   font-size: clamp(0.8rem, 2vw, 0.875rem);
   text-align: center;
   margin: 0;
@@ -497,23 +523,29 @@
   max-width: 600px;
   margin: 0 auto;
   position: relative;
-  padding: 0px 32px;
+  padding: 0 32px;
 }
 
 .biographie__quote {
   font-family: "Playfair Display", serif;
   font-style: italic;
   font-size: clamp(1.1rem, 2.5vw, 1.25rem);
-  color: #ffffff !important;
+  color: var(--text-primary);
   margin: 0;
   line-height: 1.6;
-  position: relative;
-  font-weight: 500;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+
+  &.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .biographie__quote-mark {
   font-size: 3rem;
-  color: var(--accent-gold) !important;
+  color: var(--accent-gold);
   opacity: 0.4;
   position: absolute;
   font-style: normal;
@@ -531,7 +563,7 @@
 }
 
 .biographie__quote-highlight {
-  color: #ffffff !important;
+  color: var(--accent-gold);
   font-weight: 600;
   font-style: normal;
 }
@@ -548,7 +580,12 @@
   height: 6px;
   background: var(--accent-gold);
   border-radius: 50%;
-  opacity: 0.6;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+
+  &.is-visible {
+    opacity: 0.6;
+  }
 }
 
 .biographie__cta {
@@ -561,40 +598,47 @@
 }
 
 .biographie__cta-button {
-  background: #ffd506 !important;
-  color: #000000 !important;
+  background: #ffd506;
+  color: #000000;
   border: none;
   padding: 16px 48px;
   border-radius: var(--radius-medium);
   font-size: clamp(0.95rem, 2vw, 1rem);
   font-weight: 600;
   cursor: pointer;
-  transition: all var(--transition-medium);
+  transition: transform var(--transition-fast),
+    box-shadow var(--transition-fast);
   text-decoration: none;
   display: inline-block;
-  letter-spacing: 0.02em;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+
+  &.is-visible {
+    opacity: 1;
+    transform: scale(1);
+  }
 
   &:hover {
-    transform: translateY(-2px);
+    transform: translateY(-2px) scale(1.02);
     box-shadow: var(--shadow-strong);
-    background: #e6bd00 !important;
+    background: #e6bd00;
   }
-
-  &:active {
-    transform: translateY(-1px);
-  }
-}
-
-.biographie__cta-button-text {
-  color: #000000 !important;
 }
 
 .biographie__cta-subtitle {
   margin-top: 16px;
   font-size: clamp(0.8rem, 2vw, 0.875rem);
-  color: #ffffff !important;
+  color: var(--text-primary);
   font-weight: 500;
-  margin-bottom: 0;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+
+  &.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .sr-only {
@@ -609,7 +653,6 @@
   border: 0;
 }
 
-/* Responsive optimisé */
 @media (max-width: 768px) {
   .biographie {
     padding: 60px 0 80px;
@@ -620,39 +663,12 @@
     padding: 0 16px;
   }
 
-  .biographie__title-wrapper {
-    padding: 0 16px;
-  }
-
   .biographie__title {
     font-size: clamp(2.2rem, 8vw, 3rem);
-    gap: 0.8rem;
-  }
-
-  .biographie__title-main {
-    gap: 0.3rem 0.8rem;
-    justify-content: center;
-    text-align: center;
   }
 
   .biographie__title-accent {
     font-size: clamp(1.3rem, 5vw, 1.6rem);
-    gap: 0.3rem;
-    justify-content: center;
-    text-align: center;
-  }
-
-  .biographie__title-word {
-    &:nth-child(4) {
-      margin-right: 0.1rem;
-    }
-
-    &--accent {
-      &::after {
-        height: 4px;
-        opacity: 0.5;
-      }
-    }
   }
 
   .biographie__title-badge {
@@ -661,14 +677,8 @@
     font-size: clamp(0.65rem, 2vw, 0.7rem);
   }
 
-  .biographie__title-badge-icon {
-    width: 12px;
-    height: 12px;
-  }
-
   .biographie__subtitle-container {
     gap: 16px;
-    margin-bottom: 0;
   }
 
   .biographie__decorative-line {
@@ -687,12 +697,10 @@
 
   .biographie__subtitle {
     font-size: clamp(1.3rem, 4vw, 1.8rem);
-    padding: 0 16px;
   }
 
   .biographie__text {
     font-size: clamp(0.95rem, 3vw, 1.05rem);
-    padding: 0 16px;
   }
 
   .biographie__capacity-section {
@@ -705,28 +713,6 @@
     padding: 32px 24px;
   }
 
-  .biographie__capacity-icon {
-    width: 60px;
-    height: 60px;
-
-    svg {
-      width: 28px;
-      height: 28px;
-    }
-  }
-
-  .biographie__capacity-number {
-    font-size: clamp(1.8rem, 8vw, 2.2rem);
-  }
-
-  .biographie__capacity-label {
-    font-size: clamp(0.75rem, 3vw, 0.8rem);
-  }
-
-  .biographie__capacity-desc {
-    font-size: clamp(0.85rem, 3vw, 0.95rem);
-  }
-
   .biographie__images {
     grid-template-columns: 1fr;
     gap: 24px;
@@ -735,12 +721,10 @@
 
   .biographie__image-container {
     height: 250px;
-    min-height: 200px;
   }
 
   .biographie__quote-container {
-    padding: 0px 24px;
-    margin-bottom: 60px;
+    padding: 0 24px;
   }
 
   .biographie__quote {
@@ -749,15 +733,6 @@
 
   .biographie__quote-mark {
     display: none;
-  }
-
-  .biographie__cta-button {
-    padding: 14px 32px;
-    font-size: clamp(0.9rem, 3vw, 0.95rem);
-  }
-
-  .biographie__cta-subtitle {
-    font-size: clamp(0.75rem, 3vw, 0.8rem);
   }
 }
 
@@ -771,147 +746,40 @@
     padding: 0 12px;
   }
 
-  .biographie__title-wrapper {
-    padding: 0 12px;
-  }
-
   .biographie__title {
     font-size: clamp(2rem, 9vw, 2.8rem);
-    gap: 0.6rem;
-  }
-
-  .biographie__title-main {
-    gap: 0.2rem 0.6rem;
-    justify-content: center;
-    text-align: center;
   }
 
   .biographie__title-accent {
     font-size: clamp(1.2rem, 6vw, 1.5rem);
-    gap: 0.2rem;
-    justify-content: center;
-    text-align: center;
-  }
-
-  .biographie__title-word {
-    &--accent {
-      &::after {
-        height: 5px;
-        opacity: 0.6;
-      }
-    }
-  }
-
-  .biographie__title-badge {
-    margin-top: 6px;
-    padding: 5px 8px;
-    font-size: clamp(0.6rem, 2.5vw, 0.65rem);
-  }
-
-  .biographie__title-badge-icon {
-    width: 10px;
-    height: 10px;
-  }
-
-  .biographie__subtitle-container {
-    margin-bottom: 0;
-  }
-
-  .biographie__subtitle {
-    font-size: clamp(1.2rem, 5vw, 1.5rem);
-    padding: 0 12px;
-  }
-
-  .biographie__text {
-    font-size: clamp(0.9rem, 3.5vw, 1rem);
-    padding: 0 12px;
-  }
-
-  .biographie__capacity-card {
-    padding: 24px 20px;
-  }
-
-  .biographie__capacity-icon {
-    width: 50px;
-    height: 50px;
-
-    svg {
-      width: 24px;
-      height: 24px;
-    }
-  }
-
-  .biographie__capacity-number {
-    font-size: clamp(1.6rem, 10vw, 2rem);
-  }
-
-  .biographie__capacity-label {
-    font-size: clamp(0.7rem, 3vw, 0.75rem);
-  }
-
-  .biographie__capacity-desc {
-    font-size: clamp(0.8rem, 3vw, 0.85rem);
   }
 
   .biographie__image-container {
     height: 200px;
-    min-height: 180px;
-  }
-
-  .biographie__quote-container {
-    padding: 0px 20px;
-  }
-
-  .biographie__quote {
-    font-size: clamp(0.95rem, 4vw, 1.05rem);
-  }
-
-  .biographie__cta-button {
-    padding: 12px 24px;
-    font-size: clamp(0.85rem, 3.5vw, 0.9rem);
-  }
-
-  .biographie__cta-subtitle {
-    font-size: clamp(0.7rem, 3vw, 0.75rem);
   }
 }
 
-/* Performance optimisations */
-.biographie__image {
-  will-change: transform;
+@media (prefers-reduced-motion: reduce) {
+  .biographie * {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
-.biographie__capacity-card {
-  will-change: transform;
-}
-
-/* Exceptions pour les couleurs spécifiques */
-.biographie__title-badge-icon,
-.biographie__image-overlay-icon,
-.biographie__quote-mark {
-  color: var(--accent-gold) !important;
-}
-
+.biographie__title-word,
+.biographie__title-accent-word,
+.biographie__title-badge,
+.biographie__subtitle,
+.biographie__text,
+.biographie__capacity-card,
+.biographie__image-container,
+.biographie__quote,
+.biographie__quote-dot,
 .biographie__cta-button,
-.biographie__cta-button-text {
-  color: #000000 !important;
-}
-
-/* Hover states on mobile */
-@media (max-width: 768px) {
-  .biographie__capacity-card:hover {
-    transform: none;
-  }
-
-  .biographie__image-container:hover {
-    transform: none;
-  }
-
-  .biographie__image-overlay {
-    opacity: 0;
-  }
-
-  .biographie__cta-button:hover {
-    transform: none;
-  }
+.biographie__cta-subtitle,
+.biographie__decorative-line,
+.biographie__pizza-icon,
+.biographie__flag-svg {
+  will-change: opacity, transform;
 }

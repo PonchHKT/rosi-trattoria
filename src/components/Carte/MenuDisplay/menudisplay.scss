@@ -1,6 +1,6 @@
 :root {
-  --primary-bg: #000000;
-  --secondary-bg: #000000;
+  --primary-bg: black;
+  --secondary-bg: black;
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
   --text-muted: #64748b;
@@ -19,7 +19,7 @@
 }
 
 * {
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: none;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -45,72 +45,187 @@ body {
 }
 
 .menu-container {
-  padding-left: 15px;
-  padding-right: 15px;
-  padding-bottom: 100px;
+  padding: 80px 15px 5px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: linear-gradient(
-    135deg,
-    var(--primary-bg) 0%,
-    var(--secondary-bg) 100%
-  );
+  background: black;
   min-height: 100vh;
-  padding-top: 120px;
   position: relative;
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
   overflow: visible;
+  box-sizing: border-box;
 }
 
-.hours-toggle-button {
-  position: absolute;
-  top: 140px;
-  right: 40px;
-  background: #2f2f30;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 0.75rem 1rem;
-  cursor: pointer;
+/* Séparateur moderne et élégant entre le PDF et les horaires */
+.section-separator {
+  width: 100%;
+  height: 50px;
+  position: relative;
+  margin: 1.5rem 0 1rem 0;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-weight: 600;
-  font-size: 0.9rem;
-  box-shadow: var(--shadow-md);
-  transition: all 0.3s ease;
-  z-index: 200;
+  justify-content: center;
 
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(117, 185, 249, 0.1) 5%,
+      rgba(117, 185, 249, 0.3) 15%,
+      rgba(236, 72, 153, 0.4) 35%,
+      rgba(255, 255, 255, 0.8) 50%,
+      rgba(236, 72, 153, 0.4) 65%,
+      rgba(117, 185, 249, 0.3) 85%,
+      rgba(117, 185, 249, 0.1) 95%,
+      transparent 100%
+    );
+    border-radius: 2px;
+    transform: translateY(-50%);
   }
 
-  &:active {
-    transform: translateY(0);
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 32px;
+    background: linear-gradient(
+      135deg,
+      rgba(117, 185, 249, 0.15) 0%,
+      rgba(236, 72, 153, 0.15) 50%,
+      rgba(117, 185, 249, 0.15) 100%
+    );
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
   }
 
-  svg {
-    stroke: white;
+  .separator-dots {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    gap: 6px;
+    z-index: 1;
+
+    .dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: linear-gradient(
+        45deg,
+        var(--accent-color),
+        var(--primary-pink)
+      );
+      animation: separatorPulse 2s ease-in-out infinite;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+
+      &:nth-child(1) {
+        animation-delay: 0s;
+      }
+      &:nth-child(2) {
+        animation-delay: 0.3s;
+      }
+      &:nth-child(3) {
+        animation-delay: 0.6s;
+      }
+    }
+  }
+
+  .side-lines {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    transform: translateY(-50%);
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      width: 50px;
+      height: 1px;
+      background: linear-gradient(90deg, var(--accent-color), transparent);
+    }
+
+    &::before {
+      left: 10%;
+    }
+
+    &::after {
+      right: 10%;
+      background: linear-gradient(90deg, transparent, var(--primary-pink));
+    }
+  }
+}
+
+@keyframes separatorPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.2);
   }
 }
 
 .hours-section {
   z-index: 1;
-  padding: 1rem;
-  border-radius: 16px;
+  padding: 1.25rem;
+  padding-top: calc(1.25rem + 20px);
   width: 100%;
+  border-radius: 20px;
   max-width: 600px;
-  background: black;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.95) 0%,
+    rgba(20, 20, 30, 0.95) 50%,
+    rgba(0, 0, 0, 0.95) 100%
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   transition: all 0.5s ease-in-out;
   box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+
+  // Effet fade intégré au background
+  mask: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.98) 70%,
+    rgba(0, 0, 0, 0.9) 85%,
+    rgba(0, 0, 0, 0.7) 95%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  -webkit-mask: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.98) 70%,
+    rgba(0, 0, 0, 0.9) 85%,
+    rgba(0, 0, 0, 0.7) 95%,
+    rgba(0, 0, 0, 0) 100%
+  );
 
   &.hidden {
     opacity: 0;
-    transform: translateY(-30px);
+    transform: translateY(-30px) scale(0.95);
     visibility: hidden;
     height: 0;
     margin: 0;
@@ -120,7 +235,7 @@ body {
 
   &.visible {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
     visibility: visible;
     height: auto;
   }
@@ -130,35 +245,65 @@ body {
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
     padding-bottom: 1rem;
-    border-bottom: 1px solid var(--glass-border);
+
     flex-wrap: wrap;
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(
+        90deg,
+        var(--accent-color),
+        var(--primary-pink),
+        var(--accent-color)
+      );
+      border-radius: 1px;
+    }
 
     .header-left {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.75rem;
       flex: 1;
       min-width: 0;
 
       .calendar-icon {
         color: var(--accent-color);
         flex-shrink: 0;
+        filter: drop-shadow(0 0 6px rgba(117, 185, 249, 0.3));
       }
 
       .clock-icon {
         color: var(--primary-pink);
         flex-shrink: 0;
+        filter: drop-shadow(0 0 6px rgba(236, 72, 153, 0.3));
       }
 
       h2 {
-        font-size: clamp(1rem, 2.5vw, 1.25rem);
+        font-size: clamp(1.1rem, 3vw, 1.4rem);
         font-weight: 700;
         color: var(--text-primary);
         margin: 0;
         letter-spacing: -0.025em;
         white-space: nowrap;
+        background: linear-gradient(
+          135deg,
+          #ffffff 0%,
+          #e2e8f0 50%,
+          #ffffff 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
       }
     }
 
@@ -168,53 +313,57 @@ body {
       gap: 0.75rem;
       flex-shrink: 0;
 
-      .close-hours-button {
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 6px;
-        padding: 0.5rem;
-        cursor: pointer;
-        color: white;
-        transition: all 0.2s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 36px;
-        min-height: 36px;
-
-        &:hover {
-          background: rgba(255, 255, 255, 0.2);
-          transform: scale(1.05);
-        }
-
-        &:active {
-          transform: scale(0.95);
-        }
-      }
-
       .status-indicator {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
-        font-size: clamp(0.75rem, 2vw, 0.85rem);
-        font-weight: 500;
-        padding: 0.5rem 1rem;
-        border-radius: 20px;
+        gap: 0.6rem;
+        font-size: clamp(0.8rem, 2.2vw, 0.9rem);
+        font-weight: 600;
+        padding: 0.7rem 1.2rem;
+        border-radius: 25px;
         transition: all 0.3s ease;
         white-space: nowrap;
+        position: relative;
+        overflow: hidden;
+
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.1),
+            transparent
+          );
+          transition: left 0.6s ease;
+        }
+
+        &:hover::before {
+          left: 100%;
+        }
 
         .status-dot {
-          width: 8px;
-          height: 8px;
+          width: 10px;
+          height: 10px;
           border-radius: 50%;
-          animation: pulse 2s infinite;
+          animation: statusPulse 2s infinite;
           flex-shrink: 0;
+          box-shadow: 0 0 10px currentColor;
         }
 
         &.open {
-          background: rgba(34, 197, 94, 0.15);
-          color: var(--green-primary);
-          border: 1px solid rgba(34, 197, 94, 0.3);
+          background: linear-gradient(
+            135deg,
+            rgba(34, 197, 94, 0.2) 0%,
+            rgba(34, 197, 94, 0.15) 100%
+          );
+          color: #10b981;
+          border: 1px solid rgba(34, 197, 94, 0.4);
+          box-shadow: 0 0 15px rgba(34, 197, 94, 0.2);
 
           .status-dot {
             background: var(--green-primary);
@@ -222,9 +371,14 @@ body {
         }
 
         &.closed {
-          background: rgba(148, 163, 184, 0.15);
+          background: linear-gradient(
+            135deg,
+            rgba(148, 163, 184, 0.2) 0%,
+            rgba(148, 163, 184, 0.15) 100%
+          );
           color: var(--text-secondary);
-          border: 1px solid rgba(148, 163, 184, 0.3);
+          border: 1px solid rgba(148, 163, 184, 0.4);
+          box-shadow: 0 0 15px rgba(148, 163, 184, 0.1);
 
           .status-dot {
             background: var(--text-secondary);
@@ -232,7 +386,8 @@ body {
         }
 
         .status-text {
-          font-weight: 600;
+          font-weight: 700;
+          text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
         }
       }
     }
@@ -241,175 +396,164 @@ body {
   .hours-list {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
-    margin-bottom: 2rem;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
 
     .hours-item {
       font-weight: bold;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: clamp(0.85rem, 2.2vw, 0.95rem);
+      font-size: clamp(0.85rem, 2.4vw, 0.95rem);
       color: var(--text-secondary);
-      padding: 0.75rem 1rem;
-      background: rgba(255, 255, 255, 0.02);
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 0.8rem 1.1rem;
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.04) 0%,
+        rgba(255, 255, 255, 0.02) 50%,
+        rgba(255, 255, 255, 0.04) 100%
+      );
+      border-radius: 12px;
+
       gap: 1rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.05),
+          transparent
+        );
+        transition: left 0.5s ease;
+      }
+
+      &:hover {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.08) 0%,
+          rgba(255, 255, 255, 0.04) 50%,
+          rgba(255, 255, 255, 0.08) 100%
+        );
+        border-color: rgba(255, 255, 255, 0.15);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+
+        &::before {
+          left: 100%;
+        }
+      }
 
       span:first-child {
-        font-weight: 600;
+        font-weight: 700;
         color: white;
         flex-shrink: 0;
         min-width: fit-content;
+        text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
       }
 
       span:last-child {
         text-align: right;
         word-break: break-word;
+        font-weight: 600;
       }
 
       &.closed {
         span:last-child {
           color: var(--red-primary);
-          font-weight: 600;
+          font-weight: 700;
+          text-shadow: 0 0 8px rgba(239, 68, 68, 0.3);
         }
       }
     }
   }
 
   .hours-notice {
-    font-size: clamp(0.7rem, 1.8vw, 0.8rem);
-    color: white;
+    margin: 0;
+    font-size: clamp(0.7rem, 2vw, 0.78rem);
+    color: rgba(255, 255, 255, 0.8);
     text-align: center;
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.02);
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 0.8rem 1rem;
+    background: linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.4) 0%,
+      rgba(20, 20, 30, 0.4) 50%,
+      rgba(0, 0, 0, 0.4) 100%
+    );
+    border-radius: 10px;
     line-height: 1.4;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    font-weight: 500;
+    text-shadow: 0 0 6px rgba(255, 255, 255, 0.1);
   }
 }
 
-@keyframes pulse {
+@keyframes statusPulse {
   0%,
   100% {
     opacity: 1;
+    transform: scale(1);
   }
   50% {
-    opacity: 0.5;
+    opacity: 0.7;
+    transform: scale(1.1);
   }
 }
 
-/* Tablettes et écrans moyens */
-@media (max-width: 1024px) {
-  .menu-container {
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-top: 100px;
-  }
-
-  .hours-section {
-    max-width: 600px;
-    padding: 1rem;
-  }
-}
-
-/* Tablettes portrait et petits écrans */
+/* Mobile First - Styles par défaut pour mobile */
 @media (max-width: 768px) {
   .menu-container {
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-bottom: 100px;
-    padding-top: 110px;
+    padding: 80px 10px 10px;
+    min-height: 100vh;
   }
 
-  .hours-toggle-button {
-    top: 130px;
-    right: 20px;
-    padding: 0.6rem 0.8rem;
-    font-size: 0.85rem;
+  .section-separator {
+    height: 35px;
+    margin: 1rem 0 0.75rem 0;
+
+    &::after {
+      width: 80px;
+      height: 24px;
+      border-radius: 12px;
+    }
+
+    .separator-dots {
+      gap: 4px;
+      .dot {
+        width: 4px;
+        height: 4px;
+      }
+    }
+
+    .side-lines {
+      &::before,
+      &::after {
+        width: 30px;
+      }
+    }
   }
 
   .hours-section {
     padding: 1rem;
-    max-width: 100%;
-    border-radius: 12px;
+    margin: 0;
+    max-height: calc(100vh - 150px);
+    overflow-y: auto;
 
     .hours-header {
       margin-bottom: 1rem;
       padding-bottom: 0.75rem;
       gap: 0.75rem;
 
-      .header-right {
-        .close-hours-button {
-          padding: 0.4rem;
-          min-width: 32px;
-          min-height: 32px;
-        }
-
-        .status-indicator {
-          padding: 0.4rem 0.8rem;
-
-          .status-dot {
-            width: 6px;
-            height: 6px;
-          }
-        }
-      }
-    }
-
-    .hours-list {
-      margin-bottom: 1.5rem;
-
-      .hours-item {
-        padding: 0.6rem 0.8rem;
-        gap: 0.75rem;
-      }
-    }
-
-    .hours-notice {
-      padding: 0.8rem;
-    }
-  }
-}
-
-/* Petits téléphones */
-@media (max-width: 480px) {
-  .menu-container {
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-bottom: 100px;
-
-    padding-top: 90px;
-  }
-
-  .hours-toggle-button {
-    top: 100px;
-    right: 15px;
-    padding: 0.5rem 0.6rem;
-    font-size: 0.8rem;
-
-    span {
-      display: none;
-    }
-
-    svg {
-      width: 16px;
-      height: 16px;
-    }
-  }
-
-  .hours-section {
-    margin-top: 5px;
-    padding: 0.5rem;
-    border-radius: 10px;
-
-    .hours-header {
-      gap: 0.5rem;
-      margin-bottom: 0.75rem;
-
       .header-left {
-        gap: 0.4rem;
+        gap: 0.5rem;
 
         .calendar-icon,
         .clock-icon {
@@ -419,76 +563,67 @@ body {
       }
 
       .header-right {
-        gap: 0.5rem;
-
-        .close-hours-button {
-          padding: 0.3rem;
-          min-width: 28px;
-          min-height: 28px;
-
-          svg {
-            width: 16px;
-            height: 16px;
-          }
-        }
-
         .status-indicator {
-          padding: 0.3rem 0.6rem;
+          padding: 0.5rem 0.9rem;
+          font-size: 0.75rem;
+          gap: 0.4rem;
 
           .status-dot {
-            width: 5px;
-            height: 5px;
+            width: 8px;
+            height: 8px;
           }
         }
       }
     }
 
     .hours-list {
-      gap: 0.6rem;
-      margin-bottom: 1.25rem;
+      gap: 0.5rem;
+      margin-bottom: 0.8rem;
 
       .hours-item {
-        padding: 0.5rem 0.6rem;
-        gap: 0.5rem;
-        border-radius: 6px;
+        padding: 0.7rem 0.9rem;
+        gap: 0.75rem;
+        font-size: 0.8rem;
       }
     }
 
     .hours-notice {
-      padding: 0.6rem;
-      border-radius: 6px;
+      padding: 0.6rem 0.8rem;
+      margin: 0;
+      font-size: 0.68rem;
+      line-height: 1.3;
     }
   }
 }
 
 /* Très petits écrans */
-@media (max-width: 360px) {
+@media (max-width: 480px) {
   .menu-container {
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-bottom: 100px;
-
-    padding-top: 80px;
+    padding: 70px 8px 8px;
+    min-height: 100vh;
   }
 
-  .hours-toggle-button {
-    top: 90px;
-    right: 10px;
-    padding: 0.4rem 0.5rem;
+  .section-separator {
+    height: 30px;
+    margin: 0.75rem 0 0.5rem 0;
 
-    svg {
-      width: 14px;
-      height: 14px;
+    &::after {
+      width: 60px;
+      height: 20px;
     }
   }
 
   .hours-section {
-    padding: 1rem;
-    margin: 0.75rem 0;
+    padding: 0.8rem;
+    max-height: calc(100vh - 120px);
 
     .hours-header {
+      gap: 0.5rem;
+      margin-bottom: 0.8rem;
+      padding-bottom: 0.6rem;
+
       .header-left {
-        gap: 0.3rem;
+        gap: 0.4rem;
 
         .calendar-icon,
         .clock-icon {
@@ -498,68 +633,170 @@ body {
       }
 
       .header-right {
-        gap: 0.4rem;
-
-        .close-hours-button {
-          padding: 0.25rem;
-          min-width: 26px;
-          min-height: 26px;
-
-          svg {
-            width: 14px;
-            height: 14px;
-          }
-        }
-
         .status-indicator {
-          padding: 0.25rem 0.5rem;
+          padding: 0.45rem 0.8rem;
+          font-size: 0.7rem;
+          gap: 0.3rem;
+
+          .status-dot {
+            width: 7px;
+            height: 7px;
+          }
         }
       }
     }
 
-    .hours-list .hours-item {
-      padding: 0.4rem 0.5rem;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.25rem;
+    .hours-list {
+      gap: 0.4rem;
+      margin-bottom: 0.6rem;
 
-      span:last-child {
-        text-align: left;
-        width: 100%;
+      .hours-item {
+        padding: 0.6rem 0.8rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.3rem;
+        font-size: 0.75rem;
+
+        span:last-child {
+          text-align: left;
+          width: 100%;
+          font-size: 0.7rem;
+        }
       }
     }
 
     .hours-notice {
-      padding: 0.5rem;
+      padding: 0.5rem 0.7rem;
+      margin: 0;
+      font-size: 0.62rem;
+      line-height: 1.2;
     }
   }
 }
 
-/* Écrans très larges */
-@media (min-width: 1200px) {
+/* Écrans très courts (paysage mobile) */
+@media (max-height: 600px) {
+  .menu-container {
+    padding: 50px 10px 5px;
+    min-height: 100vh;
+  }
+
+  .section-separator {
+    height: 25px;
+    margin: 0.5rem 0;
+  }
+
   .hours-section {
-    max-width: 600px;
-    padding: 1rem;
+    padding: 0.6rem;
+    max-height: calc(100vh - 80px);
 
     .hours-header {
-      .header-left h2 {
-        font-size: 1.375rem;
-      }
-
-      .header-right .status-indicator {
-        font-size: 0.9rem;
-        padding: 0.6rem 1.2rem;
-      }
+      margin-bottom: 0.6rem;
+      padding-bottom: 0.4rem;
     }
 
-    .hours-list .hours-item {
-      font-size: 1rem;
-      padding: 0.875rem 1.25rem;
+    .hours-list {
+      gap: 0.3rem;
+      margin-bottom: 0.5rem;
+
+      .hours-item {
+        padding: 0.5rem 0.7rem;
+        font-size: 0.72rem;
+      }
     }
 
     .hours-notice {
-      font-size: 0.85rem;
-      padding: 1.25rem;
+      padding: 0.4rem 0.6rem;
+      font-size: 0.6rem;
+      margin: 0;
+    }
+  }
+}
+
+/* Écrans ultra-courts */
+@media (max-height: 500px) {
+  .menu-container {
+    padding: 40px 8px 3px;
+  }
+
+  .hours-section {
+    padding: 0.5rem;
+    max-height: calc(100vh - 60px);
+
+    .hours-header {
+      margin-bottom: 0.4rem;
+      padding-bottom: 0.3rem;
+
+      .header-left h2 {
+        font-size: 1rem;
+      }
+
+      .header-right .status-indicator {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.65rem;
+      }
+    }
+
+    .hours-list {
+      gap: 0.25rem;
+      margin-bottom: 0.4rem;
+
+      .hours-item {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.7rem;
+      }
+    }
+
+    .hours-notice {
+      padding: 0.3rem 0.5rem;
+      font-size: 0.58rem;
+    }
+  }
+}
+
+/* Tablettes et écrans moyens */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .menu-container {
+    padding: 100px 20px 20px;
+  }
+
+  .hours-section {
+    max-width: 600px;
+    padding: 1.5rem;
+  }
+}
+
+/* Écrans larges */
+@media (min-width: 1025px) {
+  .menu-container {
+    padding: 80px 20px 30px;
+  }
+
+  .hours-section {
+    max-width: 600px;
+    padding: 1.75rem;
+
+    .hours-header {
+      .header-left h2 {
+        font-size: 1.5rem;
+      }
+
+      .header-right .status-indicator {
+        font-size: 0.95rem;
+        padding: 0.8rem 1.4rem;
+      }
+    }
+
+    .hours-list {
+      .hours-item {
+        font-size: 1rem;
+        padding: 1rem 1.3rem;
+      }
+    }
+
+    .hours-notice {
+      font-size: 0.82rem;
+      padding: 0.9rem;
     }
   }
 }
@@ -574,28 +811,11 @@ body {
   }
 }
 
-/* Mode paysage sur mobile */
-@media (max-width: 768px) and (orientation: landscape) {
-  .menu-container {
-    padding-bottom: 100px;
-    padding-top: 60px;
-    padding-left: 15px;
-    padding-right: 15px;
-  }
-
-  .hours-toggle-button {
-    top: 80px;
-  }
-
+/* Optimisations pour les écrans haute densité */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   .hours-section {
-    .hours-header {
-      .header-left h2 {
-        font-size: 1rem;
-      }
-    }
-
     .hours-list .hours-item {
-      padding: 0.5rem 0.75rem;
+      border-width: 0.5px;
     }
   }
 }

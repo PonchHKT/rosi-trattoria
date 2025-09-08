@@ -4,7 +4,6 @@ import { JSDOM } from "jsdom";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { generateRedirectHTML, REDIRECTS } from "./generate-seo-files.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -42,7 +41,7 @@ const BREADCRUMB_CONFIG = {
       },
     ],
   },
-  "/recrutement/": {
+  "/recrut recruitment/": {
     breadcrumbs: [
       { position: 1, name: "Accueil", url: "https://www.rosi-trattoria.com/" },
       {
@@ -64,102 +63,117 @@ const BREADCRUMB_CONFIG = {
   },
 };
 
-// Liste des vidéos
+// Liste des vidéos avec descriptions optimisées pour SEO
 const VIDEOS = [
   {
     title: "Présentation de Rosi Trattoria",
-    url: "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/rosipresentation.mp4",
-    thumbnail:
-      "https://www.rosi-trattoria.com/images/thumbnails/presentation-rosi-trattoria.png",
+    url: "https://pub-c0cb6a1e942a4d729260f30324399ae.r2.dev/Vid%C3%A9o%20Rosi/rosipresentation.mp4",
+    thumbnail: {
+      url: "https://www.rosi-trattoria.com/images/thumbnails/presentation-rosi-trattoria.png",
+      alt: "Présentation de Rosi Trattoria, pizzeria à Brive-la-Gaillarde",
+    },
     description:
-      "Découvrez Rosi Trattoria, une pizzeria italienne authentique à Brive-la-Gaillarde, avec des pizzas napolitaines bio et locales.",
+      "Découvrez Rosi Trattoria, la meilleure pizzeria à Brive-la-Gaillarde. Pizzas napolitaines bio, cuites au feu de bois, avec des ingrédients locaux près de vous.",
     duration: "PT1M30S",
     uploadDate: "2025-06-23",
   },
   {
     title: "La focaccia chez Rosi",
     url: "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/rosifocaccia.mp4",
-    thumbnail:
-      "https://www.rosi-trattoria.com/images/thumbnails/la-forracia-chez-rosi.png",
+    thumbnail: {
+      url: "https://www.rosi-trattoria.com/images/thumbnails/la-forracia-chez-rosi.png",
+      alt: "Focaccia artisanale chez Rosi Trattoria, Brive-la-Gaillarde",
+    },
     description:
-      "Apprenez comment Rosi Trattoria prépare sa focaccia artisanale avec des ingrédients bio et locaux.",
+      "Savourez la focaccia artisanale de Rosi Trattoria à Brive-la-Gaillarde, préparée avec des ingrédients bio et locaux pour une expérience italienne authentique.",
     duration: "PT1M45S",
     uploadDate: "2025-06-23",
   },
   {
-    title: "Les pâtes fraiche de Rosi",
+    title: "Les pâtes fraîches de Rosi",
     url: "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/rosipatefraiche.mp4",
-    thumbnail:
-      "https://www.rosi-trattoria.com/images/thumbnails/pates-fraiche-rosi.png",
+    thumbnail: {
+      url: "https://www.rosi-trattoria.com/images/thumbnails/pates-fraiche-rosi.png",
+      alt: "Pâtes fraîches artisanales chez Rosi Trattoria, Brive",
+    },
     description:
-      "Découvrez la préparation des pâtes fraîches chez Rosi Trattoria, un savoir-faire italien authentique.",
+      "Découvrez les pâtes fraîches artisanales de Rosi Trattoria, restaurant italien à Brive-la-G gailarde, élaborées avec des produits bio locaux.",
     duration: "PT2M0S",
     uploadDate: "2025-06-23",
   },
   {
     title: "Les secrets de la pâte Rosi",
     url: "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/rosisecretspates.mp4",
-    thumbnail:
-      "https://www.rosi-trattoria.com/images/thumbnails/secrets-de-la-pate-rosi.png",
+    thumbnail: {
+      url: "https://www.rosi-trattoria.com/images/thumbnails/secrets-de-la-pate-rosi.png",
+      alt: "Secrets de la pâte à pizza parfaite chez Rosi Trattoria",
+    },
     description:
-      "Les secrets de la pâte à pizza parfaite de Rosi Trattoria, levée pendant 48 heures.",
+      "Les secrets de la pâte à pizza parfaite de Rosi Trattoria à Brive, levée 48h pour la meilleure pizza napolitaine bio près de chez vous.",
     duration: "PT1M50S",
     uploadDate: "2025-06-23",
   },
   {
-    title: "La téglia et Focaccia de Rosi",
+    title: "La téglia et focaccia de Rosi",
     url: "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/rositegliafoccacia.mp4",
-    thumbnail:
-      "https://www.rosi-trattoria.com/images/thumbnails/teglia-et-foraccia-de-rosi.png",
+    thumbnail: {
+      url: "https://www.rosi-trattoria.com/images/thumbnails/teglia-et-foraccia-de-rosi.png",
+      alt: "Téglia et focaccia uniques chez Rosi Trattoria, Brive",
+    },
     description:
-      "Découvrez la téglia et la focaccia uniques de Rosi Trattoria, préparées avec soin.",
+      "Découvrez la téglia et focaccia uniques de Rosi Trattoria, pizzeria à Brive-la-Gaillarde, avec des ingrédients bio et une cuisson au feu de bois.",
     duration: "PT1M40S",
     uploadDate: "2025-06-23",
   },
   {
     title: "Capri c'est fini",
     url: "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/rosicapri.mp4",
-    thumbnail:
-      "https://www.rosi-trattoria.com/images/thumbnails/rosi-capri.png",
+    thumbnail: {
+      url: "https://www.rosi-trattoria.com/images/thumbnails/rosi-capri.png",
+      alt: "Saveurs de Capri chez Rosi Trattoria, pizzeria à Brive",
+    },
     description:
-      "Un voyage culinaire inspiré de Capri avec les saveurs de Rosi Trattoria.",
+      "Voyagez à Capri avec les saveurs authentiques de Rosi Trattoria, pizzeria à Brive-la-Gaillarde. Pizzas bio et locales, réservez maintenant !",
     duration: "PT1M55S",
     uploadDate: "2025-06-23",
   },
   {
-    title: "Les Tiramisu de Rosi",
+    title: "Les tiramisus de Rosi",
     url: "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/rositiramistu.mp4",
-    thumbnail:
-      "https://www.rosi-trattoria.com/images/thumbnails/tiramisu-de-rosi.png",
+    thumbnail: {
+      url: "https://www.rosi-trattoria.com/images/thumbnails/tiramisu-de-rosi.png",
+      alt: "Tiramisu authentique chez Rosi Trattoria, Brive",
+    },
     description:
-      "Découvrez le tiramisu authentique préparé par Rosi Trattoria, un dessert italien classique.",
+      "Savourez le tiramisu authentique de Rosi Trattoria, restaurant italien à Brive-la-Gaillarde. Venez découvrir nos desserts bio !",
     duration: "PT1M20S",
     uploadDate: "2025-06-23",
   },
   {
     title: "Les cocktails de Rosi",
     url: "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Vid%C3%A9o%20Rosi/rosicocktail.mp4",
-    thumbnail:
-      "https://www.rosi-trattoria.com/images/thumbnails/les-cocktails-rosi.png",
+    thumbnail: {
+      url: "https://www.rosi-trattoria.com/images/thumbnails/les-cocktails-rosi.png",
+      alt: "Cocktails signature chez Rosi Trattoria, Brive",
+    },
     description:
-      "Découvrez les cocktails signature de Rosi Trattoria, parfaits pour accompagner votre repas.",
+      "Découvrez les cocktails signature de Rosi Trattoria, pizzeria à Brive-la-Gaillarde. Parfaits pour accompagner vos pizzas bio, venez vite !",
     duration: "PT1M25S",
     uploadDate: "2025-06-23",
   },
 ];
 
-// Configuration des routes
+// Configuration des routes avec optimisations SEO
 const routes = [
   {
     path: "/",
     canonical: "/",
     directory: "",
-    title:
-      "Rosi Trattoria – Pizzeria Italienne Bio, Locale & Fait Maison à Brive-la-Gaillarde",
+    title: "Pizzeria Brive - Rosi Trattoria | Pizza Bio & Feu de Bois",
     description:
-      "Rosi Trattoria est une pizzeria italienne à Brive-la-Gaillarde. Pizzas napolitaines bio, locales, faites maison au feu de bois. Produits frais, ambiance chaleureuse.",
+      "Meilleure pizzeria à Brive ! Pizzas napolitaines bio, cuites au feu de bois avec pâte levée 48h. Réservez chez Rosi Trattoria !",
     keywords:
-      "pizzeria Brive, pizza napolitaine bio, restaurant italien fait maison, trattoria Brive-la-Gaillarde",
+      "pizza brive, pizzeria brive, restaurant italien brive, pizza napolitaine brive-la-gaillarde, meilleure pizza brive, pizza bio brive, trattoria brive, pizzeria près de moi, pizza feu de bois brive",
     priority: 1.0,
     changefreq: "weekly",
     lastmod: new Date().toISOString().split("T")[0],
@@ -168,11 +182,11 @@ const routes = [
     path: "/nos-valeurs/",
     canonical: "/nos-valeurs/",
     directory: "nos-valeurs",
-    title: "Nos Valeurs - Bio, Local & Artisanal | Rosi Trattoria",
+    title: "Nos Valeurs | Rosi Trattoria - Pizzeria Bio à Brive",
     description:
-      "Découvrez les valeurs de Rosi Trattoria : engagement pour le bio, produits locaux, artisanat italien authentique et respect de l'environnement.",
+      "Découvrez les valeurs de Rosi Trattoria, pizzeria bio à Brive. Produits locaux, pâte levée 48h, cuisine italienne authentique. Visitez-nous !",
     keywords:
-      "valeurs restaurant bio, cuisine italienne artisanale, produits locaux Brive",
+      "restaurant italien brive, pizzeria bio brive, trattoria brive, pizza napolitaine brive-la-gaillarde, cuisine artisanale brive, produits locaux brive",
     priority: 0.8,
     changefreq: "monthly",
     lastmod: "2025-01-15",
@@ -181,11 +195,11 @@ const routes = [
     path: "/carte/",
     canonical: "/carte/",
     directory: "carte",
-    title: "Notre Carte - Pizzas Napolitaines Bio | Rosi Trattoria Brive",
+    title: "Carte Pizzas Bio | Rosi Trattoria - Pizzeria Brive",
     description:
-      "Découvrez notre carte de pizzas napolitaines artisanales, faites maison avec des produits bio et locaux. Pâtes levées 48h, cuisson au feu de bois.",
+      "Découvrez les pizzas napolitaines bio de Rosi Trattoria à Brive. Pâte levée 48h, feu de bois, ingrédients locaux. Consultez notre carte !",
     keywords:
-      "carte pizzas napolitaines, menu restaurant italien Brive, pizza bio fait maison",
+      "pizza brive, pizzeria brive, carte pizza napolitaine, restaurant italien brive, pizza bio brive, meilleure pizza brive, menu trattoria brive",
     priority: 0.9,
     changefreq: "weekly",
     lastmod: "2025-01-15",
@@ -194,11 +208,11 @@ const routes = [
     path: "/recrutement/",
     canonical: "/recrutement/",
     directory: "recrutement",
-    title: "Recrutement - Rejoignez l'équipe Rosi Trattoria Brive",
+    title: "Recrutement Pizzeria Brive | Rosi Trattoria",
     description:
-      "Rosi Trattoria recrute ! Rejoignez notre équipe passionnée dans notre pizzeria italienne à Brive-la-Gaillarde. Postes disponibles en cuisine et service.",
+      "Rejoignez Rosi Trattoria, pizzeria à Brive ! Postes en cuisine et service pour une expérience italienne authentique. Postulez maintenant !",
     keywords:
-      "emploi pizzeria Brive, recrutement restaurant italien, job cuisine service",
+      "emploi pizzeria brive, recrutement restaurant italien brive, job pizzeria brive-la-gaillarde, travail trattoria brive",
     priority: 0.7,
     changefreq: "weekly",
     lastmod: new Date().toISOString().split("T")[0],
@@ -207,11 +221,11 @@ const routes = [
     path: "/contact/",
     canonical: "/contact/",
     directory: "contact",
-    title: "Contact & Réservation - Rosi Trattoria Brive-la-Gaillarde",
+    title: "Contact Pizzeria Brive | Rosi Trattoria",
     description:
-      "Contactez Rosi Trattoria pour vos réservations. Adresse, horaires, téléphone. Pizzeria italienne au 11 Prom. des Tilleuls, Brive-la-Gaillarde.",
+      "Réservez chez Rosi Trattoria, pizzeria à Brive, 11 Prom. des Tilleuls. Pizzas bio, feu de bois. Appelez-nous pour votre table !",
     keywords:
-      "contact pizzeria Brive, réservation restaurant italien, adresse Rosi Trattoria",
+      "pizzeria brive, contact pizzeria brive, réservation restaurant italien brive, pizza brive, trattoria brive, pizzeria près de moi",
     priority: 0.6,
     changefreq: "monthly",
     lastmod: "2025-01-15",
@@ -223,27 +237,31 @@ const page404Config = {
   path: "/404/",
   canonical: "/404/",
   directory: "404",
-  title: "Page non trouvée - Erreur 404 | Rosi Trattoria",
+  title: "404 - Pizzeria Brive | Rosi Trattoria",
   description:
-    "La page que vous cherchez n'existe pas ou a été déplacée. Retournez à l'accueil de Rosi Trattoria, votre pizzeria italienne à Brive-la-Gaillarde.",
-  keywords: "erreur 404, page non trouvée, pizzeria Brive",
+    "Page introuvable ? Retrouvez les meilleures pizzas bio de Brive chez Rosi Trattoria. Visitez notre pizzeria au 11 Prom. des Tilleuls !",
+  keywords: "pizzeria brive, pizza brive, restaurant italien brive",
   priority: 0.1,
   changefreq: "yearly",
   lastmod: "2025-01-15",
 };
 
-// Génération du .htaccess
+// Génération du .htaccess avec optimisations pour IONOS
 function generateHtaccess() {
-  return `# Configuration simplifiée pour Rosi Trattoria
+  return `# Configuration optimisée pour Rosi Trattoria sur IONOS
 RewriteEngine On
 
-# Force HTTPS
+# Force HTTPS pour sécurité et SEO
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
-# Force www
+# Force www pour uniformité des URLs
 RewriteCond %{HTTP_HOST} ^rosi-trattoria\.com$ [NC]
 RewriteRule ^(.*)$ https://www.rosi-trattoria.com/$1 [R=301,L]
+
+# Bloquer l'indexation des fichiers HTML non désirés
+RewriteCond %{REQUEST_URI} \.html$ [NC]
+RewriteRule ^(.*)$ - [R=404,L]
 
 # Redirection SPA - toutes les routes vers index.html
 RewriteCond %{REQUEST_FILENAME} !-f
@@ -252,7 +270,10 @@ RewriteCond %{REQUEST_URI} !^/sitemap\.xml$
 RewriteCond %{REQUEST_URI} !^/robots\.txt$
 RewriteRule . /index.html [L]
 
-# Headers de cache basiques
+# Gestion des erreurs 404
+ErrorDocument 404 /404/index.html
+
+# Headers de cache optimisés pour performance
 <IfModule mod_expires.c>
     ExpiresActive On
     ExpiresByType text/html "access plus 1 hour"
@@ -263,6 +284,13 @@ RewriteRule . /index.html [L]
     ExpiresByType image/jpeg "access plus 1 year"
     ExpiresByType image/gif "access plus 1 year"
     ExpiresByType image/svg+xml "access plus 1 year"
+</IfModule>
+
+# Compression Gzip pour performance
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE application/javascript
 </IfModule>`;
 }
 
@@ -279,33 +307,21 @@ function generateSitemap() {
     })
     .join("\n");
 
-  const redirectUrls = Object.keys(REDIRECTS)
-    .map((oldFile) => {
-      return `  <url>
-    <loc>${CONFIG.baseUrl}/${oldFile}</loc>
-    <lastmod>${new Date().toISOString().split("T")[0]}</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.1</priority>
-  </url>`;
-    })
-    .join("\n");
-
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 ${mainUrls}
-${redirectUrls}
 </urlset>`;
 }
 
-// Génération du robots.txt
+// Génération du robots.txt optimisé
 function generateRobotsTxt() {
   return `User-agent: *
 Allow: /
 
-# Sitemap principal
+# Sitemap principal pour exploration
 Sitemap: ${CONFIG.baseUrl}/sitemap.xml
 
 # Optimisations spécifiques pour les moteurs de recherche
@@ -320,10 +336,11 @@ Crawl-delay: 1
 User-agent: facebookexternalhit
 Allow: /
 
-# Bloquer les dossiers techniques
+# Bloquer les dossiers techniques et fichiers inutiles
 Disallow: /assets/
 Disallow: /static/
-Disallow: /*.json$`;
+Disallow: /*.json$
+Disallow: /*.html$`;
 }
 
 // Génération du JSON-LD des breadcrumbs
@@ -352,8 +369,9 @@ function generateVideoJsonLd() {
     "@type": "VideoObject",
     name: video.title,
     description: video.description,
-    thumbnailUrl: video.thumbnail,
+    thumbnailUrl: video.thumbnail.url,
     contentUrl: video.url,
+    embedUrl: video.url,
     uploadDate: video.uploadDate,
     duration: video.duration,
     publisher: {
@@ -369,7 +387,7 @@ function generateVideoJsonLd() {
   }));
 }
 
-// Injection des meta tags SEO
+// Injection des meta tags SEO avec optimisations
 function injectSEOMeta(html, route) {
   const dom = new JSDOM(html);
   const document = dom.window.document;
@@ -398,22 +416,27 @@ function injectSEOMeta(html, route) {
   metaKeywords.setAttribute("content", route.keywords);
   head.appendChild(metaKeywords);
 
-  // Meta robots
+  // Meta robots optimisé
   const metaRobots = document.createElement("meta");
   metaRobots.setAttribute("name", "robots");
   metaRobots.setAttribute(
     "content",
-    "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+    route.path === "/404/"
+      ? "noindex, nofollow"
+      : "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:15"
   );
   head.appendChild(metaRobots);
 
   // Meta googlebot
   const metaGooglebot = document.createElement("meta");
   metaGooglebot.setAttribute("name", "googlebot");
-  metaGooglebot.setAttribute("content", "index, follow");
+  metaGooglebot.setAttribute(
+    "content",
+    route.path === "/404/" ? "noindex" : "index, follow"
+  );
   head.appendChild(metaGooglebot);
 
-  // Open Graph
+  // Open Graph optimisé
   const ogTitle = document.createElement("meta");
   ogTitle.setAttribute("property", "og:title");
   ogTitle.setAttribute("content", route.title);
@@ -449,7 +472,7 @@ function injectSEOMeta(html, route) {
   ogLocale.setAttribute("content", "fr_FR");
   head.appendChild(ogLocale);
 
-  // Twitter Card
+  // Twitter Card optimisé
   const twitterCard = document.createElement("meta");
   twitterCard.setAttribute("name", "twitter:card");
   twitterCard.setAttribute("content", "summary_large_image");
@@ -479,18 +502,12 @@ function injectSEOMeta(html, route) {
   canonical.setAttribute("href", `${CONFIG.baseUrl}${route.canonical}`);
   head.appendChild(canonical);
 
-  // Alternate hreflang
+  // Alternate hreflang optimisé
   const hreflangFr = document.createElement("link");
   hreflangFr.setAttribute("rel", "alternate");
-  hreflangFr.setAttribute("hreflang", "fr");
+  hreflangFr.setAttribute("hreflang", "fr-FR");
   hreflangFr.setAttribute("href", `${CONFIG.baseUrl}${route.canonical}`);
   head.appendChild(hreflangFr);
-
-  const hreflangFrFR = document.createElement("link");
-  hreflangFrFR.setAttribute("rel", "alternate");
-  hreflangFrFR.setAttribute("hreflang", "fr-FR");
-  hreflangFrFR.setAttribute("href", `${CONFIG.baseUrl}${route.canonical}`);
-  head.appendChild(hreflangFrFR);
 
   const hreflangDefault = document.createElement("link");
   hreflangDefault.setAttribute("rel", "alternate");
@@ -504,7 +521,7 @@ function injectSEOMeta(html, route) {
   metaAuthor.setAttribute("content", "Rosi Trattoria");
   head.appendChild(metaAuthor);
 
-  // Geo meta tags
+  // Geo meta tags optimisés
   const geoRegion = document.createElement("meta");
   geoRegion.setAttribute("name", "geo.region");
   geoRegion.setAttribute("content", "FR-19");
@@ -549,18 +566,62 @@ function injectSEOMeta(html, route) {
         postalCode: "19100",
         addressCountry: "FR",
       },
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: 45.1632151,
+        longitude: 1.532797,
+      },
       telephone: "+33544314447",
       url: CONFIG.baseUrl,
-      openingHours: [
-        "Tu-Th 12:00-14:00,19:00-21:30",
-        "Fr-Sa 12:00-14:00,19:00-22:30",
+      openingHoursSpecification: [
+        {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: ["Tuesday", "Wednesday", "Thursday"],
+          opens: "12:00",
+          closes: "14:00",
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: ["Tuesday", "Wednesday", "Thursday"],
+          opens: "19:00",
+          closes: "21:30",
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: ["Friday", "Saturday"],
+          opens: "12:00",
+          closes: "14:00",
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: ["Friday", "Saturday"],
+          opens: "19:00",
+          closes: "22:30",
+        },
       ],
-      servesCuisine: "Italian",
-      description: route.description,
+      servesCuisine: ["Italian", "Pizza"],
+      description:
+        "Rosi Trattoria, pizzeria à Brive-la-Gaillarde, propose des pizzas napolitaines bio cuites au feu de bois avec une pâte levée 48h et des ingrédients locaux.",
       priceRange: "€€",
       image: `${CONFIG.baseUrl}/images/logo/og-image.jpg`,
       hasMenu: `${CONFIG.baseUrl}/carte/`,
       acceptsReservations: true,
+      menuItem: [
+        {
+          "@type": "MenuItem",
+          name: "Pizza Margherita Bio",
+          description:
+            "Pizza napolitaine bio avec pâte levée 48h, sauce tomate artisanale et mozzarella fior di latte, cuite au feu de bois.",
+        },
+        {
+          "@type": "MenuItem",
+          name: "Focaccia Artisanal",
+          description:
+            "Focaccia bio préparée avec des ingrédients locaux, cuite au feu de bois à Rosi Trattoria, Brive-la-Gaillarde.",
+        },
+      ],
+      keywords:
+        "pizza brive, pizzeria brive, restaurant italien brive, pizza napolitaine brive-la-gaillarde, meilleure pizza brive",
     });
     head.appendChild(restaurantScript);
 
@@ -582,9 +643,9 @@ function injectSEOMeta(html, route) {
       {
         "@context": "https://schema.org",
         "@type": "JobPosting",
-        title: "Chef de Cuisine",
+        title: "Chef de Cuisine - Pizzeria Brive",
         description:
-          "Rejoignez Rosi Trattoria à Brive-la-Gaillarde en tant que chef de cuisine pour préparer des plats italiens authentiques avec des ingrédients bio et locaux.",
+          "Rejoignez Rosi Trattoria, pizzeria à Brive-la-Gaillarde, comme chef de cuisine. Préparez des pizzas napolitaines bio cuites au feu de bois avec des ingrédients locaux.",
         hiringOrganization: {
           "@type": "Organization",
           name: "Rosi Trattoria",
@@ -621,11 +682,10 @@ function injectSEOMeta(html, route) {
         },
       },
       {
-        "@context": "https://schema.org",
         "@type": "JobPosting",
-        title: "Serveur/Serveuse",
+        title: "Serveur/Serveuse - Pizzeria Brive",
         description:
-          "Rejoignez notre équipe de service à Rosi Trattoria pour offrir une expérience chaleureuse et authentique à nos clients à Brive-la-Gaillarde.",
+          "Rejoignez Rosi Trattoria, pizzeria à Brive-la-Gaillarde, pour offrir une expérience italienne authentique. Service chaleureux pour nos pizzas bio.",
         hiringOrganization: {
           "@type": "Organization",
           name: "Rosi Trattoria",
@@ -665,7 +725,32 @@ function injectSEOMeta(html, route) {
     head.appendChild(jobPostingsScript);
   }
 
+  // Ajouter lazy-loading pour les images et vidéos
+  const images = document.querySelectorAll("img");
+  images.forEach((img) => {
+    if (!img.hasAttribute("loading")) {
+      img.setAttribute("loading", "lazy");
+    }
+    if (!img.hasAttribute("alt")) {
+      img.setAttribute("alt", "Image de Rosi Trattoria, pizzeria à Brive");
+    }
+  });
+
   return dom.serialize();
+}
+
+// Fonction pour valider l'accessibilité des fichiers
+function validateFileAccess(filePath, fileName) {
+  try {
+    fs.accessSync(filePath, fs.constants.R_OK);
+    console.log(`✅ ${fileName} est accessible`);
+    // Définir les permissions à 644
+    fs.chmodSync(filePath, "0644");
+    console.log(`✅ Permissions de ${fileName} définies à 644`);
+  } catch (error) {
+    console.error(`❌ Erreur d'accès à ${fileName}:`, error.message);
+    throw error;
+  }
 }
 
 // Fonction de test pour vérifier la génération
@@ -683,6 +768,12 @@ async function prerenderForIONOS() {
   console.log("🚀 Démarrage du prerender optimisé pour IONOS...");
 
   try {
+    // Vérifier l'existence du dossier dist
+    if (!fs.existsSync(CONFIG.distDir)) {
+      fs.mkdirSync(CONFIG.distDir, { recursive: true });
+      console.log(`📁 Dossier ${CONFIG.distDir} créé`);
+    }
+
     // Lire le fichier HTML de base
     const indexPath = path.join(CONFIG.distDir, "index.html");
     if (!fs.existsSync(indexPath)) {
@@ -718,32 +809,25 @@ async function prerenderForIONOS() {
     console.log(`✅ Page 404 générée: ${filePath404}`);
 
     // Générer le sitemap
+    const sitemapPath = path.join(CONFIG.distDir, "sitemap.xml");
     const sitemap = generateSitemap();
-    fs.writeFileSync(path.join(CONFIG.distDir, "sitemap.xml"), sitemap, "utf8");
+    fs.writeFileSync(sitemapPath, sitemap, "utf8");
     console.log("🗺️ Sitemap optimisé généré");
+    validateFileAccess(sitemapPath, "sitemap.xml");
 
     // Générer robots.txt
+    const robotsPath = path.join(CONFIG.distDir, "robots.txt");
     const robotsTxt = generateRobotsTxt();
-    fs.writeFileSync(
-      path.join(CONFIG.distDir, "robots.txt"),
-      robotsTxt,
-      "utf8"
-    );
+    fs.writeFileSync(robotsPath, robotsTxt, "utf8");
     console.log("🤖 Robots.txt généré");
+    validateFileAccess(robotsPath, "robots.txt");
 
     // Générer .htaccess
+    const htaccessPath = path.join(CONFIG.distDir, ".htaccess");
     const htaccess = generateHtaccess();
-    fs.writeFileSync(path.join(CONFIG.distDir, ".htaccess"), htaccess, "utf8");
-    console.log("⚙️ .htaccess simplifié généré");
-
-    // Générer les redirections HTML
-    console.log("🔄 Génération des fichiers de redirection HTML...");
-    for (const [oldFile, newPath] of Object.entries(REDIRECTS)) {
-      const htmlContent = generateRedirectHTML(oldFile, newPath);
-      const filePath = path.join(CONFIG.distDir, oldFile);
-      fs.writeFileSync(filePath, htmlContent, "utf8");
-      console.log(`✅ Redirection créée: ${oldFile} → ${newPath}`);
-    }
+    fs.writeFileSync(htaccessPath, htaccess, "utf8");
+    console.log("⚙️ .htaccess optimisé généré");
+    validateFileAccess(htaccessPath, ".htaccess");
 
     console.log("🎉 Prerender optimisé terminé avec succès !");
     console.log("\n📊 Résumé des pages générées:");
@@ -755,6 +839,17 @@ async function prerenderForIONOS() {
     console.log(
       `   • ${CONFIG.baseUrl}${page404Config.canonical} (page 404 - non indexée)`
     );
+
+    // Recommandation pour le serveur dynamique (optionnel)
+    console.log(
+      "\n⚠️ Recommandation: Si robots.txt reste inaccessible, configurez une route dynamique:"
+    );
+    console.log(`
+    app.get('/robots.txt', (req, res) => {
+      res.type('text/plain');
+      res.send(generateRobotsTxt());
+    });
+    `);
   } catch (error) {
     console.error("❌ Erreur lors du prerender:", error.message);
     process.exit(1);

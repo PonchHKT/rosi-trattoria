@@ -54,22 +54,20 @@ const AnimatedSection: React.FC<AnimatedSectionProps> = ({
 const Biographie2: React.FC = () => {
   return (
     <section className="restaurant-bio" aria-labelledby="bio-main-title">
-      {/* Header en pleine largeur avec background du four à dôme */}
-      <AnimatedSection animationType="fade-in-up" delay={0}>
-        <header className="bio-header" role="banner">
-          {/* Fade blanc du bas */}
-          <div className="bio-header-fade-bottom" aria-hidden="true"></div>
+      {/* Header en pleine largeur avec background du four à dôme - SANS ANIMATION */}
+      <header className="bio-header" role="banner">
+        {/* Fade blanc du bas */}
+        <div className="bio-header-fade-bottom" aria-hidden="true"></div>
 
-          <div className="bio-header-content">
-            <h2 id="bio-main-title" className="bio-title" itemProp="name">
-              Les raisons pour venir dans notre restaurant
-            </h2>
-            <p className="bio-subtitle" itemProp="description">
-              Découvrez l'authenticité italienne au cœur de notre établissement
-            </p>
-          </div>
-        </header>
-      </AnimatedSection>
+        <div className="bio-header-content">
+          <h2 id="bio-main-title" className="bio-title" itemProp="name">
+            Les raisons pour venir dans notre restaurant
+          </h2>
+          <p className="bio-subtitle" itemProp="description">
+            Découvrez l'authenticité italienne au cœur de notre établissement
+          </p>
+        </div>
+      </header>
 
       <div className="bio-content" role="main">
         {/* Section principale avec texte et image charcuterie */}

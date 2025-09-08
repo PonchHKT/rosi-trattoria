@@ -1,8 +1,14 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Calendar, Clock, X } from "lucide-react";
 import ReactGA from "react-ga4";
+import { Document, Page, pdfjs } from "react-pdf";
+import "react-pdf/dist/esm/Page/AnnotationLayer.css";
+import "react-pdf/dist/esm/Page/TextLayer.css";
 import "./menudisplay.scss";
 import Selector from "../Selector/selector";
+
+// Configuration PDF.js
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 interface CarteDisplayProps {
   onMenuSelect?: (menuType: string) => void;
@@ -14,6 +20,8 @@ interface CarteDisplayProps {
 const GA4_EVENTS = {
   HOURS_TOGGLE: "carte_hours_toggle",
   MENU_SELECT: "carte_menu_select",
+  FESTIVAL_PDF_DISPLAY: "festival_pdf_display",
+  FESTIVAL_PDF_ERROR: "festival_pdf_error",
 };
 
 const CarteDisplay: React.FC<CarteDisplayProps> = ({
@@ -31,6 +39,34 @@ const CarteDisplay: React.FC<CarteDisplayProps> = ({
   }>({ isOpen: false, nextChange: "" });
   const [menuSelected, setMenuSelected] = useState<string>("");
   const [internalShowHours, setInternalShowHours] = useState(showHours);
+
+  // États pour le PDF festival
+  const [festivalNumPages, setFestivalNumPages] = useState<number | null>(null);
+  const [festivalPageWidth, setFestivalPageWidth] = useState(800);
+
+  const isMobile = () => window.innerWidth < 768;
+
+  // Fonction pour vérifier si on est dans une période festival
+  const isFestivalPeriod = () => {
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth(); // 0-based (0 = janvier, 7 = août, 10 = novembre)
+    const currentDate = now.getDate();
+
+    // Période août : 23-24 août
+    if (currentMonth === 7) {
+      // août
+      return currentDate >= 23 && currentDate <= 24;
+    }
+
+    // Période novembre : 7-9 novembre
+    if (currentMonth === 10) {
+      // novembre
+      return currentDate >= 7 && currentDate <= 9;
+    }
+
+    return false;
+  };
 
   const isAugustMonth = () => {
     const forceAugustSchedule = false;
@@ -136,7 +172,11 @@ const CarteDisplay: React.FC<CarteDisplayProps> = ({
 
   const handleMenuSelect = (menuType: string) => {
     setMenuSelected(menuType);
-    setInternalShowHours(false);
+
+    // Si un menu est sélectionné, cacher les horaires
+    if (menuType) {
+      setInternalShowHours(false);
+    }
 
     ReactGA.event(GA4_EVENTS.MENU_SELECT, {
       page_name: pageName,
@@ -144,10 +184,30 @@ const CarteDisplay: React.FC<CarteDisplayProps> = ({
     });
 
     if (onToggleHours) {
-      onToggleHours(false);
+      onToggleHours(menuType === "");
     }
     if (onMenuSelect) {
       onMenuSelect(menuType);
+    }
+  };
+
+  // Handler pour le retour aux horaires depuis Selector
+  const handleBackToHours = () => {
+    setMenuSelected("");
+    setInternalShowHours(true);
+
+    ReactGA.event(GA4_EVENTS.HOURS_TOGGLE, {
+      page_name: pageName,
+      hours_state: "visible",
+      is_august: isAugustMonth(),
+      source: "selector_back_button",
+    });
+
+    if (onToggleHours) {
+      onToggleHours(true);
+    }
+    if (onMenuSelect) {
+      onMenuSelect("");
     }
   };
 
@@ -166,12 +226,58 @@ const CarteDisplay: React.FC<CarteDisplayProps> = ({
         page_name: pageName,
         hours_state: "visible",
         is_august: isAugustMonth(),
+        source: "toggle_button",
       });
     }
 
     if (onToggleHours) {
       onToggleHours(newShowHours);
     }
+  };
+
+  // Gestion du PDF Festival
+  const handleFestivalDocumentLoadSuccess = ({
+    numPages,
+  }: {
+    numPages: number;
+  }) => {
+    setFestivalNumPages(numPages);
+
+    ReactGA.event(GA4_EVENTS.FESTIVAL_PDF_DISPLAY, {
+      page_name: pageName,
+      num_pages: numPages,
+    });
+  };
+
+  const handleFestivalDocumentError = (error: Error) => {
+    ReactGA.event(GA4_EVENTS.FESTIVAL_PDF_ERROR, {
+      page_name: pageName,
+      error_message: error.message,
+    });
+    console.error("Festival PDF loading error:", error);
+  };
+
+  const renderFestivalPages = () => {
+    const mobile = isMobile();
+    const pagesToRender = festivalNumPages || 10;
+
+    return (
+      <div className="pdf-page-grid">
+        {Array.from({ length: pagesToRender }, (_, i) => (
+          <div key={i + 1} className="pdf-page-container" data-page={i + 1}>
+            <Page
+              pageNumber={i + 1}
+              width={festivalPageWidth}
+              renderTextLayer={!mobile}
+              renderAnnotationLayer={false}
+              renderMode="canvas"
+              className="pdf-page"
+              loading=""
+            />
+          </div>
+        ))}
+      </div>
+    );
   };
 
   useEffect(() => {
@@ -188,6 +294,18 @@ const CarteDisplay: React.FC<CarteDisplayProps> = ({
   useEffect(() => {
     setInternalShowHours(showHours);
   }, [showHours]);
+
+  // Gestion de la largeur pour le PDF Festival
+  useEffect(() => {
+    const updateWidth = () => {
+      if (containerRef.current) {
+        setFestivalPageWidth(containerRef.current.offsetWidth - 40);
+      }
+    };
+    updateWidth();
+    window.addEventListener("resize", updateWidth, { passive: true });
+    return () => window.removeEventListener("resize", updateWidth);
+  }, []);
 
   const getHoursItems = () => {
     const isAugust = isAugustMonth();
@@ -257,22 +375,46 @@ const CarteDisplay: React.FC<CarteDisplayProps> = ({
         ];
   };
 
+  // Variable pour savoir si on doit afficher le menu festival
+  const showFestivalMenu = isFestivalPeriod();
+
   return (
     <div className="menu-container" ref={containerRef}>
       <Selector
         onMenuSelect={handleMenuSelect}
-        showPdf={!internalShowHours}
+        showPdf={!!menuSelected}
         selectedMenu={menuSelected}
         pageName={pageName}
+        onBackToHours={handleBackToHours}
       />
 
-      {menuSelected && (
-        <div className="hours-toggle-button" onClick={handleToggleHours}>
-          <Calendar size={18} />
-          <span>Voir les horaires</span>
+      {/* Section PDF Festival - AFFICHAGE CONDITIONNEL */}
+      {internalShowHours && showFestivalMenu && (
+        <div className="festival-pdf-section">
+          <Document
+            file="/menufestival.pdf"
+            onLoadSuccess={handleFestivalDocumentLoadSuccess}
+            onLoadError={handleFestivalDocumentError}
+            loading=""
+          >
+            {renderFestivalPages()}
+          </Document>
         </div>
       )}
 
+      {/* Séparateur élégant - seulement si le menu festival est affiché */}
+      {internalShowHours && showFestivalMenu && (
+        <div className="section-separator">
+          <div className="separator-dots">
+            <div className="dot"></div>
+            <div className="dot"></div>
+            <div className="dot"></div>
+          </div>
+          <div className="side-lines"></div>
+        </div>
+      )}
+
+      {/* Section des horaires - TOUJOURS VISIBLE quand internalShowHours est true */}
       <div
         className={`hours-section ${internalShowHours ? "visible" : "hidden"}`}
       >
@@ -284,16 +426,6 @@ const CarteDisplay: React.FC<CarteDisplayProps> = ({
           </div>
 
           <div className="header-right">
-            {menuSelected && (
-              <button
-                className="close-hours-button"
-                onClick={handleToggleHours}
-                aria-label="Fermer les horaires"
-              >
-                <X size={20} />
-              </button>
-            )}
-
             <div
               className={`status-indicator ${
                 currentStatus.isOpen ? "open" : "closed"
