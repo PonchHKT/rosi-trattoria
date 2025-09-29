@@ -10,8 +10,20 @@ const GA4_EVENTS = {
     PDF_DOWNLOAD: "carte_pdf_download",
     PDF_ERROR: "carte_pdf_error",
     BACK_TO_HOURS: "carte_back_to_hours",
+    WINE_CARD_VIEW: "wine_card_direct_view",
 };
-const Selector = ({ onMenuSelect, className, showPdf = true, onPdfToggle, selectedMenu: parentSelectedMenu, pageName = "Unknown Page", onBackToHours, }) => {
+const PAGE_6_REPLACEMENT_CONFIG = {
+    startMonth: 10,
+    startDay: 6,
+    startHour: 23,
+    startMinute: 59,
+    endMonth: 10,
+    endDay: 10,
+    endHour: 0,
+    endMinute: 0,
+    replacementUrl: "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/cartesurplace/foiredulivre.pdf",
+};
+const Selector = ({ onMenuSelect, className, showPdf = true, onPdfToggle, selectedMenu: parentSelectedMenu, pageName = "Unknown Page", onBackToHours, wineCardMode = false, }) => {
     const [selectedMenu, setSelectedMenu] = useState("");
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -19,15 +31,37 @@ const Selector = ({ onMenuSelect, className, showPdf = true, onPdfToggle, select
     const [internalShowPdf, setInternalShowPdf] = useState(showPdf);
     const [loadingOffset, setLoadingOffset] = useState(false);
     const [imageLoadErrors, setImageLoadErrors] = useState(new Set());
+    // État pour savoir si on affiche les pages vins uniquement
+    const [showWinePagesOnly, setShowWinePagesOnly] = useState(false);
     const lastDropdownTime = useRef(0);
     const dropdownDebounceMs = 1000;
     const containerRef = useRef(null);
     const dropdownRef = useRef(null);
     const loadingTimeoutRef = useRef(null);
     const isMobile = () => window.innerWidth < 768;
+    const isInReplacementPeriod = () => {
+        const now = new Date();
+        const year = now.getFullYear();
+        const startDate = new Date(year, PAGE_6_REPLACEMENT_CONFIG.startMonth, PAGE_6_REPLACEMENT_CONFIG.startDay, PAGE_6_REPLACEMENT_CONFIG.startHour, PAGE_6_REPLACEMENT_CONFIG.startMinute);
+        const endDate = new Date(year, PAGE_6_REPLACEMENT_CONFIG.endMonth, PAGE_6_REPLACEMENT_CONFIG.endDay, PAGE_6_REPLACEMENT_CONFIG.endHour, PAGE_6_REPLACEMENT_CONFIG.endMinute);
+        return now >= startDate && now <= endDate;
+    };
     const getMenuImages = (menuType) => {
+        // Afficher seulement les pages 7 et 8 si showWinePagesOnly est true
+        if (showWinePagesOnly && menuType === "sur_place") {
+            return [
+                `https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/cartesurplace/surplacepage7.jpg`,
+                `https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/cartesurplace/surplacepage8.jpg`,
+            ];
+        }
         if (menuType === "sur_place") {
-            return Array.from({ length: 11 }, (_, i) => `https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/cartesurplace/surplacepage${i + 1}.jpg`);
+            const images = Array.from({ length: 11 }, (_, i) => {
+                if (i === 5 && isInReplacementPeriod()) {
+                    return PAGE_6_REPLACEMENT_CONFIG.replacementUrl;
+                }
+                return `https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/cartesurplace/surplacepage${i + 1}.jpg`;
+            });
+            return images;
         }
         else if (menuType === "a_emporter") {
             return Array.from({ length: 2 }, (_, i) => `https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/carteaemporter/emporterpage${i + 1}.jpg`);
@@ -35,21 +69,40 @@ const Selector = ({ onMenuSelect, className, showPdf = true, onPdfToggle, select
         return [];
     };
     const getTotalPages = (menuType) => {
+        if (showWinePagesOnly && menuType === "sur_place") {
+            return 2; // Seulement pages 7-8
+        }
         return menuType === "sur_place" ? 11 : 2;
     };
+    // Effect pour gérer le mode carte des vins au chargement initial UNIQUEMENT
+    useEffect(() => {
+        if (wineCardMode) {
+            ReactGA.event(GA4_EVENTS.WINE_CARD_VIEW, {
+                page_name: pageName,
+                source: "qr_code_redirect",
+            });
+            // Activer le mode pages vins seulement
+            setShowWinePagesOnly(true);
+            // Charger automatiquement le menu sur place avec les pages vins
+            setSelectedMenu("sur_place");
+            handleMenuLoad("sur_place", true);
+        }
+    }, [wineCardMode]);
     const handleBackToHours = () => {
         setSelectedMenu("");
         setInternalShowPdf(false);
         setImagesLoaded(false);
         setIsLoading(false);
         setLoadingOffset(false);
-        setDropdownOpen(false); // Close dropdown when going back to hours
+        setDropdownOpen(false);
+        setShowWinePagesOnly(false); // Reset le mode pages vins
         if (loadingTimeoutRef.current) {
             clearTimeout(loadingTimeoutRef.current);
         }
         ReactGA.event(GA4_EVENTS.BACK_TO_HOURS, {
             page_name: pageName,
             previous_menu: selectedMenu,
+            wine_card_mode: wineCardMode,
         });
         if (onBackToHours) {
             onBackToHours();
@@ -61,11 +114,11 @@ const Selector = ({ onMenuSelect, className, showPdf = true, onPdfToggle, select
             onMenuSelect("");
         }
     };
-    const handleMenuLoad = (menuType) => {
-        const startTime = Date.now();
+    const handleMenuLoad = (menuType, isWineMode = false) => {
         ReactGA.event(GA4_EVENTS.MENU_SELECT, {
             page_name: pageName,
             menu_type: menuType === "sur_place" ? "dine_in" : "takeaway",
+            wine_card_mode: isWineMode,
         });
         setImagesLoaded(false);
         setInternalShowPdf(true);
@@ -81,7 +134,6 @@ const Selector = ({ onMenuSelect, className, showPdf = true, onPdfToggle, select
         if (onPdfToggle) {
             onPdfToggle(true);
         }
-        // Précharger les images
         const images = getMenuImages(menuType);
         let loadedCount = 0;
         const totalImages = images.length;
@@ -92,7 +144,7 @@ const Selector = ({ onMenuSelect, className, showPdf = true, onPdfToggle, select
                 setImagesLoaded(true);
             }
         };
-        images.forEach((src, index) => {
+        images.forEach((src) => {
             const img = new Image();
             img.onload = () => {
                 loadedCount++;
@@ -105,7 +157,6 @@ const Selector = ({ onMenuSelect, className, showPdf = true, onPdfToggle, select
             };
             img.src = src;
         });
-        // Timeout de sécurité
         const loadingDelay = isMobile() ? 3000 : 2000;
         loadingTimeoutRef.current = setTimeout(() => {
             setIsLoading(false);
@@ -116,7 +167,9 @@ const Selector = ({ onMenuSelect, className, showPdf = true, onPdfToggle, select
     const handleMenuSelect = (menuType) => {
         setSelectedMenu(menuType);
         setDropdownOpen(false);
-        handleMenuLoad(menuType);
+        // Quand l'utilisateur sélectionne manuellement, désactiver le mode pages vins
+        setShowWinePagesOnly(false);
+        handleMenuLoad(menuType, false);
     };
     const handleDropdownToggle = () => {
         const now = Date.now();
@@ -127,6 +180,7 @@ const Selector = ({ onMenuSelect, className, showPdf = true, onPdfToggle, select
         if (!dropdownOpen) {
             ReactGA.event(GA4_EVENTS.DROPDOWN_OPEN, {
                 page_name: pageName,
+                wine_card_mode: wineCardMode,
             });
         }
         setDropdownOpen(!dropdownOpen);
@@ -146,13 +200,14 @@ const Selector = ({ onMenuSelect, className, showPdf = true, onPdfToggle, select
             parentSelectedMenu !== selectedMenu) {
             setSelectedMenu(parentSelectedMenu);
             if (parentSelectedMenu) {
-                handleMenuLoad(parentSelectedMenu);
+                handleMenuLoad(parentSelectedMenu, false);
             }
             else {
                 setImagesLoaded(false);
                 setInternalShowPdf(false);
                 setIsLoading(false);
                 setLoadingOffset(false);
+                setShowWinePagesOnly(false);
                 if (loadingTimeoutRef.current) {
                     clearTimeout(loadingTimeoutRef.current);
                 }
@@ -176,6 +231,7 @@ const Selector = ({ onMenuSelect, className, showPdf = true, onPdfToggle, select
                 page_name: pageName,
                 menu_type: selectedMenu === "sur_place" ? "dine_in" : "takeaway",
                 num_pages: getTotalPages(selectedMenu),
+                wine_card_mode: showWinePagesOnly,
             });
         }
     }, [imagesLoaded, isLoading, internalShowPdf, selectedMenu, pageName]);
@@ -187,6 +243,10 @@ const Selector = ({ onMenuSelect, className, showPdf = true, onPdfToggle, select
         };
     }, []);
     const getPdfFile = () => {
+        // Si on est en mode carte des vins, retourner le PDF de la carte des vins
+        if (showWinePagesOnly && selectedMenu === "sur_place") {
+            return "/cartedesvins.pdf";
+        }
         if (selectedMenu === "sur_place") {
             return "/carterositrattoria.pdf";
         }
@@ -199,15 +259,22 @@ const Selector = ({ onMenuSelect, className, showPdf = true, onPdfToggle, select
         ReactGA.event(GA4_EVENTS.PDF_DOWNLOAD, {
             page_name: pageName,
             menu_type: selectedMenu === "sur_place" ? "dine_in" : "takeaway",
+            wine_card_mode: showWinePagesOnly,
         });
         const pdfFile = getPdfFile();
         if (pdfFile) {
             const link = document.createElement("a");
             link.href = pdfFile;
-            link.download =
-                selectedMenu === "sur_place"
-                    ? "Carte-Restaurant-Sur-Place.pdf"
-                    : "Carte-Restaurant-A-Emporter.pdf";
+            // Nom du fichier selon le mode
+            if (showWinePagesOnly && selectedMenu === "sur_place") {
+                link.download = "Carte-des-Vins.pdf";
+            }
+            else if (selectedMenu === "sur_place") {
+                link.download = "Carte-Restaurant-Sur-Place.pdf";
+            }
+            else {
+                link.download = "Carte-Restaurant-A-Emporter.pdf";
+            }
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -239,10 +306,14 @@ const Selector = ({ onMenuSelect, className, showPdf = true, onPdfToggle, select
                 if (imageLoadErrors.has(imageSrc)) {
                     return (_jsx("div", { className: "menu-page-error", children: _jsxs("p", { children: ["Erreur lors du chargement de la page ", index + 1] }) }, index));
                 }
-                return (_jsx("div", { className: `menu-page-wrapper ${selectedMenu === "a_emporter" ? "takeaway-menu" : ""}`, children: _jsx("img", { src: imageSrc, alt: `Menu page ${index + 1}`, className: "menu-page-image", loading: "lazy" }) }, index));
+                return (_jsx("div", { className: `menu-page-wrapper ${selectedMenu === "a_emporter" ? "takeaway-menu" : ""}`, children: _jsx("img", { src: imageSrc, alt: `Menu page ${showWinePagesOnly ? index + 7 : index + 1}`, className: "menu-page-image", loading: "lazy" }) }, index));
             }) }));
     };
     const selectedMenuInfo = getSelectedMenuInfo();
-    return (_jsxs("div", { className: `selector-container ${className || ""}`, ref: containerRef, children: [_jsxs("div", { className: "selector-content", children: [selectedMenu && isLoading && (_jsx("div", { className: "document-loading", children: _jsxs("div", { className: "loading-content", children: [_jsx("div", { className: "loading-spinner" }), _jsxs("span", { className: "loading-announcement", children: ["Chargement du menu en cours...", _jsx("br", {}), _jsx("small", { children: "Nous pr\u00E9parons votre carte, merci de patienter un instant" })] })] }) })), _jsxs("div", { className: "dropdown-container", ref: dropdownRef, children: [_jsxs("div", { className: `dropdown-trigger ${selectedMenu ? "selected" : ""}`, onClick: handleDropdownToggle, children: [_jsx("div", { className: "dropdown-trigger-content", children: selectedMenu && selectedMenuInfo ? (_jsxs(_Fragment, { children: [_jsx(selectedMenuInfo.icon, { className: "service-icon", size: 20 }), _jsxs("div", { className: "service-info", children: [_jsx("span", { className: "service-label", children: selectedMenuInfo.label }), _jsx("span", { className: "service-description", children: selectedMenuInfo.description })] }), selectedMenuInfo.hasDiscount && (_jsx("span", { className: "discount-badge", children: "Tarifs r\u00E9duits" }))] })) : (_jsx(_Fragment, { children: _jsx("div", { className: "service-info", children: _jsx("span", { className: "service-label", children: "S\u00E9lectionnez une carte" }) }) })) }), _jsx(ChevronDown, { className: `dropdown-arrow ${dropdownOpen ? "open" : ""}`, size: 20 })] }), _jsxs("div", { className: `dropdown-menu ${dropdownOpen ? "open" : ""}`, children: [getMenuOptions().map((option) => (_jsxs("div", { className: "dropdown-option", onClick: () => handleMenuSelect(option.value), children: [_jsx(option.icon, { className: "service-icon", size: 20 }), _jsxs("div", { className: "service-info", children: [_jsx("span", { className: "service-label", children: option.label }), _jsx("span", { className: "service-description", children: option.description })] }), option.hasDiscount && (_jsx("span", { className: "discount-badge", children: "Tarifs r\u00E9duits" }))] }, option.value))), selectedMenu && (_jsxs("div", { className: "dropdown-option show-hours-option", onClick: handleBackToHours, children: [_jsx(Calendar, { className: "service-icon", size: 20 }), _jsxs("div", { className: "service-info", children: [_jsx("span", { className: "service-label", children: "Afficher les horaires" }), _jsx("span", { className: "service-description", children: "Voir nos heures d'ouverture" })] })] }))] })] }), selectedMenu && !isLoading && internalShowPdf && (_jsx("div", { className: "download-section", children: _jsxs("button", { className: "download-button", onClick: handleDownloadPdf, children: [_jsx(Download, { className: "download-icon", size: 18 }), _jsx("span", { children: "T\u00E9l\u00E9charger" })] }) }))] }), selectedMenu && internalShowPdf && (_jsx("div", { className: `menu-section ${loadingOffset ? "loading-offset" : ""}`, children: renderAllMenuPages() }))] }));
+    return (_jsxs("div", { className: `selector-container ${className || ""} ${wineCardMode ? "wine-card-mode" : ""}`, ref: containerRef, children: [_jsxs("div", { className: "selector-content", children: [selectedMenu && isLoading && (_jsx("div", { className: "document-loading", children: _jsxs("div", { className: "loading-content", children: [_jsx("div", { className: "loading-spinner" }), _jsxs("span", { className: "loading-announcement", children: ["Chargement", " ", showWinePagesOnly ? "de la carte des vins" : "du menu", " en cours...", _jsx("br", {}), _jsx("small", { children: "Nous pr\u00E9parons votre carte, merci de patienter un instant" })] })] }) })), _jsxs("div", { className: "dropdown-container", ref: dropdownRef, children: [_jsxs("div", { className: `dropdown-trigger ${selectedMenu ? "selected" : ""}`, onClick: handleDropdownToggle, children: [_jsx("div", { className: "dropdown-trigger-content", children: selectedMenu && selectedMenuInfo ? (_jsxs(_Fragment, { children: [_jsx(selectedMenuInfo.icon, { className: "service-icon", size: 20 }), _jsxs("div", { className: "service-info", children: [_jsx("span", { className: "service-label", children: showWinePagesOnly && selectedMenu === "sur_place"
+                                                                ? "Carte des Vins"
+                                                                : selectedMenuInfo.label }), _jsx("span", { className: "service-description", children: showWinePagesOnly && selectedMenu === "sur_place"
+                                                                ? "Notre sélection de vins"
+                                                                : selectedMenuInfo.description })] }), selectedMenuInfo.hasDiscount && !showWinePagesOnly && (_jsx("span", { className: "discount-badge", children: "Tarifs r\u00E9duits" }))] })) : (_jsx(_Fragment, { children: _jsx("div", { className: "service-info", children: _jsx("span", { className: "service-label", children: "S\u00E9lectionnez une carte" }) }) })) }), _jsx(ChevronDown, { className: `dropdown-arrow ${dropdownOpen ? "open" : ""}`, size: 20 })] }), _jsxs("div", { className: `dropdown-menu ${dropdownOpen ? "open" : ""}`, children: [getMenuOptions().map((option) => (_jsxs("div", { className: "dropdown-option", onClick: () => handleMenuSelect(option.value), children: [_jsx(option.icon, { className: "service-icon", size: 20 }), _jsxs("div", { className: "service-info", children: [_jsx("span", { className: "service-label", children: option.label }), _jsx("span", { className: "service-description", children: option.description })] }), option.hasDiscount && (_jsx("span", { className: "discount-badge", children: "Tarifs r\u00E9duits" }))] }, option.value))), selectedMenu && (_jsxs("div", { className: "dropdown-option show-hours-option", onClick: handleBackToHours, children: [_jsx(Calendar, { className: "service-icon", size: 20 }), _jsxs("div", { className: "service-info", children: [_jsx("span", { className: "service-label", children: "Afficher les horaires" }), _jsx("span", { className: "service-description", children: "Voir nos heures d'ouverture" })] })] }))] })] }), selectedMenu && !isLoading && internalShowPdf && (_jsx("div", { className: "download-section", children: _jsxs("button", { className: "download-button", onClick: handleDownloadPdf, children: [_jsx(Download, { className: "download-icon", size: 18 }), _jsx("span", { children: "T\u00E9l\u00E9charger" })] }) }))] }), selectedMenu && internalShowPdf && (_jsx("div", { className: `menu-section ${loadingOffset ? "loading-offset" : ""}`, children: renderAllMenuPages() }))] }));
 };
 export default Selector;

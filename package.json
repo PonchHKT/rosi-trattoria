@@ -31,6 +31,7 @@
     "react-pdf": "9.2.1",
     "react-player": "^2.16.0",
     "react-router-dom": "^7.6.2",
+    "react-snowfall": "^2.3.0",
     "rollup-plugin-visualizer": "^6.0.3",
     "scss": "^0.2.4",
     "swiper": "^11.2.8",

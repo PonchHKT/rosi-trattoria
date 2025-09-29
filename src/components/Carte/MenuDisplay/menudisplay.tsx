@@ -22,6 +22,7 @@ const GA4_EVENTS = {
   MENU_SELECT: "carte_menu_select",
   FESTIVAL_PDF_DISPLAY: "festival_pdf_display",
   FESTIVAL_PDF_ERROR: "festival_pdf_error",
+  WINE_CARD_MODE: "wine_card_mode_detected",
 };
 
 const CarteDisplay: React.FC<CarteDisplayProps> = ({
@@ -39,12 +40,36 @@ const CarteDisplay: React.FC<CarteDisplayProps> = ({
   }>({ isOpen: false, nextChange: "" });
   const [menuSelected, setMenuSelected] = useState<string>("");
   const [internalShowHours, setInternalShowHours] = useState(showHours);
+  const [wineCardMode, setWineCardMode] = useState(false);
 
   // États pour le PDF festival
   const [festivalNumPages, setFestivalNumPages] = useState<number | null>(null);
   const [festivalPageWidth, setFestivalPageWidth] = useState(800);
 
   const isMobile = () => window.innerWidth < 768;
+
+  // Effect pour détecter le mode carte des vins via URL
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const wineParam = urlParams.get("wine");
+    const path = window.location.pathname;
+
+    if (
+      wineParam === "1" ||
+      path.includes("/ressources/carterositrattoria.pdf")
+    ) {
+      setWineCardMode(true);
+
+      // Log GA4 event
+      ReactGA.event(GA4_EVENTS.WINE_CARD_MODE, {
+        page_name: pageName,
+        detection_method: wineParam === "1" ? "url_param" : "pdf_path",
+      });
+
+      // Nettoyer l'URL sans recharger la page
+      window.history.replaceState({}, "", "/carte/");
+    }
+  }, []);
 
   // Fonction pour vérifier si on est dans une période festival
   const isFestivalPeriod = () => {
@@ -314,32 +339,32 @@ const CarteDisplay: React.FC<CarteDisplayProps> = ({
       ? [
           {
             day: "Lundi",
-            hours: "12h00 - 13h30 / 18h30 - 21h30",
+            hours: "12h00 - 13h30 | 18h30 - 21h30",
             closed: false,
           },
           {
             day: "Mardi",
-            hours: "12h00 - 13h30 / 18h30 - 21h30",
+            hours: "12h00 - 13h30 | 18h30 - 21h30",
             closed: false,
           },
           {
             day: "Mercredi",
-            hours: "12h00 - 13h30 / 18h30 - 21h30",
+            hours: "12h00 - 13h30 | 18h30 - 21h30",
             closed: false,
           },
           {
             day: "Jeudi",
-            hours: "12h00 - 13h30 / 18h30 - 21h30",
+            hours: "12h00 - 13h30 | 18h30 - 21h30",
             closed: false,
           },
           {
             day: "Vendredi",
-            hours: "12h00 - 13h30 / 18h30 - 22h00",
+            hours: "12h00 - 13h30 | 18h30 - 22h00",
             closed: false,
           },
           {
             day: "Samedi",
-            hours: "12h00 - 13h30 / 18h30 - 22h00",
+            hours: "12h00 - 13h30 | 18h30 - 22h00",
             closed: false,
           },
           { day: "Dimanche", hours: "Fermé", closed: true },
@@ -348,27 +373,27 @@ const CarteDisplay: React.FC<CarteDisplayProps> = ({
           { day: "Lundi", hours: "Fermé", closed: true },
           {
             day: "Mardi",
-            hours: "12h00 - 14h00 / 18h30 - 21h30",
+            hours: "12h00 - 14h00 | 18h30 - 21h30",
             closed: false,
           },
           {
             day: "Mercredi",
-            hours: "12h00 - 14h00 / 18h30 - 21h30",
+            hours: "12h00 - 14h00 | 18h30 - 21h30",
             closed: false,
           },
           {
             day: "Jeudi",
-            hours: "12h00 - 14h00 / 18h30 - 21h30",
+            hours: "12h00 - 14h00 | 18h30 - 21h30",
             closed: false,
           },
           {
             day: "Vendredi",
-            hours: "12h00 - 14h00 / 18h30 - 22h00",
+            hours: "12h00 - 14h00 | 18h30 - 22h00",
             closed: false,
           },
           {
             day: "Samedi",
-            hours: "12h00 - 14h00 / 18h30 - 22h00",
+            hours: "12h00 - 14h00 | 18h30 - 22h00",
             closed: false,
           },
           { day: "Dimanche", hours: "Fermé", closed: true },
@@ -386,6 +411,7 @@ const CarteDisplay: React.FC<CarteDisplayProps> = ({
         selectedMenu={menuSelected}
         pageName={pageName}
         onBackToHours={handleBackToHours}
+        wineCardMode={wineCardMode}
       />
 
       {/* Section PDF Festival - AFFICHAGE CONDITIONNEL */}
@@ -421,8 +447,8 @@ const CarteDisplay: React.FC<CarteDisplayProps> = ({
         <div className="hours-header">
           <div className="header-left">
             <Calendar className="calendar-icon" size={20} />
-            <Clock className="clock-icon" size={20} />
             <h2>Nos Horaires</h2>
+            <Clock className="clock-icon" size={20} />
           </div>
 
           <div className="header-right">
@@ -447,8 +473,8 @@ const CarteDisplay: React.FC<CarteDisplayProps> = ({
               key={index}
               className={`hours-item ${item.closed ? "closed" : ""}`}
             >
-              <span>{item.day}</span>
-              <span>{item.hours}</span>
+              <span className="day-label">{item.day}</span>
+              <span className="hours-label">{item.hours}</span>
             </div>
           ))}
         </div>

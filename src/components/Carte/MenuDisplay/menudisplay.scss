@@ -4,12 +4,10 @@
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
   --text-muted: #64748b;
-  --border-color: #000000;
-  --accent-color: #75b9f9;
+  --border-color: #1e293b;
+  --accent-color: #ef4444;
   --glass-border: rgba(148, 163, 184, 0.1);
   --red-primary: #ef4444;
-  --primary-blue: #75b9f9;
-  --primary-pink: #ec4899;
   --green-primary: #22c55e;
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
@@ -45,7 +43,7 @@ body {
 }
 
 .menu-container {
-  padding: 80px 15px 5px;
+  padding: 80px 15px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -53,179 +51,38 @@ body {
   min-height: 100vh;
   position: relative;
   width: 100%;
-  max-width: 900px;
+  max-width: 1400px;
   margin: 0 auto;
   overflow: visible;
   box-sizing: border-box;
 }
 
-/* Séparateur moderne et élégant entre le PDF et les horaires */
+/* Séparateur simple et pro */
 .section-separator {
   width: 100%;
-  height: 50px;
-  position: relative;
-  margin: 1.5rem 0 1rem 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(117, 185, 249, 0.1) 5%,
-      rgba(117, 185, 249, 0.3) 15%,
-      rgba(236, 72, 153, 0.4) 35%,
-      rgba(255, 255, 255, 0.8) 50%,
-      rgba(236, 72, 153, 0.4) 65%,
-      rgba(117, 185, 249, 0.3) 85%,
-      rgba(117, 185, 249, 0.1) 95%,
-      transparent 100%
-    );
-    border-radius: 2px;
-    transform: translateY(-50%);
-  }
-
-  &::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100px;
-    height: 32px;
-    background: linear-gradient(
-      135deg,
-      rgba(117, 185, 249, 0.15) 0%,
-      rgba(236, 72, 153, 0.15) 50%,
-      rgba(117, 185, 249, 0.15) 100%
-    );
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 16px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  }
-
-  .separator-dots {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    gap: 6px;
-    z-index: 1;
-
-    .dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: linear-gradient(
-        45deg,
-        var(--accent-color),
-        var(--primary-pink)
-      );
-      animation: separatorPulse 2s ease-in-out infinite;
-      box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
-
-      &:nth-child(1) {
-        animation-delay: 0s;
-      }
-      &:nth-child(2) {
-        animation-delay: 0.3s;
-      }
-      &:nth-child(3) {
-        animation-delay: 0.6s;
-      }
-    }
-  }
-
-  .side-lines {
-    position: absolute;
-    top: 50%;
-    width: 100%;
-    height: 1px;
-    transform: translateY(-50%);
-
-    &::before,
-    &::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      width: 50px;
-      height: 1px;
-      background: linear-gradient(90deg, var(--accent-color), transparent);
-    }
-
-    &::before {
-      left: 10%;
-    }
-
-    &::after {
-      right: 10%;
-      background: linear-gradient(90deg, transparent, var(--primary-pink));
-    }
-  }
-}
-
-@keyframes separatorPulse {
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.6;
-    transform: scale(1.2);
-  }
+  height: 1px;
+  background: var(--border-color);
+  margin: 2rem 0;
+  opacity: 0.3;
 }
 
 .hours-section {
   z-index: 1;
-  padding: 1.25rem;
-  padding-top: calc(1.25rem + 20px);
+  padding: 2rem;
   width: 100%;
-  border-radius: 20px;
-  max-width: 600px;
-  background: linear-gradient(
-    135deg,
-    rgba(0, 0, 0, 0.95) 0%,
-    rgba(20, 20, 30, 0.95) 50%,
-    rgba(0, 0, 0, 0.95) 100%
-  );
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  transition: all 0.5s ease-in-out;
+  max-width: 100%;
+  background: black;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  transition: all 0.3s ease;
   box-sizing: border-box;
   position: relative;
-  overflow: hidden;
-
-  // Effet fade intégré au background
-  mask: radial-gradient(
-    ellipse at center,
-    rgba(0, 0, 0, 1) 0%,
-    rgba(0, 0, 0, 0.98) 70%,
-    rgba(0, 0, 0, 0.9) 85%,
-    rgba(0, 0, 0, 0.7) 95%,
-    rgba(0, 0, 0, 0) 100%
-  );
-  -webkit-mask: radial-gradient(
-    ellipse at center,
-    rgba(0, 0, 0, 1) 0%,
-    rgba(0, 0, 0, 0.98) 70%,
-    rgba(0, 0, 0, 0.9) 85%,
-    rgba(0, 0, 0, 0.7) 95%,
-    rgba(0, 0, 0, 0) 100%
-  );
+  margin-top: 0;
+  padding-top: 0;
 
   &.hidden {
     opacity: 0;
-    transform: translateY(-30px) scale(0.95);
+    transform: translateY(-20px);
     visibility: hidden;
     height: 0;
     margin: 0;
@@ -235,242 +92,96 @@ body {
 
   &.visible {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
     visibility: visible;
     height: auto;
+    margin-top: 0;
+    padding-top: 0;
   }
 
   .hours-header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-bottom: 1.25rem;
-    padding-bottom: 1rem;
-
-    flex-wrap: wrap;
-    position: relative;
-
-    &::after {
-      content: "";
-      position: absolute;
-      bottom: -1px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 60px;
-      height: 2px;
-      background: linear-gradient(
-        90deg,
-        var(--accent-color),
-        var(--primary-pink),
-        var(--accent-color)
-      );
-      border-radius: 1px;
-    }
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0;
+    margin-top: 0;
+    padding-top: 0;
 
     .header-left {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 0.75rem;
-      flex: 1;
-      min-width: 0;
 
       .calendar-icon {
         color: var(--accent-color);
         flex-shrink: 0;
-        filter: drop-shadow(0 0 6px rgba(117, 185, 249, 0.3));
       }
 
       .clock-icon {
-        color: var(--primary-pink);
+        color: var(--accent-color);
         flex-shrink: 0;
-        filter: drop-shadow(0 0 6px rgba(236, 72, 153, 0.3));
       }
 
       h2 {
-        font-size: clamp(1.1rem, 3vw, 1.4rem);
-        font-weight: 700;
+        font-size: 1.5rem;
+        font-weight: 600;
         color: var(--text-primary);
         margin: 0;
-        letter-spacing: -0.025em;
-        white-space: nowrap;
-        background: linear-gradient(
-          135deg,
-          #ffffff 0%,
-          #e2e8f0 50%,
-          #ffffff 100%
-        );
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        letter-spacing: -0.02em;
       }
     }
 
     .header-right {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      flex-shrink: 0;
-
-      .status-indicator {
-        display: flex;
-        align-items: center;
-        gap: 0.6rem;
-        font-size: clamp(0.8rem, 2.2vw, 0.9rem);
-        font-weight: 600;
-        padding: 0.7rem 1.2rem;
-        border-radius: 25px;
-        transition: all 0.3s ease;
-        white-space: nowrap;
-        position: relative;
-        overflow: hidden;
-
-        &::before {
-          content: "";
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(
-            90deg,
-            transparent,
-            rgba(255, 255, 255, 0.1),
-            transparent
-          );
-          transition: left 0.6s ease;
-        }
-
-        &:hover::before {
-          left: 100%;
-        }
-
-        .status-dot {
-          width: 10px;
-          height: 10px;
-          border-radius: 50%;
-          animation: statusPulse 2s infinite;
-          flex-shrink: 0;
-          box-shadow: 0 0 10px currentColor;
-        }
-
-        &.open {
-          background: linear-gradient(
-            135deg,
-            rgba(34, 197, 94, 0.2) 0%,
-            rgba(34, 197, 94, 0.15) 100%
-          );
-          color: #10b981;
-          border: 1px solid rgba(34, 197, 94, 0.4);
-          box-shadow: 0 0 15px rgba(34, 197, 94, 0.2);
-
-          .status-dot {
-            background: var(--green-primary);
-          }
-        }
-
-        &.closed {
-          background: linear-gradient(
-            135deg,
-            rgba(148, 163, 184, 0.2) 0%,
-            rgba(148, 163, 184, 0.15) 100%
-          );
-          color: var(--text-secondary);
-          border: 1px solid rgba(148, 163, 184, 0.4);
-          box-shadow: 0 0 15px rgba(148, 163, 184, 0.1);
-
-          .status-dot {
-            background: var(--text-secondary);
-          }
-        }
-
-        .status-text {
-          font-weight: 700;
-          text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-        }
-      }
+      display: none;
     }
   }
 
   .hours-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-    margin-bottom: 1rem;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
 
     .hours-item {
-      font-weight: bold;
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       align-items: center;
-      font-size: clamp(0.85rem, 2.4vw, 0.95rem);
-      color: var(--text-secondary);
-      padding: 0.8rem 1.1rem;
-      background: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.04) 0%,
-        rgba(255, 255, 255, 0.02) 50%,
-        rgba(255, 255, 255, 0.04) 100%
-      );
-      border-radius: 12px;
-
-      gap: 1rem;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.3s ease;
-
-      &::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(255, 255, 255, 0.05),
-          transparent
-        );
-        transition: left 0.5s ease;
-      }
+      text-align: center;
+      padding: 1.25rem 0.75rem;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      transition: all 0.2s ease;
+      gap: 0.5rem;
 
       &:hover {
-        background: linear-gradient(
-          135deg,
-          rgba(255, 255, 255, 0.08) 0%,
-          rgba(255, 255, 255, 0.04) 50%,
-          rgba(255, 255, 255, 0.08) 100%
-        );
-        border-color: rgba(255, 255, 255, 0.15);
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-
-        &::before {
-          left: 100%;
-        }
+        background: rgba(255, 255, 255, 0.04);
+        border-color: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
       }
 
-      span:first-child {
-        font-weight: 700;
-        color: white;
-        flex-shrink: 0;
-        min-width: fit-content;
-        text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
-      }
-
-      span:last-child {
-        text-align: right;
-        word-break: break-word;
+      .day-label {
+        font-size: 0.875rem;
         font-weight: 600;
+        color: var(--text-primary);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .hours-label {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        font-weight: 400;
+        line-height: 1.4;
+        word-break: break-word;
       }
 
       &.closed {
-        span:last-child {
+        .hours-label {
           color: var(--red-primary);
-          font-weight: 700;
-          text-shadow: 0 0 8px rgba(239, 68, 68, 0.3);
+          font-weight: 500;
         }
       }
     }
@@ -478,82 +189,52 @@ body {
 
   .hours-notice {
     margin: 0;
-    font-size: clamp(0.7rem, 2vw, 0.78rem);
-    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.8rem;
+    color: var(--text-secondary);
     text-align: center;
-    padding: 0.8rem 1rem;
-    background: linear-gradient(
-      135deg,
-      rgba(0, 0, 0, 0.4) 0%,
-      rgba(20, 20, 30, 0.4) 50%,
-      rgba(0, 0, 0, 0.4) 100%
-    );
-    border-radius: 10px;
-    line-height: 1.4;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    font-weight: 500;
-    text-shadow: 0 0 6px rgba(255, 255, 255, 0.1);
+    padding: 0.875rem 1rem;
+    background: rgba(239, 68, 68, 0.05);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 6px;
+    line-height: 1.5;
+    font-weight: 400;
   }
 }
 
-@keyframes statusPulse {
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.7;
-    transform: scale(1.1);
-  }
-}
-
-/* Mobile First - Styles par défaut pour mobile */
+/* MOBILE - Affichage vertical */
 @media (max-width: 768px) {
   .menu-container {
-    padding: 80px 10px 10px;
-    min-height: 100vh;
+    padding: 80px 12px 20px;
   }
 
   .section-separator {
-    height: 35px;
-    margin: 1rem 0 0.75rem 0;
-
-    &::after {
-      width: 80px;
-      height: 24px;
-      border-radius: 12px;
-    }
-
-    .separator-dots {
-      gap: 4px;
-      .dot {
-        width: 4px;
-        height: 4px;
-      }
-    }
-
-    .side-lines {
-      &::before,
-      &::after {
-        width: 30px;
-      }
-    }
+    margin: 1.5rem 0;
   }
 
   .hours-section {
-    padding: 1rem;
-    margin: 0;
-    max-height: calc(100vh - 150px);
-    overflow-y: auto;
+    padding: 1.5rem;
+    padding-top: 0;
+    margin-top: 0;
+
+    &.visible {
+      padding-top: 0;
+    }
 
     .hours-header {
-      margin-bottom: 1rem;
-      padding-bottom: 0.75rem;
-      gap: 0.75rem;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      margin-top: 0;
+      padding-top: 0;
 
       .header-left {
-        gap: 0.5rem;
+        width: 100%;
+        justify-content: center;
+
+        h2 {
+          font-size: 1.25rem;
+        }
 
         .calendar-icon,
         .clock-icon {
@@ -563,35 +244,82 @@ body {
       }
 
       .header-right {
+        display: flex;
+        width: 100%;
+
         .status-indicator {
-          padding: 0.5rem 0.9rem;
-          font-size: 0.75rem;
-          gap: 0.4rem;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-size: 0.875rem;
+          font-weight: 500;
+          padding: 0.625rem 1rem;
+          border-radius: 6px;
+          border: 1px solid;
+          transition: all 0.2s ease;
+          justify-content: center;
 
           .status-dot {
             width: 8px;
             height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+          }
+
+          &.open {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: rgba(34, 197, 94, 0.3);
+            color: var(--green-primary);
+
+            .status-dot {
+              background: var(--green-primary);
+              box-shadow: 0 0 8px var(--green-primary);
+            }
+          }
+
+          &.closed {
+            background: rgba(148, 163, 184, 0.1);
+            border-color: rgba(148, 163, 184, 0.3);
+            color: var(--text-secondary);
+
+            .status-dot {
+              background: var(--text-secondary);
+            }
+          }
+
+          .status-text {
+            font-weight: 500;
           }
         }
       }
     }
 
     .hours-list {
-      gap: 0.5rem;
-      margin-bottom: 0.8rem;
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
 
       .hours-item {
-        padding: 0.7rem 0.9rem;
-        gap: 0.75rem;
-        font-size: 0.8rem;
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+        padding: 1rem;
+
+        .day-label {
+          font-size: 0.875rem;
+        }
+
+        .hours-label {
+          font-size: 0.8rem;
+          text-align: right;
+        }
       }
     }
 
     .hours-notice {
-      padding: 0.6rem 0.8rem;
-      margin: 0;
-      font-size: 0.68rem;
-      line-height: 1.3;
+      padding: 0.75rem;
+      font-size: 0.75rem;
     }
   }
 }
@@ -599,31 +327,27 @@ body {
 /* Très petits écrans */
 @media (max-width: 480px) {
   .menu-container {
-    padding: 70px 8px 8px;
-    min-height: 100vh;
-  }
-
-  .section-separator {
-    height: 30px;
-    margin: 0.75rem 0 0.5rem 0;
-
-    &::after {
-      width: 60px;
-      height: 20px;
-    }
+    padding: 70px 10px 15px;
   }
 
   .hours-section {
-    padding: 0.8rem;
-    max-height: calc(100vh - 120px);
+    padding: 1.25rem;
+    padding-top: 0;
+    margin-top: 0;
+
+    &.visible {
+      padding-top: 0;
+    }
 
     .hours-header {
-      gap: 0.5rem;
-      margin-bottom: 0.8rem;
-      padding-bottom: 0.6rem;
+      margin-bottom: 1.5rem;
+      margin-top: 0;
+      padding-top: 0;
 
       .header-left {
-        gap: 0.4rem;
+        h2 {
+          font-size: 1.1rem;
+        }
 
         .calendar-icon,
         .clock-icon {
@@ -634,9 +358,8 @@ body {
 
       .header-right {
         .status-indicator {
-          padding: 0.45rem 0.8rem;
-          font-size: 0.7rem;
-          gap: 0.3rem;
+          padding: 0.5rem 0.875rem;
+          font-size: 0.75rem;
 
           .status-dot {
             width: 7px;
@@ -647,156 +370,222 @@ body {
     }
 
     .hours-list {
-      gap: 0.4rem;
-      margin-bottom: 0.6rem;
+      gap: 0.625rem;
+      margin-bottom: 1rem;
 
       .hours-item {
-        padding: 0.6rem 0.8rem;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.3rem;
-        font-size: 0.75rem;
+        padding: 0.875rem;
 
-        span:last-child {
-          text-align: left;
-          width: 100%;
-          font-size: 0.7rem;
+        .day-label {
+          font-size: 0.8rem;
+        }
+
+        .hours-label {
+          font-size: 0.75rem;
         }
       }
     }
 
     .hours-notice {
-      padding: 0.5rem 0.7rem;
-      margin: 0;
-      font-size: 0.62rem;
-      line-height: 1.2;
+      padding: 0.625rem;
+      font-size: 0.7rem;
     }
   }
 }
 
-/* Écrans très courts (paysage mobile) */
-@media (max-height: 600px) {
+/* Tablettes */
+@media (min-width: 769px) and (max-width: 1024px) {
   .menu-container {
-    padding: 50px 10px 5px;
+    padding: 100px 20px 30px;
+    justify-content: center;
     min-height: 100vh;
   }
 
-  .section-separator {
-    height: 25px;
-    margin: 0.5rem 0;
-  }
-
   .hours-section {
-    padding: 0.6rem;
-    max-height: calc(100vh - 80px);
+    padding: 2rem;
+    padding-top: 2rem;
+    margin-top: 0;
+
+    &.visible {
+      padding-top: 0;
+    }
 
     .hours-header {
-      margin-bottom: 0.6rem;
-      padding-bottom: 0.4rem;
+      .header-right {
+        display: flex;
+
+        .status-indicator {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-size: 0.875rem;
+          font-weight: 500;
+          padding: 0.5rem 1rem;
+          border-radius: 6px;
+          border: 1px solid;
+          transition: all 0.2s ease;
+
+          .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+          }
+
+          &.open {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: rgba(34, 197, 94, 0.3);
+            color: var(--green-primary);
+
+            .status-dot {
+              background: var(--green-primary);
+              box-shadow: 0 0 8px var(--green-primary);
+            }
+          }
+
+          &.closed {
+            background: rgba(148, 163, 184, 0.1);
+            border-color: rgba(148, 163, 184, 0.3);
+            color: var(--text-secondary);
+
+            .status-dot {
+              background: var(--text-secondary);
+            }
+          }
+
+          .status-text {
+            font-weight: 500;
+          }
+        }
+      }
     }
 
     .hours-list {
-      gap: 0.3rem;
-      margin-bottom: 0.5rem;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.875rem;
 
       .hours-item {
-        padding: 0.5rem 0.7rem;
-        font-size: 0.72rem;
-      }
-    }
+        padding: 1rem 0.625rem;
 
-    .hours-notice {
-      padding: 0.4rem 0.6rem;
-      font-size: 0.6rem;
-      margin: 0;
+        .day-label {
+          font-size: 0.8rem;
+        }
+
+        .hours-label {
+          font-size: 0.75rem;
+        }
+      }
     }
   }
 }
 
-/* Écrans ultra-courts */
-@media (max-height: 500px) {
-  .menu-container {
-    padding: 40px 8px 3px;
-  }
-
-  .hours-section {
-    padding: 0.5rem;
-    max-height: calc(100vh - 60px);
-
-    .hours-header {
-      margin-bottom: 0.4rem;
-      padding-bottom: 0.3rem;
-
-      .header-left h2 {
-        font-size: 1rem;
-      }
-
-      .header-right .status-indicator {
-        padding: 0.3rem 0.6rem;
-        font-size: 0.65rem;
-      }
-    }
-
-    .hours-list {
-      gap: 0.25rem;
-      margin-bottom: 0.4rem;
-
-      .hours-item {
-        padding: 0.4rem 0.6rem;
-        font-size: 0.7rem;
-      }
-    }
-
-    .hours-notice {
-      padding: 0.3rem 0.5rem;
-      font-size: 0.58rem;
-    }
-  }
-}
-
-/* Tablettes et écrans moyens */
-@media (min-width: 769px) and (max-width: 1024px) {
-  .menu-container {
-    padding: 100px 20px 20px;
-  }
-
-  .hours-section {
-    max-width: 600px;
-    padding: 1.5rem;
-  }
-}
-
-/* Écrans larges */
+/* Grands écrans */
 @media (min-width: 1025px) {
   .menu-container {
-    padding: 80px 20px 30px;
+    padding: 100px 30px 40px;
+    justify-content: center;
+    min-height: 100vh;
   }
 
   .hours-section {
-    max-width: 600px;
-    padding: 1.75rem;
+    padding: 2.5rem;
+    padding-top: 2.5rem;
+    margin-top: 0;
+
+    &.visible {
+      padding-top: 0;
+    }
 
     .hours-header {
-      .header-left h2 {
-        font-size: 1.5rem;
+      justify-content: space-between;
+
+      .header-left {
+        h2 {
+          font-size: 1.75rem;
+        }
       }
 
-      .header-right .status-indicator {
-        font-size: 0.95rem;
-        padding: 0.8rem 1.4rem;
+      .header-right {
+        display: flex;
+
+        .status-indicator {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-size: 0.875rem;
+          font-weight: 500;
+          padding: 0.625rem 1.25rem;
+          border-radius: 6px;
+          border: 1px solid;
+          transition: all 0.2s ease;
+
+          .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+          }
+
+          &.open {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: rgba(34, 197, 94, 0.3);
+            color: var(--green-primary);
+
+            .status-dot {
+              background: var(--green-primary);
+              box-shadow: 0 0 8px var(--green-primary);
+            }
+          }
+
+          &.closed {
+            background: rgba(148, 163, 184, 0.1);
+            border-color: rgba(148, 163, 184, 0.3);
+            color: var(--text-secondary);
+
+            .status-dot {
+              background: var(--text-secondary);
+            }
+          }
+
+          .status-text {
+            font-weight: 500;
+          }
+        }
       }
     }
 
     .hours-list {
+      gap: 1.25rem;
+
       .hours-item {
-        font-size: 1rem;
-        padding: 1rem 1.3rem;
+        padding: 1.5rem 1rem;
+
+        .day-label {
+          font-size: 0.9rem;
+        }
+
+        .hours-label {
+          font-size: 0.85rem;
+        }
       }
     }
 
     .hours-notice {
-      font-size: 0.82rem;
-      padding: 0.9rem;
+      padding: 1rem;
+      font-size: 0.85rem;
+    }
+  }
+}
+
+/* Très grands écrans */
+@media (min-width: 1400px) {
+  .hours-section {
+    .hours-list {
+      gap: 1.5rem;
+
+      .hours-item {
+        padding: 1.75rem 1.25rem;
+      }
     }
   }
 }
@@ -816,6 +605,53 @@ body {
   .hours-section {
     .hours-list .hours-item {
       border-width: 0.5px;
+    }
+  }
+}
+
+/* Écrans courts (paysage mobile) */
+@media (max-height: 600px) and (max-width: 768px) {
+  .menu-container {
+    padding: 60px 10px 10px;
+  }
+
+  .hours-section {
+    padding: 1rem;
+    padding-top: 0;
+    margin-top: 0;
+
+    &.visible {
+      padding-top: 1rem;
+    }
+
+    .hours-header {
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      margin-top: 0;
+      padding-top: 0;
+
+      .header-left h2 {
+        font-size: 1rem;
+      }
+    }
+
+    .hours-list {
+      gap: 0.5rem;
+      margin-bottom: 0.875rem;
+
+      .hours-item {
+        padding: 0.75rem;
+
+        .day-label,
+        .hours-label {
+          font-size: 0.75rem;
+        }
+      }
+    }
+
+    .hours-notice {
+      padding: 0.5rem;
+      font-size: 0.7rem;
     }
   }
 }

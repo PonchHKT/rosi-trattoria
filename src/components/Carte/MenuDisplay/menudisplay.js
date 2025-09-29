@@ -14,6 +14,7 @@ const GA4_EVENTS = {
     MENU_SELECT: "carte_menu_select",
     FESTIVAL_PDF_DISPLAY: "festival_pdf_display",
     FESTIVAL_PDF_ERROR: "festival_pdf_error",
+    WINE_CARD_MODE: "wine_card_mode_detected",
 };
 const CarteDisplay = ({ onMenuSelect, showHours = true, onToggleHours, pageName = "Unknown Page", }) => {
     const containerRef = useRef(null);
@@ -22,10 +23,28 @@ const CarteDisplay = ({ onMenuSelect, showHours = true, onToggleHours, pageName 
     const [currentStatus, setCurrentStatus] = useState({ isOpen: false, nextChange: "" });
     const [menuSelected, setMenuSelected] = useState("");
     const [internalShowHours, setInternalShowHours] = useState(showHours);
+    const [wineCardMode, setWineCardMode] = useState(false);
     // États pour le PDF festival
     const [festivalNumPages, setFestivalNumPages] = useState(null);
     const [festivalPageWidth, setFestivalPageWidth] = useState(800);
     const isMobile = () => window.innerWidth < 768;
+    // Effect pour détecter le mode carte des vins via URL
+    useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const wineParam = urlParams.get("wine");
+        const path = window.location.pathname;
+        if (wineParam === "1" ||
+            path.includes("/ressources/carterositrattoria.pdf")) {
+            setWineCardMode(true);
+            // Log GA4 event
+            ReactGA.event(GA4_EVENTS.WINE_CARD_MODE, {
+                page_name: pageName,
+                detection_method: wineParam === "1" ? "url_param" : "pdf_path",
+            });
+            // Nettoyer l'URL sans recharger la page
+            window.history.replaceState({}, "", "/carte/");
+        }
+    }, []);
     // Fonction pour vérifier si on est dans une période festival
     const isFestivalPeriod = () => {
         const now = new Date();
@@ -223,32 +242,32 @@ const CarteDisplay = ({ onMenuSelect, showHours = true, onToggleHours, pageName 
             ? [
                 {
                     day: "Lundi",
-                    hours: "12h00 - 13h30 / 18h30 - 21h30",
+                    hours: "12h00 - 13h30 | 18h30 - 21h30",
                     closed: false,
                 },
                 {
                     day: "Mardi",
-                    hours: "12h00 - 13h30 / 18h30 - 21h30",
+                    hours: "12h00 - 13h30 | 18h30 - 21h30",
                     closed: false,
                 },
                 {
                     day: "Mercredi",
-                    hours: "12h00 - 13h30 / 18h30 - 21h30",
+                    hours: "12h00 - 13h30 | 18h30 - 21h30",
                     closed: false,
                 },
                 {
                     day: "Jeudi",
-                    hours: "12h00 - 13h30 / 18h30 - 21h30",
+                    hours: "12h00 - 13h30 | 18h30 - 21h30",
                     closed: false,
                 },
                 {
                     day: "Vendredi",
-                    hours: "12h00 - 13h30 / 18h30 - 22h00",
+                    hours: "12h00 - 13h30 | 18h30 - 22h00",
                     closed: false,
                 },
                 {
                     day: "Samedi",
-                    hours: "12h00 - 13h30 / 18h30 - 22h00",
+                    hours: "12h00 - 13h30 | 18h30 - 22h00",
                     closed: false,
                 },
                 { day: "Dimanche", hours: "Fermé", closed: true },
@@ -257,27 +276,27 @@ const CarteDisplay = ({ onMenuSelect, showHours = true, onToggleHours, pageName 
                 { day: "Lundi", hours: "Fermé", closed: true },
                 {
                     day: "Mardi",
-                    hours: "12h00 - 14h00 / 18h30 - 21h30",
+                    hours: "12h00 - 14h00 | 18h30 - 21h30",
                     closed: false,
                 },
                 {
                     day: "Mercredi",
-                    hours: "12h00 - 14h00 / 18h30 - 21h30",
+                    hours: "12h00 - 14h00 | 18h30 - 21h30",
                     closed: false,
                 },
                 {
                     day: "Jeudi",
-                    hours: "12h00 - 14h00 / 18h30 - 21h30",
+                    hours: "12h00 - 14h00 | 18h30 - 21h30",
                     closed: false,
                 },
                 {
                     day: "Vendredi",
-                    hours: "12h00 - 14h00 / 18h30 - 22h00",
+                    hours: "12h00 - 14h00 | 18h30 - 22h00",
                     closed: false,
                 },
                 {
                     day: "Samedi",
-                    hours: "12h00 - 14h00 / 18h30 - 22h00",
+                    hours: "12h00 - 14h00 | 18h30 - 22h00",
                     closed: false,
                 },
                 { day: "Dimanche", hours: "Fermé", closed: true },
@@ -285,8 +304,8 @@ const CarteDisplay = ({ onMenuSelect, showHours = true, onToggleHours, pageName 
     };
     // Variable pour savoir si on doit afficher le menu festival
     const showFestivalMenu = isFestivalPeriod();
-    return (_jsxs("div", { className: "menu-container", ref: containerRef, children: [_jsx(Selector, { onMenuSelect: handleMenuSelect, showPdf: !!menuSelected, selectedMenu: menuSelected, pageName: pageName, onBackToHours: handleBackToHours }), internalShowHours && showFestivalMenu && (_jsx("div", { className: "festival-pdf-section", children: _jsx(Document, { file: "/menufestival.pdf", onLoadSuccess: handleFestivalDocumentLoadSuccess, onLoadError: handleFestivalDocumentError, loading: "", children: renderFestivalPages() }) })), internalShowHours && showFestivalMenu && (_jsxs("div", { className: "section-separator", children: [_jsxs("div", { className: "separator-dots", children: [_jsx("div", { className: "dot" }), _jsx("div", { className: "dot" }), _jsx("div", { className: "dot" })] }), _jsx("div", { className: "side-lines" })] })), _jsxs("div", { className: `hours-section ${internalShowHours ? "visible" : "hidden"}`, children: [_jsxs("div", { className: "hours-header", children: [_jsxs("div", { className: "header-left", children: [_jsx(Calendar, { className: "calendar-icon", size: 20 }), _jsx(Clock, { className: "clock-icon", size: 20 }), _jsx("h2", { children: "Nos Horaires" })] }), _jsx("div", { className: "header-right", children: _jsxs("div", { className: `status-indicator ${currentStatus.isOpen ? "open" : "closed"}`, children: [_jsx("div", { className: "status-dot" }), _jsx("div", { className: "status-text", children: currentStatus.isOpen
+    return (_jsxs("div", { className: "menu-container", ref: containerRef, children: [_jsx(Selector, { onMenuSelect: handleMenuSelect, showPdf: !!menuSelected, selectedMenu: menuSelected, pageName: pageName, onBackToHours: handleBackToHours, wineCardMode: wineCardMode }), internalShowHours && showFestivalMenu && (_jsx("div", { className: "festival-pdf-section", children: _jsx(Document, { file: "/menufestival.pdf", onLoadSuccess: handleFestivalDocumentLoadSuccess, onLoadError: handleFestivalDocumentError, loading: "", children: renderFestivalPages() }) })), internalShowHours && showFestivalMenu && (_jsxs("div", { className: "section-separator", children: [_jsxs("div", { className: "separator-dots", children: [_jsx("div", { className: "dot" }), _jsx("div", { className: "dot" }), _jsx("div", { className: "dot" })] }), _jsx("div", { className: "side-lines" })] })), _jsxs("div", { className: `hours-section ${internalShowHours ? "visible" : "hidden"}`, children: [_jsxs("div", { className: "hours-header", children: [_jsxs("div", { className: "header-left", children: [_jsx(Calendar, { className: "calendar-icon", size: 20 }), _jsx("h2", { children: "Nos Horaires" }), _jsx(Clock, { className: "clock-icon", size: 20 })] }), _jsx("div", { className: "header-right", children: _jsxs("div", { className: `status-indicator ${currentStatus.isOpen ? "open" : "closed"}`, children: [_jsx("div", { className: "status-dot" }), _jsx("div", { className: "status-text", children: currentStatus.isOpen
                                                 ? "Actuellement Ouvert"
-                                                : "Actuellement Fermé" })] }) })] }), _jsx("div", { className: "hours-list", children: getHoursItems().map((item, index) => (_jsxs("div", { className: `hours-item ${item.closed ? "closed" : ""}`, children: [_jsx("span", { children: item.day }), _jsx("span", { children: item.hours })] }, index))) }), _jsx("div", { className: "hours-notice", children: "\u26A0\uFE0F Attention : ces horaires peuvent varier selon les jours f\u00E9ri\u00E9s et \u00E9v\u00E9nements sp\u00E9ciaux" })] })] }));
+                                                : "Actuellement Fermé" })] }) })] }), _jsx("div", { className: "hours-list", children: getHoursItems().map((item, index) => (_jsxs("div", { className: `hours-item ${item.closed ? "closed" : ""}`, children: [_jsx("span", { className: "day-label", children: item.day }), _jsx("span", { className: "hours-label", children: item.hours })] }, index))) }), _jsx("div", { className: "hours-notice", children: "\u26A0\uFE0F Attention : ces horaires peuvent varier selon les jours f\u00E9ri\u00E9s et \u00E9v\u00E9nements sp\u00E9ciaux" })] })] }));
 };
 export default CarteDisplay;

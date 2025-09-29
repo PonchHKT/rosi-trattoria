@@ -42,7 +42,7 @@
   margin: 0 auto;
   padding-top: 20px;
   position: relative;
-  z-index: 10;
+  z-index: 1000;
 }
 
 .selector-content {
@@ -51,6 +51,33 @@
   padding-top: 20px;
   border-radius: 0 0 12px 12px;
   box-shadow: var(--shadow-md);
+  position: relative;
+  z-index: 1000;
+
+  .wine-mode-header {
+    text-align: center;
+    padding: 1.5rem 1rem;
+    background: linear-gradient(
+      135deg,
+      rgba(232, 197, 71, 0.1) 0%,
+      rgba(212, 175, 55, 0.1) 100%
+    );
+    border-radius: 12px;
+    margin-bottom: 2rem;
+
+    h2 {
+      font-size: 1.8rem;
+      color: #e8c547;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    p {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.95rem;
+      margin: 0;
+    }
+  }
 
   .selector-label {
     color: white;
@@ -112,6 +139,8 @@
     justify-content: center;
     padding-top: 1rem;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    z-index: 1;
 
     .download-button {
       display: inline-flex;
@@ -181,6 +210,8 @@
     width: 100%;
     max-width: 480px;
     margin: 0 auto;
+    perspective: 1000px;
+    z-index: 1001;
 
     .dropdown-trigger {
       width: 100%;
@@ -196,47 +227,115 @@
         var(--primary-pink)
       );
       background-size: 400% 400%;
-      border: 2px solid transparent;
-      border-radius: 8px;
+      border: none;
+      border-radius: 12px;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
       color: white;
       position: relative;
       overflow: hidden;
       animation: gradient-rotate 3s ease-in-out infinite;
+      z-index: 1001;
+
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset,
+        0 -1px 0 rgba(0, 0, 0, 0.2) inset, 0 12px 30px rgba(117, 185, 249, 0.5),
+        0 6px 12px rgba(236, 72, 153, 0.4), 0 3px 6px rgba(0, 0, 0, 0.4);
+
+      transform-style: preserve-3d;
+      transform: translateZ(0) translateY(-4px) scale(1.02);
+
+      &::before {
+        content: "";
+        position: absolute;
+        inset: -2px;
+        background: linear-gradient(
+          45deg,
+          transparent 30%,
+          rgba(255, 255, 255, 0.4) 50%,
+          transparent 70%
+        );
+        border-radius: 12px;
+        opacity: 1;
+        animation: border-shine 3s linear infinite;
+        z-index: -1;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.15) 0%,
+          transparent 70%
+        );
+        transform: translateZ(10px);
+        pointer-events: none;
+      }
+
+      &:hover {
+        transform: translateZ(0) translateY(-6px) scale(1.04);
+        box-shadow: 0 1px 0 rgba(255, 255, 255, 0.35) inset,
+          0 -1px 0 rgba(0, 0, 0, 0.2) inset,
+          0 16px 40px rgba(117, 185, 249, 0.6),
+          0 8px 16px rgba(236, 72, 153, 0.5), 0 4px 8px rgba(0, 0, 0, 0.5);
+        animation-duration: 2s;
+
+        .dropdown-arrow {
+          transform: scale(1.15);
+        }
+      }
+
+      &:active {
+        transform: translateZ(0) translateY(-2px) scale(1.01);
+        box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset,
+          0 -1px 0 rgba(0, 0, 0, 0.3) inset, 0 8px 20px rgba(117, 185, 249, 0.4),
+          0 4px 8px rgba(236, 72, 153, 0.3);
+        transition: all 0.1s ease;
+      }
 
       &.selected {
         background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
         animation: none;
-        border: 2px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 1px 0 rgba(255, 255, 255, 0.15) inset,
+          0 -1px 0 rgba(0, 0, 0, 0.3) inset, 0 6px 15px rgba(0, 0, 0, 0.3),
+          0 3px 6px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(117, 185, 249, 0.3);
+
+        &::before {
+          background: linear-gradient(
+            135deg,
+            transparent,
+            rgba(117, 185, 249, 0.2),
+            transparent
+          );
+        }
 
         &:hover {
           background: linear-gradient(135deg, #5a6478 0%, #3d4758 100%);
-          transform: translateY(-1px);
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+          transform: translateZ(0) translateY(-3px) scale(1.01);
+          box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset,
+            0 -1px 0 rgba(0, 0, 0, 0.3) inset, 0 8px 20px rgba(0, 0, 0, 0.4),
+            0 4px 8px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(117, 185, 249, 0.4);
+        }
+
+        &:active {
+          transform: translateZ(0) translateY(-1px) scale(1);
+          box-shadow: 0 1px 0 rgba(255, 255, 255, 0.15) inset,
+            0 -1px 0 rgba(0, 0, 0, 0.4) inset, 0 3px 8px rgba(0, 0, 0, 0.3),
+            0 0 0 1px rgba(117, 185, 249, 0.3);
         }
 
         .dropdown-trigger-content .service-icon {
           color: var(--primary-blue);
+          filter: drop-shadow(0 0 6px rgba(117, 185, 249, 0.5));
         }
 
         .dropdown-arrow {
           color: white;
           font-weight: bold;
-        }
-      }
-
-      &:not(.selected) {
-        &:hover {
-          transform: translateY(-1px);
-          box-shadow: 0 4px 12px rgba(117, 185, 249, 0.2);
-          animation-duration: 2s;
-
-          .dropdown-arrow {
-            color: white;
-            font-weight: bold;
-            transform: scale(1.1);
-          }
         }
       }
 
@@ -246,11 +345,14 @@
         gap: 0.75rem;
         flex: 1;
         min-width: 0;
+        position: relative;
+        z-index: 1;
 
         .service-icon {
-          color: var(--primary-blue);
+          color: white;
           flex-shrink: 0;
           transition: all 0.3s ease;
+          filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
         }
 
         .service-info {
@@ -271,10 +373,11 @@
             overflow: hidden;
             text-overflow: ellipsis;
             width: 100%;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
           }
 
           .service-description {
-            color: #cbd5e1;
+            color: rgba(255, 255, 255, 0.9);
             font-size: 0.85rem;
             font-weight: 500;
             transition: color 0.2s ease;
@@ -282,6 +385,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             width: 100%;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
           }
         }
 
@@ -299,7 +403,8 @@
           text-transform: uppercase;
           letter-spacing: 0.5px;
           flex-shrink: 0;
-          box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+          box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3),
+            0 1px 0 rgba(255, 255, 255, 0.2) inset;
           animation: pulse-glow 2s infinite;
           white-space: nowrap;
         }
@@ -309,7 +414,10 @@
         color: white;
         font-weight: bold;
         flex-shrink: 0;
-        transition: all 0.3s ease;
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        position: relative;
+        z-index: 1;
 
         &.open {
           transform: rotate(180deg);
@@ -328,7 +436,7 @@
       border: 2px solid rgba(255, 255, 255, 0.1);
       border-top: none;
       border-radius: 0 0 8px 8px;
-      z-index: 100;
+      z-index: 1002;
       visibility: hidden;
       opacity: 0;
       transform: translateY(-10px);
@@ -363,7 +471,6 @@
         &.show-hours-option {
           border-top: 1px solid rgba(255, 255, 255, 0.1);
           position: relative;
-          // Fond professionnel élégant pour "Afficher les horaires"
           background: linear-gradient(
             135deg,
             #2a2d3a 0%,
@@ -372,7 +479,6 @@
           );
           overflow: hidden;
 
-          // Effet de brillance subtil
           &::before {
             content: "";
             position: absolute;
@@ -501,6 +607,8 @@
   max-width: 900px;
   margin: 1rem auto 0;
   transition: padding-top 0.5s ease-in-out;
+  position: relative;
+  z-index: 1;
 
   &.loading-offset {
     padding-top: 120px;
@@ -558,7 +666,6 @@
   font-weight: 500;
 }
 
-// Animations
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -571,11 +678,12 @@
 @keyframes pulse-glow {
   0%,
   100% {
-    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3),
+      0 1px 0 rgba(255, 255, 255, 0.2) inset;
   }
   50% {
     box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3),
-      0 0 15px rgba(16, 185, 129, 0.4);
+      0 0 15px rgba(16, 185, 129, 0.4), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
   }
 }
 
@@ -591,6 +699,15 @@
   }
 }
 
+@keyframes border-shine {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 @keyframes download-bounce {
   0%,
   100% {
@@ -601,7 +718,6 @@
   }
 }
 
-// Media queries
 @media (max-width: 768px) {
   .selector-container {
     max-width: none;
@@ -610,6 +726,20 @@
 
   .selector-content {
     padding: 1.25rem;
+
+    .wine-mode-header {
+      padding: 1.25rem 0.875rem;
+      margin-bottom: 1.5rem;
+
+      h2 {
+        font-size: 1.5rem;
+        margin-bottom: 0.4rem;
+      }
+
+      p {
+        font-size: 0.875rem;
+      }
+    }
 
     .selector-label {
       font-size: 0.9rem;
@@ -637,6 +767,14 @@
 
         &:not(.selected) {
           animation: gradient-rotate 3s ease-in-out infinite;
+        }
+
+        &:hover {
+          transform: translateZ(0) translateY(-5px) scale(1.03);
+        }
+
+        &:active {
+          transform: translateZ(0) translateY(-2px) scale(1.01);
         }
 
         .dropdown-trigger-content {
@@ -722,6 +860,20 @@
   .selector-content {
     padding: 1rem;
 
+    .wine-mode-header {
+      padding: 1rem 0.75rem;
+      margin-bottom: 1.25rem;
+
+      h2 {
+        font-size: 1.3rem;
+        margin-bottom: 0.35rem;
+      }
+
+      p {
+        font-size: 0.8rem;
+      }
+    }
+
     .document-loading {
       margin-bottom: 1rem;
     }
@@ -738,6 +890,14 @@
     .dropdown-container {
       .dropdown-trigger {
         padding: 0.75rem 0.875rem;
+
+        &:hover {
+          transform: translateZ(0) translateY(-4px) scale(1.02);
+        }
+
+        &:active {
+          transform: translateZ(0) translateY(-1px) scale(1.01);
+        }
 
         .dropdown-trigger-content {
           .service-info {

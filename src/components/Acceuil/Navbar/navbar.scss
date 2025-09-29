@@ -32,7 +32,7 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
+  z-index: 9999;
   backdrop-filter: blur(10px);
   background: var(--bg-black);
   border-bottom: 1px solid var(--border-light);
@@ -83,7 +83,7 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    z-index: 1001;
+    z-index: 10001;
   }
 
   &__brand-container {
@@ -219,7 +219,7 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    z-index: 1001;
+    z-index: 10001;
     flex-shrink: 0;
     position: relative;
 
@@ -252,7 +252,7 @@
     position: relative;
     overflow: hidden;
     flex-shrink: 0;
-    z-index: 1002;
+    z-index: 10002;
 
     &::before {
       content: "";
@@ -320,7 +320,7 @@
     transition: all 0.3s var(--transition-smooth);
     box-shadow: 0 2px 8px var(--shadow-light);
     flex-shrink: 0;
-    z-index: 1002;
+    z-index: 10002;
 
     &:hover {
       border-color: var(--text-light);
@@ -381,7 +381,7 @@
     height: 100vh;
     background: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(8px);
-    z-index: 999;
+    z-index: 9998;
     opacity: 0;
     visibility: hidden;
     transition: all 0.4s var(--transition-smooth);
@@ -401,7 +401,7 @@
     height: 100dvh;
     height: 100vh;
     background: var(--bg-black);
-    z-index: 1000;
+    z-index: 10000;
     transform: translateX(100%);
     transition: transform 0.4s var(--transition-smooth);
     display: flex;
@@ -538,24 +538,19 @@
     }
 
     &--reservation {
-      color: #000000 !important; // Texte noir pour le fond jaune
+      color: #000000 !important;
 
       &:hover {
-        color: #000000 !important; // Maintenir le texte noir au hover
-        background: rgba(
-          255,
-          213,
-          6,
-          0.9
-        ); // Fond jaune légèrement transparent au hover
+        color: #000000 !important;
+        background: rgba(255, 213, 6, 0.9);
 
         .navbar__mobile-link-line {
-          background-color: #000000; // Ligne noire au hover
+          background-color: #000000;
         }
       }
 
       .navbar__mobile-link-line {
-        background-color: #000000; // Ligne noire par défaut
+        background-color: #000000;
       }
     }
 
@@ -590,7 +585,7 @@
     position: relative;
     overflow: hidden;
     min-height: 60px;
-    z-index: 1001;
+    z-index: 10001;
 
     &::before {
       content: "";
@@ -742,7 +737,7 @@
   width: 100%;
   height: 3px;
   background: transparent;
-  z-index: 999;
+  z-index: 9999;
   overflow: hidden;
   transform: translateY(0);
   transition: opacity 0.3s ease-out, visibility 0.3s ease-out;

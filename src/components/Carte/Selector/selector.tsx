@@ -5,6 +5,7 @@ import {
   ChevronDown,
   Download,
   Calendar,
+  Wine,
 } from "lucide-react";
 import ReactGA from "react-ga4";
 import "./selector.scss";
@@ -25,6 +26,7 @@ interface SelectorProps {
   selectedMenu?: string;
   pageName?: string;
   onBackToHours?: () => void;
+  wineCardMode?: boolean;
 }
 
 const GA4_EVENTS = {
@@ -34,6 +36,20 @@ const GA4_EVENTS = {
   PDF_DOWNLOAD: "carte_pdf_download",
   PDF_ERROR: "carte_pdf_error",
   BACK_TO_HOURS: "carte_back_to_hours",
+  WINE_CARD_VIEW: "wine_card_direct_view",
+};
+
+const PAGE_6_REPLACEMENT_CONFIG = {
+  startMonth: 10,
+  startDay: 6,
+  startHour: 23,
+  startMinute: 59,
+  endMonth: 10,
+  endDay: 10,
+  endHour: 0,
+  endMinute: 0,
+  replacementUrl:
+    "https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/cartesurplace/foiredulivre.pdf",
 };
 
 const Selector: React.FC<SelectorProps> = ({
@@ -44,6 +60,7 @@ const Selector: React.FC<SelectorProps> = ({
   selectedMenu: parentSelectedMenu,
   pageName = "Unknown Page",
   onBackToHours,
+  wineCardMode = false,
 }) => {
   const [selectedMenu, setSelectedMenu] = useState<string>("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -54,6 +71,9 @@ const Selector: React.FC<SelectorProps> = ({
   const [imageLoadErrors, setImageLoadErrors] = useState<Set<string>>(
     new Set()
   );
+  // État pour savoir si on affiche les pages vins uniquement
+  const [showWinePagesOnly, setShowWinePagesOnly] = useState(false);
+
   const lastDropdownTime = useRef<number>(0);
   const dropdownDebounceMs = 1000;
   const containerRef = useRef<HTMLDivElement>(null);
@@ -62,15 +82,48 @@ const Selector: React.FC<SelectorProps> = ({
 
   const isMobile = () => window.innerWidth < 768;
 
+  const isInReplacementPeriod = (): boolean => {
+    const now = new Date();
+    const year = now.getFullYear();
+
+    const startDate = new Date(
+      year,
+      PAGE_6_REPLACEMENT_CONFIG.startMonth,
+      PAGE_6_REPLACEMENT_CONFIG.startDay,
+      PAGE_6_REPLACEMENT_CONFIG.startHour,
+      PAGE_6_REPLACEMENT_CONFIG.startMinute
+    );
+
+    const endDate = new Date(
+      year,
+      PAGE_6_REPLACEMENT_CONFIG.endMonth,
+      PAGE_6_REPLACEMENT_CONFIG.endDay,
+      PAGE_6_REPLACEMENT_CONFIG.endHour,
+      PAGE_6_REPLACEMENT_CONFIG.endMinute
+    );
+
+    return now >= startDate && now <= endDate;
+  };
+
   const getMenuImages = (menuType: string) => {
+    // Afficher seulement les pages 7 et 8 si showWinePagesOnly est true
+    if (showWinePagesOnly && menuType === "sur_place") {
+      return [
+        `https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/cartesurplace/surplacepage7.jpg`,
+        `https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/cartesurplace/surplacepage8.jpg`,
+      ];
+    }
+
     if (menuType === "sur_place") {
-      return Array.from(
-        { length: 11 },
-        (_, i) =>
-          `https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/cartesurplace/surplacepage${
-            i + 1
-          }.jpg`
-      );
+      const images = Array.from({ length: 11 }, (_, i) => {
+        if (i === 5 && isInReplacementPeriod()) {
+          return PAGE_6_REPLACEMENT_CONFIG.replacementUrl;
+        }
+        return `https://pub-c0cb6a1e942a4d729260f30a324399ae.r2.dev/Images%20Rosi/cartesurplace/surplacepage${
+          i + 1
+        }.jpg`;
+      });
+      return images;
     } else if (menuType === "a_emporter") {
       return Array.from(
         { length: 2 },
@@ -84,8 +137,28 @@ const Selector: React.FC<SelectorProps> = ({
   };
 
   const getTotalPages = (menuType: string) => {
+    if (showWinePagesOnly && menuType === "sur_place") {
+      return 2; // Seulement pages 7-8
+    }
     return menuType === "sur_place" ? 11 : 2;
   };
+
+  // Effect pour gérer le mode carte des vins au chargement initial UNIQUEMENT
+  useEffect(() => {
+    if (wineCardMode) {
+      ReactGA.event(GA4_EVENTS.WINE_CARD_VIEW, {
+        page_name: pageName,
+        source: "qr_code_redirect",
+      });
+
+      // Activer le mode pages vins seulement
+      setShowWinePagesOnly(true);
+
+      // Charger automatiquement le menu sur place avec les pages vins
+      setSelectedMenu("sur_place");
+      handleMenuLoad("sur_place", true);
+    }
+  }, [wineCardMode]);
 
   const handleBackToHours = () => {
     setSelectedMenu("");
@@ -93,7 +166,8 @@ const Selector: React.FC<SelectorProps> = ({
     setImagesLoaded(false);
     setIsLoading(false);
     setLoadingOffset(false);
-    setDropdownOpen(false); // Close dropdown when going back to hours
+    setDropdownOpen(false);
+    setShowWinePagesOnly(false); // Reset le mode pages vins
 
     if (loadingTimeoutRef.current) {
       clearTimeout(loadingTimeoutRef.current);
@@ -102,6 +176,7 @@ const Selector: React.FC<SelectorProps> = ({
     ReactGA.event(GA4_EVENTS.BACK_TO_HOURS, {
       page_name: pageName,
       previous_menu: selectedMenu,
+      wine_card_mode: wineCardMode,
     });
 
     if (onBackToHours) {
@@ -115,12 +190,11 @@ const Selector: React.FC<SelectorProps> = ({
     }
   };
 
-  const handleMenuLoad = (menuType: string) => {
-    const startTime = Date.now();
-
+  const handleMenuLoad = (menuType: string, isWineMode: boolean = false) => {
     ReactGA.event(GA4_EVENTS.MENU_SELECT, {
       page_name: pageName,
       menu_type: menuType === "sur_place" ? "dine_in" : "takeaway",
+      wine_card_mode: isWineMode,
     });
 
     setImagesLoaded(false);
@@ -141,7 +215,6 @@ const Selector: React.FC<SelectorProps> = ({
       onPdfToggle(true);
     }
 
-    // Précharger les images
     const images = getMenuImages(menuType);
     let loadedCount = 0;
     const totalImages = images.length;
@@ -154,7 +227,7 @@ const Selector: React.FC<SelectorProps> = ({
       }
     };
 
-    images.forEach((src, index) => {
+    images.forEach((src) => {
       const img = new Image();
       img.onload = () => {
         loadedCount++;
@@ -168,7 +241,6 @@ const Selector: React.FC<SelectorProps> = ({
       img.src = src;
     });
 
-    // Timeout de sécurité
     const loadingDelay = isMobile() ? 3000 : 2000;
     loadingTimeoutRef.current = setTimeout(() => {
       setIsLoading(false);
@@ -180,7 +252,9 @@ const Selector: React.FC<SelectorProps> = ({
   const handleMenuSelect = (menuType: string) => {
     setSelectedMenu(menuType);
     setDropdownOpen(false);
-    handleMenuLoad(menuType);
+    // Quand l'utilisateur sélectionne manuellement, désactiver le mode pages vins
+    setShowWinePagesOnly(false);
+    handleMenuLoad(menuType, false);
   };
 
   const handleDropdownToggle = () => {
@@ -193,6 +267,7 @@ const Selector: React.FC<SelectorProps> = ({
     if (!dropdownOpen) {
       ReactGA.event(GA4_EVENTS.DROPDOWN_OPEN, {
         page_name: pageName,
+        wine_card_mode: wineCardMode,
       });
     }
     setDropdownOpen(!dropdownOpen);
@@ -218,12 +293,13 @@ const Selector: React.FC<SelectorProps> = ({
     ) {
       setSelectedMenu(parentSelectedMenu);
       if (parentSelectedMenu) {
-        handleMenuLoad(parentSelectedMenu);
+        handleMenuLoad(parentSelectedMenu, false);
       } else {
         setImagesLoaded(false);
         setInternalShowPdf(false);
         setIsLoading(false);
         setLoadingOffset(false);
+        setShowWinePagesOnly(false);
         if (loadingTimeoutRef.current) {
           clearTimeout(loadingTimeoutRef.current);
         }
@@ -249,6 +325,7 @@ const Selector: React.FC<SelectorProps> = ({
         page_name: pageName,
         menu_type: selectedMenu === "sur_place" ? "dine_in" : "takeaway",
         num_pages: getTotalPages(selectedMenu),
+        wine_card_mode: showWinePagesOnly,
       });
     }
   }, [imagesLoaded, isLoading, internalShowPdf, selectedMenu, pageName]);
@@ -262,6 +339,11 @@ const Selector: React.FC<SelectorProps> = ({
   }, []);
 
   const getPdfFile = () => {
+    // Si on est en mode carte des vins, retourner le PDF de la carte des vins
+    if (showWinePagesOnly && selectedMenu === "sur_place") {
+      return "/cartedesvins.pdf";
+    }
+
     if (selectedMenu === "sur_place") {
       return "/carterositrattoria.pdf";
     } else if (selectedMenu === "a_emporter") {
@@ -274,16 +356,23 @@ const Selector: React.FC<SelectorProps> = ({
     ReactGA.event(GA4_EVENTS.PDF_DOWNLOAD, {
       page_name: pageName,
       menu_type: selectedMenu === "sur_place" ? "dine_in" : "takeaway",
+      wine_card_mode: showWinePagesOnly,
     });
 
     const pdfFile = getPdfFile();
     if (pdfFile) {
       const link = document.createElement("a");
       link.href = pdfFile;
-      link.download =
-        selectedMenu === "sur_place"
-          ? "Carte-Restaurant-Sur-Place.pdf"
-          : "Carte-Restaurant-A-Emporter.pdf";
+
+      // Nom du fichier selon le mode
+      if (showWinePagesOnly && selectedMenu === "sur_place") {
+        link.download = "Carte-des-Vins.pdf";
+      } else if (selectedMenu === "sur_place") {
+        link.download = "Carte-Restaurant-Sur-Place.pdf";
+      } else {
+        link.download = "Carte-Restaurant-A-Emporter.pdf";
+      }
+
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -335,7 +424,7 @@ const Selector: React.FC<SelectorProps> = ({
             >
               <img
                 src={imageSrc}
-                alt={`Menu page ${index + 1}`}
+                alt={`Menu page ${showWinePagesOnly ? index + 7 : index + 1}`}
                 className="menu-page-image"
                 loading="lazy"
               />
@@ -349,14 +438,21 @@ const Selector: React.FC<SelectorProps> = ({
   const selectedMenuInfo = getSelectedMenuInfo();
 
   return (
-    <div className={`selector-container ${className || ""}`} ref={containerRef}>
+    <div
+      className={`selector-container ${className || ""} ${
+        wineCardMode ? "wine-card-mode" : ""
+      }`}
+      ref={containerRef}
+    >
       <div className="selector-content">
         {selectedMenu && isLoading && (
           <div className="document-loading">
             <div className="loading-content">
               <div className="loading-spinner"></div>
               <span className="loading-announcement">
-                Chargement du menu en cours...
+                Chargement{" "}
+                {showWinePagesOnly ? "de la carte des vins" : "du menu"} en
+                cours...
                 <br />
                 <small>
                   Nous préparons votre carte, merci de patienter un instant
@@ -377,13 +473,17 @@ const Selector: React.FC<SelectorProps> = ({
                   <selectedMenuInfo.icon className="service-icon" size={20} />
                   <div className="service-info">
                     <span className="service-label">
-                      {selectedMenuInfo.label}
+                      {showWinePagesOnly && selectedMenu === "sur_place"
+                        ? "Carte des Vins"
+                        : selectedMenuInfo.label}
                     </span>
                     <span className="service-description">
-                      {selectedMenuInfo.description}
+                      {showWinePagesOnly && selectedMenu === "sur_place"
+                        ? "Notre sélection de vins"
+                        : selectedMenuInfo.description}
                     </span>
                   </div>
-                  {selectedMenuInfo.hasDiscount && (
+                  {selectedMenuInfo.hasDiscount && !showWinePagesOnly && (
                     <span className="discount-badge">Tarifs réduits</span>
                   )}
                 </>
@@ -423,7 +523,6 @@ const Selector: React.FC<SelectorProps> = ({
               </div>
             ))}
 
-            {/* Option "Afficher les horaires" uniquement si un menu est sélectionné */}
             {selectedMenu && (
               <div
                 className="dropdown-option show-hours-option"
@@ -441,7 +540,6 @@ const Selector: React.FC<SelectorProps> = ({
           </div>
         </div>
 
-        {/* Section de téléchargement PDF - MOVED BELOW DROPDOWN */}
         {selectedMenu && !isLoading && internalShowPdf && (
           <div className="download-section">
             <button className="download-button" onClick={handleDownloadPdf}>

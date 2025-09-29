@@ -251,6 +251,10 @@ function generateHtaccess() {
   return `# Configuration optimisée pour Rosi Trattoria sur IONOS
 RewriteEngine On
 
+# Redirection des anciens QR codes vers la carte des vins
+RewriteCond %{REQUEST_URI} ^/ressources/carterositrattoria\.pdf$ [NC]
+RewriteRule ^.*$ /carte/?wine=1 [R=301,L]
+
 # Force HTTPS pour sécurité et SEO
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
