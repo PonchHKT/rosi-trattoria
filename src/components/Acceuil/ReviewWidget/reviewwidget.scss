@@ -1,3 +1,6 @@
+// Import du module color de Sass
+@use "sass:color";
+
 // Variables - Thème Sombre
 $brand-green: #00af87;
 $google-blue: #4285f4;
@@ -186,7 +189,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
       }
 
       &.hovered {
-        color: lighten($google-yellow, 10%);
+        color: color.scale($google-yellow, $lightness: 15%);
       }
     }
   }
@@ -207,7 +210,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
       }
 
       &.hovered {
-        color: lighten($tripadvisor-green, 10%);
+        color: color.scale($tripadvisor-green, $lightness: 15%);
       }
     }
   }
@@ -228,7 +231,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
       }
 
       &.hovered {
-        color: lighten($google-yellow, 10%);
+        color: color.scale($google-yellow, $lightness: 15%);
       }
     }
   }
@@ -256,11 +259,11 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
 
       &.hovered {
         &.google {
-          color: lighten($google-yellow, 10%);
+          color: color.scale($google-yellow, $lightness: 15%);
         }
 
         &.tripadvisor {
-          color: lighten($tripadvisor-green, 10%);
+          color: color.scale($tripadvisor-green, $lightness: 15%);
         }
       }
     }
@@ -272,9 +275,8 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
     padding: 0;
     overflow: hidden;
     width: 100%;
-    height: auto !important; // Override any fixed height
+    height: auto !important;
 
-    // Ensure proper height adaptation
     &:after {
       content: "";
       display: block;
@@ -283,22 +285,20 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
   }
 
   .keen-slider {
-    overflow: visible !important; // Allow content to dictate height
+    overflow: visible !important;
     max-width: 100%;
-    height: auto !important; // Dynamic height
+    height: auto !important;
     display: flex;
-    align-items: flex-start; // Align to top to avoid stretching
-    min-height: 0 !important; // Prevent minimum height constraints
-    transition: height 0.3s ease; // Smooth height transitions
+    align-items: flex-start;
+    min-height: 0 !important;
+    transition: height 0.3s ease;
 
-    // Multiple approaches to override height
     &[style*="height"],
     &[style*="Height"],
     &.keen-slider[style] {
       height: auto !important;
     }
 
-    // Force height to be auto always
     &::after {
       content: "";
       display: block;
@@ -307,7 +307,6 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
     }
   }
 
-  // High specificity override
   .review-widget .keen-slider[style] {
     height: auto !important;
   }
@@ -317,12 +316,11 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
     justify-content: center;
     align-items: flex-start;
     max-width: 100%;
-    height: auto !important; // Force dynamic height
-    min-height: 0 !important; // Remove minimum height
-    flex: 0 0 100%; // Full width per slide
-    overflow: visible !important; // Ensure content isn't clipped
+    height: auto !important;
+    min-height: 0 !important;
+    flex: 0 0 100%;
+    overflow: visible !important;
 
-    // Force content to determine height
     & > * {
       width: 100%;
       height: auto !important;
@@ -344,11 +342,9 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
     margin: 0 auto;
     box-shadow: $shadow-subtle;
     border: 1px solid $border-color;
-    height: auto !important; // Dynamic height
-    min-height: 0 !important; // Remove minimum height
-    overflow: visible; // Ensure content isn't clipped
-
-    // Ensure the review item fits its content exactly
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible;
     align-self: flex-start;
     flex-shrink: 0;
 
@@ -393,7 +389,7 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
             }
 
             &.hovered {
-              color: lighten($google-yellow, 10%);
+              color: color.scale($google-yellow, $lightness: 15%);
             }
           }
         }
@@ -410,9 +406,9 @@ $shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
       word-break: break-word;
       width: 100%;
       padding: 0 16px;
-      max-height: none !important; // Remove height restrictions
-      height: auto !important; // Dynamic height
-      overflow: visible !important; // Prevent clipping
+      max-height: none !important;
+      height: auto !important;
+      overflow: visible !important;
 
       &::before {
         content: '"';

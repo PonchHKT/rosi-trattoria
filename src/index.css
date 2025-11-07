@@ -17,7 +17,7 @@
   --accent-blue: #75b9f9;
   /* Scrollbar specific variables */
   --scrollbar-width: 12px;
-  --scrollbar-track: black;
+  --scrollbar-track: transparent;
   --scrollbar-thumb: var(--primary-pink);
   --scrollbar-thumb-hover: #ff1e8b;
   --scrollbar-thumb-active: black;
@@ -27,8 +27,12 @@
 html {
   font-size: 16px;
   scroll-behavior: smooth;
-  scrollbar-width: thin;
-  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE et Edge */
+}
+
+html::-webkit-scrollbar {
+  display: none; /* Chrome, Safari et Opera */
 }
 
 body {
@@ -39,6 +43,12 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE et Edge */
+}
+
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari et Opera */
 }
 
 /* Custom Scrollbar Styles */
@@ -46,6 +56,7 @@ body {
 ::-webkit-scrollbar {
   width: var(--scrollbar-width);
   height: var(--scrollbar-width);
+  display: none; /* Masquer par défaut */
 }
 
 ::-webkit-scrollbar-track {
@@ -142,11 +153,11 @@ ol {
 a {
   text-decoration: none;
   color: var(--primary-blue);
+}
 
-  &:hover {
-    color: var(--primary-pink);
-    transition: color 0.3s ease;
-  }
+a:hover {
+  color: var(--primary-pink);
+  transition: color 0.3s ease;
 }
 
 /* Ensure images are responsive */

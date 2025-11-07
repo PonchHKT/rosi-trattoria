@@ -4,7 +4,6 @@ import { X, Phone } from "lucide-react";
 import ReactGA from "react-ga4";
 import "./navbar.scss";
 
-// Configuration des événements GA4 pour Navbar
 const GA4_EVENTS = {
   MENU_TOGGLE: "navbar_menu_toggle",
   LINK_CLICK: "navbar_link_click",
@@ -13,7 +12,6 @@ const GA4_EVENTS = {
   RESERVATION_CLICK: "navbar_reservation_click",
 };
 
-// Composant LoadingBar
 const LoadingBar = ({
   isLoading = false,
   progress = 0,
@@ -30,7 +28,6 @@ const LoadingBar = ({
       setCurrentProgress(0);
 
       if (autoProgress) {
-        // Animation automatique avec progression plus fluide
         const startTime = Date.now();
         const interval = setInterval(() => {
           const elapsed = Date.now() - startTime;
@@ -45,15 +42,13 @@ const LoadingBar = ({
               setCurrentProgress(0);
             }, 200);
           }
-        }, 16); // ~60fps
+        }, 16);
 
         return () => clearInterval(interval);
       } else {
-        // Progression manuelle
         setCurrentProgress(progress);
       }
     } else {
-      // Terminer immédiatement si isLoading devient false
       setCurrentProgress(100);
       setTimeout(() => {
         setIsVisible(false);
@@ -91,18 +86,86 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isIntersectingBiographie, setIsIntersectingBiographie] =
+    useState(false);
+  const [hasBiographieTitle, setHasBiographieTitle] = useState(false);
   const location = useLocation();
   const lastToggleTime = useRef(0);
   const toggleDebounceMs = 300;
+  const navbarRef = useRef<HTMLElement>(null);
 
-  // Fermer le menu si on change de page
+  // Détecter si la page actuelle contient le titre de Biographie1
+  useEffect(() => {
+    const checkBiographieTitle = () => {
+      const biographieTitle = document.querySelector(".biographie__title");
+      setHasBiographieTitle(!!biographieTitle);
+
+      // Si pas de titre Biographie, la navbar reste noire
+      if (!biographieTitle) {
+        setIsIntersectingBiographie(true);
+      } else {
+        setIsIntersectingBiographie(false);
+      }
+    };
+
+    // Vérifier immédiatement
+    checkBiographieTitle();
+
+    // Revérifier après un micro-délai si le DOM n'était pas prêt
+    const timer = setTimeout(checkBiographieTitle, 10);
+
+    return () => clearTimeout(timer);
+  }, [location.pathname]);
+
+  // Observer ET scroll listener pour détection instantanée
+  useEffect(() => {
+    if (!hasBiographieTitle) return;
+
+    const biographieTitle = document.querySelector(".biographie__title");
+    if (!biographieTitle) return;
+
+    const checkPosition = () => {
+      const navbarHeight = navbarRef.current?.offsetHeight || 80;
+      const titleTop = biographieTitle.getBoundingClientRect().top;
+
+      // Active le fond noir avec une marge anticipée de 20px
+      setIsIntersectingBiographie(titleTop <= navbarHeight + 20);
+    };
+
+    // Vérifier immédiatement
+    checkPosition();
+
+    // Utiliser à la fois l'IntersectionObserver ET un scroll listener
+    const observer = new IntersectionObserver(
+      () => {
+        checkPosition();
+      },
+      {
+        threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
+        rootMargin: "100px 0px 0px 0px", // Anticiper de 100px vers le haut
+      }
+    );
+
+    // Scroll listener pour une détection ultra-réactive
+    const handleScroll = () => {
+      requestAnimationFrame(checkPosition);
+    };
+
+    observer.observe(biographieTitle);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [location.pathname, hasBiographieTitle]);
+
   useEffect(() => {
     if (isOpen) {
       setIsOpen(false);
     }
   }, [location.pathname]);
 
-  // Empêcher le scroll du body quand le menu est ouvert
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -120,11 +183,9 @@ const Navbar = () => {
     };
   }, [isOpen, isAnimating]);
 
-  // Déclencher le loading bar lors des changements de page
   useEffect(() => {
     setIsLoading(true);
 
-    // Simuler un délai de chargement de page
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 1200);
@@ -141,7 +202,6 @@ const Navbar = () => {
 
     setIsOpen((prev) => !prev);
 
-    // Track menu events
     ReactGA.event(GA4_EVENTS.MENU_TOGGLE, {
       page_name: location.pathname,
       menu_state: isOpen ? "close" : "open",
@@ -180,20 +240,18 @@ const Navbar = () => {
   const handlePhoneCall = () => {
     ReactGA.event(GA4_EVENTS.PHONE_CLICK, {
       page_name: location.pathname,
-      phone_number: "0544314447",
+      phone_number: "0458177050",
     });
 
-    window.location.href = "tel:0544314447";
+    window.location.href = "tel:0458177050";
   };
 
-  // Fermer le menu si on clique sur l'overlay
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       closeMenu();
     }
   };
 
-  // Gestion des touches clavier
   const handleKeyDown = (e: KeyboardEvent) => {
     if (e.key === "Escape" && isOpen) {
       closeMenu();
@@ -236,7 +294,6 @@ const Navbar = () => {
   ];
 
   const isActiveLink = (path: string) => {
-    // Ne jamais afficher "Accueil" comme actif
     if (path === "/") {
       return false;
     }
@@ -245,7 +302,13 @@ const Navbar = () => {
 
   return (
     <>
-      <header role="banner" className="navbar-header">
+      <header
+        ref={navbarRef}
+        role="banner"
+        className={`navbar-header ${
+          isIntersectingBiographie ? "navbar-header--black" : ""
+        }`}
+      >
         <nav
           className="navbar"
           role="navigation"
@@ -274,7 +337,6 @@ const Navbar = () => {
               </div>
             </div>
 
-            {/* Navigation desktop */}
             <div className="navbar__desktop-nav">
               <ul className="navbar__nav-list" role="menubar">
                 {navItems.map((item, index) => (
@@ -300,12 +362,26 @@ const Navbar = () => {
               </ul>
             </div>
 
-            {/* Contrôles mobiles */}
+            <div className="navbar__desktop-phone">
+              <a
+                href="tel:0458177050"
+                className="navbar__desktop-phone-link"
+                onClick={handlePhoneCall}
+                aria-label="Appeler le restaurant au 04 58 17 70 50"
+                title="Téléphoner pour réserver une table"
+              >
+                <Phone size={18} aria-hidden="true" />
+                <span className="navbar__desktop-phone-number">
+                  04 58 17 70 50
+                </span>
+              </a>
+            </div>
+
             <div className="navbar__mobile-controls">
               <button
                 className="navbar__phone-btn"
                 onClick={handlePhoneCall}
-                aria-label="Appeler le restaurant Rosi Trattoria au 05 44 31 44 47"
+                aria-label="Appeler le restaurant Rosi Trattoria au 04 58 17 70 50"
                 title="Téléphoner pour réserver une table"
                 type="button"
               >
@@ -334,7 +410,6 @@ const Navbar = () => {
           </div>
         </nav>
 
-        {/* Barre de chargement - Positionnée en bas de la navbar */}
         <LoadingBar
           isLoading={isLoading}
           autoProgress={true}
@@ -343,14 +418,12 @@ const Navbar = () => {
         />
       </header>
 
-      {/* Overlay avec effet de flou */}
       <div
         className={`navbar__overlay ${isOpen ? "navbar__overlay--open" : ""}`}
         onClick={handleOverlayClick}
         aria-hidden="true"
       />
 
-      {/* Menu mobile full-screen */}
       <div
         id="navbar-mobile-menu"
         className={`navbar__mobile-menu ${
@@ -407,7 +480,6 @@ const Navbar = () => {
               </li>
             ))}
 
-            {/* Lien Réservation en dernier avec background jaune */}
             <li
               className="navbar__mobile-item"
               role="none"

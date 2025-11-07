@@ -9,10 +9,9 @@
   justify-content: flex-start;
   background: black;
 
-  // Placeholder pour éviter l'écran noir - optimisé pour LCP
   .video-placeholder {
     position: absolute;
-    top: -100px;
+    top: -162px;
     height: calc(100% + 200px);
     left: 0;
     width: 100%;
@@ -25,13 +24,12 @@
     opacity: 1;
     transition: opacity 0.5s ease-out;
     will-change: opacity;
-    // Préchargement critique pour LCP
     background-image: var(--poster-url);
   }
 
   .background-video {
     position: absolute;
-    top: -100px;
+    top: -165px;
     height: calc(100% + 200px);
     left: 0;
     width: 100%;
@@ -51,20 +49,21 @@
     }
   }
 
-  // Effet fade vers le noir en bas
   &::after {
     content: "";
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 200px;
+    height: 400px;
     background: linear-gradient(
       to top,
       rgba(0, 0, 0, 1) 0%,
-      rgba(0, 0, 0, 0.8) 20%,
-      rgba(0, 0, 0, 0.4) 50%,
-      rgba(0, 0, 0, 0.1) 80%,
+      rgba(0, 0, 0, 0.95) 15%,
+      rgba(0, 0, 0, 0.85) 30%,
+      rgba(0, 0, 0, 0.6) 50%,
+      rgba(0, 0, 0, 0.3) 70%,
+      rgba(0, 0, 0, 0.1) 85%,
       rgba(0, 0, 0, 0) 100%
     );
     z-index: 3;
@@ -84,7 +83,6 @@
       opacity: 0.95;
       will-change: transform;
       backface-visibility: hidden;
-      // Optimisation LCP pour le logo
       transform: translateZ(0);
       image-rendering: -webkit-optimize-contrast;
       image-rendering: crisp-edges;
@@ -100,7 +98,6 @@
     margin-left: 4rem;
     color: white;
     contain: layout style;
-    // Optimisation critique pour LCP
     transform: translateZ(0);
     backface-visibility: hidden;
 
@@ -115,31 +112,17 @@
       text-rendering: optimizeLegibility;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-
-      // OPTIMISATIONS CRITIQUES POUR LCP
       line-height: 1.1;
       margin: 0 0 1.5rem 0;
       padding: 0;
-
-      // Préchargement des polices critiques
       font-feature-settings: "kern" 1;
       font-kerning: auto;
-
-      // Optimisation GPU pour un rendu plus rapide
       transform: translateZ(0);
       backface-visibility: hidden;
-
-      // Éviter les repaint/reflow
       will-change: auto;
-
-      // Amélioration de la performance de rendu
       text-size-adjust: 100%;
       -webkit-text-size-adjust: 100%;
-
-      // Fallback pour le chargement des polices
       font-synthesis: weight style;
-
-      // Optimisation de l'affichage du texte
       white-space: nowrap;
       overflow: visible;
 
@@ -161,7 +144,6 @@
       margin-bottom: 2.5rem;
       line-height: 1;
       letter-spacing: 0.01em;
-      // Optimisation rendu
       transform: translateZ(0);
       backface-visibility: hidden;
 
@@ -171,7 +153,6 @@
         color: #ffffff;
         filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
         flex-shrink: 0;
-        // Optimisation SVG
         shape-rendering: geometricPrecision;
       }
 
@@ -185,7 +166,6 @@
       display: flex;
       gap: 1.2rem;
       flex-wrap: wrap;
-      // Optimisation rendu
       transform: translateZ(0);
       backface-visibility: hidden;
 
@@ -217,7 +197,6 @@
         box-sizing: border-box;
         will-change: transform;
         backface-visibility: hidden;
-        // Optimisation interactions
         transform: translateZ(0);
 
         &:hover {
@@ -274,7 +253,6 @@
           height: 1.2rem;
           color: white;
           flex-shrink: 0;
-          // Optimisation image
           image-rendering: -webkit-optimize-contrast;
         }
 
@@ -286,10 +264,9 @@
     }
   }
 
-  // MEDIA QUERIES OPTIMISÉES
   @media (max-width: 768px) {
     &::after {
-      height: 150px;
+      height: 300px;
     }
 
     .logo-container {
@@ -311,14 +288,11 @@
         font-size: 2rem;
         margin-bottom: 1.25rem;
         min-height: 80px;
-        // Optimisation mobile critique pour LCP
         line-height: 1.2;
         white-space: normal;
         word-break: keep-all;
         overflow-wrap: break-word;
         hyphens: auto;
-
-        // Amélioration de la lisibilité mobile
         text-align: left;
         max-width: 100%;
       }
@@ -365,7 +339,7 @@
 
   @media (max-width: 480px) {
     &::after {
-      height: 120px;
+      height: 250px;
     }
 
     .content {
@@ -376,7 +350,6 @@
       .slogan {
         font-size: 2rem;
         min-height: 60px;
-        // Optimisation petits écrans
         line-height: 1.15;
         letter-spacing: -0.01em;
       }
@@ -417,7 +390,6 @@
     }
   }
 
-  // OPTIMISATIONS POUR LA PERFORMANCE
   @media (prefers-reduced-motion: reduce) {
     .background-video.loaded,
     .video-placeholder {
@@ -436,7 +408,6 @@
     }
   }
 
-  // Optimisation pour les écrans haute densité
   @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
     .logo {
       image-rendering: -webkit-optimize-contrast;
@@ -444,7 +415,6 @@
     }
   }
 
-  // Optimisation pour les connexions lentes
   @media (prefers-reduced-data: reduce) {
     .background-video {
       display: none;
@@ -456,13 +426,10 @@
   }
 }
 
-// OPTIMISATIONS GLOBALES POUR LCP
 .home-video-section * {
-  // Éviter les repaint/reflow
   box-sizing: border-box;
 }
 
-// Préchargement critique des polices
 @font-face {
   font-family: "Pacifico";
   font-display: swap;
@@ -477,7 +444,6 @@
   src: local("Inter"), local("Inter-Regular");
 }
 
-// Variables CSS pour une meilleure performance
 :root {
   --poster-url: "";
   --primary-color: #ffd506;

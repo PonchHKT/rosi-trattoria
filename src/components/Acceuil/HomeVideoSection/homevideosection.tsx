@@ -8,7 +8,6 @@ interface HomeVideoSectionProps {
   pageName?: string;
 }
 
-// Événements GA4 optimisés avec convention snake_case
 const GA4_EVENTS = {
   VIDEO_ENGAGEMENT: "accueil_video_engagement",
   PAGE_SCROLL_PAST_HERO: "accueil_section_scroll_past",
@@ -28,8 +27,6 @@ const HomeVideoSection: React.FC<HomeVideoSectionProps> = ({
   const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isIntersecting, setIsIntersecting] = useState(false);
-
-  // États pour tracking optimisé
   const [hasTrackedVideoEngagement, setHasTrackedVideoEngagement] =
     useState(false);
   const [hasTrackedScrollPast, setHasTrackedScrollPast] = useState(false);
@@ -37,63 +34,20 @@ const HomeVideoSection: React.FC<HomeVideoSectionProps> = ({
 
   const navigate = useNavigate();
 
-  // Configuration Cloudinary
   const CLOUDINARY_CONFIG = {
     cloudName: "dc5jx2yo7",
     publicId: "nlqz6yqlcffaf4h5mudk",
   };
 
-  const getCloudinaryVideoUrl = useCallback(
-    (format: string = "mp4", quality: string = "auto") => {
-      const width = isMobile ? "1080" : "1920";
-      const height = isMobile ? "607" : "1080";
-
-      const transformations = [
-        "f_" + format,
-        "q_" + quality,
-        `w_${width}`,
-        `h_${height}`,
-        "c_fill",
-        "g_center",
-        "e_brightness:15",
-        "fl_immutable_cache",
-      ];
-
-      return `https://res.cloudinary.com/${
-        CLOUDINARY_CONFIG.cloudName
-      }/video/upload/${transformations.join(",")}/${
-        CLOUDINARY_CONFIG.publicId
-      }.${format}`;
-    },
-    [isMobile]
-  );
+  const getCloudinaryVideoUrl = useCallback((format: string = "mp4") => {
+    return `https://res.cloudinary.com/${CLOUDINARY_CONFIG.cloudName}/video/upload/e_brightness:25,q_auto:best/${CLOUDINARY_CONFIG.publicId}.${format}`;
+  }, []);
 
   const getCloudinaryPosterUrl = useCallback(() => {
-    const width = isMobile ? "1080" : "1920";
-    const height = isMobile ? "607" : "1080";
+    return `https://res.cloudinary.com/${CLOUDINARY_CONFIG.cloudName}/video/upload/e_brightness:25,q_auto:best,so_0/${CLOUDINARY_CONFIG.publicId}.jpg`;
+  }, []);
 
-    const transformations = [
-      "f_jpg",
-      "q_auto:good",
-      `w_${width}`,
-      `h_${height}`,
-      "c_fill",
-      "g_center",
-      "e_brightness:30",
-      "fl_immutable_cache",
-      "so_0",
-    ];
-
-    return `https://res.cloudinary.com/${
-      CLOUDINARY_CONFIG.cloudName
-    }/video/upload/${transformations.join(",")}/${
-      CLOUDINARY_CONFIG.publicId
-    }.jpg`;
-  }, [isMobile]);
-
-  // Détection mobile optimisée - synchrone au premier rendu
   useEffect(() => {
-    // Détection immédiate au premier rendu
     setIsMobile(window.innerWidth <= 768);
 
     const checkMobile = () => {
@@ -110,14 +64,12 @@ const HomeVideoSection: React.FC<HomeVideoSectionProps> = ({
     }
   }, []);
 
-  // Intersection Observer pour engagement vidéo - ne bloque pas le rendu initial
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsIntersecting(true);
 
-          // Démarrer timer d'engagement
           if (!hasTrackedVideoEngagement) {
             engagementTimerRef.current = setTimeout(() => {
               ReactGA.event(GA4_EVENTS.VIDEO_ENGAGEMENT, {
@@ -138,7 +90,6 @@ const HomeVideoSection: React.FC<HomeVideoSectionProps> = ({
       }
     );
 
-    // Utiliser un timeout pour éviter de bloquer le premier rendu
     const timeoutId = setTimeout(() => {
       const currentElement = document.querySelector(".home-video-section");
       if (currentElement) {
@@ -155,16 +106,14 @@ const HomeVideoSection: React.FC<HomeVideoSectionProps> = ({
     };
   }, [hasTrackedVideoEngagement, pageName, isMobile]);
 
-  // Chargement différé de la vidéo - ne bloque pas le contenu principal
   useEffect(() => {
     if (isIntersecting) {
-      const delay = isMobile ? 500 : 1000; // Délai plus long pour permettre au contenu de se charger
+      const delay = isMobile ? 500 : 1000;
       const timer = setTimeout(() => setShouldLoadVideo(true), delay);
       return () => clearTimeout(timer);
     }
   }, [isIntersecting, isMobile]);
 
-  // Gestion des événements vidéo
   const handleVideoLoad = useCallback(() => {
     setIsVideoLoaded(true);
   }, []);
@@ -178,7 +127,6 @@ const HomeVideoSection: React.FC<HomeVideoSectionProps> = ({
     });
   }, [pageName, isMobile]);
 
-  // Logique vidéo différée
   useEffect(() => {
     if (!shouldLoadVideo) return;
 
@@ -212,7 +160,6 @@ const HomeVideoSection: React.FC<HomeVideoSectionProps> = ({
     };
   }, [shouldLoadVideo, handleVideoLoad, handleVideoError]);
 
-  // Actions utilisateur avec tracking optimisé
   const handleDistributorClick = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
@@ -265,7 +212,6 @@ const HomeVideoSection: React.FC<HomeVideoSectionProps> = ({
     setIsModalOpen(false);
   }, []);
 
-  // Tracking scroll optimisé avec debounce
   useEffect(() => {
     let scrollTimeout: NodeJS.Timeout;
 
@@ -293,7 +239,6 @@ const HomeVideoSection: React.FC<HomeVideoSectionProps> = ({
       }, 150);
     };
 
-    // Délai pour éviter d'impacter le rendu initial
     const timeoutId = setTimeout(() => {
       window.addEventListener("scroll", handleScroll, { passive: true });
     }, 1000);
@@ -305,12 +250,10 @@ const HomeVideoSection: React.FC<HomeVideoSectionProps> = ({
     };
   }, [pageName, isMobile, hasTrackedScrollPast]);
 
-  // Calculer le mobile status directement pour éviter les re-rendus
   const isMobileDevice = window.innerWidth <= 768;
 
   return (
     <section className="home-video-section">
-      {/* Arrière-plan statique - toujours visible pour LCP */}
       <div
         className="video-placeholder"
         style={{
@@ -319,7 +262,6 @@ const HomeVideoSection: React.FC<HomeVideoSectionProps> = ({
         }}
       />
 
-      {/* Logo - priorité élevée pour LCP */}
       <div className="logo-container">
         <img
           src="/images/logo/rositrattorialogo.png"
@@ -333,7 +275,6 @@ const HomeVideoSection: React.FC<HomeVideoSectionProps> = ({
         />
       </div>
 
-      {/* Contenu principal - rendu immédiat sans conditions */}
       <div className="content">
         <h1 className="slogan">
           {isMobileDevice ? (
@@ -417,7 +358,6 @@ const HomeVideoSection: React.FC<HomeVideoSectionProps> = ({
         </nav>
       </div>
 
-      {/* Vidéo chargée en différé */}
       {shouldLoadVideo && (
         <video
           ref={videoRef}
@@ -430,20 +370,8 @@ const HomeVideoSection: React.FC<HomeVideoSectionProps> = ({
           poster={getCloudinaryPosterUrl()}
           aria-label="Vidéo de présentation du restaurant Rosi Trattoria"
         >
-          <source
-            src={getCloudinaryVideoUrl(
-              "mp4",
-              isMobile ? "auto:low" : "auto:good"
-            )}
-            type="video/mp4"
-          />
-          <source
-            src={getCloudinaryVideoUrl(
-              "webm",
-              isMobile ? "auto:low" : "auto:good"
-            )}
-            type="video/webm"
-          />
+          <source src={getCloudinaryVideoUrl("mp4")} type="video/mp4" />
+          <source src={getCloudinaryVideoUrl("webm")} type="video/webm" />
           <p>
             Découvrez l'ambiance chaleureuse de Rosi Trattoria, votre restaurant
             italien bio situé à Brive-la-Gaillarde. Une cuisine authentique dans

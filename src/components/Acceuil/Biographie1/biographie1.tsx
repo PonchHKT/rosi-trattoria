@@ -51,6 +51,7 @@ const Biographie1: React.FC = () => {
 
   return (
     <section
+      id="biographie-section"
       className={`biographie ${isVisible ? "is-visible" : ""}`}
       ref={sectionRef}
       aria-labelledby="biographie-main-title"
