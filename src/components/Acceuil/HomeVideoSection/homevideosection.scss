@@ -1,3 +1,17 @@
+.snowfall-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  overflow: hidden;
+  pointer-events: none;
+
+  :global(.snowfall-container *) {
+    position: absolute !important;
+  }
+}
 .home-video-section {
   position: relative;
   width: 100vw;
@@ -8,6 +22,21 @@
   align-items: center;
   justify-content: flex-start;
   background: black;
+
+  .snowfall-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    overflow: hidden;
+    pointer-events: none;
+
+    :global(.snowfall-container *) {
+      position: absolute !important;
+    }
+  }
 
   .video-placeholder {
     position: absolute;
@@ -71,10 +100,11 @@
   }
 
   .logo-container {
+    padding-top: 25px;
     position: absolute;
-    top: 6rem;
+    top: 7rem;
     right: 2rem;
-    z-index: 4;
+    z-index: 6;
 
     .logo {
       width: 200px;
@@ -93,7 +123,7 @@
     margin-top: 100px;
     padding-left: 10px;
     position: relative;
-    z-index: 4;
+    z-index: 6;
     max-width: 1400px;
     margin-left: 4rem;
     color: white;
@@ -406,6 +436,10 @@
         transform: none;
       }
     }
+
+    .snowfall-container {
+      display: none;
+    }
   }
 
   @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
@@ -422,6 +456,10 @@
 
     .video-placeholder {
       opacity: 1 !important;
+    }
+
+    .snowfall-container {
+      display: none;
     }
   }
 }

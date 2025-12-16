@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { X, Phone } from "lucide-react";
+import { X, Phone, Calendar } from "lucide-react";
 import ReactGA from "react-ga4";
 import "./navbar.scss";
 
@@ -78,6 +78,45 @@ const LoadingBar = ({
         className="loading-bar__progress"
         style={{ width: `${Math.min(currentProgress, 100)}%` }}
       />
+    </div>
+  );
+};
+
+const ClosureBanner = () => {
+  return (
+    <div className="closure-banner">
+      <div className="closure-banner__track">
+        <div className="closure-banner__content">
+          <span className="closure-banner__text">
+            Fermés pour congés annuels du <strong>4 au 26 janvier 2026</strong>
+          </span>
+          <span className="closure-banner__separator">•</span>
+          <span className="closure-banner__text">
+            Réouverture le <strong>mardi 27 janvier à 18h00</strong>
+          </span>
+          <span className="closure-banner__separator">•</span>
+        </div>
+        <div className="closure-banner__content" aria-hidden="true">
+          <span className="closure-banner__text">
+            Fermés pour congés annuels du <strong>4 au 26 janvier 2026</strong>
+          </span>
+          <span className="closure-banner__separator">•</span>
+          <span className="closure-banner__text">
+            Réouverture le <strong>mardi 27 janvier à 18h00</strong>
+          </span>
+          <span className="closure-banner__separator">•</span>
+        </div>
+        <div className="closure-banner__content" aria-hidden="true">
+          <span className="closure-banner__text">
+            Fermés pour congés annuels du <strong>4 au 26 janvier 2026</strong>
+          </span>
+          <span className="closure-banner__separator">•</span>
+          <span className="closure-banner__text">
+            Réouverture le <strong>mardi 27 janvier à 18h00</strong>
+          </span>
+          <span className="closure-banner__separator">•</span>
+        </div>
+      </div>
     </div>
   );
 };
@@ -240,10 +279,10 @@ const Navbar = () => {
   const handlePhoneCall = () => {
     ReactGA.event(GA4_EVENTS.PHONE_CLICK, {
       page_name: location.pathname,
-      phone_number: "0458177050",
+      phone_number: "0544314447",
     });
 
-    window.location.href = "tel:0458177050";
+    window.location.href = "tel:0544314447";
   };
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -364,15 +403,15 @@ const Navbar = () => {
 
             <div className="navbar__desktop-phone">
               <a
-                href="tel:0458177050"
+                href="tel:0544314447"
                 className="navbar__desktop-phone-link"
                 onClick={handlePhoneCall}
-                aria-label="Appeler le restaurant au 04 58 17 70 50"
+                aria-label="Appeler le restaurant au 05 44 31 44 47"
                 title="Téléphoner pour réserver une table"
               >
                 <Phone size={18} aria-hidden="true" />
                 <span className="navbar__desktop-phone-number">
-                  04 58 17 70 50
+                  05 44 31 44 47
                 </span>
               </a>
             </div>
@@ -381,7 +420,7 @@ const Navbar = () => {
               <button
                 className="navbar__phone-btn"
                 onClick={handlePhoneCall}
-                aria-label="Appeler le restaurant Rosi Trattoria au 04 58 17 70 50"
+                aria-label="Appeler le restaurant Rosi Trattoria au 05 44 31 44 47"
                 title="Téléphoner pour réserver une table"
                 type="button"
               >
@@ -416,6 +455,8 @@ const Navbar = () => {
           duration={1200}
           color="pink"
         />
+
+        <ClosureBanner />
       </header>
 
       <div

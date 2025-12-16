@@ -2,9 +2,9 @@ import { jsx as _jsx, Fragment as _Fragment, jsxs as _jsxs } from "react/jsx-run
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import ReactGA from "react-ga4";
+import Snowfall from "react-snowfall";
 import ComingSoonModal from "../ComingSoonModal/ComingSoonModal";
 import "./homevideosection.scss";
-// Événements GA4 optimisés avec convention snake_case
 const GA4_EVENTS = {
     VIDEO_ENGAGEMENT: "accueil_video_engagement",
     PAGE_SCROLL_PAST_HERO: "accueil_section_scroll_past",
@@ -21,50 +21,36 @@ const HomeVideoSection = ({ pageName = "Accueil", }) => {
     const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const [isIntersecting, setIsIntersecting] = useState(false);
-    // États pour tracking optimisé
     const [hasTrackedVideoEngagement, setHasTrackedVideoEngagement] = useState(false);
     const [hasTrackedScrollPast, setHasTrackedScrollPast] = useState(false);
+    const [showSnow, setShowSnow] = useState(false);
     const engagementTimerRef = useRef(null);
     const navigate = useNavigate();
-    // Configuration Cloudinary
     const CLOUDINARY_CONFIG = {
         cloudName: "dc5jx2yo7",
         publicId: "nlqz6yqlcffaf4h5mudk",
     };
-    const getCloudinaryVideoUrl = useCallback((format = "mp4", quality = "auto") => {
-        const width = isMobile ? "1080" : "1920";
-        const height = isMobile ? "607" : "1080";
-        const transformations = [
-            "f_" + format,
-            "q_" + quality,
-            `w_${width}`,
-            `h_${height}`,
-            "c_fill",
-            "g_center",
-            "e_brightness:15",
-            "fl_immutable_cache",
-        ];
-        return `https://res.cloudinary.com/${CLOUDINARY_CONFIG.cloudName}/video/upload/${transformations.join(",")}/${CLOUDINARY_CONFIG.publicId}.${format}`;
-    }, [isMobile]);
-    const getCloudinaryPosterUrl = useCallback(() => {
-        const width = isMobile ? "1080" : "1920";
-        const height = isMobile ? "607" : "1080";
-        const transformations = [
-            "f_jpg",
-            "q_auto:good",
-            `w_${width}`,
-            `h_${height}`,
-            "c_fill",
-            "g_center",
-            "e_brightness:30",
-            "fl_immutable_cache",
-            "so_0",
-        ];
-        return `https://res.cloudinary.com/${CLOUDINARY_CONFIG.cloudName}/video/upload/${transformations.join(",")}/${CLOUDINARY_CONFIG.publicId}.jpg`;
-    }, [isMobile]);
-    // Détection mobile optimisée - synchrone au premier rendu
+    // Fonction pour vérifier si on est dans la période de Noël
+    const isChristmasPeriod = useCallback(() => {
+        const now = new Date();
+        const month = now.getMonth(); // 0-11
+        const day = now.getDate();
+        // Du 24 novembre au 31 décembre et du 1er au 7 janvier
+        return ((month === 10 && day >= 24) || // Novembre (index 10) à partir du 24
+            month === 11 || // Tout décembre (index 11)
+            (month === 0 && day <= 7) // Janvier (index 0) jusqu'au 7
+        );
+    }, []);
     useEffect(() => {
-        // Détection immédiate au premier rendu
+        setShowSnow(isChristmasPeriod());
+    }, [isChristmasPeriod]);
+    const getCloudinaryVideoUrl = useCallback((format = "mp4") => {
+        return `https://res.cloudinary.com/${CLOUDINARY_CONFIG.cloudName}/video/upload/e_brightness:25,q_auto:best/${CLOUDINARY_CONFIG.publicId}.${format}`;
+    }, []);
+    const getCloudinaryPosterUrl = useCallback(() => {
+        return `https://res.cloudinary.com/${CLOUDINARY_CONFIG.cloudName}/video/upload/e_brightness:25,q_auto:best,so_0/${CLOUDINARY_CONFIG.publicId}.jpg`;
+    }, []);
+    useEffect(() => {
         setIsMobile(window.innerWidth <= 768);
         const checkMobile = () => {
             setIsMobile(window.innerWidth <= 768);
@@ -79,12 +65,10 @@ const HomeVideoSection = ({ pageName = "Accueil", }) => {
             return () => window.removeEventListener("resize", checkMobile);
         }
     }, []);
-    // Intersection Observer pour engagement vidéo - ne bloque pas le rendu initial
     useEffect(() => {
         const observer = new IntersectionObserver(([entry]) => {
             if (entry.isIntersecting) {
                 setIsIntersecting(true);
-                // Démarrer timer d'engagement
                 if (!hasTrackedVideoEngagement) {
                     engagementTimerRef.current = setTimeout(() => {
                         ReactGA.event(GA4_EVENTS.VIDEO_ENGAGEMENT, {
@@ -101,7 +85,6 @@ const HomeVideoSection = ({ pageName = "Accueil", }) => {
             threshold: 0.5,
             rootMargin: "0px",
         });
-        // Utiliser un timeout pour éviter de bloquer le premier rendu
         const timeoutId = setTimeout(() => {
             const currentElement = document.querySelector(".home-video-section");
             if (currentElement) {
@@ -116,15 +99,13 @@ const HomeVideoSection = ({ pageName = "Accueil", }) => {
             }
         };
     }, [hasTrackedVideoEngagement, pageName, isMobile]);
-    // Chargement différé de la vidéo - ne bloque pas le contenu principal
     useEffect(() => {
         if (isIntersecting) {
-            const delay = isMobile ? 500 : 1000; // Délai plus long pour permettre au contenu de se charger
+            const delay = isMobile ? 500 : 1000;
             const timer = setTimeout(() => setShouldLoadVideo(true), delay);
             return () => clearTimeout(timer);
         }
     }, [isIntersecting, isMobile]);
-    // Gestion des événements vidéo
     const handleVideoLoad = useCallback(() => {
         setIsVideoLoaded(true);
     }, []);
@@ -136,7 +117,6 @@ const HomeVideoSection = ({ pageName = "Accueil", }) => {
             error_type: "video_load_failed",
         });
     }, [pageName, isMobile]);
-    // Logique vidéo différée
     useEffect(() => {
         if (!shouldLoadVideo)
             return;
@@ -166,7 +146,6 @@ const HomeVideoSection = ({ pageName = "Accueil", }) => {
             video.removeEventListener("canplaythrough", tryPlay);
         };
     }, [shouldLoadVideo, handleVideoLoad, handleVideoError]);
-    // Actions utilisateur avec tracking optimisé
     const handleDistributorClick = useCallback((e) => {
         e.preventDefault();
         setIsModalOpen(true);
@@ -204,7 +183,6 @@ const HomeVideoSection = ({ pageName = "Accueil", }) => {
     const closeModal = useCallback(() => {
         setIsModalOpen(false);
     }, []);
-    // Tracking scroll optimisé avec debounce
     useEffect(() => {
         let scrollTimeout;
         const handleScroll = () => {
@@ -228,7 +206,6 @@ const HomeVideoSection = ({ pageName = "Accueil", }) => {
                 }
             }, 150);
         };
-        // Délai pour éviter d'impacter le rendu initial
         const timeoutId = setTimeout(() => {
             window.addEventListener("scroll", handleScroll, { passive: true });
         }, 1000);
@@ -238,16 +215,23 @@ const HomeVideoSection = ({ pageName = "Accueil", }) => {
             clearTimeout(scrollTimeout);
         };
     }, [pageName, isMobile, hasTrackedScrollPast]);
-    // Calculer le mobile status directement pour éviter les re-rendus
     const isMobileDevice = window.innerWidth <= 768;
-    return (_jsxs("section", { className: "home-video-section", children: [_jsx("div", { className: "video-placeholder", style: {
+    return (_jsxs("section", { className: "home-video-section", children: [showSnow && (_jsx(Snowfall, { color: "#fff", snowflakeCount: isMobile ? 80 : 150, speed: [0.5, 1.5], wind: [-0.5, 1.0], radius: [0.5, 3.0], style: {
+                    position: "absolute",
+                    width: "100%",
+                    height: "100%",
+                    top: 0,
+                    left: 0,
+                    zIndex: 5,
+                    pointerEvents: "none",
+                } })), _jsx("div", { className: "video-placeholder", style: {
                     backgroundImage: `url(${getCloudinaryPosterUrl()})`,
                     opacity: isVideoLoaded ? 0 : 1,
                 } }), _jsx("div", { className: "logo-container", children: _jsx("img", { src: "/images/logo/rositrattorialogo.png", alt: "Rosi Trattoria - Restaurant italien bio \u00E0 Brive-la-Gaillarde", className: "logo", width: "200", height: "100", loading: "eager", fetchPriority: "high", decoding: "async" }) }), _jsxs("div", { className: "content", children: [_jsx("h1", { className: "slogan", children: isMobileDevice ? (_jsxs(_Fragment, { children: ["Du bon, du bio, de la joie,", _jsx("br", {}), "c'est Rosi !"] })) : ("Du bon, du bio, de la joie, c'est Rosi !") }), _jsxs("address", { className: "address-container", children: [_jsx("svg", { className: "location-icon", viewBox: "0 0 24 24", fill: "none", xmlns: "http://www.w3.org/2000/svg", "aria-hidden": "true", children: _jsx("path", { d: "M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z", fill: "currentColor" }) }), _jsxs("span", { className: "address-text", children: ["11 Prom. des Tilleuls", isMobileDevice ? _jsx("br", {}) : ",", " 19100 Brive-la-Gaillarde"] })] }), _jsxs("nav", { className: "buttons", role: "navigation", "aria-label": "Actions principales du restaurant", children: [_jsx("a", { href: "https://bookings.zenchef.com/results?rid=356394&fullscreen=1", target: "_blank", rel: "noopener noreferrer", "aria-label": "R\u00E9server une table chez Rosi Trattoria (nouvelle fen\u00EAtre)", onClick: handleReservationClick, children: _jsx("button", { className: "primary-button", children: "R\u00E9server" }) }), _jsx("button", { className: "secondary-button", onClick: handleCarteClick, "aria-label": "Consulter la carte des plats et boissons", children: "Voir la carte" }), _jsxs("button", { className: "distributor-button", onClick: handleDistributorClick, "aria-label": "Acc\u00E9der au distributeur automatique de pizzas", children: ["Distributeur", _jsx("img", { src: "/images/logo/pizza.png", alt: "", className: "distributor-icon rotating-pizza", style: {
                                             width: "24px",
                                             height: "24px",
                                             objectFit: "contain",
-                                        }, "aria-hidden": "true", loading: "lazy", decoding: "async" })] }), _jsx("button", { className: "white-button", onClick: handleClickCollectClick, "aria-label": "Commander en Click & Collect (nouvelle fen\u00EAtre)", children: "Click & Collect" })] })] }), shouldLoadVideo && (_jsxs("video", { ref: videoRef, className: `background-video ${isVideoLoaded ? "loaded" : "loading"}`, autoPlay: true, muted: true, loop: true, playsInline: true, preload: "none", poster: getCloudinaryPosterUrl(), "aria-label": "Vid\u00E9o de pr\u00E9sentation du restaurant Rosi Trattoria", children: [_jsx("source", { src: getCloudinaryVideoUrl("mp4", isMobile ? "auto:low" : "auto:good"), type: "video/mp4" }), _jsx("source", { src: getCloudinaryVideoUrl("webm", isMobile ? "auto:low" : "auto:good"), type: "video/webm" }), _jsx("p", { children: "D\u00E9couvrez l'ambiance chaleureuse de Rosi Trattoria, votre restaurant italien bio situ\u00E9 \u00E0 Brive-la-Gaillarde. Une cuisine authentique dans un cadre convivial." })] })), _jsx(ComingSoonModal, { isOpen: isModalOpen, onClose: closeModal }), _jsx("style", { children: `
+                                        }, "aria-hidden": "true", loading: "lazy", decoding: "async" })] }), _jsx("button", { className: "white-button", onClick: handleClickCollectClick, "aria-label": "Commander en Click & Collect (nouvelle fen\u00EAtre)", children: "Click & Collect" })] })] }), shouldLoadVideo && (_jsxs("video", { ref: videoRef, className: `background-video ${isVideoLoaded ? "loaded" : "loading"}`, autoPlay: true, muted: true, loop: true, playsInline: true, preload: "none", poster: getCloudinaryPosterUrl(), "aria-label": "Vid\u00E9o de pr\u00E9sentation du restaurant Rosi Trattoria", children: [_jsx("source", { src: getCloudinaryVideoUrl("mp4"), type: "video/mp4" }), _jsx("source", { src: getCloudinaryVideoUrl("webm"), type: "video/webm" }), _jsx("p", { children: "D\u00E9couvrez l'ambiance chaleureuse de Rosi Trattoria, votre restaurant italien bio situ\u00E9 \u00E0 Brive-la-Gaillarde. Une cuisine authentique dans un cadre convivial." })] })), _jsx(ComingSoonModal, { isOpen: isModalOpen, onClose: closeModal }), _jsx("style", { children: `
         .rotating-pizza {
           animation: rotate 10s linear infinite;
         }
@@ -265,6 +249,9 @@ const HomeVideoSection = ({ pageName = "Accueil", }) => {
           }
           .video-placeholder {
             transition: none;
+          }
+          .snowfall-container {
+            display: none;
           }
         }
       ` })] }));

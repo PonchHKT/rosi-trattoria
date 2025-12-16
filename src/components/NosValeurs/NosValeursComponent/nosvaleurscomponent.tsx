@@ -91,7 +91,8 @@ const NosValeursComponent: React.FC = () => {
           aria-labelledby="savoir-faire-title"
         >
           <h2 id="savoir-faire-title" className="nos-valeurs__features-title">
-            Nos Savoir-Faire Authentiques
+            Nos Savoir-Faire <br />
+            Authentiques
           </h2>
           <div className="nos-valeurs__cards-grid">
             {featureCardsData.map((card, index) => {

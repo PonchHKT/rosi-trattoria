@@ -1,6 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap");
 
-// Professional Variables
 :root {
   --text-white: #ffffff;
   --text-gray: #b8b8b8;
@@ -32,21 +31,21 @@
   font-family: var(--font-primary);
   background: var(--background-black);
   color: var(--text-white);
-  padding-top: 60px; // Réduit de 80px à 60px
+  padding-top: 130px;
+  padding-bottom: 50px;
   min-height: 100vh;
   letter-spacing: -0.01em;
 
   &__content {
     max-width: 1200px;
     margin: 0 auto;
-    padding: var(--spacing-lg) var(--spacing-md); // Réduit de xl à lg
+    padding: var(--spacing-lg) var(--spacing-md);
     display: flex;
     flex-direction: column;
     gap: var(--spacing-xl);
     align-items: center;
   }
 
-  // Hero Section avec Pascal
   &__hero {
     width: 100%;
     display: flex;
@@ -79,11 +78,11 @@
     animation: nosValeurssFadeInUp 1s ease-out;
 
     &--mobile {
-      display: none; // Hidden by default, shown on mobile
+      display: none;
     }
 
     &--desktop {
-      display: flex; // Shown on desktop
+      display: flex;
     }
   }
 
@@ -164,7 +163,6 @@
     }
   }
 
-  // Quote Section
   &__quote {
     font-family: var(--font-accent);
     font-size: 1.75rem;
@@ -215,11 +213,9 @@
     opacity: 0.8;
   }
 
-  // Feature Cards Section
   &__feature-cards {
     width: 100%;
     order: 1;
-    // Suppression du padding-top: var(--spacing-xl);
   }
 
   &__features-title {
@@ -310,7 +306,7 @@
   }
 
   &__feature-title {
-    font-family: var(--font-accent);
+    font-family: var(--font-primary);
     font-size: 1.25rem;
     color: var(--primary-pink);
     margin-bottom: var(--spacing-sm);
@@ -325,14 +321,13 @@
     font-weight: 400;
   }
 
-  // Main Sections
   &__main-block {
     width: 100%;
     order: 4;
   }
 
   &__main-title {
-    font-family: var(--font-accent);
+    font-family: var(--font-primary);
     font-size: 2.25rem;
     color: var(--primary-blue);
     text-align: center;
@@ -396,7 +391,7 @@
     }
 
     &-title {
-      font-family: var(--font-accent);
+      font-family: var(--font-primary);
       font-size: 1.375rem;
       color: var(--text-white);
       margin-bottom: var(--spacing-md);
@@ -437,7 +432,6 @@
     }
   }
 
-  // Animations
   @keyframes nosValeurssFadeInUp {
     from {
       opacity: 0;
@@ -449,7 +443,6 @@
     }
   }
 
-  // Responsive Design
   @media screen and (max-width: 1024px) {
     &__pascal-image-container {
       width: 350px;
@@ -471,7 +464,7 @@
   }
 
   @media screen and (max-width: 768px) {
-    padding-top: 100px; // Garde un padding suffisant pour éviter la navbar
+    padding-top: 100px;
 
     &__content {
       padding: var(--spacing-md) var(--spacing-sm);
@@ -505,11 +498,11 @@
 
     &__pascal-image-wrapper {
       &--mobile {
-        display: flex; // Show on mobile
+        display: flex;
       }
 
       &--desktop {
-        display: none; // Hide on mobile
+        display: none;
       }
     }
 
@@ -548,7 +541,7 @@
   }
 
   @media screen and (max-width: 480px) {
-    padding-top: 100px; // Ajuste pour très petits écrans
+    padding-top: 100px;
 
     &__content {
       padding: var(--spacing-sm);

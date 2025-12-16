@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import ReactGA from "react-ga4";
+import Snowfall from "react-snowfall";
 import ComingSoonModal from "../ComingSoonModal/ComingSoonModal";
 import "./homevideosection.scss";
 
@@ -30,6 +31,7 @@ const HomeVideoSection: React.FC<HomeVideoSectionProps> = ({
   const [hasTrackedVideoEngagement, setHasTrackedVideoEngagement] =
     useState(false);
   const [hasTrackedScrollPast, setHasTrackedScrollPast] = useState(false);
+  const [showSnow, setShowSnow] = useState(false);
   const engagementTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const navigate = useNavigate();
@@ -38,6 +40,24 @@ const HomeVideoSection: React.FC<HomeVideoSectionProps> = ({
     cloudName: "dc5jx2yo7",
     publicId: "nlqz6yqlcffaf4h5mudk",
   };
+
+  // Fonction pour vérifier si on est dans la période de Noël
+  const isChristmasPeriod = useCallback(() => {
+    const now = new Date();
+    const month = now.getMonth(); // 0-11
+    const day = now.getDate();
+
+    // Du 24 novembre au 31 décembre et du 1er au 7 janvier
+    return (
+      (month === 10 && day >= 24) || // Novembre (index 10) à partir du 24
+      month === 11 || // Tout décembre (index 11)
+      (month === 0 && day <= 7) // Janvier (index 0) jusqu'au 7
+    );
+  }, []);
+
+  useEffect(() => {
+    setShowSnow(isChristmasPeriod());
+  }, [isChristmasPeriod]);
 
   const getCloudinaryVideoUrl = useCallback((format: string = "mp4") => {
     return `https://res.cloudinary.com/${CLOUDINARY_CONFIG.cloudName}/video/upload/e_brightness:25,q_auto:best/${CLOUDINARY_CONFIG.publicId}.${format}`;
@@ -254,6 +274,26 @@ const HomeVideoSection: React.FC<HomeVideoSectionProps> = ({
 
   return (
     <section className="home-video-section">
+      {/* Effet de neige pour Noël - limité à la section */}
+      {showSnow && (
+        <Snowfall
+          color="#fff"
+          snowflakeCount={isMobile ? 80 : 150}
+          speed={[0.5, 1.5]}
+          wind={[-0.5, 1.0]}
+          radius={[0.5, 3.0]}
+          style={{
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            top: 0,
+            left: 0,
+            zIndex: 5,
+            pointerEvents: "none",
+          }}
+        />
+      )}
+
       <div
         className="video-placeholder"
         style={{
@@ -400,6 +440,9 @@ const HomeVideoSection: React.FC<HomeVideoSectionProps> = ({
           }
           .video-placeholder {
             transition: none;
+          }
+          .snowfall-container {
+            display: none;
           }
         }
       `}</style>
