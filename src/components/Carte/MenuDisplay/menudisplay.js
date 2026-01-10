@@ -31,6 +31,26 @@ const CarteDisplay = ({ onMenuSelect, showHours = true, onToggleHours, pageName 
         const frenchTime = new Date(now.toLocaleString("en-US", { timeZone: "Europe/Paris" }));
         return frenchTime.getDay();
     };
+    const isJanuaryClosure = () => {
+        const now = new Date();
+        const frenchTime = new Date(now.toLocaleString("en-US", { timeZone: "Europe/Paris" }));
+        const year = frenchTime.getFullYear();
+        const month = frenchTime.getMonth();
+        const date = frenchTime.getDate();
+        const hours = frenchTime.getHours();
+        // Janvier 2026 = month 0, année 2026
+        if (year === 2026 && month === 0) {
+            // Du 4 au 26 janvier inclus
+            if (date >= 4 && date <= 26) {
+                return true;
+            }
+            // Le 27 janvier avant 18h
+            if (date === 27 && hours < 18) {
+                return true;
+            }
+        }
+        return false;
+    };
     const isFestivalPeriod = () => {
         const now = new Date();
         const currentYear = now.getFullYear();
@@ -49,6 +69,22 @@ const CarteDisplay = ({ onMenuSelect, showHours = true, onToggleHours, pageName 
         return currentMonth === 7;
     };
     const checkOpenStatus = () => {
+        // Vérifier d'abord la fermeture de janvier
+        if (isJanuaryClosure()) {
+            const now = new Date();
+            const frenchTime = new Date(now.toLocaleString("en-US", { timeZone: "Europe/Paris" }));
+            const date = frenchTime.getDate();
+            const hours = frenchTime.getHours();
+            // Si on est le 27 janvier avant 18h
+            if (date === 27 && hours < 18) {
+                return {
+                    isOpen: false,
+                    nextChange: "Réouverture le 27 janvier à 18h00",
+                };
+            }
+            // Sinon, du 4 au 26 janvier
+            return { isOpen: false, nextChange: "Réouverture le 27 janvier à 18h00" };
+        }
         const now = new Date();
         const frenchTime = new Date(now.toLocaleString("en-US", { timeZone: "Europe/Paris" }));
         const currentDay = frenchTime.getDay();
@@ -212,6 +248,68 @@ const CarteDisplay = ({ onMenuSelect, showHours = true, onToggleHours, pageName 
     }, []);
     const getHoursItems = () => {
         const isAugust = isAugustMonth();
+        const januaryClosure = isJanuaryClosure();
+        // Si on est pendant la fermeture de janvier, tous les jours sont fermés
+        if (januaryClosure) {
+            return [
+                {
+                    day: "Lun",
+                    fullDay: "Lundi",
+                    lunch: "",
+                    dinner: "",
+                    closed: true,
+                    dayIndex: 1,
+                },
+                {
+                    day: "Mar",
+                    fullDay: "Mardi",
+                    lunch: "",
+                    dinner: "",
+                    closed: true,
+                    dayIndex: 2,
+                },
+                {
+                    day: "Mer",
+                    fullDay: "Mercredi",
+                    lunch: "",
+                    dinner: "",
+                    closed: true,
+                    dayIndex: 3,
+                },
+                {
+                    day: "Jeu",
+                    fullDay: "Jeudi",
+                    lunch: "",
+                    dinner: "",
+                    closed: true,
+                    dayIndex: 4,
+                },
+                {
+                    day: "Ven",
+                    fullDay: "Vendredi",
+                    lunch: "",
+                    dinner: "",
+                    closed: true,
+                    dayIndex: 5,
+                },
+                {
+                    day: "Sam",
+                    fullDay: "Samedi",
+                    lunch: "",
+                    dinner: "",
+                    closed: true,
+                    dayIndex: 6,
+                },
+                {
+                    day: "Dim",
+                    fullDay: "Dimanche",
+                    lunch: "",
+                    dinner: "",
+                    closed: true,
+                    dayIndex: 0,
+                },
+            ];
+        }
         return isAugust
             ? [
                 {
@@ -331,6 +429,7 @@ const CarteDisplay = ({ onMenuSelect, showHours = true, onToggleHours, pageName 
             ];
     };
     const showFestivalMenu = isFestivalPeriod();
-    return (_jsxs("div", { className: "menu-container", ref: containerRef, children: [_jsx(Selector, { onMenuSelect: handleMenuSelect, showPdf: !!menuSelected, selectedMenu: menuSelected, pageName: pageName, onBackToHours: handleBackToHours, wineCardMode: wineCardMode }), internalShowHours && showFestivalMenu && (_jsx("div", { className: "festival-pdf-section", children: _jsx(Document, { file: "/menufestival.pdf", onLoadSuccess: handleFestivalDocumentLoadSuccess, onLoadError: handleFestivalDocumentError, loading: "", children: renderFestivalPages() }) })), internalShowHours && showFestivalMenu && (_jsx("div", { className: "section-separator" })), _jsxs("div", { className: `hours-section ${internalShowHours ? "visible" : "hidden"}`, children: [_jsx("div", { className: "hours-hero", children: _jsx("h2", { className: "hours-title", children: "Horaires" }) }), _jsx("div", { className: "hours-grid", children: getHoursItems().map((item, index) => (_jsxs("div", { className: `day-card ${item.closed ? "closed" : ""} ${item.dayIndex === currentDayIndex ? "current-day" : ""}`, children: [_jsxs("div", { className: "day-header", children: [_jsx("span", { className: "day-name", children: item.day }), _jsx("span", { className: "day-full", children: item.fullDay })] }), item.closed ? (_jsx("div", { className: "day-closed", children: "Ferm\u00E9" })) : (_jsxs("div", { className: "day-times", children: [_jsxs("div", { className: "time-slot", children: [_jsx("span", { className: "time-icon", children: "\u2600\uFE0F" }), _jsx("span", { className: "time-range", children: item.lunch })] }), _jsx("div", { className: "time-divider" }), _jsxs("div", { className: "time-slot", children: [_jsx("span", { className: "time-icon", children: "\uD83C\uDF19" }), _jsx("span", { className: "time-range", children: item.dinner })] })] }))] }, index))) }), _jsxs("div", { className: "hours-footnote", children: [_jsx("div", { className: "hours-footnote-icon", children: "\u24D8" }), _jsxs("div", { className: "hours-footnote-content", children: [_jsx("p", { className: "hours-footnote-title", children: "Information" }), _jsx("p", { className: "hours-footnote-text", children: "Les horaires peuvent \u00EAtre modifi\u00E9s en cas de jours f\u00E9ri\u00E9s ou \u00E9v\u00E9nements sp\u00E9ciaux." })] })] })] })] }));
+    const januaryClosure = isJanuaryClosure();
+    return (_jsxs("div", { className: "menu-container", ref: containerRef, children: [_jsx(Selector, { onMenuSelect: handleMenuSelect, showPdf: !!menuSelected, selectedMenu: menuSelected, pageName: pageName, onBackToHours: handleBackToHours, wineCardMode: wineCardMode }), internalShowHours && showFestivalMenu && (_jsx("div", { className: "festival-pdf-section", children: _jsx(Document, { file: "/menufestival.pdf", onLoadSuccess: handleFestivalDocumentLoadSuccess, onLoadError: handleFestivalDocumentError, loading: "", children: renderFestivalPages() }) })), _jsxs("div", { className: `hours-section ${internalShowHours ? "visible" : "hidden"}`, children: [_jsx("div", { className: "hours-hero", children: _jsx("h2", { className: "hours-title", children: "Horaires" }) }), _jsx("div", { className: "hours-grid", children: getHoursItems().map((item, index) => (_jsxs("div", { className: `day-card ${item.closed ? "closed" : ""} ${item.dayIndex === currentDayIndex ? "current-day" : ""}`, children: [_jsxs("div", { className: "day-header", children: [_jsx("span", { className: "day-name", children: item.day }), _jsx("span", { className: "day-full", children: item.fullDay })] }), item.closed ? (_jsx("div", { className: "day-closed", children: "Ferm\u00E9" })) : (_jsxs("div", { className: "day-times", children: [_jsxs("div", { className: "time-slot", children: [_jsx("span", { className: "time-icon", children: "\u2600\uFE0F" }), _jsx("span", { className: "time-range", children: item.lunch })] }), _jsx("div", { className: "time-divider" }), _jsxs("div", { className: "time-slot", children: [_jsx("span", { className: "time-icon", children: "\uD83C\uDF19" }), _jsx("span", { className: "time-range", children: item.dinner })] })] }))] }, index))) }), _jsxs("div", { className: "hours-footnote", children: [_jsx("div", { className: "hours-footnote-icon", children: "\u24D8" }), _jsxs("div", { className: "hours-footnote-content", children: [_jsx("p", { className: "hours-footnote-title", children: "Information" }), _jsx("p", { className: "hours-footnote-text", children: "Les horaires peuvent \u00EAtre modifi\u00E9s en cas de jours f\u00E9ri\u00E9s ou \u00E9v\u00E9nements sp\u00E9ciaux." })] })] })] })] }));
 };
 export default CarteDisplay;
